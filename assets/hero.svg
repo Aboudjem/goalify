@@ -1,108 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
-  <title id="t">goalify</title>
-  <desc id="d">Banner for the goalify Claude Code skill. An arrow arcs in from the left and lands in the centre of a bullseye target, sending out a ring of impact ripples — the goal, hit on the first shot. Title goalify with the tagline: prepare the run before you /clear, then hit the goal in a fresh session.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="ht hd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="ht">goalify</title>
+  <desc id="hd">goalify banner: a gold arrow strikes the centre of a bullseye. goalify writes one self-contained run file for a big task, so you /clear and let a fresh Claude Code session finish the whole job.</desc>
 
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0D1117"/>
-      <stop offset="1" stop-color="#0B0E14"/>
+      <stop offset="0" stop-color="#0D1117"/><stop offset="1" stop-color="#0A0D13"/>
     </linearGradient>
-    <linearGradient id="shaft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#58A6FF"/>
-      <stop offset="1" stop-color="#C9D5E1"/>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFD86B"/><stop offset="0.5" stop-color="#F5B731"/><stop offset="1" stop-color="#E09B12"/>
+    </linearGradient>
+    <radialGradient id="eye" cx="50%" cy="42%" r="60%">
+      <stop offset="0" stop-color="#9A7BFF"/><stop offset="1" stop-color="#6A45E6"/>
+    </radialGradient>
+    <radialGradient id="vign" cx="50%" cy="50%" r="55%">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.18"/><stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="neon" x="-90%" y="-90%" width="280%" height="280%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b1"/><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="neonshaft" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FF9D2E"/><stop offset="0.5" stop-color="#FFC23D"/><stop offset="1" stop-color="#FFE07A"/>
     </linearGradient>
     <style>
-      .ttl  { fill:#E6EDF3; font-size:64px; font-weight:700; letter-spacing:-1.5px; }
-      .tag  { fill:#9FB0C0; font-size:19px; font-weight:500; letter-spacing:0.2px; }
-      .sub  { fill:#6E7B8A; font-size:15px; font-weight:400; }
-      .lbl  { fill:#6E7B8A; font-size:13px; font-weight:500; letter-spacing:0.6px; }
+      .eyebrow{ fill:#8A93A6; font-size:13px; font-weight:700; letter-spacing:3px; }
+      .word{ fill:#F2F6FB; font-size:84px; font-weight:800; letter-spacing:-2.5px; }
+      .lead{ fill:#D9E0EA; font-size:22px; font-weight:600; }
+      .sub{ fill:#8B98A8; font-size:17px; font-weight:400; }
+      .chip{ fill:#AEB9C7; font-size:13px; font-weight:600; letter-spacing:.3px; }
+      #arrow{ transform: translate(965px,206px); animation: fly 4.8s cubic-bezier(.4,.04,.5,.96) infinite; }
+      @keyframes fly{
+        0%   { transform: translate(762px,206px); opacity:0; }
+        10%  { opacity:1; }
+        40%  { transform: translate(965px,206px); }
+        90%  { transform: translate(965px,206px); opacity:1; }
+        96%  { opacity:0; }
+        100% { transform: translate(762px,206px); opacity:0; }
+      }
+      .ring{ transform-box:fill-box; transform-origin:center; opacity:0; }
+      #r1{ animation: ping 4.8s ease-out infinite; }
+      #r2{ animation: ping 4.8s ease-out infinite .18s; }
+      @keyframes ping{ 0%,34%{transform:scale(.35);opacity:0} 41%{opacity:.85} 64%{transform:scale(2.25);opacity:0} 100%{opacity:0} }
+      #flash{ transform-box:fill-box; transform-origin:center; animation: flash 4.8s ease-out infinite; }
+      @keyframes flash{ 0%,35%{transform:scale(1)} 41%{transform:scale(1.9)} 55%{transform:scale(1)} 100%{transform:scale(1)} }
     </style>
   </defs>
 
-  <rect width="1200" height="360" fill="url(#bg)"/>
-  <rect width="1200" height="360" fill="none" stroke="#1B2230" stroke-width="1"/>
+  <rect width="1200" height="400" rx="22" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="1199" height="399" rx="22" fill="none" stroke="#1C2433" stroke-width="1"/>
 
-  <!-- faint grid dots, top-right corner -->
-  <g fill="#1B2230">
-    <circle cx="1120" cy="40" r="2"/><circle cx="1150" cy="40" r="2"/><circle cx="1180" cy="40" r="2"/>
-    <circle cx="1120" cy="68" r="2"/><circle cx="1150" cy="68" r="2"/><circle cx="1180" cy="68" r="2"/>
+  <circle cx="965" cy="206" r="172" fill="url(#vign)"/>
+
+  <!-- LEFT TEXT -->
+  <rect x="72" y="80" width="30" height="3" rx="1.5" fill="#7C5CFF"/>
+  <text x="112" y="89" class="eyebrow">CLAUDE CODE SKILL</text>
+  <text x="68" y="196" class="word">goalify</text>
+  <text x="72" y="240" class="lead">Turn a big task into one self-contained run file &#8212;</text>
+  <text x="72" y="270" class="sub">then /clear and let a fresh session finish the whole job.</text>
+
+  <g transform="translate(72,312)">
+    <g><rect x="0" y="0" width="138" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#7C5CFF"/><text x="30" y="18" class="chip">self-contained</text></g>
+    <g transform="translate(150,0)"><rect x="0" y="0" width="74" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#58A6FF"/><text x="30" y="18" class="chip">cited</text></g>
+    <g transform="translate(236,0)"><rect x="0" y="0" width="124" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#3FB6B2"/><text x="30" y="18" class="chip">self-deleting</text></g>
   </g>
 
-  <!-- accent tick + eyebrow -->
-  <rect x="64" y="56" width="34" height="3" rx="1.5" fill="#7C5CFF"/>
-  <text x="108" y="62" class="lbl">CLAUDE CODE SKILL · GOALIFY</text>
-
-  <!-- title -->
-  <text x="62" y="150" class="ttl">goalify</text>
-
-  <!-- tagline -->
-  <text x="64" y="190" class="tag">Prepare the run before you /clear, then hit the goal in a fresh session.</text>
-
-  <!-- sub-line -->
-  <text x="64" y="218" class="sub">Research &#183; one real MCQ &#183; a self-contained, self-deleting /goal file.</text>
-
-  <!-- ===================== animated target + arrow (centre 965,170) ===================== -->
-
-  <!-- faint crosshair behind the target -->
-  <g stroke="#1B2230" stroke-width="1">
-    <line x1="965" y1="72" x2="965" y2="268"/>
-    <line x1="867" y1="170" x2="1063" y2="170"/>
+  <!-- BULLSEYE (centre 965,206) -->
+  <g fill="none" stroke-width="3">
+    <circle cx="965" cy="206" r="120" stroke="#222D40"/>
+    <circle cx="965" cy="206" r="86" stroke="#2C3B55"/>
+    <circle cx="965" cy="206" r="52" stroke="#3A4E72"/>
   </g>
+  <circle id="r1" class="ring" cx="965" cy="206" r="52" fill="none" stroke="#58A6FF" stroke-width="3" opacity="0"/>
+  <circle id="r2" class="ring" cx="965" cy="206" r="40" fill="none" stroke="#7C5CFF" stroke-width="2.5" opacity="0"/>
+  <circle cx="965" cy="206" r="30" fill="url(#eye)"/>
+  <circle id="flash" cx="965" cy="206" r="8" fill="#F2F6FB"/>
 
-  <!-- concentric target rings -->
-  <g fill="none" stroke-width="2.5">
-    <circle cx="965" cy="170" r="86" stroke="#243042"/>
-    <circle cx="965" cy="170" r="62" stroke="#30425e"/>
-    <circle cx="965" cy="170" r="40" stroke="#3b5278"/>
-  </g>
-
-  <!-- impact ripples (expand + fade when the arrow lands) -->
-  <circle cx="965" cy="170" r="16" fill="none" stroke="#58A6FF" stroke-width="2.5" opacity="0">
-    <animate attributeName="r"       values="16;16;92;92"   keyTimes="0;0.4;0.6;1"  dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="0 0 1 1;0.2 0 0.4 1;0 0 1 1"/>
-    <animate attributeName="opacity" values="0;0;0.85;0;0"  keyTimes="0;0.39;0.42;0.6;1" dur="6s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="965" cy="170" r="16" fill="none" stroke="#7C5CFF" stroke-width="2" opacity="0">
-    <animate attributeName="r"       values="14;14;70;70"   keyTimes="0;0.44;0.62;1" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="0 0 1 1;0.2 0 0.4 1;0 0 1 1"/>
-    <animate attributeName="opacity" values="0;0;0.7;0;0"   keyTimes="0;0.43;0.46;0.62;1" dur="6s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- bullseye + centre dot (centre flashes on impact) -->
-  <circle cx="965" cy="170" r="22" fill="#7C5CFF"/>
-  <circle cx="965" cy="170" r="7" fill="#E6EDF3">
-    <animate attributeName="r" values="7;7;13;7;7" keyTimes="0;0.4;0.45;0.52;1" dur="6s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- the arrow: drawn pointing right with its TIP at local (0,0); translate puts the tip on the bullseye, rotate (summed) pivots around the tip -->
-  <g opacity="0">
-    <line x1="-15" y1="0" x2="-92" y2="0" stroke="url(#shaft)" stroke-width="3.5"/>
-    <path d="M-92 0 L-108 -9 M-92 0 L-108 9 M-84 0 L-100 -9 M-84 0 L-100 9" stroke="#58A6FF" stroke-width="2.6" fill="none"/>
-    <path d="M0 0 L-22 -8 L-15 0 L-22 8 Z" fill="#F0B429"/>
-    <animateTransform attributeName="transform" type="translate"
-      values="630,108; 800,150; 965,170; 965,170"
-      keyTimes="0;0.2;0.4;1" dur="6s" repeatCount="indefinite"
-      calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1;0 0 1 1" additive="replace"/>
-    <animateTransform attributeName="transform" type="rotate"
-      values="-7;1;12;7;10;9;9;-7" keyTimes="0;0.2;0.4;0.44;0.48;0.52;0.95;1"
-      dur="6s" repeatCount="indefinite" additive="sum"/>
-    <animate attributeName="opacity" values="0;1;1;1;0;0" keyTimes="0;0.05;0.4;0.9;0.96;1" dur="6s" repeatCount="indefinite"/>
-  </g>
-
-  <!-- footer chips -->
-  <g transform="translate(64,318)" class="lbl">
-    <g>
-      <rect x="0" y="-14" width="138" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
-      <circle cx="16" cy="-3" r="3" fill="#7C5CFF"/>
-      <text x="28" y="1">self-contained</text>
-    </g>
-    <g transform="translate(150,0)">
-      <rect x="0" y="-14" width="86" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
-      <circle cx="16" cy="-3" r="3" fill="#58A6FF"/>
-      <text x="28" y="1">cited</text>
-    </g>
-    <g transform="translate(248,0)">
-      <rect x="0" y="-14" width="126" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
-      <circle cx="16" cy="-3" r="3" fill="#3FB6B2"/>
-      <text x="28" y="1">self-deleting</text>
-    </g>
+  <!-- ARROW: tip at local (0,0), body to -x; landed at (965,206) -->
+  <g id="arrow" transform="translate(965,206)" filter="url(#neon)">
+    <line x1="-158" y1="0" x2="-8" y2="0" stroke="url(#neonshaft)" stroke-width="11" stroke-linecap="round"/>
+    <line x1="-150" y1="0" x2="-14" y2="0" stroke="#FFF3CC" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M-158 0 L-192 -18 L-170 0 L-192 18 Z" fill="#FF8A1E"/>
+    <path d="M22 0 L-30 -20 L-15 0 L-30 20 Z" fill="url(#neonshaft)"/>
+    <path d="M22 0 L-14 -7 L-10 0 Z" fill="#FFF3CC"/>
   </g>
 </svg>

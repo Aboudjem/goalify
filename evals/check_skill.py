@@ -99,6 +99,14 @@ def main():
     checks.append(("no bare top-level `version:` field",
                    not re.search(r"^version:", block, re.MULTILINE), "spec has no top-level version"))
 
+    # --- Slash-command ergonomics: argument-hint + documented $ARGUMENTS (v1.2) ---
+    checks.append(("frontmatter declares argument-hint (self-explanatory /goalify command)",
+                   bool(fm.get("argument-hint", "").strip()),
+                   "argument-hint tells the /goalify command what to type"))
+    checks.append(("body documents the /goalify command and $ARGUMENTS",
+                   ("/goalify" in low) and ("$arguments" in low),
+                   "the slash command and its $ARGUMENTS must be documented in the body"))
+
     # --- Description: WHEN-only, disambiguated, branded (research 00 claim 2) ---
     dlow = desc.lower()
     checks.append(("description carries the 'goalify' trigger", "goalify" in dlow, ""))

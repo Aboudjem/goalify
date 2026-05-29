@@ -1,17 +1,19 @@
 ---
 name: goalify
 description: >-
-  Use when the user wants to PREPARE a self-contained, self-deleting `/goal`
-  execution file to run AFTER `/clear` in a fresh session — triggers like
-  "goalify", "goalify this", "goalify <task>", "prep a goal", "prepare a goal
-  file", "make an md for /goal", "build the best md to run with /goal", "goal
-  prep", "set up an autonomous run to launch later". This skill AUTHORS the
+  Prepare a self-contained, self-deleting `/goal` execution file for a big task,
+  so you `/clear` and run it in a fresh, full-context session that does the whole
+  job autonomously and deletes the file when done. Use when the user says
+  "goalify", "goalify this", "goalify <task>", "/goalify <task>", "prep a goal",
+  "prepare a goal file", "make an md for /goal", "build the best md to run with
+  /goal", or "set up an autonomous run to launch later". This skill AUTHORS the
   handoff file in the current session; it does NOT execute the work now. If the
   user wants the task done immediately in this session, use autopilot, ultrawork,
   or ralph instead — not goalify.
+argument-hint: "[task to prepare a /goal file for]"
 license: MIT
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # goalify
@@ -30,6 +32,13 @@ Prepare the **best possible `/goal` execution file** in THIS session, then hand 
 
 You are doing the PREPARE phase. Do **not** start the heavy implementation here — produce the MD and the
 handoff. The MD is where execution lives.
+
+## Invocation
+
+Triggered by natural language (e.g. "goalify this: &lt;task&gt;") or as the slash command `/goalify <task>`.
+When invoked as a command, **`$ARGUMENTS`** is the task the user wants a `/goal` file for — treat it as the
+objective and begin the PREPARE phase below. If no task is given, infer it from the recent conversation, or
+ask once (one line) what to goalify.
 
 ## When to use / not
 

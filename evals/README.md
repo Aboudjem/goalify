@@ -9,11 +9,11 @@ regression guard: if a future edit drops the WHEN-only description, the gated se
 hardened-template clause, `metadata.version`, etc., CI goes red.
 
 ```bash
-python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (27/27)
+python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (29/29)
 python3 evals/check_skill.py path/to/legacy/SKILL.md        # RED:   exit 1
 ```
 
-Pointed at the legacy `goal-prep` skill it scores 7/27; pointed at `goalify` it scores 27/27 — the
+Pointed at the legacy `goal-prep` skill it scores 7/29; pointed at `goalify` it scores 29/29 — the
 artifact-level RED→GREEN.
 
 ## 2. Behavioral — `scenarios.md` (judged transcripts)

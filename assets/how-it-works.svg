@@ -1,91 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
-  <title id="t">How goalify works</title>
-  <desc id="d">A three-step flow that reveals in sequence: prepare by researching and asking only the real decisions, hand off by authoring a self-contained self-deleting goal file and printing the clear and goal commands, then run autonomously in a fresh full-context session that fans out its own agents, verifies, tests, and deletes the file. A flowing connector and a badge reading self-contained, cited, self-deleting tie the steps together.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="wt wd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="wt">How goalify works</title>
+  <desc id="wd">Three steps. Step 1 prepare: goalify inspects your repo and asks only the real questions. Step 2 hand off: it writes one self-contained, self-deleting /goal file. Step 3 run: you /clear and run it, and a fresh session finishes the whole job on its own.</desc>
 
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0D1117"/>
-      <stop offset="1" stop-color="#0B0E14"/>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D1117"/><stop offset="1" stop-color="#0A0D13"/>
     </linearGradient>
     <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#7C5CFF"/>
-      <stop offset="0.5" stop-color="#58A6FF"/>
-      <stop offset="1" stop-color="#3FB6B2"/>
+      <stop offset="0" stop-color="#7C5CFF"/><stop offset="0.5" stop-color="#58A6FF"/><stop offset="1" stop-color="#3FB6B2"/>
     </linearGradient>
     <style>
-      .num   { fill:#0B0E14; font-size:20px; font-weight:700; }
-      .head  { fill:#E6EDF3; font-size:21px; font-weight:600; letter-spacing:-0.2px; }
-      .body  { fill:#8B98A8; font-size:14px; font-weight:400; }
-      .eyebr { fill:#6E7B8A; font-size:12px; font-weight:600; letter-spacing:1.2px; }
-      .badge { fill:#C9D5E1; font-size:13px; font-weight:600; letter-spacing:0.4px; }
-      /* base opacity:1 so the steps are visible even where CSS animation is ignored (npm, some unfurls);
-         the reveal animation drives the staggered fade in animating renderers like GitHub */
-      .step  { opacity:1; }
-      @keyframes reveal {
-        0%   { opacity:0; transform: translateX(-10px); }
-        8%   { opacity:1; transform: translateX(0); }
-        86%  { opacity:1; transform: translateX(0); }
-        100% { opacity:0; transform: translateX(0); }
-      }
-      #s1 { animation: reveal 12s ease-in-out infinite;        }
-      #s2 { animation: reveal 12s ease-in-out infinite -8.7s;  }
-      #s3 { animation: reveal 12s ease-in-out infinite -7.4s;  }
-      @keyframes breathe { 0%,100%{opacity:0.55} 50%{opacity:1} }
-      .badgepulse { animation: breathe 6s ease-in-out infinite; }
+      .eyebrow{ fill:#7C8595; font-size:12px; font-weight:700; letter-spacing:1.6px; }
+      .head{ fill:#EDF1F6; font-size:21px; font-weight:700; letter-spacing:-.2px; }
+      .body{ fill:#8B98A8; font-size:14.5px; font-weight:400; }
+      .topbar{ fill:#7C8595; font-size:13px; font-weight:700; letter-spacing:2.4px; }
+      #dash{ animation: flow 3.6s linear infinite; }
+      @keyframes flow{ to { stroke-dashoffset:-220; } }
     </style>
   </defs>
 
-  <rect width="1200" height="300" fill="url(#bg)"/>
-  <rect width="1200" height="300" fill="none" stroke="#1B2230" stroke-width="1"/>
+  <rect width="1200" height="300" rx="22" fill="url(#bg2)"/>
+  <rect x="0.5" y="0.5" width="1199" height="299" rx="22" fill="none" stroke="#1C2433" stroke-width="1"/>
 
-  <!-- eyebrow -->
-  <rect x="64" y="40" width="28" height="3" rx="1.5" fill="#7C5CFF"/>
-  <text x="102" y="46" class="eyebr">HOW IT WORKS</text>
+  <rect x="72" y="40" width="28" height="3" rx="1.5" fill="#7C5CFF"/>
+  <text x="110" y="49" class="topbar">HOW IT WORKS</text>
 
-  <!-- flowing connector behind the steps -->
-  <line x1="150" y1="150" x2="1050" y2="150" stroke="#1B2230" stroke-width="2"/>
-  <line x1="150" y1="150" x2="1050" y2="150" stroke="url(#flow)" stroke-width="2" stroke-linecap="round" stroke-dasharray="14 900">
-    <animate attributeName="stroke-dashoffset" values="900;-14" dur="12s" repeatCount="indefinite" calcMode="linear"/>
-  </line>
-  <circle cx="150" cy="150" r="4" fill="#58A6FF">
-    <animate attributeName="cx" values="150;1050;1050" keyTimes="0;0.9;1" dur="12s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0 0 1 1"/>
-    <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.86;0.92;1" dur="12s" repeatCount="indefinite"/>
-  </circle>
+  <!-- connector -->
+  <line x1="200" y1="120" x2="1000" y2="120" stroke="#222B3A" stroke-width="2"/>
+  <line id="dash" x1="200" y1="120" x2="1000" y2="120" stroke="url(#flow)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 18"/>
 
-  <!-- STEP 1 -->
-  <g id="s1" class="step">
-    <circle cx="150" cy="150" r="20" fill="#7C5CFF"/>
-    <text x="150" y="157" text-anchor="middle" class="num">1</text>
-    <text x="64" y="208" class="eyebr">PREPARE</text>
-    <text x="64" y="234" class="head">Research &amp; decide</text>
-    <text x="64" y="258" class="body">Inspect the repo, fan out research, ask the real forks.</text>
-  </g>
-
-  <!-- STEP 2 -->
-  <g id="s2" class="step">
-    <circle cx="600" cy="150" r="20" fill="#58A6FF"/>
-    <text x="600" y="157" text-anchor="middle" class="num">2</text>
-    <text x="514" y="208" class="eyebr">HAND OFF</text>
-    <text x="514" y="234" class="head">Author the /goal file</text>
-    <text x="514" y="258" class="body">A self-contained, self-deleting handoff file.</text>
-  </g>
-
-  <!-- STEP 3 -->
-  <g id="s3" class="step">
-    <circle cx="1050" cy="150" r="20" fill="#3FB6B2"/>
-    <text x="1050" y="157" text-anchor="middle" class="num">3</text>
-    <text x="892" y="208" class="eyebr">RUN AUTONOMOUSLY</text>
-    <text x="892" y="234" class="head">Fresh-session autopilot</text>
-    <text x="892" y="258" class="body">Fresh session runs it, then deletes it.</text>
-  </g>
-
-  <!-- badge -->
-  <g transform="translate(450,38)" class="badgepulse">
-    <rect x="0" y="0" width="300" height="34" rx="17" fill="#11161F" stroke="#243042"/>
-    <g transform="translate(16,7)" stroke="#3FB6B2" stroke-width="1.6" fill="none">
-      <path d="M10 0 L19 3 V11 C19 16 15 19 10 21 C5 19 1 16 1 11 V3 Z"/>
-      <path d="M5.5 10.5 l3 3 l6 -7" stroke="#3FB6B2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- STEP 1 — PREPARE (magnifier) -->
+  <g>
+    <circle cx="200" cy="120" r="33" fill="#0D1117" stroke="#7C5CFF" stroke-width="2"/>
+    <circle cx="200" cy="120" r="33" fill="#7C5CFF" opacity="0.14"/>
+    <g stroke="#C9B8FF" stroke-width="2.6" fill="none" stroke-linecap="round">
+      <circle cx="196" cy="116" r="9"/>
+      <line x1="203" y1="123" x2="210" y2="130"/>
     </g>
-    <text x="46" y="22" class="badge">self-contained · cited · self-deleting</text>
+    <text x="200" y="190" text-anchor="middle" class="eyebrow">STEP 1 &#183; PREPARE</text>
+    <text x="200" y="216" text-anchor="middle" class="head">Research &amp; decide</text>
+    <text x="200" y="240" text-anchor="middle" class="body">Inspects your repo, asks only the real questions.</text>
+  </g>
+
+  <!-- STEP 2 — HAND OFF (document) -->
+  <g>
+    <circle cx="600" cy="120" r="33" fill="#0D1117" stroke="#58A6FF" stroke-width="2"/>
+    <circle cx="600" cy="120" r="33" fill="#58A6FF" opacity="0.14"/>
+    <g stroke="#B7D6FF" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M591 106 H606 L610 110 V134 H591 Z"/>
+      <path d="M606 106 V110 H610"/>
+      <line x1="595" y1="118" x2="606" y2="118"/>
+      <line x1="595" y1="124" x2="606" y2="124"/>
+      <line x1="595" y1="130" x2="602" y2="130"/>
+    </g>
+    <text x="600" y="190" text-anchor="middle" class="eyebrow">STEP 2 &#183; HAND OFF</text>
+    <text x="600" y="216" text-anchor="middle" class="head">Write the /goal file</text>
+    <text x="600" y="240" text-anchor="middle" class="body">One self-contained, self-deleting run file.</text>
+  </g>
+
+  <!-- STEP 3 — RUN (play) -->
+  <g>
+    <circle cx="1000" cy="120" r="33" fill="#0D1117" stroke="#3FB6B2" stroke-width="2"/>
+    <circle cx="1000" cy="120" r="33" fill="#3FB6B2" opacity="0.14"/>
+    <path d="M994 108 L1012 120 L994 132 Z" fill="#8DE6E2"/>
+    <text x="1000" y="190" text-anchor="middle" class="eyebrow">STEP 3 &#183; RUN</text>
+    <text x="1000" y="216" text-anchor="middle" class="head">Fresh session finishes it</text>
+    <text x="1000" y="240" text-anchor="middle" class="body">You /clear, run it, it completes the job alone.</text>
   </g>
 </svg>

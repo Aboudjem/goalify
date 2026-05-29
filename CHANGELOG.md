@@ -6,6 +6,27 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-29
+
+### Changed
+
+- **Rebuilt both SVGs** (`assets/hero.svg`, `assets/how-it-works.svg`) to animate via CSS `@keyframes`
+  with a fully-visible static base state. The hero arrow no longer depends on SMIL (which left it
+  invisible wherever that animation is ignored) — it's now a neon arrow with a glowing, clearly-visible
+  shaft that strikes a bullseye, plus impact rings; "how it works" is a cleaner three-step flow with
+  distinct icons.
+- **Rewrote the README pain-first.** The literal first sentence now states exactly what goalify does
+  (no metaphor), a "Sound familiar?" pain→fix table makes the problem concrete, and both invocation
+  methods are documented: `goalify this: <task>` and the `/goalify <task>` slash command.
+- **Made the `/goalify` command self-explanatory.** The skill `description` leads with a plain
+  what-it-does sentence (still WHEN-only), declares an `argument-hint`, and the body documents
+  `$ARGUMENTS`.
+
+### Added
+
+- Two `check_skill.py` assertions (an `argument-hint` is declared; `$ARGUMENTS`/`/goalify` are documented
+  in the body) — the deterministic eval is now **29/29**.
+
 ## [1.1.0] - 2026-05-29
 
 ### Added
@@ -59,6 +80,7 @@ see [MIGRATION.md](MIGRATION.md)).
   frontmatter, runs the skill eval, checks JSON + relative links, scans for secrets, and gates the SVGs
   against `<script>` / external references.
 
-[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/Aboudjem/goalify/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Aboudjem/goalify/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.0.0
