@@ -6,9 +6,10 @@
 > user can `/clear` and run the big task autonomously in a fresh, full-context session that deletes
 > the file when done. MIT licensed.
 
-goalify solves a specific, open problem: carrying a plan across `/clear` into a fresh implementation
-session (Claude Code issue #32916 — "Best practice for plan-to-implementation context handoff across
-/clear?"). It is a two-phase model: PREPARE (research + decide + author the file, in the current
+goalify solves a specific, unresolved problem: carrying a plan across `/clear` into a fresh
+implementation session (Claude Code issue #32916, "Best practice for plan-to-implementation context
+handoff across /clear?", raised on Anthropic's tracker and closed as not planned, with no documented
+best practice). It is a two-phase model: PREPARE (research + decide + author the file, in the current
 session) then EXECUTE (the user runs `/goal <path>` in a fresh session). It authors the handoff file;
 it does not run the task itself — for immediate in-session execution, use autopilot/ultrawork/ralph.
 

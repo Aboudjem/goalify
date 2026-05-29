@@ -21,7 +21,7 @@
 
 It is a [Claude Code](https://www.claude.com/product/claude-code) skill that **prepares the run, so the run goes well.**
 
-Long autonomous tasks degrade as the context window fills, and the hardest moment is the handoff: after you plan, you `/clear` to get a clean session, and the plan is gone. (Anthropic's own tracker has this as an open question: [*"Best practice for plan-to-implementation context handoff across `/clear`?"*](https://github.com/anthropics/claude-code/issues/32916).)
+Long autonomous tasks degrade as the context window fills, and the hardest moment is the handoff: after you plan, you `/clear` to get a clean session, and the plan is gone. It's a known gap: the question [*"Best practice for plan-to-implementation context handoff across `/clear`?"*](https://github.com/anthropics/claude-code/issues/32916) was raised on Anthropic's tracker and closed as not planned, with no documented best practice.
 
 goalify closes that gap. You say *"goalify this: &lt;big task&gt;"*. It reads your project, fans out research, asks you only the decisions it genuinely can't infer, and writes **one self-contained Markdown file**: a verified, right-sized execution spec with hard rules baked in. Then it hands you two commands: `/clear`, then `/goal <path>`. A fresh session runs the task at full context and **deletes the file when it's done.**
 
@@ -50,6 +50,7 @@ Pick whichever you prefer. Both install the same skill.
 
 ```bash
 git clone https://github.com/Aboudjem/goalify
+mkdir -p ~/.claude/skills
 cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
