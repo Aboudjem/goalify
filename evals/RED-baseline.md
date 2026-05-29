@@ -7,18 +7,18 @@
 
 ## 1. Deterministic check (`check_skill.py`) — the artifact-level RED→GREEN
 
-`check_skill.py` encodes the confirmed authoring edits as 25 pass/fail assertions and runs in CI.
+`check_skill.py` encodes the confirmed authoring edits as 27 pass/fail assertions and runs in CI.
 Pointed at the **legacy `goal-prep`** SKILL.md vs the **improved `goalify`** SKILL.md:
 
 | Target | Result |
 |---|---|
-| `~/.claude/skills/goal-prep/SKILL.md` (legacy, RED) | **7 / 25 pass** — missing `metadata.version`, WHEN-only/disambiguated description, the `goalify` trigger, the capability+fallback for tool fan-out, every hardened-template clause (output-redirection, anti-placeholder, search-before-assuming, machine-checkable criteria, progress checklist, just-in-time identifiers, serialize-builds guardrail, separate-agent verification, commit-before-risky, re-read-each-loop), the LOW-freedom gated self-destruct, and the never-run-`/clear`-yourself rule. |
-| `skills/goalify/SKILL.md` (improved, GREEN) | **25 / 25 pass** |
+| `~/.claude/skills/goal-prep/SKILL.md` (legacy, RED) | **7 / 27 pass** — missing `metadata.version`, WHEN-only/disambiguated description, the `goalify` trigger, the capability+fallback for tool fan-out, every hardened-template clause (output-redirection, anti-placeholder, search-before-assuming, machine-checkable criteria, progress checklist, just-in-time identifiers, serialize-builds guardrail, separate-agent verification, commit-before-risky, re-read-each-loop, the maximum-effort directive, a portable max-effort mode), the LOW-freedom gated self-destruct, and the never-run-`/clear`-yourself rule. |
+| `skills/goalify/SKILL.md` (improved, GREEN) | **27 / 27 pass** |
 
 Reproduce:
 ```bash
-python3 evals/check_skill.py ~/.claude/skills/goal-prep/SKILL.md   # exit 1 (RED, 7/25)
-python3 evals/check_skill.py skills/goalify/SKILL.md               # exit 0 (GREEN, 25/25)
+python3 evals/check_skill.py ~/.claude/skills/goal-prep/SKILL.md   # exit 1 (RED, 7/27)
+python3 evals/check_skill.py skills/goalify/SKILL.md               # exit 0 (GREEN, 27/27)
 ```
 
 ## 2. Behavioral RED→GREEN on Haiku, Sonnet, and Opus

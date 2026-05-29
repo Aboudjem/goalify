@@ -21,12 +21,11 @@ from the repo goalify was preparing a run for. Redact anything sensitive.
 ## How you triggered it
 
 <!--
-What did you ask? e.g. "goalify this: <task>". Was it a drop-in skill or the plugin?
+What did you ask? e.g. "goalify this: <task>".
 Did it happen in the PREPARE step (authoring the file) or did the generated /goal run misbehave?
 -->
 
 - Invocation phrase:
-- Install method (plugin / drop-in):
 - PREPARE phase or EXECUTE (/goal) run:
 
 ## Steps to reproduce
@@ -37,7 +36,7 @@ Did it happen in the PREPARE step (authoring the file) or did the generated /goa
 
 ## Environment (optional)
 
-- Claude Code / plugin version:
+- Claude Code version:
 - OS:
 
 ## Additional context (optional)
