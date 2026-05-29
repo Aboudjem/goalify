@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-labelledby="htitle hdesc"
+  font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+  <title id="htitle">goalify — /goal runs to GOAL COMPLETE</title>
+  <desc id="hdesc">A clean terminal: on the left the command /goal runs and ticks off its steps; on the right it resolves to a confident green GOAL COMPLETE. goalify prepares an autonomous run that a fresh Claude Code session executes and verifies.</desc>
+  <defs>
+    <linearGradient id="h-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10151D"/><stop offset="1" stop-color="#0A0E14"/>
+    </linearGradient>
+    <radialGradient id="h-amb" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#2FB85C" stop-opacity="0.5"/><stop offset="1" stop-color="#2FB85C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="h-blur" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="26"/></filter>
+    <filter id="h-glow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="h-clip"><rect x="64" y="40" width="1072" height="300" rx="16"/></clipPath>
+    <style>
+      .h-cmd{font-size:23px;font-weight:600}
+      .h-lbl{font-size:19px;fill:#C4CEDA}
+      .h-ttl{font-size:15px;fill:#AEB9C9;letter-spacing:3px;font-weight:600}
+      .h-bh{font-size:23px;font-weight:800;letter-spacing:2px;fill:#7DEBA3}
+      .h-bsub{font-size:14px;fill:#5E6E81;letter-spacing:.5px}
+      #h-l1{animation:h-r1 6s ease-out infinite}
+      #h-l2{animation:h-r2 6s ease-out infinite}
+      #h-l3{animation:h-r3 6s ease-out infinite}
+      .h-res{transform-box:fill-box;transform-origin:center;opacity:1;animation:h-pb 6s ease-out infinite}
+      .h-cur{animation:h-blink 1.06s steps(1,end) infinite}
+      .h-ambient{animation:h-breathe 4.2s ease-in-out infinite}
+      @keyframes h-r1{0%,8%{opacity:0;transform:translateY(8px)}15%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
+      @keyframes h-r2{0%,17%{opacity:0;transform:translateY(8px)}24%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
+      @keyframes h-r3{0%,26%{opacity:0;transform:translateY(8px)}33%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
+      @keyframes h-pb{0%,40%{opacity:0;transform:scale(.9)}48%{opacity:1;transform:scale(1.04)}55%,93%{opacity:1;transform:scale(1)}99%,100%{opacity:0}}
+      @keyframes h-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+      @keyframes h-breathe{0%,100%{opacity:.35}50%{opacity:.7}}
+    </style>
+  </defs>
+
+  <rect x="64" y="40" width="1072" height="300" rx="16" fill="url(#h-card)" stroke="#202A3A" stroke-width="1.5"/>
+  <g clip-path="url(#h-clip)">
+    <ellipse class="h-ambient" cx="884" cy="206" rx="210" ry="170" fill="url(#h-amb)" filter="url(#h-blur)" opacity="0.45"/>
+
+    <circle cx="96" cy="64" r="6.5" fill="#FF5F57"/>
+    <circle cx="120" cy="64" r="6.5" fill="#FEBC2E"/>
+    <circle cx="144" cy="64" r="6.5" fill="#28C840"/>
+    <text x="600" y="69" text-anchor="middle" class="h-ttl">goalify</text>
+    <line x1="64" y1="88" x2="1136" y2="88" stroke="#1A2230" stroke-width="1.5"/>
+
+    <line x1="652" y1="116" x2="652" y2="312" stroke="#18202E" stroke-width="1.5"/>
+
+    <path d="M104 133 l11 9 l-11 9" fill="none" stroke="#D97757" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="130" y="150" class="h-cmd"><tspan fill="#E9EEF5">/goal</tspan><tspan fill="#8A97A9">  api-migration.md</tspan></text>
+    <rect class="h-cur" x="452" y="132" width="11" height="21" rx="1.5" fill="#D97757"/>
+
+    <g id="h-l1">
+      <path d="M101 198 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="130" y="204" class="h-lbl">researched · decisions locked</text>
+    </g>
+    <g id="h-l2">
+      <path d="M101 238 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="130" y="244" class="h-lbl">ran in a fresh, full-context session</text>
+    </g>
+    <g id="h-l3">
+      <path d="M101 278 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="130" y="284" class="h-lbl">success criteria verified</text>
+    </g>
+
+    <g class="h-res">
+      <rect x="824" y="120" width="120" height="120" rx="30" fill="#0E2A1A" stroke="#2C9A56" stroke-width="1.5"/>
+      <path d="M856 182 l18 18 l34 -42" fill="none" stroke="#4ADE80" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#h-glow)"/>
+      <text x="884" y="286" text-anchor="middle" class="h-bh">GOAL COMPLETE</text>
+      <text x="884" y="312" text-anchor="middle" class="h-bsub">every success criterion met</text>
+    </g>
+  </g>
+</svg>

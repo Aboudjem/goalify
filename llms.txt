@@ -1,0 +1,47 @@
+# goalify
+
+> A Claude Code / Agent Skills skill that prepares a self-contained, self-deleting `/goal` execution
+> file. In one session it researches the task, asks the user only the genuine decisions (one
+> interactive MCQ), scopes the work, and writes one Markdown file with hard rules baked in — so the
+> user can `/clear` and run the big task autonomously in a fresh, full-context session that deletes
+> the file when done. MIT licensed.
+
+goalify solves a specific, unresolved problem: carrying a plan across `/clear` into a fresh
+implementation session (Claude Code issue #32916, "Best practice for plan-to-implementation context
+handoff across /clear?", raised on Anthropic's tracker and closed as not planned, with no documented
+best practice). It is a two-phase model: PREPARE (research + decide + author the file, in the current
+session) then EXECUTE (the user runs `/goal <path>` in a fresh session). It authors the handoff file;
+it does not run the task itself — for immediate in-session execution, use autopilot/ultrawork/ralph.
+
+The generated file is hardened with the patterns most autonomous runs miss: a declarative spec,
+machine-checkable success criteria wired to named commands, a separate-agent verification pass,
+fan-out guardrails (parallel for independent discovery/verify; serialize builds/tests/same-file
+writes), output-redirection, anti-placeholder and search-before-assuming rules, a resumable progress
+checklist, and a low-freedom gated self-destruct that fires only on full success.
+
+## Docs
+
+- [README](https://github.com/Aboudjem/goalify/blob/main/README.md): What goalify is, who it is for, how to install and use it.
+- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the goal-MD template, the one-vs-several decision, the handoff format, and hard rules.
+- [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install and run goalify in three steps.
+- [LICENSE (MIT)](https://github.com/Aboudjem/goalify/blob/main/LICENSE): Permissive MIT license.
+
+## Install
+
+goalify ships as a drop-in skill — no plugin required.
+
+- [Install](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then `mkdir -p ~/.claude/skills && cp -r goalify/skills/goalify ~/.claude/skills/goalify`. Then say "goalify this: <task>" in Claude Code.
+
+## Skill
+
+- [Skill directory](https://github.com/Aboudjem/goalify/tree/main/skills/goalify): The full skill (`SKILL.md`).
+- [AGENTS.md](https://github.com/Aboudjem/goalify/blob/main/AGENTS.md): Instructions for AI agents using this repo, including the rules an agent MUST honor.
+
+## Examples
+
+- [Worked example goal file](https://github.com/Aboudjem/goalify/blob/main/examples/sample-goal-file.md): A real (redacted) `/goal` file goalify produced.
+
+## Optional
+
+- [Evals](https://github.com/Aboudjem/goalify/tree/main/evals): The deterministic check (`check_skill.py`), behavioral scenarios, and the recorded RED→GREEN baseline on Haiku/Sonnet/Opus. Skip if a shorter context is needed.
+- [Changelog](https://github.com/Aboudjem/goalify/blob/main/CHANGELOG.md): Release history. Skip if a shorter context is needed.

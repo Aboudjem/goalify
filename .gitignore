@@ -1,0 +1,27 @@
+# --- goalify's own state / generated goal files ---
+# goalify writes /goal execution files under .goal/ in a project. They are
+# single-use and self-deleting; never commit them (they hold absolute paths and
+# project-specific context). Keep this repo generic.
+.goal/
+*-goal.md
+goal-*.md
+
+# --- OS / editor noise ---
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Tooling ---
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.cache/
+
+# build journal (local resumability only)
+docs/audit/
