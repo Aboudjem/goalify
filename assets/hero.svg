@@ -1,92 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="ht hd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-labelledby="ht hd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <title id="ht">goalify</title>
-  <desc id="hd">goalify banner: a gold arrow strikes the centre of a bullseye. goalify writes one self-contained run file for a big task, so you /clear and let a fresh Claude Code session finish the whole job.</desc>
-
+  <desc id="hd">goalify banner: an arrow strikes the centre of a target and it erupts with energy. goalify writes one self-contained run file for a big task, so you /clear and let a fresh Claude Code session finish the whole job.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0D1117"/><stop offset="1" stop-color="#0A0D13"/>
-    </linearGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#FFD86B"/><stop offset="0.5" stop-color="#F5B731"/><stop offset="1" stop-color="#E09B12"/>
-    </linearGradient>
-    <radialGradient id="eye" cx="50%" cy="42%" r="60%">
-      <stop offset="0" stop-color="#9A7BFF"/><stop offset="1" stop-color="#6A45E6"/>
-    </radialGradient>
-    <radialGradient id="vign" cx="50%" cy="50%" r="55%">
-      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.18"/><stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
-    </filter>
-    <filter id="neon" x="-90%" y="-90%" width="280%" height="280%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b2"/>
-      <feMerge>
-        <feMergeNode in="b1"/><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <linearGradient id="neonshaft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#FF9D2E"/><stop offset="0.5" stop-color="#FFC23D"/><stop offset="1" stop-color="#FFE07A"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C0F18"/><stop offset="1" stop-color="#080A11"/></linearGradient>
+    <radialGradient id="burst" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE8A8" stop-opacity="0.95"/><stop offset="0.4" stop-color="#FFB627" stop-opacity="0.45"/><stop offset="1" stop-color="#FFB627" stop-opacity="0"/></radialGradient>
+    <radialGradient id="core" cx="50%" cy="42%" r="55%"><stop offset="0" stop-color="#D6C4FF"/><stop offset="1" stop-color="#6A45E6"/></radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFD86B"/><stop offset="1" stop-color="#E0911A"/></linearGradient>
+    <filter id="glow" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="tglow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <line id="spoke" x1="952" y1="122" x2="952" y2="82" stroke="#FFD86B" stroke-width="3.5" stroke-linecap="round"/>
     <style>
-      .eyebrow{ fill:#8A93A6; font-size:13px; font-weight:700; letter-spacing:3px; }
-      .word{ fill:#F2F6FB; font-size:84px; font-weight:800; letter-spacing:-2.5px; }
-      .lead{ fill:#D9E0EA; font-size:22px; font-weight:600; }
-      .sub{ fill:#8B98A8; font-size:17px; font-weight:400; }
-      .chip{ fill:#AEB9C7; font-size:13px; font-weight:600; letter-spacing:.3px; }
-      #arrow{ transform: translate(965px,206px); animation: fly 4.8s cubic-bezier(.4,.04,.5,.96) infinite; }
+      .eyebrow{fill:#8E97AC;font-size:13px;font-weight:700;letter-spacing:3px}
+      .word{fill:#F4F7FC;font-size:92px;font-weight:800;letter-spacing:-3px}
+      .tag{fill:#D2DAE6;font-size:22px;font-weight:700}
+      #spokes{transform-box:view-box;transform-origin:952px 196px;animation:spin 22s linear infinite}
+      @keyframes spin{to{transform:rotate(360deg)}}
+      #burst{transform-box:view-box;transform-origin:952px 196px;animation:bp 4.2s ease-in-out infinite}
+      @keyframes bp{0%,30%{opacity:.5;transform:scale(.92)}40%{opacity:1;transform:scale(1.14)}72%{opacity:.55;transform:scale(.98)}100%{opacity:.5;transform:scale(.92)}}
+      .wave{transform-box:view-box;transform-origin:952px 196px;opacity:0}
+      #w1{animation:wv 4.2s ease-out infinite}
+      #w2{animation:wv 4.2s ease-out infinite}
+      #w3{animation:wv2 4.2s ease-out infinite}
+      @keyframes wv{0%,33%{transform:scale(.32);opacity:0}40%{opacity:.9}72%{transform:scale(2.5);opacity:0}100%{opacity:0}}
+      @keyframes wv2{0%,35%{transform:scale(.3);opacity:0}43%{opacity:.8}74%{transform:scale(2.1);opacity:0}100%{opacity:0}}
+      #flash{transform-box:view-box;transform-origin:952px 196px;animation:fl 4.2s ease-out infinite}
+      @keyframes fl{0%,33%{transform:scale(1);opacity:.9}40%{transform:scale(2);opacity:1}56%{transform:scale(1);opacity:.9}100%{transform:scale(1);opacity:.9}}
+      #arrow{transform:translate(952px,196px);animation:fly 4.2s cubic-bezier(.4,.03,.5,1) infinite}
       @keyframes fly{
-        0%   { transform: translate(762px,206px); opacity:0; }
-        10%  { opacity:1; }
-        40%  { transform: translate(965px,206px); }
-        90%  { transform: translate(965px,206px); opacity:1; }
-        96%  { opacity:0; }
-        100% { transform: translate(762px,206px); opacity:0; }
+        0%{transform:translate(770px,196px);opacity:0}
+        10%{opacity:1}
+        33%{transform:translate(952px,196px)}
+        90%{transform:translate(952px,196px);opacity:1}
+        96%{opacity:0}
+        100%{transform:translate(770px,196px);opacity:0}
       }
-      .ring{ transform-box:fill-box; transform-origin:center; opacity:0; }
-      #r1{ animation: ping 4.8s ease-out infinite; }
-      #r2{ animation: ping 4.8s ease-out infinite .18s; }
-      @keyframes ping{ 0%,34%{transform:scale(.35);opacity:0} 41%{opacity:.85} 64%{transform:scale(2.25);opacity:0} 100%{opacity:0} }
-      #flash{ transform-box:fill-box; transform-origin:center; animation: flash 4.8s ease-out infinite; }
-      @keyframes flash{ 0%,35%{transform:scale(1)} 41%{transform:scale(1.9)} 55%{transform:scale(1)} 100%{transform:scale(1)} }
     </style>
   </defs>
+  <rect width="1200" height="380" rx="22" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="1199" height="379" rx="22" fill="none" stroke="#1B2333" stroke-width="1"/>
 
-  <rect width="1200" height="400" rx="22" fill="url(#bg)"/>
-  <rect x="0.5" y="0.5" width="1199" height="399" rx="22" fill="none" stroke="#1C2433" stroke-width="1"/>
+  <rect x="70" y="78" width="32" height="3" rx="1.5" fill="#8B5CFF"/>
+  <text x="112" y="87" class="eyebrow">CLAUDE CODE SKILL</text>
+  <text x="66" y="190" class="word" filter="url(#tglow)">goalify</text>
+  <text x="70" y="234" class="tag">One file. Walk away. The whole job gets done.</text>
 
-  <circle cx="965" cy="206" r="172" fill="url(#vign)"/>
-
-  <!-- LEFT TEXT -->
-  <rect x="72" y="80" width="30" height="3" rx="1.5" fill="#7C5CFF"/>
-  <text x="112" y="89" class="eyebrow">CLAUDE CODE SKILL</text>
-  <text x="68" y="196" class="word">goalify</text>
-  <text x="72" y="240" class="lead">Turn a big task into one self-contained run file &#8212;</text>
-  <text x="72" y="270" class="sub">then /clear and let a fresh session finish the whole job.</text>
-
-  <g transform="translate(72,312)">
-    <g><rect x="0" y="0" width="138" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#7C5CFF"/><text x="30" y="18" class="chip">self-contained</text></g>
-    <g transform="translate(150,0)"><rect x="0" y="0" width="74" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#58A6FF"/><text x="30" y="18" class="chip">cited</text></g>
-    <g transform="translate(236,0)"><rect x="0" y="0" width="124" height="28" rx="14" fill="#141A24" stroke="#222B3A"/><circle cx="18" cy="14" r="3.5" fill="#3FB6B2"/><text x="30" y="18" class="chip">self-deleting</text></g>
+  <circle id="burst" cx="952" cy="196" r="150" fill="url(#burst)"/>
+  <g id="spokes" filter="url(#glow)">
+    <use href="#spoke"/><use href="#spoke" transform="rotate(30 952 196)"/><use href="#spoke" transform="rotate(60 952 196)"/>
+    <use href="#spoke" transform="rotate(90 952 196)"/><use href="#spoke" transform="rotate(120 952 196)"/><use href="#spoke" transform="rotate(150 952 196)"/>
+    <use href="#spoke" transform="rotate(180 952 196)"/><use href="#spoke" transform="rotate(210 952 196)"/><use href="#spoke" transform="rotate(240 952 196)"/>
+    <use href="#spoke" transform="rotate(270 952 196)"/><use href="#spoke" transform="rotate(300 952 196)"/><use href="#spoke" transform="rotate(330 952 196)"/>
   </g>
-
-  <!-- BULLSEYE (centre 965,206) -->
-  <g fill="none" stroke-width="3">
-    <circle cx="965" cy="206" r="120" stroke="#222D40"/>
-    <circle cx="965" cy="206" r="86" stroke="#2C3B55"/>
-    <circle cx="965" cy="206" r="52" stroke="#3A4E72"/>
+  <circle id="w1" class="wave" cx="952" cy="196" r="60" fill="none" stroke="#FFC23D" stroke-width="3"/>
+  <circle id="w3" class="wave" cx="952" cy="196" r="60" fill="none" stroke="#8B5CFF" stroke-width="2.5"/>
+  <circle id="w2" class="wave" cx="952" cy="196" r="60" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+  <g fill="none" stroke-width="2.5"><circle cx="952" cy="196" r="98" stroke="#22304B"/><circle cx="952" cy="196" r="66" stroke="#33436A"/></g>
+  <circle id="flash" cx="952" cy="196" r="34" fill="url(#core)" filter="url(#glow)"/>
+  <g id="arrow" filter="url(#glow)">
+    <line x1="-152" y1="0" x2="-8" y2="0" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+    <line x1="-146" y1="0" x2="-14" y2="0" stroke="#FFF3CC" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-150 0 L-184 -16 L-166 0 L-184 16 Z" fill="#D98324"/>
+    <path d="M22 0 L-28 -18 L-14 0 L-28 18 Z" fill="url(#gold)"/>
+    <path d="M22 0 L-12 -7 L-8 0 Z" fill="#FFF3CC"/>
   </g>
-  <circle id="r1" class="ring" cx="965" cy="206" r="52" fill="none" stroke="#58A6FF" stroke-width="3" opacity="0"/>
-  <circle id="r2" class="ring" cx="965" cy="206" r="40" fill="none" stroke="#7C5CFF" stroke-width="2.5" opacity="0"/>
-  <circle cx="965" cy="206" r="30" fill="url(#eye)"/>
-  <circle id="flash" cx="965" cy="206" r="8" fill="#F2F6FB"/>
-
-  <!-- ARROW: tip at local (0,0), body to -x; landed at (965,206) -->
-  <g id="arrow" transform="translate(965,206)" filter="url(#neon)">
-    <line x1="-158" y1="0" x2="-8" y2="0" stroke="url(#neonshaft)" stroke-width="11" stroke-linecap="round"/>
-    <line x1="-150" y1="0" x2="-14" y2="0" stroke="#FFF3CC" stroke-width="3.5" stroke-linecap="round"/>
-    <path d="M-158 0 L-192 -18 L-170 0 L-192 18 Z" fill="#FF8A1E"/>
-    <path d="M22 0 L-30 -20 L-15 0 L-30 20 Z" fill="url(#neonshaft)"/>
-    <path d="M22 0 L-14 -7 L-10 0 Z" fill="#FFF3CC"/>
-  </g>
+  <circle cx="952" cy="196" r="6" fill="#FFFFFF"/>
 </svg>

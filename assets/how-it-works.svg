@@ -1,68 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="wt wd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" width="1200" height="280" role="img" aria-labelledby="wt wd" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <title id="wt">How goalify works</title>
-  <desc id="wd">Three steps. Step 1 prepare: goalify inspects your repo and asks only the real questions. Step 2 hand off: it writes one self-contained, self-deleting /goal file. Step 3 run: you /clear and run it, and a fresh session finishes the whole job on its own.</desc>
-
+  <desc id="wd">Three steps. 1 Prepare: goalify inspects your repo and asks only the real questions. 2 Hand off: it writes one self-contained, self-deleting /goal file. 3 Run: you /clear and run it, and a fresh session finishes the whole job on its own.</desc>
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0D1117"/><stop offset="1" stop-color="#0A0D13"/>
-    </linearGradient>
-    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#7C5CFF"/><stop offset="0.5" stop-color="#58A6FF"/><stop offset="1" stop-color="#3FB6B2"/>
-    </linearGradient>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C0F18"/><stop offset="1" stop-color="#080A11"/></linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8B5CFF"/><stop offset="0.5" stop-color="#38B6FF"/><stop offset="1" stop-color="#2FE6C2"/></linearGradient>
+    <filter id="g2" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <style>
-      .eyebrow{ fill:#7C8595; font-size:12px; font-weight:700; letter-spacing:1.6px; }
-      .head{ fill:#EDF1F6; font-size:21px; font-weight:700; letter-spacing:-.2px; }
-      .body{ fill:#8B98A8; font-size:14.5px; font-weight:400; }
-      .topbar{ fill:#7C8595; font-size:13px; font-weight:700; letter-spacing:2.4px; }
-      #dash{ animation: flow 3.6s linear infinite; }
-      @keyframes flow{ to { stroke-dashoffset:-220; } }
+      .eyebrow{fill:#7C8595;font-size:12px;font-weight:700;letter-spacing:1.6px}
+      .head{fill:#EDF1F6;font-size:21px;font-weight:700;letter-spacing:-.2px}
+      .body{fill:#8B98A8;font-size:14.5px;font-weight:400}
+      .topbar{fill:#8E97AC;font-size:13px;font-weight:700;letter-spacing:2.4px}
+      #dash{animation:flow 3.2s linear infinite}
+      @keyframes flow{to{stroke-dashoffset:-240}}
+      .pulse{transform-box:view-box}
+      #p1{transform-origin:200px 120px;animation:pl 3s ease-in-out infinite}
+      #p2{transform-origin:600px 120px;animation:pl 3s ease-in-out infinite 1s}
+      #p3{transform-origin:1000px 120px;animation:pl 3s ease-in-out infinite 2s}
+      @keyframes pl{0%,100%{opacity:.45}50%{opacity:.95}}
     </style>
   </defs>
+  <rect width="1200" height="280" rx="22" fill="url(#bg2)"/>
+  <rect x="0.5" y="0.5" width="1199" height="279" rx="22" fill="none" stroke="#1B2333" stroke-width="1"/>
 
-  <rect width="1200" height="300" rx="22" fill="url(#bg2)"/>
-  <rect x="0.5" y="0.5" width="1199" height="299" rx="22" fill="none" stroke="#1C2433" stroke-width="1"/>
-
-  <rect x="72" y="40" width="28" height="3" rx="1.5" fill="#7C5CFF"/>
+  <rect x="72" y="40" width="28" height="3" rx="1.5" fill="#8B5CFF"/>
   <text x="110" y="49" class="topbar">HOW IT WORKS</text>
 
-  <!-- connector -->
-  <line x1="200" y1="120" x2="1000" y2="120" stroke="#222B3A" stroke-width="2"/>
-  <line id="dash" x1="200" y1="120" x2="1000" y2="120" stroke="url(#flow)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 18"/>
+  <line x1="200" y1="120" x2="1000" y2="120" stroke="#1E2740" stroke-width="2"/>
+  <line id="dash" x1="200" y1="120" x2="1000" y2="120" stroke="url(#flow)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 22" filter="url(#g2)"/>
 
-  <!-- STEP 1 — PREPARE (magnifier) -->
+  <!-- STEP 1 -->
   <g>
-    <circle cx="200" cy="120" r="33" fill="#0D1117" stroke="#7C5CFF" stroke-width="2"/>
-    <circle cx="200" cy="120" r="33" fill="#7C5CFF" opacity="0.14"/>
-    <g stroke="#C9B8FF" stroke-width="2.6" fill="none" stroke-linecap="round">
-      <circle cx="196" cy="116" r="9"/>
-      <line x1="203" y1="123" x2="210" y2="130"/>
-    </g>
+    <circle id="p1" class="pulse" cx="200" cy="120" r="40" fill="#8B5CFF" opacity="0.16"/>
+    <circle cx="200" cy="120" r="33" fill="#0E1320" stroke="#8B5CFF" stroke-width="2" filter="url(#g2)"/>
+    <g stroke="#C9B8FF" stroke-width="2.8" fill="none" stroke-linecap="round"><circle cx="196" cy="116" r="9"/><line x1="203" y1="123" x2="210" y2="130"/></g>
     <text x="200" y="190" text-anchor="middle" class="eyebrow">STEP 1 &#183; PREPARE</text>
     <text x="200" y="216" text-anchor="middle" class="head">Research &amp; decide</text>
     <text x="200" y="240" text-anchor="middle" class="body">Inspects your repo, asks only the real questions.</text>
   </g>
-
-  <!-- STEP 2 — HAND OFF (document) -->
+  <!-- STEP 2 -->
   <g>
-    <circle cx="600" cy="120" r="33" fill="#0D1117" stroke="#58A6FF" stroke-width="2"/>
-    <circle cx="600" cy="120" r="33" fill="#58A6FF" opacity="0.14"/>
-    <g stroke="#B7D6FF" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M591 106 H606 L610 110 V134 H591 Z"/>
-      <path d="M606 106 V110 H610"/>
-      <line x1="595" y1="118" x2="606" y2="118"/>
-      <line x1="595" y1="124" x2="606" y2="124"/>
-      <line x1="595" y1="130" x2="602" y2="130"/>
-    </g>
+    <circle id="p2" class="pulse" cx="600" cy="120" r="40" fill="#38B6FF" opacity="0.16"/>
+    <circle cx="600" cy="120" r="33" fill="#0E1320" stroke="#38B6FF" stroke-width="2" filter="url(#g2)"/>
+    <g stroke="#BFE3FF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M591 106 H606 L610 110 V134 H591 Z"/><path d="M606 106 V110 H610"/><line x1="595" y1="118" x2="606" y2="118"/><line x1="595" y1="124" x2="606" y2="124"/><line x1="595" y1="130" x2="602" y2="130"/></g>
     <text x="600" y="190" text-anchor="middle" class="eyebrow">STEP 2 &#183; HAND OFF</text>
     <text x="600" y="216" text-anchor="middle" class="head">Write the /goal file</text>
     <text x="600" y="240" text-anchor="middle" class="body">One self-contained, self-deleting run file.</text>
   </g>
-
-  <!-- STEP 3 — RUN (play) -->
+  <!-- STEP 3 -->
   <g>
-    <circle cx="1000" cy="120" r="33" fill="#0D1117" stroke="#3FB6B2" stroke-width="2"/>
-    <circle cx="1000" cy="120" r="33" fill="#3FB6B2" opacity="0.14"/>
-    <path d="M994 108 L1012 120 L994 132 Z" fill="#8DE6E2"/>
+    <circle id="p3" class="pulse" cx="1000" cy="120" r="40" fill="#2FE6C2" opacity="0.16"/>
+    <circle cx="1000" cy="120" r="33" fill="#0E1320" stroke="#2FE6C2" stroke-width="2" filter="url(#g2)"/>
+    <path d="M994 108 L1012 120 L994 132 Z" fill="#9BF4E4"/>
     <text x="1000" y="190" text-anchor="middle" class="eyebrow">STEP 3 &#183; RUN</text>
     <text x="1000" y="216" text-anchor="middle" class="head">Fresh session finishes it</text>
     <text x="1000" y="240" text-anchor="middle" class="body">You /clear, run it, it completes the job alone.</text>

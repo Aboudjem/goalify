@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05-29
+
+### Changed
+
+- **New high-energy hero** (`assets/hero.svg`): an arrow strikes the target and it erupts — a glowing
+  power core, a radiating energy burst, and synced impact shockwaves. Rebuilt `assets/how-it-works.svg`
+  to match (glowing step nodes, an energized connector). Both animate via CSS `@keyframes` with
+  fully-visible static base states, verified on the live GitHub page.
+- **Rewrote the README with more energy**, kept plain: a "point it and walk away" hook that shows the
+  power through concrete capability (fans out sub-agents, tests as it goes, won't stop until the success
+  criteria pass), the literal what-it-does first line intact, and punchier section headers — same honest
+  claims, no fabricated metrics.
+
 ## [1.2.0] - 2026-05-29
 
 ### Changed
@@ -80,7 +93,8 @@ see [MIGRATION.md](MIGRATION.md)).
   frontmatter, runs the skill eval, checks JSON + relative links, scans for secrets, and gates the SVGs
   against `<script>` / external references.
 
-[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/Aboudjem/goalify/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/Aboudjem/goalify/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Aboudjem/goalify/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.0.0
