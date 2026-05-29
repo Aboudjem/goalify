@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="t">goalify</title>
+  <desc id="d">Banner for the goalify Claude Code skill. A cluster of vague, jittering prompt fragments is swept by a blue scan line and snaps into a tidy plan checklist that gains green checks, then compresses into a /goal file pill above a terminal showing the /clear then /goal handoff. Footer chips read self-contained, cited, self-deleting.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D1117"/>
+      <stop offset="1" stop-color="#0B0E14"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#58A6FF"/>
+    </linearGradient>
+    <style>
+      .ttl  { fill:#E6EDF3; font-size:64px; font-weight:700; letter-spacing:-1.5px; }
+      .tag  { fill:#9FB0C0; font-size:20px; font-weight:500; letter-spacing:0.4px; }
+      .sub  { fill:#6E7B8A; font-size:15px; font-weight:400; }
+      .lbl  { fill:#6E7B8A; font-size:13px; font-weight:500; letter-spacing:0.6px; }
+      .row  { fill:#C9D5E1; font-size:15px; font-weight:500; }
+      .mess { fill:#5A6573; font-size:15px; font-weight:500; font-style:italic; }
+      .term { fill:#8B98A8; font-size:14px; font-weight:500; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+      @keyframes drift { 0%,100%{transform:translate(0,0)} 33%{transform:translate(4px,-3px)} 66%{transform:translate(-3px,2px)} }
+      .j1 { animation: drift 3.2s ease-in-out infinite; }
+      .j2 { animation: drift 3.8s ease-in-out infinite; }
+      .j3 { animation: drift 4.4s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#bg)"/>
+  <rect width="1200" height="360" fill="none" stroke="#1B2230" stroke-width="1"/>
+
+  <!-- faint grid dots, top-right -->
+  <g fill="#1B2230">
+    <circle cx="1000" cy="58" r="2"/><circle cx="1040" cy="58" r="2"/><circle cx="1080" cy="58" r="2"/><circle cx="1120" cy="58" r="2"/><circle cx="1160" cy="58" r="2"/>
+    <circle cx="1000" cy="94" r="2"/><circle cx="1040" cy="94" r="2"/><circle cx="1080" cy="94" r="2"/><circle cx="1120" cy="94" r="2"/><circle cx="1160" cy="94" r="2"/>
+  </g>
+
+  <!-- accent tick + eyebrow -->
+  <rect x="64" y="56" width="34" height="3" rx="1.5" fill="#7C5CFF"/>
+  <text x="108" y="62" class="lbl">CLAUDE CODE SKILL · GOALIFY</text>
+
+  <!-- title -->
+  <text x="62" y="150" class="ttl">goalify</text>
+
+  <!-- tagline -->
+  <text x="64" y="190" class="tag">Prepare once · /clear · run the big task autonomously</text>
+
+  <!-- sub-line -->
+  <text x="64" y="220" class="sub">Vague ask &#8594; researched, MCQ-locked, self-deleting /goal file &#8594; fresh-session autopilot</text>
+
+  <!-- ============ animated motif (right column, x ~ 620..1136) ============ -->
+
+  <!-- Stage A: messy jittering prompt fragments (fade out as the sweep passes) -->
+  <g>
+    <animate attributeName="opacity" values="1;1;0;0;0;1" keyTimes="0;0.2;0.3;0.9;0.97;1" dur="12s" repeatCount="indefinite"/>
+    <g class="j1"><text x="690" y="120" class="mess">"do the thing…"</text></g>
+    <g class="j2"><text x="900" y="150" class="mess">make it good</text></g>
+    <g class="j3"><text x="700" y="180" class="mess">?  ?</text></g>
+    <g class="j2"><text x="980" y="110" class="mess">…later</text></g>
+    <g class="j1" fill="#3A4250"><circle cx="860" cy="100" r="3"/><circle cx="1040" cy="170" r="3"/><circle cx="660" cy="150" r="3"/></g>
+  </g>
+
+  <!-- the blue scan/sweep line that converts mess -> plan -->
+  <line x1="640" y1="86" x2="640" y2="320" stroke="#58A6FF" stroke-width="2" opacity="0">
+    <animate attributeName="x1" values="640;1140;1140" keyTimes="0;0.28;1" dur="12s" repeatCount="indefinite"/>
+    <animate attributeName="x2" values="640;1140;1140" keyTimes="0;0.28;1" dur="12s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.9;0.9;0;0" keyTimes="0;0.04;0.27;0.3;1" dur="12s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Stage B: the plan checklist, rows reveal staggered with green checks -->
+  <g transform="translate(648,96)">
+    <!-- card -->
+    <rect x="0" y="0" width="488" height="186" rx="12" fill="#11161F" stroke="#1B2230" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.28;0.34;0.9;1" dur="12s" repeatCount="indefinite"/>
+    </rect>
+    <text x="20" y="30" class="lbl" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.3;0.36;0.9;1" dur="12s" repeatCount="indefinite"/>GOAL FILE · /goal</text>
+
+    <!-- row 1 -->
+    <g opacity="0"><animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.3;0.36;0.42;0.9;1" dur="12s" repeatCount="indefinite"/>
+      <path d="M22 52 l5 5 l9 -11" fill="none" stroke="#3FB6B2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="46" y="58" class="row">Research · cited</text>
+    </g>
+    <!-- row 2 -->
+    <g opacity="0"><animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.3;0.42;0.48;0.9;1" dur="12s" repeatCount="indefinite"/>
+      <path d="M22 84 l5 5 l9 -11" fill="none" stroke="#3FB6B2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="46" y="90" class="row">Decisions · locked (MCQ)</text>
+    </g>
+    <!-- row 3 -->
+    <g opacity="0"><animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.3;0.48;0.54;0.9;1" dur="12s" repeatCount="indefinite"/>
+      <path d="M22 116 l5 5 l9 -11" fill="none" stroke="#3FB6B2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="46" y="122" class="row">Phases · fan-out</text>
+    </g>
+    <!-- row 4 -->
+    <g opacity="0"><animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.3;0.54;0.6;0.9;1" dur="12s" repeatCount="indefinite"/>
+      <path d="M22 148 l5 5 l9 -11" fill="none" stroke="#3FB6B2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="46" y="154" class="row">Success criteria · machine-checkable</text>
+    </g>
+  </g>
+
+  <!-- Stage C: the /goal pill + terminal handoff (appears after the checklist) -->
+  <g transform="translate(648,300)" opacity="0">
+    <animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.58;0.62;0.66;0.92;1" dur="12s" repeatCount="indefinite"/>
+    <rect x="0" y="-18" width="150" height="28" rx="14" fill="url(#pill)"/>
+    <text x="18" y="1" fill="#0B0E14" font-size="14" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">/goal …md</text>
+    <!-- terminal chip with swapped lines -->
+    <text x="172" y="1" class="term">
+      <tspan>$ /clear</tspan>
+      <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.74;0.78;0.97;1" dur="12s" repeatCount="indefinite"/>
+    </text>
+    <text x="172" y="1" class="term" fill="#58A6FF" opacity="0">
+      <tspan>$ /goal &lt;path&gt;</tspan>
+      <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.78;0.82;0.97;1" dur="12s" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- footer chips -->
+  <g transform="translate(64,318)" class="lbl">
+    <g>
+      <rect x="0" y="-14" width="138" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
+      <circle cx="16" cy="-3" r="3" fill="#7C5CFF"/>
+      <text x="28" y="1">self-contained</text>
+    </g>
+    <g transform="translate(150,0)">
+      <rect x="0" y="-14" width="86" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
+      <circle cx="16" cy="-3" r="3" fill="#58A6FF"/>
+      <text x="28" y="1">cited</text>
+    </g>
+    <g transform="translate(248,0)">
+      <rect x="0" y="-14" width="126" height="22" rx="11" fill="#11161F" stroke="#1B2230"/>
+      <circle cx="16" cy="-3" r="3" fill="#3FB6B2"/>
+      <text x="28" y="1">self-deleting</text>
+    </g>
+  </g>
+</svg>
