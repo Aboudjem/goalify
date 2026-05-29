@@ -18,9 +18,6 @@ evals/
   check_skill.py        deterministic assertions on SKILL.md (runs in CI)
   scenarios.md          behavioral scenarios + rubrics
   RED-baseline.md       recorded RED->GREEN baseline (Haiku/Sonnet/Opus)
-.claude-plugin/
-  plugin.json           plugin manifest
-  marketplace.json      marketplace manifest (GitHub self-source)
 assets/                 animated SVG hero + how-it-works + social card
 examples/               a worked, redacted example goal file
 docs/                   quickstart + build audit trail
@@ -74,12 +71,9 @@ These mirror the skill's rules in `AGENTS.md` / `SKILL.md`. Don't look for looph
 
 ```bash
 # 1. The deterministic eval must pass.
-python3 evals/check_skill.py skills/goalify/SKILL.md     # expect: exit 0, 25/25
+python3 evals/check_skill.py skills/goalify/SKILL.md     # expect: exit 0, all checks pass
 
-# 2. Validate the plugin (if you have Claude Code).
-claude plugin validate .
-
-# 3. Run the skill for real: drop it in and exercise the path you changed.
+# 2. Run the skill for real: drop it in and exercise the path you changed.
 cp -r skills/goalify ~/.claude/skills/goalify
 #   then ask Claude Code: "goalify this: <a task that hits your change>"
 ```
@@ -98,7 +92,7 @@ and paste the before/after into your PR.
 
 ## CI must pass
 
-Every PR runs CI: frontmatter check, the `check_skill.py` eval, JSON validity, the SVG safety gate, a
+Every PR runs CI: frontmatter check, the `check_skill.py` eval, the SVG safety gate, a
 secrets scan, and a relative-link check. It must be green before merge. If CI fails, read the log and
 push a fix; don't ask for a merge override.
 

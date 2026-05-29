@@ -16,26 +16,7 @@ when the run finishes successfully.
 
 ---
 
-## 1. Install — Method A: plugin (recommended)
-
-Run these inside Claude Code:
-
-```text
-/plugin marketplace add Aboudjem/goalify
-/plugin install goalify@goalify
-/reload-plugins
-```
-
-- The first command adds the marketplace from the GitHub repo.
-- The second installs the `goalify` plugin from that marketplace.
-- `/reload-plugins` activates it.
-
-To update later: `/plugin marketplace update goalify`. To remove:
-`/plugin uninstall goalify@goalify`.
-
----
-
-## 2. Install — Method B: drop-in skill (no plugin)
+## 1. Install (drop-in skill — no plugin needed)
 
 ```shell
 git clone https://github.com/Aboudjem/goalify.git
@@ -44,11 +25,12 @@ cp -R goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
 Claude Code auto-discovers it — no install command needed. (A brand-new top-level skills directory may
-need a Claude Code restart the first time before it is watched.)
+need a Claude Code restart the first time before it is watched.) To update later, re-pull and re-copy;
+to remove, delete `~/.claude/skills/goalify`.
 
 ---
 
-## 3. Use it in 3 steps
+## 2. Use it in 3 steps
 
 1. **Ask** in plain language: `goalify this: <your big task>` — e.g.
    *"goalify this: migrate our Express API from callbacks to async/await and keep the tests green."*

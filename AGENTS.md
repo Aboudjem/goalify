@@ -20,8 +20,7 @@ output is the goal file it authors.
 - If running inside Claude Code with the skill installed: trigger it by describing the user's intent —
   "goalify this: <task>", "prep a goal", "make the md for /goal", "set up an autonomous run to launch
   later". Claude Code matches these to the skill's `description` and loads `SKILL.md`.
-- Install as a plugin: `/plugin marketplace add Aboudjem/goalify` then `/plugin install goalify@goalify`.
-- Install as a drop-in skill: copy `skills/goalify/` into `~/.claude/skills/goalify/`.
+- Install (drop-in skill, no plugin required): `git clone https://github.com/Aboudjem/goalify` then `mkdir -p ~/.claude/skills && cp -r goalify/skills/goalify ~/.claude/skills/goalify`.
 - **This skill AUTHORS a handoff file; it does not execute the task.** If the user wants the work done
   immediately in the current session, that is `autopilot` / `ultrawork` / `ralph`, not goalify.
 
@@ -55,8 +54,6 @@ source for any load-bearing claim, especially "works with X" / standard-complian
   one-vs-several decision, the handoff format, hard rules, common mistakes.
 - `evals/` — `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
   (recorded RED→GREEN on Haiku/Sonnet/Opus).
-- `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` — plugin + marketplace manifests
-  (GitHub self-source).
 - `examples/` — a worked, redacted example of a goal file goalify produced.
 - `assets/` — the animated SVG hero and "how it works" diagram, plus the social-preview card.
 - `docs/` — quickstart and the build audit trail.
@@ -64,9 +61,8 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 
 ## Validate before claiming done
 
-- `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (25/25).
+- `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (all checks pass).
 - `SKILL.md` frontmatter parses (valid YAML: `name`, `description`, `license`, `metadata.version`).
-- `.claude-plugin/plugin.json` and `marketplace.json` are valid JSON and name the repo `Aboudjem/goalify`.
 - `assets/*.svg` contain no `<script>` and no external references, and are well-formed XML.
 - All relative Markdown links resolve.
 

@@ -128,6 +128,8 @@ def main():
         "separate-agent verification / never self-approve": "separate agent" in low and "self-approve" in low,
         "commit before risky steps": "commit before risky" in low,
         "re-read this file each loop": "re-read this file" in low or "re-read the" in low,
+        "maximum-effort directive": "maximum effort" in low,
+        "names a portable max-effort mode (ultracode/ultrawork)": "ultracode" in low or "ultrawork" in low,
     }
     for clause, ok in template_clauses.items():
         checks.append((f"template: {clause}", ok, ""))

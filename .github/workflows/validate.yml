@@ -155,35 +155,7 @@ jobs:
           print("PASS: no access keys or private keys found in tracked files")
           PY
 
-      # (d) JSON VALIDITY
-      - name: JSON validity
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import json, sys
-
-          targets = [
-              ".claude-plugin/marketplace.json",
-              ".claude-plugin/plugin.json",
-          ]
-          ok = True
-          for path in targets:
-              try:
-                  with open(path, "r", encoding="utf-8") as f:
-                      json.load(f)
-                  print(f"PASS: valid JSON -> {path}")
-              except FileNotFoundError:
-                  print(f"FAIL: {path} not found")
-                  ok = False
-              except json.JSONDecodeError as e:
-                  print(f"FAIL: invalid JSON in {path}: {e}")
-                  ok = False
-          if not ok:
-              sys.exit(1)
-          print("PASS: JSON validity check passed")
-          PY
-
-      # (e) SVG SAFETY GATE — heroes must stay GitHub-safe (no <script>, no external refs)
+      # (d) SVG SAFETY GATE — heroes must stay GitHub-safe (no <script>, no external refs)
       - name: SVG safety (no <script>, no external refs)
         shell: bash
         run: |
@@ -203,7 +175,7 @@ jobs:
           done
           exit $fail
 
-      # (f) MARKDOWN LINK CHECK (relative links only; skip http(s))
+      # (e) MARKDOWN LINK CHECK (relative links only; skip http(s))
       - name: Markdown relative-link check
         shell: bash
         run: |

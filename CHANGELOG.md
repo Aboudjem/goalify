@@ -6,6 +6,32 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-29
+
+### Added
+
+- A **maximum-effort directive** baked into both phases: goalify's own PREPARE phase and the generated
+  `/goal` file now push all-out execution — aggressive parallel fan-out for independent work, exhaustive
+  verification, correctness over speed/cost — and name a max-effort mode (ultracode/ultrawork) when the
+  environment has one. Covered by two new `check_skill.py` assertions.
+
+### Changed
+
+- **Distribution is now skill-only.** Removed the plugin wrapper (`.claude-plugin/` manifests) and the
+  JSON-validity CI step. For a single skill with no agents/hooks/MCP, a plugin added no capability — only
+  install/update convenience — so goalify ships as a drop-in skill: `git clone` + copy into
+  `~/.claude/skills/goalify`. (Verified against the Claude Code plugin docs.)
+- **Redesigned the README** to be short, scannable, and self-explanatory: an arrow-into-bullseye hook, a
+  show-don't-tell command block, a single GitHub `[!IMPORTANT]` callout, a comparison table, and FAQ
+  overflow tucked into `<details>` (≈142 → ≈95 lines).
+- **New animated hero** (`assets/hero.svg`): an arrow arcs into a bullseye — the "goal," hit on the
+  first shot — replacing the abstract prep-line motif.
+
+### Fixed
+
+- `assets/how-it-works.svg` steps no longer render blank where CSS animation is ignored (static fallback:
+  base `opacity:1`, reveal driven by the keyframes).
+
 ## [1.0.0] - 2026-05-29
 
 Initial public release. Evolved from the internal `goal-prep` skill (renamed to `goalify`;
@@ -33,5 +59,6 @@ see [MIGRATION.md](MIGRATION.md)).
   frontmatter, runs the skill eval, checks JSON + relative links, scans for secrets, and gates the SVGs
   against `<script>` / external references.
 
-[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Aboudjem/goalify/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Aboudjem/goalify/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.0.0

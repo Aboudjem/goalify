@@ -18,7 +18,9 @@
       .body  { fill:#8B98A8; font-size:14px; font-weight:400; }
       .eyebr { fill:#6E7B8A; font-size:12px; font-weight:600; letter-spacing:1.2px; }
       .badge { fill:#C9D5E1; font-size:13px; font-weight:600; letter-spacing:0.4px; }
-      .step  { opacity:0; }
+      /* base opacity:1 so the steps are visible even where CSS animation is ignored (npm, some unfurls);
+         the reveal animation drives the staggered fade in animating renderers like GitHub */
+      .step  { opacity:1; }
       @keyframes reveal {
         0%   { opacity:0; transform: translateX(-10px); }
         8%   { opacity:1; transform: translateX(0); }
@@ -56,7 +58,7 @@
     <text x="150" y="157" text-anchor="middle" class="num">1</text>
     <text x="64" y="208" class="eyebr">PREPARE</text>
     <text x="64" y="234" class="head">Research &amp; decide</text>
-    <text x="64" y="258" class="body">Inspect the project, fan out research, ask only the real decisions.</text>
+    <text x="64" y="258" class="body">Inspect the repo, fan out research, ask the real forks.</text>
   </g>
 
   <!-- STEP 2 -->
@@ -65,7 +67,7 @@
     <text x="600" y="157" text-anchor="middle" class="num">2</text>
     <text x="514" y="208" class="eyebr">HAND OFF</text>
     <text x="514" y="234" class="head">Author the /goal file</text>
-    <text x="514" y="258" class="body">Self-contained &amp; self-deleting; prints /clear + /goal &lt;path&gt;.</text>
+    <text x="514" y="258" class="body">A self-contained, self-deleting handoff file.</text>
   </g>
 
   <!-- STEP 3 -->
@@ -74,7 +76,7 @@
     <text x="1050" y="157" text-anchor="middle" class="num">3</text>
     <text x="892" y="208" class="eyebr">RUN AUTONOMOUSLY</text>
     <text x="892" y="234" class="head">Fresh-session autopilot</text>
-    <text x="892" y="258" class="body">Full context: fans out agents, verifies, tests, deletes the file.</text>
+    <text x="892" y="258" class="body">Fresh session runs it, then deletes it.</text>
   </g>
 
   <!-- badge -->

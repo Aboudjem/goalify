@@ -11,7 +11,7 @@ description: >-
   or ralph instead — not goalify.
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # goalify
@@ -88,10 +88,12 @@ nothing is lost.
 
 ## GOAL (the autonomous directive)
 <Declarative directive — describe the desired END STATE and how it is verified, not a brittle recipe.
-State: what to achieve, where (repo/dir, ABSOLUTE paths), and that it must fan out parallel subagents
-(parallel only for independent discovery/research/verification; serialize builds, tests, and same-file
-writes), verify with a SEPARATE agent, check official docs online when in doubt, test when possible, and
-not stop until every success criterion holds.>
+State: what to achieve, where (repo/dir, ABSOLUTE paths), and that it must run at MAXIMUM EFFORT (fan
+out parallel subagents/workflows aggressively for independent work; correctness and completeness over
+speed or token cost; use the environment's max-effort mode — e.g. ultracode/ultrawork — if available),
+fan out parallel subagents (parallel only for independent discovery/research/verification; serialize
+builds, tests, and same-file writes), verify with a SEPARATE agent, check official docs online when in
+doubt, test when possible, and not stop until every success criterion holds.>
 
 ## Context (verified — re-confirm live; don't trust this summary)
 <What the project is, current state with evidence, why this work. Reused research summarized WITH
@@ -111,6 +113,10 @@ objective + output format + boundaries; what artifacts to write to disk. Right-s
 small-but-meaningful unit of work.>
 
 ## Hard rules
+- **Maximum effort.** This is not a quick pass. Fan out parallel subagents/workflows for ALL independent
+  discovery and verification, verify exhaustively, and optimize for correctness and completeness — never
+  for speed or token cost. If the environment has a max-effort mode (e.g. ultracode/ultrawork), use it;
+  otherwise apply the same intensity by hand. "Good enough" is not done.
 - **No hallucination.** Never state a fact/number/price/API/flag you haven't verified against a primary
   source; cite it; label uncertainty (confirmed · likely · uncertain · blocked · needs-approval).
 - **Multi-agent verification.** Nothing ships without a SEPARATE agent re-deriving load-bearing claims
@@ -185,6 +191,9 @@ Next — copy these two steps:
 
 ## Hard rules for the PREPARE phase itself
 
+- **Run PREPARE at maximum effort too.** Fan out research broadly in parallel, re-derive load-bearing
+  claims with a separate skeptic, and don't settle for a shallow scan — the quality of the run is capped
+  by the quality of the file. Use a max-effort mode (e.g. ultracode/ultrawork) if the environment has one.
 - No hallucination here either: verify the project state with evidence before scoping; research
   subagents cite sources; a skeptic re-derives the load-bearing claims that shape the MD.
 - Don't over-ask. One MCQ batch, only genuine forks. If none, don't ask.

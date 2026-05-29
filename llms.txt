@@ -28,10 +28,9 @@ checklist, and a low-freedom gated self-destruct that fires only on full success
 
 ## Install
 
-- [Plugin marketplace + install](https://github.com/Aboudjem/goalify#install): `/plugin marketplace add Aboudjem/goalify` then `/plugin install goalify@goalify`.
-- [Drop-in skill](https://github.com/Aboudjem/goalify#install): Copy `skills/goalify/` into `~/.claude/skills/goalify/`.
-- [Plugin manifest](https://github.com/Aboudjem/goalify/blob/main/.claude-plugin/plugin.json): Plugin name, version, and keywords.
-- [Marketplace manifest](https://github.com/Aboudjem/goalify/blob/main/.claude-plugin/marketplace.json): Marketplace entry consumed by `/plugin marketplace add`.
+goalify ships as a drop-in skill — no plugin required.
+
+- [Install](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then `mkdir -p ~/.claude/skills && cp -r goalify/skills/goalify ~/.claude/skills/goalify`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill
 
