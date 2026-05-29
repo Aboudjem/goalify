@@ -72,7 +72,7 @@ nothing is lost.
    scoped tasks, and explicit, machine-checkable success criteria. Decide MD structure (one master vs
    several) per the flowchart.
 6. **Save the MD to an absolute path** under `.goal/` in the project (create it; suggest adding `.goal/`
-   to `.gitignore`) or `~/.claude/goal-prep/` if not in a project. Name it `<slug>-<stamp>.md`. The MD
+   to `.gitignore`) or `~/.claude/goalify/` if not in a project. Name it `<slug>-<stamp>.md`. The MD
    references its OWN absolute path so it can self-delete.
 7. **Hand off (short).** Print the bullet summary + the exact `/clear` then `/goal <abs-path>` commands
    (see Handoff format). Stop there.
