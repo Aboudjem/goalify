@@ -39,25 +39,23 @@ goalify closes that gap. It does the prep while it still has your context: it re
 
 ## Quick Start — plugin install (recommended)
 
-Install goalify as a Claude Code plugin in one command:
-
 ```bash
 claude plugin marketplace add Aboudjem/goalify
 ```
 
-Restart Claude Code if it is already open, then invoke the skill:
+Restart Claude Code if it's already open, then run:
 
 ```text
 /goalify migrate our API from callbacks to async/await, keep tests green
 ```
 
-Or trigger it conversationally:
+Or just say it:
 
 ```text
 goalify this: <your task>
 ```
 
-goalify writes a `/goal` file, then prints the two steps you run yourself in a fresh session:
+goalify writes a `/goal` file and prints two steps to run in a fresh session:
 
 ```text
 /clear

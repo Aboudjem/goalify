@@ -1,6 +1,6 @@
 # VIRAL-AUDIT — goalify
 
-_Generated 2026-05-30 by the Supernova viral-launch engine._
+_Run 2026-05-30 by the Supernova viral-launch engine._
 
 ## Engine output
 
@@ -23,16 +23,16 @@ Repo type: skill  ·  Packaging: skill+plugin
 
 ### Remaining gap (not closed here)
 
-None of the five scored gaps remain open. The 9 points still below 100 are structural bonus signals (CI validate workflow, per-plugin README section, Troubleshooting section) that are out of scope for this additive pass.
+All five scored gaps are now closed. The 9 points still below 100 are structural bonus signals (CI validate workflow, per-plugin README section, Troubleshooting section) — out of scope for this additive pass.
 
-## Engine behaviour notes — iteration log
+## Engine behaviour notes
 
-**One false gap:** the engine flagged "Tests present" as missing (+8), but `evals/check_skill.py` already existed and was runnable. The engine's signal only looks for a `tests/` or `__tests__/` directory, not an `evals/` directory, so a file-system-layout heuristic missed it. The fix applied here both closes the signal (adds `tests/`) **and** reuses the real eval as the test content — so the result is correct even though the signal fired incorrectly.
+**One false gap:** the engine flagged "Tests present" as missing (+8), but `evals/check_skill.py` already existed and ran fine. The engine only checks for a `tests/` or `__tests__/` directory, not `evals/`, so a layout heuristic missed it. The fix adds `tests/` and reuses the real eval as content — correct outcome even though the signal misfired.
 
-**Packaging assessment accurate:** "skill-only → wrap in a thin plugin" is correct. goalify is purely a `skills/` drop-in with no plugin manifest; adding `.claude-plugin/` makes it installable via `claude plugin marketplace add`.
+**Packaging assessment accurate:** "skill-only → wrap in a thin plugin" is right. goalify is a `skills/` drop-in with no plugin manifest; adding `.claude-plugin/` makes it installable via `claude plugin marketplace add`.
 
-**Type/packaging correct:** `type=skill, packaging=skill+plugin` matches the repo layout exactly.
+**Type/packaging correct:** `type=skill, packaging=skill+plugin` matches the repo layout.
 
 ## Summary
 
-goalify was already a well-built, well-documented skill (AGENTS.md, llms.txt, evals, examples, progressive disclosure) but lacked the three trust signals that make it *installable* and *findable*: a plugin manifest, a tests directory, and a README install snippet. This branch adds all three additively without touching existing content.
+goalify was already well-built and well-documented (AGENTS.md, llms.txt, evals, examples, progressive disclosure) but was missing the three signals that make it installable and findable: a plugin manifest, a tests directory, and a README install snippet. This branch adds all three without touching anything that already worked.
