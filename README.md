@@ -39,8 +39,11 @@ goalify closes that gap. It does the prep while it still has your context: it re
 
 ## Quick Start — plugin install (recommended)
 
+goalify ships in the [**10x** marketplace](https://github.com/Aboudjem/10x):
+
 ```bash
-claude plugin marketplace add Aboudjem/goalify
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
 ```
 
 Restart Claude Code if it's already open, then run:
@@ -119,7 +122,7 @@ A `/goal` file ([see a real one](examples/sample-goal-file.md)) holds:
 
 **When should I not use it?** A one-line fix (just ask Claude), or open-ended exploration with no end state. goalify will decline rather than write a vague file.
 
-**Is there a plugin?** No, and goalify doesn't need one. (Someone opened a Claude Code issue asking [how to carry a plan across `/clear`](https://github.com/anthropics/claude-code/issues/32916); it was closed as not planned, so goalify is one answer.)
+**Is there a plugin?** Yes — goalify ships as a Claude Code plugin in the [**10x** marketplace](https://github.com/Aboudjem/10x) (`claude plugin install goalify@10x`), and the skill still works standalone (copy it into `~/.claude/skills/`). (Someone opened a Claude Code issue asking [how to carry a plan across `/clear`](https://github.com/anthropics/claude-code/issues/32916); it was closed as not planned, so goalify is one answer.)
 </details>
 
 ## How it works
