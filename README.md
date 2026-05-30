@@ -37,7 +37,34 @@ goalify closes that gap. It does the prep while it still has your context: it re
 > [!IMPORTANT]
 > goalify **prepares** the run; it doesn't run your task here. `/goalify` writes the file; the `/goal <path>` it prints is what you run next, in a fresh session, and that file deletes itself once the run succeeds. Your plan survives `/clear`.
 
-## Install
+## Quick Start — plugin install (recommended)
+
+Install goalify as a Claude Code plugin in one command:
+
+```bash
+claude plugin marketplace add Aboudjem/goalify
+```
+
+Restart Claude Code if it is already open, then invoke the skill:
+
+```text
+/goalify migrate our API from callbacks to async/await, keep tests green
+```
+
+Or trigger it conversationally:
+
+```text
+goalify this: <your task>
+```
+
+goalify writes a `/goal` file, then prints the two steps you run yourself in a fresh session:
+
+```text
+/clear
+/goal ~/your-repo/.goal/your-task.md
+```
+
+## Install (manual / skill-only)
 
 ```bash
 git clone https://github.com/Aboudjem/goalify
@@ -45,7 +72,7 @@ mkdir -p ~/.claude/skills
 cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
-It's a skill, not a plugin: no marketplace, nothing pulled at runtime. If Claude Code is already open, restart it so it loads the skill.
+Restart Claude Code if it is already open so it loads the skill.
 
 ## Two ways to start
 

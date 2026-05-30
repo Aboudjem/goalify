@@ -1,0 +1,14 @@
+{
+  "name": "goalify-marketplace",
+  "owner": {
+    "name": "Adam Boudjemaa"
+  },
+  "plugins": [
+    {
+      "name": "goalify",
+      "source": "./",
+      "description": "goalify sets up a big coding task to run autonomously: scopes the work, locks the few real decisions, and writes a self-contained /goal file so a fresh session executes the whole job and verifies every success criterion before calling it done.",
+      "version": "0.1.0"
+    }
+  ]
+}

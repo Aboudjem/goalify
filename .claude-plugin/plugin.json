@@ -1,0 +1,22 @@
+{
+  "name": "goalify",
+  "version": "0.1.0",
+  "description": "goalify sets up a big coding task to run autonomously: it scopes the work, locks the few real decisions, and writes a self-contained /goal file so a fresh session executes the whole job and verifies every success criterion before calling it done.",
+  "author": {
+    "name": "Adam Boudjemaa",
+    "email": "boudjemaa.adam@gmail.com"
+  },
+  "homepage": "https://github.com/Aboudjem/goalify",
+  "repository": "https://github.com/Aboudjem/goalify",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "goalify",
+    "autonomous-agents",
+    "goal-driven",
+    "task-planning",
+    "agent-skills",
+    "productivity"
+  ]
+}
