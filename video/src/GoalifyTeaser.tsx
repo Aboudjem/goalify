@@ -270,11 +270,11 @@ const B5: React.FC = () => {
 };
 
 /* ============================ 6 — clear, then a fresh AI runs it all */
+// Calm, readable run log: two clear wins, one caught failure, then green.
 const RUN = [
   { t: "writing src/login.ts", ok: true },
   { t: "writing src/signup.ts", ok: true },
-  { t: "running npm test…", run: true },
-  { t: "1 test failed — fixing…", fail: true },
+  { t: "1 test failed — fixing it", fail: true },
   { t: "npm test passes", ok: true },
 ];
 const B6: React.FC<{ dur: number }> = ({ dur }) => {
@@ -407,15 +407,15 @@ const B9: React.FC = () => {
 };
 
 /* ============================================================== composition */
-// Fewer beats, each held long enough to read calmly (~4–5s).
+// 7 beats, each held ≥4s to read calmly. Total 870 frames = 29.0s (under the 30s cap).
 const SCENES: [React.FC<any>, number, any?][] = [
-  [B1, 138],
-  [B2, 132],
-  [B5, 126],
-  [B6, 162, { dur: 162 }],
-  [B7, 126],
-  [B8, 102],
-  [B9, 126],
+  [B1, 120],
+  [B2, 120],
+  [B5, 120],
+  [B6, 150, { dur: 150 }],
+  [B7, 120],
+  [B8, 120],
+  [B9, 120],
 ];
 
 export const GoalifyTeaser: React.FC = () => {
@@ -424,7 +424,7 @@ export const GoalifyTeaser: React.FC = () => {
     <AbsoluteFill style={{ background: C.bg1 }}>
       <Audio
         src={staticFile("music.mp3")}
-        volume={(fr) => interpolate(fr, [0, 18, 872, 912], [0, 0.42, 0.42, 0], clamp)}
+        volume={(fr) => interpolate(fr, [0, 18, 828, 870], [0, 0.42, 0.42, 0], clamp)}
       />
       {SCENES.map(([Comp, dur, props], i) => {
         const from = at;
