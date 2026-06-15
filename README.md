@@ -38,10 +38,10 @@ goalify closes that gap. It does the prep while it still has your context: it re
 > goalify **prepares** the run; it doesn't run your task here. `/goalify` writes the file; the `/goal <path>` it prints is what you run next, in a fresh session, and that file deletes itself once the run succeeds. Your plan survives `/clear`.
 
 <p align="center">
-  <img src="assets/goalify-teaser.gif" alt="goalify teaser: you type /goalify, it locks the decisions and writes the goal file; you /clear; a fresh session runs the whole job to a green GOAL COMPLETE, then the file deletes itself" width="100%">
+  <img src="assets/goalify-teaser.gif" alt="goalify teaser: /goalify writes the run file, fans out research agents in parallel, a skeptic re-derives every claim from source, decisions lock and success criteria wire to real commands; you /clear, a fresh session runs the job with agents in parallel, a verifier re-checks every criterion to a green GOAL COMPLETE, then the file deletes itself" width="100%">
 </p>
 
-<p align="center"><sub><a href="assets/goalify-teaser.mp4">▶ 26-second teaser (MP4)</a> · set the goal, trust the run.</sub></p>
+<p align="center"><sub><a href="assets/goalify-teaser.mp4">▶ 30-second teaser (MP4)</a> · set the goal, trust the run.</sub></p>
 
 ## Quick Start — plugin install (recommended)
 
