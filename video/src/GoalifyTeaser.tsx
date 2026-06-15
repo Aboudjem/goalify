@@ -102,6 +102,46 @@ const Caption: React.FC<{ children: React.ReactNode; color?: string }> = ({ chil
   );
 };
 
+// big uppercase power-word stamped at the top of a feature scene
+const Eyebrow: React.FC<{ children: React.ReactNode; color?: string }> = ({ children, color = C.clay }) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = spring({ frame: f, fps, config: { damping: 200 }, durationInFrames: 13 });
+  const grow = spring({ frame: f - 2, fps, config: { damping: 200 }, durationInFrames: 18 });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 112,
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        opacity: s,
+        transform: `translateY(${interpolate(s, [0, 1], [-16, 0])}px)`,
+      }}
+    >
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 18,
+          fontFamily: FONT_UI,
+          fontWeight: 800,
+          fontSize: 34,
+          letterSpacing: 6,
+          textTransform: "uppercase",
+          color,
+          textShadow: `0 0 30px ${color}55`,
+        }}
+      >
+        <span style={{ width: 54 * grow, height: 4, borderRadius: 2, background: color, opacity: 0.8 }} />
+        {children}
+        <span style={{ width: 54 * grow, height: 4, borderRadius: 2, background: color, opacity: 0.8 }} />
+      </span>
+    </div>
+  );
+};
+
 const Window: React.FC<{
   children: React.ReactNode;
   title?: string;
@@ -268,7 +308,7 @@ const S2: React.FC = () => {
           </div>
         </Window>
       </AbsoluteFill>
-      <Caption color={C.clayHi}>First, it writes the run file.</Caption>
+      <Caption color={C.clayHi}>Locks your plan in a file.</Caption>
     </Bg>
   );
 };
@@ -341,7 +381,8 @@ const S3: React.FC = () => {
           w={300}
         />
       ))}
-      <Caption>Fans out research agents — in parallel.</Caption>
+      <Eyebrow>Parallel research</Eyebrow>
+      <Caption>Swarms research agents at once.</Caption>
     </Bg>
   );
 };
@@ -417,7 +458,8 @@ const S4: React.FC = () => {
           />
         </Window>
       </AbsoluteFill>
-      <Caption color={C.blue}>A separate skeptic re-checks every claim.</Caption>
+      <Eyebrow color={C.blue}>Anti-hallucination</Eyebrow>
+      <Caption color={C.blue}>Every claim re-derived from source.</Caption>
     </Bg>
   );
 };
@@ -462,6 +504,7 @@ const S5: React.FC = () => {
           );
         })}
       </AbsoluteFill>
+      <Eyebrow color={C.green2}>No drift</Eyebrow>
       <Caption>Locks the few real decisions.</Caption>
     </Bg>
   );
@@ -505,7 +548,8 @@ const S6: React.FC = () => {
           })}
         </Window>
       </AbsoluteFill>
-      <Caption>The finish line is real commands.</Caption>
+      <Eyebrow>Proof, not vibes</Eyebrow>
+      <Caption>Done = real commands, not vibes.</Caption>
     </Bg>
   );
 };
@@ -592,7 +636,8 @@ const S8: React.FC<{ dur: number }> = ({ dur }) => {
           </div>
         </div>
       </AbsoluteFill>
-      <Caption>It runs the whole job — agents in parallel.</Caption>
+      <Eyebrow>Fully autonomous</Eyebrow>
+      <Caption>Runs the whole job. Hands off.</Caption>
     </Bg>
   );
 };
@@ -619,7 +664,8 @@ const S9: React.FC = () => {
           })}
         </Window>
       </AbsoluteFill>
-      <Caption color={C.blue}>Verifies before it calls it done.</Caption>
+      <Eyebrow color={C.blue}>Independently verified</Eyebrow>
+      <Caption color={C.blue}>Re-checks every criterion. Then done.</Caption>
     </Bg>
   );
 };
@@ -663,6 +709,7 @@ const S10: React.FC = () => {
           </span>
         </div>
       </AbsoluteFill>
+      <Caption color={C.green1}>Done means done.</Caption>
     </Bg>
   );
 };
@@ -688,7 +735,7 @@ const S11: React.FC = () => {
           </div>
         </Window>
       </AbsoluteFill>
-      <Caption>Then it deletes itself.</Caption>
+      <Caption>Then it erases itself.</Caption>
     </Bg>
   );
 };
@@ -706,6 +753,7 @@ const S12: React.FC = () => {
   });
   return (
     <Bg flat>
+      <Eyebrow>No drift · no hallucinations · no residue</Eyebrow>
       <AbsoluteFill style={{ ...center, flexDirection: "column", gap: 24 }}>
         <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [16, 0])}px)`, textAlign: "center" }}>
           <div style={{ fontFamily: FONT_UI, fontWeight: 800, fontSize: 150, letterSpacing: -4, color: C.text }}>goalify</div>
