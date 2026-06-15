@@ -13,9 +13,6 @@ A hardened lifecycle, wedge-led positioning, and a designed motion teaser.
 - **Remotion teaser** (`assets/goalify-teaser.mp4` + `goalify-teaser.gif`): a 26.5s,
   1920×1080 / 30fps / H.264 motion teaser with baked-in captions, referenced in the README. Source
   under `video/`.
-- **Submission packets** (`docs/submissions/`): paste-ready field values for the claude-community
-  Discover form, awesome-claude-code (issue form), and awesome-claude-skills (PR) — all
-  human-web-UI-only, plus an index.
 - A marketplace `description` in `marketplace.json` (clears the `claude plugin validate` warning;
   passes `--strict`).
 
