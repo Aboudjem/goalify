@@ -407,16 +407,15 @@ const B9: React.FC = () => {
 };
 
 /* ============================================================== composition */
+// Fewer beats, each held long enough to read calmly (~4–5s).
 const SCENES: [React.FC<any>, number, any?][] = [
-  [B1, 96],
-  [B2, 84],
-  [B3, 90],
-  [B4, 84],
-  [B5, 84],
-  [B6, 126, { dur: 126 }],
-  [B7, 96],
-  [B8, 84],
-  [B9, 96],
+  [B1, 138],
+  [B2, 132],
+  [B5, 126],
+  [B6, 162, { dur: 162 }],
+  [B7, 126],
+  [B8, 102],
+  [B9, 126],
 ];
 
 export const GoalifyTeaser: React.FC = () => {
@@ -425,7 +424,7 @@ export const GoalifyTeaser: React.FC = () => {
     <AbsoluteFill style={{ background: C.bg1 }}>
       <Audio
         src={staticFile("music.mp3")}
-        volume={(fr) => interpolate(fr, [0, 18, 800, 840], [0, 0.5, 0.5, 0], clamp)}
+        volume={(fr) => interpolate(fr, [0, 18, 872, 912], [0, 0.42, 0.42, 0], clamp)}
       />
       {SCENES.map(([Comp, dur, props], i) => {
         const from = at;
