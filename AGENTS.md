@@ -6,21 +6,23 @@ Human-facing docs live in `README.md`; this file holds the extra context an agen
 
 ## What this repo is
 
-This repo is a Claude Code / Agent Skills skill, `goalify`, that **prepares a self-contained,
-self-deleting `/goal` execution file**. In one session it researches the task, asks the user only the
-genuine decisions (one interactive MCQ batch), scopes the work, and authors a single Markdown file with
-hard rules baked in. The user then runs `/clear` and `/goal <abs-path>` so a **fresh** session executes
-the big task at full context and deletes the file when done.
+This repo is `goalify`, a Claude Code / Agent Skills skill that **turns a big coding task into a
+self-contained `/goal` run file**. In one session it researches the task, locks the few real decisions
+(asking the user only the genuine forks, one interactive MCQ batch), and authors a single Markdown file
+whose success criteria are wired to commands the run can check. The user then runs `/clear` and
+`/goal <abs-path>` so a **fresh** session executes the big task at full context, verifies every
+criterion, and deletes the file on success.
 
-The skill definition is `skills/goalify/SKILL.md`. There are no scripts to run; the skill's whole
-output is the goal file it authors.
+The repo is the skill at `skills/goalify/SKILL.md`, the `/goalify` author. There is no script to run;
+the skill's output is the goal file. You execute that file with Claude Code's built-in `/goal <abs-path>`
+command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
 ## How an agent should invoke / honor the skill
 
-- If running inside Claude Code with the skill installed: trigger it by describing the user's intent —
-  "goalify this: <task>", "prep a goal", "make the md for /goal", "set up an autonomous run to launch
-  later". Claude Code matches these to the skill's `description` and loads `SKILL.md`.
-- Install (drop-in skill, no plugin required): `git clone https://github.com/Aboudjem/goalify` then `mkdir -p ~/.claude/skills && cp -r goalify/skills/goalify ~/.claude/skills/goalify`.
+- If running inside Claude Code with the skill installed: trigger it by describing the user's intent,
+  e.g. "goalify this: <task>", "prep a goal", "make the md for /goal", "set up an autonomous run to
+  launch later". Claude Code matches these to the skill's `description` and loads `SKILL.md`.
+- Install: the plugin (`claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`), or drop in manually: `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. The runner is Claude Code's built-in `/goal`; goalify does not ship its own.
 - **This skill AUTHORS a handoff file; it does not execute the task.** If the user wants the work done
   immediately in the current session, that is `autopilot` / `ultrawork` / `ralph`, not goalify.
 
@@ -62,6 +64,7 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 ## Validate before claiming done
 
 - `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (all checks pass).
+- `python3 tests/test_manifests.py` exits 0 (plugin + marketplace manifests valid).
 - `SKILL.md` frontmatter parses (valid YAML: `name`, `description`, `license`, `metadata.version`).
 - `assets/*.svg` contain no `<script>` and no external references, and are well-formed XML.
 - All relative Markdown links resolve.

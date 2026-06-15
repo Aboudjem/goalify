@@ -5,7 +5,7 @@
 <h1 align="center">goalify</h1>
 
 <p align="center">
-  <strong>goalify is a Claude Code skill that sets up a big coding task to run on its own, so a fresh session does the whole job and verifies every success criterion before calling it done.</strong>
+  <strong>goalify is a Claude Code skill that locks the few real decisions up front, wires the finish line to commands the run can check, and makes a fresh session verify every criterion before it calls a big task done.</strong>
 </p>
 
 <p align="center">
@@ -36,6 +36,12 @@ goalify closes that gap. It does the prep while it still has your context: it re
 
 > [!IMPORTANT]
 > goalify **prepares** the run; it doesn't run your task here. `/goalify` writes the file; the `/goal <path>` it prints is what you run next, in a fresh session, and that file deletes itself once the run succeeds. Your plan survives `/clear`.
+
+<p align="center">
+  <img src="assets/goalify-teaser.gif" alt="goalify teaser: you type /goalify, it locks the decisions and writes the goal file; you /clear; a fresh session runs the whole job to a green GOAL COMPLETE, then the file deletes itself" width="100%">
+</p>
+
+<p align="center"><sub><a href="assets/goalify-teaser.mp4">▶ 26-second teaser (MP4)</a> · set the goal, trust the run.</sub></p>
 
 ## Quick Start — plugin install (recommended)
 
@@ -73,7 +79,7 @@ mkdir -p ~/.claude/skills
 cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
-Restart Claude Code if it is already open so it loads the skill.
+This installs the `/goalify` skill, which authors the run file. You then `/clear` and run that file with Claude Code's built-in [`/goal <path>`](https://code.claude.com/docs/en/goal) command (Claude Code 2.1.139+). Restart Claude Code if it is already open so it loads the skill.
 
 ## Two ways to start
 

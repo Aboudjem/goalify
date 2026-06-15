@@ -16,7 +16,16 @@ when the run finishes successfully.
 
 ---
 
-## 1. Install (drop-in skill — no plugin needed)
+## 1. Install
+
+Easiest is the plugin:
+
+```shell
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
+```
+
+Or drop in the skill manually:
 
 ```shell
 git clone https://github.com/Aboudjem/goalify.git
@@ -24,9 +33,10 @@ mkdir -p ~/.claude/skills
 cp -R goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
-Claude Code auto-discovers it — no install command needed. (A brand-new top-level skills directory may
-need a Claude Code restart the first time before it is watched.) To update later, re-pull and re-copy;
-to remove, delete `~/.claude/skills/goalify`.
+This gives you `/goalify`, which authors the run file. You execute that file with Claude Code's built-in
+`/goal <path>` command ([Claude Code 2.1.139+](https://code.claude.com/docs/en/goal)). Claude Code
+auto-discovers the skill. (A brand-new top-level skills directory may need a restart the first time
+before it is watched.) To update later, re-pull and re-copy; to remove, delete `~/.claude/skills/goalify`.
 
 ---
 

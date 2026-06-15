@@ -1,19 +1,21 @@
 ---
 name: goalify
 description: >-
-  Set up a big coding task to run on its own: in this session goalify scopes the
-  work, locks the few real decisions, and writes a self-contained, self-deleting
-  `/goal` file, so you `/clear` and run it in a fresh, full-context session that
-  executes the whole job and verifies every success criterion before deleting the
-  file. Use when the user says "goalify", "goalify this", "goalify <task>",
-  "/goalify <task>", "prep a goal", "prepare a goal file", "make an md for /goal",
-  or "set up an autonomous run to launch later". This skill AUTHORS the handoff
-  file now; it does NOT execute the work in this session. For a task to be done
-  immediately here, use autopilot, ultrawork, or ralph instead, not goalify.
+  Set up a big coding task to run on its own without the plan dying at `/clear`:
+  in this session goalify scopes the work, locks the few real decisions, and
+  writes a self-contained `/goal` file whose finish line is wired to commands the
+  run can check, so a fresh, full-context session executes the whole job and
+  verifies every success criterion before it calls the task done (the file then
+  deletes itself on success). Use when the user says "goalify", "goalify this",
+  "goalify <task>", "/goalify <task>", "prep a goal", "prepare a goal file",
+  "make an md for /goal", or "set up an autonomous run to launch later". This
+  skill AUTHORS the handoff file now; it does NOT execute the work in this
+  session. For a task to be done immediately here, use autopilot, ultrawork, or
+  ralph instead, not goalify.
 argument-hint: "[task to prepare a /goal file for]"
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # goalify
@@ -80,9 +82,10 @@ nothing is lost.
 5. **Author the goal MD** from the template below, filled with the verified research, the answers, the
    scoped tasks, and explicit, machine-checkable success criteria. Decide MD structure (one master vs
    several) per the flowchart.
-6. **Save the MD to an absolute path** under `.goal/` in the project (create it; suggest adding `.goal/`
-   to `.gitignore`) or `~/.claude/goalify/` if not in a project. Name it `<slug>-<stamp>.md`. The MD
-   references its OWN absolute path so it can self-delete.
+6. **Save the MD to an absolute path** under `.goal/` in the project (create the dir; if the repo has a
+   `.gitignore`, **idempotently append** `.goal/` to it — grep first, append only if absent) or
+   `~/.claude/goalify/` if not in a project. Name it `<slug>-<stamp>.md`. The MD references its OWN
+   absolute path so it can self-delete.
 7. **Hand off (short).** Print the bullet summary + the exact `/clear` then `/goal <abs-path>` commands
    (see Handoff format). Stop there.
 
@@ -142,6 +145,8 @@ small-but-meaningful unit of work.>
 - **Safety/approval.** Implement safe, evidence-backed changes autonomously. Pause for
   destructive/irreversible/outward-facing actions (history rewrites, deleting data/repos/releases,
   publishing) unless explicitly pre-approved here.
+- **Stall guard.** If a phase fails twice with no real progress, STOP and write a short blockers report
+  (what failed, what you tried, what's needed) to `.goal/` or `~/.claude/goalify/`; never loop forever.
 - **Resumable.** Write intermediate artifacts to disk continuously; re-read this file each loop;
   compact-and-reinitialize when context fills.
 
@@ -167,6 +172,8 @@ needs-approval / confidence per major decision / exact next commands.>
 Pre-condition: EVERY success-criteria checkbox is ticked AND the independent verification passed AND
 tests are green. If ANY box is unticked → STOP. Do NOT delete; leave the file so the run can resume.
 Rationalizations that DO NOT justify deletion: "basically done", "only X left", "I'll fix it next run".
+Path rail: delete only this file's OWN literal absolute path (above), and only if it lives under a
+`.goal/` directory or `~/.claude/goalify/`. Never `rm` anything else.
 Only when the pre-condition holds, as the LAST action, run exactly:
 `rm <ABSOLUTE PATH OF THIS FILE>`
 Then confirm the path no longer exists.
@@ -182,6 +189,9 @@ digraph { rankdir=LR; node[shape=box];
 ```
 Default to ONE MD. Split only when the work is several large independent sub-projects that would each
 exhaust a session (then a shared standards file + per-task MDs + a final alignment MD, each its own run).
+When you split, also write an `INDEX.md` next to the MDs listing the files **in run order** with a
+one-line purpose each, and print every `/goal <path>` step in sequence in the handoff so the user runs
+them in the right order.
 
 ## Handoff format (what you print to the user — short, bullets, not verbose)
 
@@ -196,6 +206,8 @@ Next — copy these two steps:
 2.  /goal <ABSOLUTE PATH>
 
 (The file fans out its own agents, verifies everything, tests, and deletes itself when done.)
+Didn't finish? Re-run the same /goal <ABSOLUTE PATH> — it resumes from the checklist (the gate keeps
+the file until every criterion passes).
 ```
 
 ## Hard rules for the PREPARE phase itself

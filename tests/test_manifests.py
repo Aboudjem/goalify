@@ -19,9 +19,12 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 failures = []
+_total = 0
 
 
 def check(name, ok, detail=""):
+    global _total
+    _total += 1
     tag = "PASS" if ok else "FAIL"
     msg = f"{tag}: {name}"
     if detail and not ok:
@@ -79,8 +82,7 @@ check(
 
 # --- Report ---
 print("-" * 60)
-total = 16  # expected number of checks
-passed = total - len(failures)
-print(f"{passed - (total - (passed + len(failures)))}/{total - len(failures) + passed} checks passed")
+passed = _total - len(failures)
+print(f"{passed}/{_total} checks passed")
 print(f"{len(failures)} failed" if failures else "All checks passed.")
 sys.exit(1 if failures else 0)

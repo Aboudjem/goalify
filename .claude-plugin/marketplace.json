@@ -3,12 +3,15 @@
   "owner": {
     "name": "Adam Boudjemaa"
   },
+  "metadata": {
+    "description": "Home marketplace for goalify — the Claude Code skill that prepares self-contained, self-deleting goal files for a fresh session to execute with the built-in /goal."
+  },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
       "description": "goalify sets up a big coding task to run autonomously: scopes the work, locks the few real decisions, and writes a self-contained /goal file so a fresh session executes the whole job and verifies every success criterion before calling it done.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
