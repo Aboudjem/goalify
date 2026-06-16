@@ -12,7 +12,7 @@
 const fs = require("fs");
 
 const SR = 44100;
-const DUR = 22.0;
+const DUR = 26.5;
 const N = Math.floor(SR * DUR);
 const BPM = 80;
 const SPB = 60 / BPM;
@@ -35,13 +35,13 @@ const CH = {
   Bm: { root: 35, notes: [50, 54, 59, 62] },
   G:  { root: 31, notes: [50, 55, 59, 62] },
 };
-const PROG = ["D", "A", "Bm", "G", "D", "A", "D", "D"]; // ~8 bars over 22s
+const PROG = ["D", "A", "Bm", "G", "D", "A", "Bm", "G", "D"]; // ~9 bars over 26.5s
 const chordAt = (bar) => CH[PROG[Math.min(PROG.length - 1, bar)]];
 
-// soft intro -> peak around the GOAL COMPLETE beat (~15s) -> gentle outro
+// soft intro -> peak on the verify climax (~16s) -> sustain through advantages -> outro
 function intensity(t) {
-  let v = 0.46 + 0.54 * smooth(0, 15, t);
-  if (t > 16.5) v = 1.0 - 0.40 * smooth(16.5, 22, t);
+  let v = 0.46 + 0.54 * smooth(0, 16, t);
+  if (t > 22.5) v = 1.0 - 0.40 * smooth(22.5, 26.5, t);
   return clamp01(v);
 }
 
@@ -125,8 +125,8 @@ for (let bar = 0; bar < nBars; bar++) {
   if (it > 0.7) bell(t0 + SPB * 3, ch.notes[3] + 12, 0.075 * it, 0.5);
   if (it > 0.9) bell(t0 + SPB, ch.notes[3] + 24, 0.06 * it, 0.5);
 
-  // gentle kick on beats 1 & 3 through the build/payoff (~9-18s) for ad momentum
-  if (t0 >= 8.5 && t0 < 18.2) {
+  // gentle kick on beats 1 & 3 through the build/payoff/advantages (~9-23s)
+  if (t0 >= 9 && t0 < 23) {
     kick(t0, 0.34 * it);
     kick(t0 + SPB * 2, 0.34 * it);
   }

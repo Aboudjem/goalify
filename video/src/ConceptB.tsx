@@ -124,20 +124,53 @@ const B5: React.FC = () => {
   );
 };
 
+// 6 — what you get (features + advantages)
+const ADV: React.ReactNode[] = [
+  <>A clear plan from your task</>,
+  <>The plan survives <Neon color={P.neon1}>/clear</Neon></>,
+  <>Runs the whole job for you</>,
+  <>Checks its own work</>,
+  <>Free and open source</>,
+];
+const B6: React.FC = () => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const h = rise(f, fps, 4, 18);
+  return (
+    <Bg glowColor={P.fill} glowAt="50% 12%" glowSize={46}>
+      <div style={{ position: "absolute", top: 130, left: 0, right: 0, textAlign: "center", opacity: h, transform: `translateY(${interpolate(h, [0, 1], [-12, 0])}px)` }}>
+        <div style={{ fontFamily: FONT_UI, fontWeight: 800, fontSize: 74, letterSpacing: -2, color: P.textHi }}>What you get.</div>
+      </div>
+      <AbsoluteFill style={{ ...center, flexDirection: "column", gap: 17, paddingTop: 104 }}>
+        {ADV.map((t, i) => {
+          const a = rise(f, fps, 16 + i * 9, 16);
+          return (
+            <div key={i} style={{ width: 900, transform: `translateX(${interpolate(a, [0, 1], [-26, 0])}px)`, opacity: a, display: "flex", alignItems: "center", gap: 22, padding: "15px 30px", borderRadius: 14, background: P.surface, border: `1px solid ${P.line}` }}>
+              <Check size={34} color={P.success} />
+              <span style={{ fontFamily: FONT_UI, fontWeight: 600, fontSize: 39, color: P.textHi }}>{t}</span>
+            </div>
+          );
+        })}
+      </AbsoluteFill>
+    </Bg>
+  );
+};
+
 const SCENES: [React.FC, number][] = [
-  [B1, 108],
-  [B2, 108],
-  [B3, 108],
-  [B4, 114],
-  [B5, 120],
-  [CtaNeon, 102],
+  [B1, 108], // pain
+  [B2, 108], // meet goalify
+  [B3, 108], // it writes the file
+  [B4, 114], // a clean session runs it
+  [B5, 120], // every check passes + self-delete
+  [B6, 132], // what you get (features + advantages)
+  [CtaNeon, 102], // install
 ];
 
 export const ConceptB: React.FC = () => {
   let at = 0;
   return (
     <AbsoluteFill style={{ background: P.bg }}>
-      <Audio src={staticFile("music.mp3")} volume={(fr) => interpolate(fr, [0, 16, 628, 660], [0, 0.4, 0.4, 0], clamp)} />
+      <Audio src={staticFile("music.mp3")} volume={(fr) => interpolate(fr, [0, 16, 760, 792], [0, 0.4, 0.4, 0], clamp)} />
       {SCENES.map(([Comp, dur], i) => {
         const from = at;
         at += dur;
