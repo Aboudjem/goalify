@@ -38,7 +38,7 @@ goalify closes that gap. It does the prep while it still has your context: it re
 > goalify **prepares** the run; it doesn't run your task here. `/goalify` writes the file; the `/goal <path>` it prints is what you run next, in a fresh session, and that file deletes itself once the run succeeds. Your plan survives `/clear`.
 
 <p align="center">
-  <img src="assets/goalify-teaser.gif" alt="goalify teaser: big tasks forget the plan and it dies the moment you /clear, so goalify writes the goal for you; one command (/goalify your task) writes a goal file (.goal/auth.md), then a clean session runs it (/clear, then /goal .goal/auth.md), every check passes, and the goal file deletes itself; install with claude plugin install goalify@10x" width="100%">
+  <img src="assets/goalify-teaser.gif" alt="goalify teaser: big tasks stall half-done because the plan was never real. goalify, a free Claude Code plugin, turns your task into a real plan with the key decisions locked and success wired to a real test (.goal/auth.md), then runs it to the finish and is done only when every check passes. what you get: a real plan, locked decisions, tests as the finish line, a job that finishes, free and open source. install with claude plugin install goalify@10x" width="100%">
 </p>
 
 <p align="center"><sub><a href="assets/goalify-teaser.mp4">▶ 26-second teaser (MP4)</a> · set the goal, trust the run.</sub></p>

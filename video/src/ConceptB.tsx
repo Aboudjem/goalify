@@ -56,8 +56,8 @@ const Sub: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children
 const B1: React.FC = () => (
   <Bg glowColor={P.danger} glowAt="78% 76%">
     <Col>
-      <Big>Big tasks forget the plan.</Big>
-      <Sub delay={16}>It dies the moment you <Chip color={P.neon1} delay={20}>/clear</Chip></Sub>
+      <Big>Big tasks stall half-done.</Big>
+      <Sub delay={16}>the plan was never real.</Sub>
     </Col>
   </Bg>
 );
@@ -66,8 +66,8 @@ const B1: React.FC = () => (
 const B2: React.FC = () => (
   <Bg glowColor={P.fill} glowAt="24% 22%">
     <Col>
-      <Big><Neon color={P.glow} strength={40}>goalify</Neon> writes the goal.</Big>
-      <Sub delay={16}>so a fresh session can finish it</Sub>
+      <Big><Neon color={P.glow} strength={40}>goalify</Neon> writes a plan that ships.</Big>
+      <Sub delay={16}>a free Claude Code plugin</Sub>
     </Col>
   </Bg>
 );
@@ -76,9 +76,9 @@ const B2: React.FC = () => (
 const B3: React.FC = () => (
   <Bg glowColor={P.fill} glowAt="22% 26%">
     <Col gap={36}>
-      <Big>One command writes the file.</Big>
+      <Big>It makes your task a real plan.</Big>
       <Sub delay={16}><Chip color={P.neon1} delay={18}>/goalify &lt;task&gt;</Chip></Sub>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 30, color: P.neon2, opacity: 1, textShadow: `0 0 16px ${P.neon2}55` }}>↳ .goal/auth.md</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 30, color: P.neon2, opacity: 1, textShadow: `0 0 16px ${P.neon2}55` }}>↳ .goal/auth.md · decisions locked, success = a real test</div>
     </Col>
   </Bg>
 );
@@ -90,7 +90,7 @@ const B4: React.FC = () => {
   return (
     <Bg glowColor={P.fill} glowAt="78% 26%">
       <Col gap={36}>
-        <Big>A clean session runs it.</Big>
+        <Big>Then it runs it to the finish.</Big>
         <Sub delay={16}>
           <Chip color={P.neon1} delay={18}>/clear</Chip>
           <Chip color={P.neon2} delay={26}>/goal .goal/auth.md</Chip>
@@ -110,7 +110,7 @@ const B5: React.FC = () => {
   return (
     <Bg glowColor={P.success} glowAt="50% 78%" glowSize={55}>
       <Col gap={40}>
-        <Big><Neon color={P.success} strength={34}>Every check passes.</Neon></Big>
+        <Big><Neon color={P.success} strength={34}>Done when every check passes.</Neon></Big>
         <div style={{ display: "flex", gap: 26 }}>
           {[0, 1, 2].map((i) => (
             <div key={i} style={{ transform: `scale(${rise(f, fps, 10 + i * 8, 14)})` }}>
@@ -118,7 +118,7 @@ const B5: React.FC = () => {
             </div>
           ))}
         </div>
-        <Sub delay={40}>the goal file deletes itself</Sub>
+        <Sub delay={40}>no half-finished work</Sub>
       </Col>
     </Bg>
   );
@@ -126,10 +126,10 @@ const B5: React.FC = () => {
 
 // 6 — what you get (features + advantages)
 const ADV: React.ReactNode[] = [
-  <>A clear plan from your task</>,
-  <>The plan survives <Neon color={P.neon1}>/clear</Neon></>,
-  <>Runs the whole job for you</>,
-  <>Checks its own work</>,
+  <>A real plan, not a vague list</>,
+  <>The key decisions, locked</>,
+  <>Done means the tests pass</>,
+  <>It finishes the job, not half of it</>,
   <>Free and open source</>,
 ];
 const B6: React.FC = () => {
