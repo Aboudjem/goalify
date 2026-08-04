@@ -4,6 +4,34 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-08-04
+
+Documentation corrections found by an independent post-release verification pass. No behavior change;
+the skill, the condition contract, and the tests are identical to 2.0.0.
+
+### Fixed
+
+- **`.github/workflows/validate.yml` asserted an incident that never happened.** Two comments claimed a
+  commit "merged green and broke HEAD's build" and that a broken `HEAD` had "shipped". Resolving every
+  relative import in `video/src` against every commit reachable from all refs shows all of them clean.
+  The v2.0.0 recut came one `git commit -a` away from a tree whose imports do not resolve — which is
+  what the 2.0.0 entry below already says — but the near miss was never an incident, and a release
+  premised on not overstating things should not have overstated this.
+- **`README.md` and `SKILL.md` gave incompatible provenance for the Codex 4,000-character cap** — one
+  said the limit is interpolated at runtime in the binary, the other said it is enforced server-side.
+  Both now give the same account: the number is not a greppable literal, so it was established by
+  probing the boundary live (4,000 accepted, 4,001 rejected).
+- **The `v1-antipattern` exemption cap was `<= 4` with 3 in use**, leaving one free slot through which
+  a genuine path handoff could have passed silently. It is now pinned to exactly the number in use, so
+  adding one fails the build. Its failure message also claimed the test verifies each exemption is
+  *prose about* the old handoff; it only counts lines, and now says so.
+- **`evals/scenarios.md` still pointed the RED demo at the retired `goal-prep` file** that no longer
+  exists — the exact unfalsifiable baseline 2.0.0 replaced everywhere else.
+- **`evals/README.md` repeated the v1-era behavioral numbers** without the "dated record, not evidence"
+  caveat `RED-baseline.md` carries.
+- **`AGENTS.md` and `llms.txt` opened with the superseded one-artifact framing** before correcting
+  themselves a few lines later. Both are machine-consumed entry points, so the first sentence matters.
+
 ## [2.0.0] - 2026-08-04
 
 **goalify's central handoff was wrong, and this release fixes it.**
@@ -157,6 +185,7 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
   that validates frontmatter, runs the skill eval, checks relative links, scans for secrets,
   and gates the SVGs against `<script>` and external references.
 
+[2.0.1]: https://github.com/Aboudjem/goalify/releases/tag/v2.0.1
 [2.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.0.0
 [1.1.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.0.0

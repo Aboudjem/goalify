@@ -14,7 +14,7 @@ description: >-
 argument-hint: "[task to prepare a /goal run for]"
 license: MIT
 metadata:
-  version: 2.0.0
+  version: 2.0.1
 ---
 
 # goalify
