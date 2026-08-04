@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" width="1200" height="280" role="img" aria-labelledby="wtitle wdesc"
   font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
   <title id="wtitle">How goalify works</title>
-  <desc id="wdesc">Three steps in a terminal. 1 Prepare: goalify inspects the repo and locks the real decisions. 2 Hand off: it writes a self-contained, self-deleting /goal file. 3 Run: you /clear and a fresh session executes and verifies it to GOAL COMPLETE.</desc>
+  <desc id="wdesc">Three steps in a terminal. 1 Prepare: goalify inspects the repo and locks the real decisions. 2 Hand off: it writes a self-contained brief and derives the /goal completion condition from it. 3 Run: you /clear, paste that condition into /goal, and a fresh session executes and verifies it to GOAL COMPLETE.</desc>
   <defs>
     <linearGradient id="w-card" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#10151D"/><stop offset="1" stop-color="#0A0E14"/>
@@ -60,11 +60,11 @@
     <rect x="482" y="86" width="236" height="68" rx="11" fill="#131A24" stroke="#222C3D" stroke-width="1.5"/>
     <path d="M502 110 l4.5 5 l10 -13" fill="none" stroke="#3FB950" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="526" y="116" class="w-snip">api-migration.md</text>
-    <text x="504" y="139" class="w-dim">.goal/ · self-deleting</text>
+    <text x="504" y="139" class="w-dim">.goal/ · + finish line</text>
   </g>
   <text x="600" y="192" text-anchor="middle" class="w-eb">STEP 2 · HAND OFF</text>
-  <text x="600" y="216" text-anchor="middle" class="w-head">Write the /goal file</text>
-  <text x="600" y="240" text-anchor="middle" class="w-body">A self-contained, self-deleting run file.</text>
+  <text x="600" y="216" text-anchor="middle" class="w-head">Write brief + condition</text>
+  <text x="600" y="240" text-anchor="middle" class="w-body">A self-contained brief + its finish line.</text>
 
   <!-- STEP 3 -->
   <g id="w-c3" class="w-chip">
@@ -76,5 +76,5 @@
   </g>
   <text x="970" y="192" text-anchor="middle" class="w-eb">STEP 3 · RUN</text>
   <text x="970" y="216" text-anchor="middle" class="w-head">Run in a fresh session</text>
-  <text x="970" y="240" text-anchor="middle" class="w-body">/clear, then it executes and verifies.</text>
+  <text x="970" y="240" text-anchor="middle" class="w-body">/clear, paste the condition, it verifies.</text>
 </svg>

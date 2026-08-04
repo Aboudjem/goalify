@@ -6,8 +6,9 @@ This is the deterministic half of the eval suite (the behavioral scenarios live 
 `scenarios.md` and are run against Haiku/Sonnet/Opus). It encodes the CONFIRMED
 research edits as pass/fail checks so a regression is caught in CI.
 
-It doubles as the RED→GREEN demonstration: point it at the OLD `goal-prep` SKILL.md
-and it FAILS (RED); point it at the improved `goalify` SKILL.md and it PASSES (GREEN).
+It doubles as the RED→GREEN demonstration, reproducible from this repo's own history:
+point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 29/52); point it
+at the current `goalify` SKILL.md and it PASSES (GREEN, 52/52).
 
 Usage:
     python3 evals/check_skill.py [path-to-SKILL.md]   # default: skills/goalify/SKILL.md
@@ -73,10 +74,12 @@ def main():
     block = m.group(1)
     fm = parse_frontmatter(block)
     body = text[m.end():]
-    # Normalized prose view: collapse whitespace (so line-wraps don't break phrase
-    # matches) and drop backticks (so `/clear` matches "/clear"). Substring checks
-    # below run against this; the raw `body` is kept only for the line-count check.
-    low = re.sub(r"\s+", " ", body).replace("`", "").lower()
+    # Normalized prose view: strip blockquote markers, collapse whitespace (so
+    # line-wraps don't break phrase matches), and drop backticks and emphasis (so
+    # `/clear` matches "/clear" and **bold** matches plain). Substring checks below
+    # run against this; the raw `body` is kept only for the line-count check.
+    unquoted = re.sub(r"(?m)^\s{0,3}>\s?", "", body)
+    low = re.sub(r"\s+", " ", unquoted).replace("`", "").replace("*", "").lower()
 
     checks = []  # (name, ok, detail)
 
@@ -142,12 +145,67 @@ def main():
     for clause, ok in template_clauses.items():
         checks.append((f"template: {clause}", ok, ""))
 
-    # --- Gated, low-freedom self-destruct (claim 4) ---
-    checks.append(("self-destruct is a LOW-FREEDOM gated block",
+    # --- v2 CONTRACT: the handoff is a derived condition STRING, not a file path ---
+    # These encode the v2.0.0 correction. `/goal` takes a condition (docs + binary);
+    # v1 told users to pass a path, which the tool-less evaluator can never verify.
+    path_handoff_re = re.compile(r"/goal\s+(?:<\s*(?:abs|absolute|path)|~/|/users/)")
+    v2_clauses = {
+        "handoff is a condition string, never a file path":
+            "condition string, never a file path" in low,
+        "no text instructs passing a file path to /goal":
+            not path_handoff_re.search(low),
+        "condition is DERIVED from the brief's definition of done":
+            "derive it from the brief" in low,
+        "condition has a 4,000-character limit that is linted, not estimated":
+            ("4,000 characters" in low or "4,000-char" in low) and "lint" in low,
+        "condition carries a sentinel token":
+            "sentinel" in low,
+        "closeout-turn rule (defeats evaluator transcript truncation)":
+            "closeout turn" in low and "truncat" in low,
+        "freshly-quoted-output evidence rule":
+            "freshly quoted" in low,
+        "condition carries an explicit turn bound":
+            "turn bound" in low,
+        "condition lint forbids a bare $ (hook-substitution hazard)":
+            "bare $" in low,
+        "evaluator is documented as tool-less / transcript-only":
+            "no tools" in low and "transcript" in low,
+        "subagent barrier (never end a turn with a live subagent)":
+            "subagent barrier" in low and "still live" in low,
+        "model routing (fast for breadth, deep for architecture)":
+            "fast model" in low and "deep model" in low,
+        "dry run + caps (phases, subagents, turn cap)":
+            "dry run" in low and "turn cap" in low,
+        "no predicted token/dollar cost is invented":
+            "never predict a dollar or token" in low,
+        "3-strike escalation ladder":
+            "3-strike" in low,
+        "archive-not-delete gate (audit trail preserved)":
+            "archive gate" in low and "mv " in body,
+        "handoff sets --permission-mode auto for unattended runs":
+            "--permission-mode auto" in low,
+        "handoff prints the headless form":
+            "claude -p" in low,
+        "documents that /goal success is NOT proof of completion":
+            "not proof of completion" in low,
+        "offers a verify-only re-check":
+            "verify-only" in low,
+        "cross-harness: Codex /goal also takes an inline objective":
+            "codex" in low and "inline objective" in low,
+        "documents that process directives do not bind Codex (untrusted demotion)":
+            "untrusted" in low and "definition of done carries" in low,
+        "brief separates definition of done from process directives":
+            "definition of done" in low and "process directives" in low,
+    }
+    for clause, ok in v2_clauses.items():
+        checks.append((f"v2: {clause}", ok, ""))
+
+    # --- Gated, low-freedom end-of-run gate: archive since v2.0.0 (claim 4) ---
+    checks.append(("end-of-run gate is a LOW-FREEDOM gated block",
                    "low freedom" in low and "pre-condition" in low and "do not modify" in low, ""))
-    checks.append(("self-destruct has rationalization counters",
+    checks.append(("end-of-run gate has rationalization counters",
                    "rationalization" in low and "basically done" in low, ""))
-    checks.append(("self-destruct keeps the file if criteria fail (resume)",
+    checks.append(("end-of-run gate keeps the file if criteria fail (resume)",
                    "resume" in low and ("do not delete" in low or "leave the file" in low), ""))
 
     # --- Loophole-close: never run /clear or /goal itself (research 01 §4.8) ---

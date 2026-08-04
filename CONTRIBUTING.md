@@ -1,7 +1,7 @@
 # Contributing to goalify
 
-Thanks for wanting to help. `goalify` is a Claude Code skill that prepares a self-contained,
-self-deleting `/goal` execution file. Because its whole value is **reliable behavior in a fresh
+Thanks for wanting to help. `goalify` is a Claude Code skill that prepares a self-contained
+implementation brief plus the `/goal` completion condition derived from it. Because its whole value is **reliable behavior in a fresh
 autonomous session**, it is built carefully and tested-first. This guide explains how to add to it
 without breaking that contract.
 
@@ -18,9 +18,13 @@ evals/
   check_skill.py        deterministic assertions on SKILL.md (runs in CI)
   scenarios.md          behavioral scenarios + rubrics
   RED-baseline.md       recorded RED->GREEN baseline (Haiku/Sonnet/Opus)
+tests/
+  test_manifests.py     manifests, version consistency, the no-path-handoff
+                        contract, the example's clauses (runs in CI)
+video/                  Remotion source for the README teaser (typechecked in CI)
 assets/                 animated SVG hero + how-it-works + social card
-examples/               a worked, redacted example goal file
-docs/                   quickstart + build audit trail
+examples/               an illustrative brief + its derived /goal condition
+docs/                   quickstart (docs/audit/ is a local build journal, gitignored)
 AGENTS.md               instructions for AI agents working in / invoking this repo
 README.md               human-facing overview
 LICENSE                 MIT
@@ -60,7 +64,12 @@ These mirror the skill's rules in `AGENTS.md` / `SKILL.md`. Don't look for looph
   separates goalify from `autopilot`/`ultrawork`/`ralph`.
 - **Tool references resolve in a fresh session.** Use a capability + fallback, or fully-qualified tool
   names — never a vague noun a stranger session can't resolve.
-- **The self-destruct stays gated and low-freedom.** Don't weaken the pre-condition or edit the `rm`.
+- **The archive gate stays gated and low-freedom.** Don't weaken the pre-condition or edit the `mv`.
+- **Never emit a file path where a `/goal` condition belongs.** `/goal` takes a condition string; the
+  evaluator has no tools and cannot read files. `tests/test_manifests.py` scans every tracked text file
+  — Markdown, JSON, YAML, and source, including `video/` — and fails the build on an absolute, `~`, or
+  relative path handed to `/goal`. To write *about* the old form, add a `v1-antipattern` marker on that
+  line; the test counts those exemptions so the hatch can't be used to smuggle the handoff back in.
 - **No hallucination, anywhere.** No invented flags, behaviors, metrics, or "works with X" claims
   without a primary source. Don't bake unverified third-party star/usage numbers into docs.
 - **Keep the SVGs GitHub-safe.** No `<script>`, no external references; well-formed XML. CI enforces it.
@@ -70,8 +79,9 @@ These mirror the skill's rules in `AGENTS.md` / `SKILL.md`. Don't look for looph
 ## Testing locally
 
 ```bash
-# 1. The deterministic eval must pass.
+# 1. Both deterministic suites must pass.
 python3 evals/check_skill.py skills/goalify/SKILL.md     # expect: exit 0, all checks pass
+python3 tests/test_manifests.py                          # expect: exit 0, all checks pass
 
 # 2. Run the skill for real: drop it in and exercise the path you changed.
 cp -r skills/goalify ~/.claude/skills/goalify
@@ -92,8 +102,9 @@ and paste the before/after into your PR.
 
 ## CI must pass
 
-Every PR runs CI: frontmatter check, the `check_skill.py` eval, the SVG safety gate, a
-secrets scan, and a relative-link check. It must be green before merge. If CI fails, read the log and
+Every PR runs CI: frontmatter check, the `check_skill.py` eval, `tests/test_manifests.py` (manifests,
+version consistency, the no-path-handoff contract, the example's clauses), the markup safety gate, a
+secrets scan, a relative-link check, and a `video/` typecheck. It must be green before merge. If CI fails, read the log and
 push a fix; don't ask for a merge override.
 
 Thanks again — careful contributions to a tool people point at their real, big tasks genuinely matter.

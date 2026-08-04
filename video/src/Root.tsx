@@ -1,16 +1,12 @@
 import "./index.css";
 import { Composition } from "remotion";
 import { GoalifyTeaser } from "./GoalifyTeaser";
+import { TEASER_FRAMES } from "./ConceptHero";
 
 export const RemotionRoot: React.FC = () => {
   return (
-    <Composition
-      id="GoalifyTeaser"
-      component={GoalifyTeaser}
-      durationInFrames={792}
-      fps={30}
-      width={1920}
-      height={1080}
-    />
+    <>
+      <Composition id="GoalifyTeaser" component={GoalifyTeaser} durationInFrames={TEASER_FRAMES} fps={30} width={1920} height={1080} />
+    </>
   );
 };

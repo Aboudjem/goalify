@@ -4,20 +4,27 @@
 > file. In one session it researches the task, locks the few real decisions (asking the user only the
 > genuine forks, one interactive MCQ), and writes one Markdown file whose success criteria are wired to
 > commands the run can check, so the user can `/clear` and run the task in a fresh, full-context session
-> that verifies every criterion before it finishes. The file deletes itself on success. MIT licensed.
+> that proves every criterion before it finishes. The brief is archived on success. MIT licensed.
 
 goalify solves a specific, unresolved problem: carrying a plan across `/clear` into a fresh
 implementation session (Claude Code issue #32916, "Best practice for plan-to-implementation context
 handoff across /clear?", raised on Anthropic's tracker and closed as not planned, with no documented
 best practice). It is a two-phase model: PREPARE (research, decide, author the file, in the current
-session) then EXECUTE (the user runs `/goal <path>` in a fresh session). It authors the handoff file;
-it does not run the task itself. For immediate in-session execution, use autopilot/ultrawork/ralph.
+session) then EXECUTE (the user pastes the derived condition into `/goal` in a fresh session). It
+authors the handoff; it does not run the task itself. For immediate in-session execution, use autopilot/ultrawork/ralph.
 
 The generated file is hardened with the patterns most autonomous runs miss: a declarative spec,
 machine-checkable success criteria wired to named commands, a separate-agent verification pass,
 fan-out guardrails (parallel for independent discovery/verify; serialize builds/tests/same-file
 writes), output-redirection, anti-placeholder and search-before-assuming rules, a resumable progress
-checklist, and a low-freedom gated self-destruct that fires only on full success.
+checklist, and a low-freedom gated archive step that fires only on full success.
+
+Since v2.0.0 goalify emits two artifacts, because `/goal` takes a **completion condition, not a file
+path** (docs: "Run `/goal` followed by the condition you want satisfied"; binary: `No goal set. Usage:
+/goal <condition>`; the evaluator has no tools and cannot read files). The brief is what the worker
+implements; the derived, linted condition string is what the user pastes into `/goal`. Codex's `/goal`
+also takes an inline objective rather than a path, so both forms are printed — but Codex wraps the
+objective as untrusted data, so only the definition of done binds there, not the process directives.
 
 ## Docs
 
@@ -29,7 +36,7 @@ checklist, and a low-freedom gated self-destruct that fires only on full success
 ## Install
 
 goalify ships as a Claude Code plugin (in the 10x marketplace) and as a drop-in skill. Either way you
-get `/goalify`, which authors the run file; you execute it with Claude Code's built-in `/goal <path>`
+get `/goalify`, which authors the run; you start it with Claude Code's built-in `/goal <condition>`
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
 - [Plugin (recommended)](https://github.com/Aboudjem/goalify#quick-start--plugin-install-recommended): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
@@ -42,7 +49,7 @@ command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
 ## Examples
 
-- [Worked example goal file](https://github.com/Aboudjem/goalify/blob/main/examples/sample-goal-file.md): A real (redacted) `/goal` file goalify produced.
+- [Worked example](https://github.com/Aboudjem/goalify/blob/main/examples/sample-goal-file.md): An illustrative brief plus the `/goal` condition derived from it, in the shape goalify produces.
 
 ## Optional
 

@@ -19,15 +19,16 @@ keep behavior identical, and make sure the test suite still passes."*
 **RED (no skill) — expected failure modes:**
 - Starts editing code / proposes diffs immediately, instead of preparing a handoff file.
 - Produces a plan that lives only in the chat (lost on `/clear`), with no absolute path and no
-  self-destruct.
+  gated archive step.
 - No fan-out of research, no machine-checkable success criteria, no `/clear` + `/goal` handoff.
 
 **GREEN (with skill) — must hold (rubric):**
 1. Stays in PREPARE — does **not** start the migration.
 2. Inspects the repo with evidence first (or states it would, given no live repo).
-3. Produces a **self-contained** `/goal` MD with an **absolute path** and a **gated self-destruct**.
+3. Produces a **self-contained** brief with an **absolute path** and a **gated archive step**, plus a
+   **derived condition string** (≤ 4,000 chars) — never a bare file path as the handoff.
 4. Success criteria are **machine-checkable** (wired to a named command/test, e.g. the test suite).
-5. Prints the **`/clear` then `/goal <abs-path>`** handoff and stops.
+5. Prints the **`/clear` → copy the condition → `/goal <paste>`** handoff and stops.
 6. Asks an MCQ **only** if a genuine fork exists; does not over-ask.
 
 ---
@@ -55,7 +56,7 @@ and (3) migrate the data warehouse — these are independent and each is large."
 1. Recognizes the work won't fit one fresh session.
 2. Proposes the split structure: a shared **STANDARDS** MD + **one MD per sub-project** + a final
    **ALIGN** MD (run last), per the one-vs-several flowchart.
-3. Each MD is still self-contained, absolute-path'd, and self-deleting.
+3. Each brief is still self-contained and absolute-path'd, with its own derived condition.
 
 ---
 

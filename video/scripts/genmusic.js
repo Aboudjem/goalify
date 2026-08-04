@@ -12,7 +12,7 @@
 const fs = require("fs");
 
 const SR = 44100;
-const DUR = 26.5;
+const DUR = 30.0;
 const N = Math.floor(SR * DUR);
 const BPM = 80;
 const SPB = 60 / BPM;
@@ -39,9 +39,11 @@ const PROG = ["D", "A", "Bm", "G", "D", "A", "Bm", "G", "D"]; // ~9 bars over 26
 const chordAt = (bar) => CH[PROG[Math.min(PROG.length - 1, bar)]];
 
 // soft intro -> peak on the verify climax (~16s) -> sustain through advantages -> outro
+// build to a peak by the verify climax (~15s), sustain through KPI + advantages,
+// then resolve down into the CTA outro (~25.5s -> end).
 function intensity(t) {
-  let v = 0.46 + 0.54 * smooth(0, 16, t);
-  if (t > 22.5) v = 1.0 - 0.40 * smooth(22.5, 26.5, t);
+  let v = 0.46 + 0.54 * smooth(0, 15, t);
+  if (t > 26.5) v = 1.0 - 0.42 * smooth(26.5, 30.0, t);
   return clamp01(v);
 }
 
@@ -125,8 +127,8 @@ for (let bar = 0; bar < nBars; bar++) {
   if (it > 0.7) bell(t0 + SPB * 3, ch.notes[3] + 12, 0.075 * it, 0.5);
   if (it > 0.9) bell(t0 + SPB, ch.notes[3] + 24, 0.06 * it, 0.5);
 
-  // gentle kick on beats 1 & 3 through the build/payoff/advantages (~9-23s)
-  if (t0 >= 9 && t0 < 23) {
+  // gentle kick on beats 1 & 3 through the build/payoff/advantages (~9-26s)
+  if (t0 >= 9 && t0 < 26) {
     kick(t0, 0.34 * it);
     kick(t0 + SPB * 2, 0.34 * it);
   }

@@ -13,7 +13,7 @@ export const P = {
   textDim: "#CFC4E8",
   neon1: "#A855F7", // violet
   neon2: "#22D3EE", // cyan
-  success: "#34F5C5", // neon green — reserved for the verify/self-delete climax + CTA tag
+  success: "#34F5C5", // neon green — reserved for the verify/archive climax + CTA tag
   danger: "#FF5C8A",
   glow: "#DF00FF", // magenta — glow / large hero only
   fill: "#8A00FF", // glow / fill ONLY, never text
@@ -116,23 +116,37 @@ export const Prompt: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   </span>
 );
 
-// shared CTA hold — one static, copy-pasteable install line; loops back to the plum hook
-export const CtaNeon: React.FC = () => {
+// ---- shared layout/typography helpers used across the concept styles ----
+export const Big: React.FC<{ children: React.ReactNode; size?: number }> = ({ children, size = 92 }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const s = rise(f, fps, 6, 18);
-  const box = rise(f, fps, 18, 16);
+  const s = rise(f, fps, 4, 22);
   return (
-    <Bg glowColor={P.fill} glowAt="50% 18%" glowSize={50}>
-      <AbsoluteFill style={{ ...center, flexDirection: "column", gap: 34 }}>
-        <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [14, 0])}px)`, textAlign: "center" }}>
-          <div style={{ fontFamily: FONT_UI, fontWeight: 800, fontSize: 104, letterSpacing: -3, color: P.textHi, textShadow: `0 0 40px ${P.glow}55` }}>goalify</div>
-        </div>
-        <div style={{ opacity: box, transform: `translateY(${interpolate(box, [0, 1], [14, 0])}px)`, borderRadius: 14, border: `1px solid ${P.neon1}66`, background: P.surface, padding: "24px 42px", fontFamily: FONT_MONO, fontSize: 40, color: P.textHi, boxShadow: `0 0 40px ${P.fill}30` }}>
-          <span style={{ color: P.success }}>$</span> claude plugin install <Neon color={P.neon1} strength={20}>goalify@10x</Neon>
-        </div>
-        <div style={{ opacity: interpolate(f, [22, 36], [0, 1], clamp), fontFamily: FONT_MONO, fontSize: 30, color: P.success, letterSpacing: 2, textShadow: `0 0 18px ${P.success}66` }}>Free.</div>
-      </AbsoluteFill>
-    </Bg>
+    <div style={{ fontFamily: FONT_UI, fontWeight: 800, fontSize: size, letterSpacing: -2.5, color: P.textHi, textAlign: "center", lineHeight: 1.05, padding: "0 110px", transform: `scale(${interpolate(s, [0, 1], [0.93, 1])})`, opacity: s }}>
+      {children}
+    </div>
+  );
+};
+
+export const Sub: React.FC<{ children: React.ReactNode; delay?: number; size?: number }> = ({ children, delay = 16, size = 38 }) => {
+  const f = useCurrentFrame();
+  const o = interpolate(f, [delay, delay + 14], [0, 1], clamp);
+  return <div style={{ fontFamily: FONT_UI, fontWeight: 500, fontSize: size, color: P.textDim, opacity: o, display: "flex", alignItems: "center", gap: 14, justifyContent: "center", flexWrap: "wrap", padding: "0 140px", textAlign: "center" }}>{children}</div>;
+};
+
+export const Col: React.FC<{ children: React.ReactNode; gap?: number }> = ({ children, gap = 38 }) => (
+  <AbsoluteFill style={{ ...center, flexDirection: "column", gap }}>{children}</AbsoluteFill>
+);
+
+// a big KPI number + label (for the proof/illustrative-metric beat)
+export const Stat: React.FC<{ n: React.ReactNode; label: React.ReactNode; color?: string; delay?: number }> = ({ n, label, color = P.success, delay = 6 }) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = rise(f, fps, delay, 18);
+  return (
+    <div style={{ textAlign: "center", opacity: s, transform: `scale(${interpolate(s, [0, 1], [0.8, 1])})` }}>
+      <div style={{ fontFamily: FONT_UI, fontWeight: 800, fontSize: 168, lineHeight: 1, letterSpacing: -4, color, textShadow: `0 0 60px ${color}66` }}>{n}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 34, color: P.textDim, marginTop: 14 }}>{label}</div>
+    </div>
   );
 };

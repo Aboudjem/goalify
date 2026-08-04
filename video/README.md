@@ -4,14 +4,18 @@ The source for the goalify Twitter/X teaser. The rendered outputs live in the re
 (`goalify-teaser.mp4` and `goalify-teaser.gif`); this folder is how they're produced. `node_modules/`
 and render output are gitignored.
 
-A 9-beat, ~26.5s storyboard (1920×1080, 30fps, H.264) with baked-in captions and the goalify brand
-tokens (see `src/theme.ts`). The composition is `src/GoalifyTeaser.tsx`.
+An 8-beat, 29.7s storyboard (890 frames at 30fps, 1920×1080, H.264) with baked-in captions and the
+goalify brand tokens — the palette `P`, the type stack, and the shared motion primitives all live in
+`src/neon.tsx`. The composition is `src/ConceptHero.tsx`, re-exported as `GoalifyTeaser` from
+`src/GoalifyTeaser.tsx`; `src/Root.tsx` imports its `TEASER_FRAMES`, so the composition length can
+never drift from the storyboard.
 
 ## Commands
 
 ```bash
 npm install                 # install Remotion (free for individuals)
 npm run dev                 # open Remotion Studio to preview
+npx tsc --noEmit            # typecheck (also runs in CI)
 # render the MP4 into the repo's assets/ folder:
 npx remotion render src/index.ts GoalifyTeaser ../assets/goalify-teaser.mp4 --codec=h264 --crf=18
 ```
