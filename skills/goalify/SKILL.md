@@ -308,8 +308,9 @@ file path**, under the **same 4,000-character cap**. So derive the finish line o
 - **Claude Code:** `/goal <condition>` interactively; `claude -p "/goal <condition>"` headless.
 - **Codex interactive:** `/goal <objective>`. Its usage line is
   `/goal [<objective>|clear|edit|pause|resume]` — bare `/goal` opens the panel; there is **no**
-  `/goal status`. Its cap is enforced server-side (`goal objective must be at most 4000 characters`)
-  and counts characters, not bytes.
+  `/goal status`. Its 4,000 cap is not a greppable literal in the binary (it is interpolated at
+  runtime), so it was established by probing the boundary live: 4,000 accepted, 4,001 rejected with
+  `goal objective must be at most 4000 characters`. It counts characters, not bytes.
 - **Codex headless:** `/goal` is a TUI slash command, so `codex exec` does not dispatch it — neither
   `codex --help` nor `codex exec --help` even mentions it. Pipe the brief instead:
   `cat <brief> | codex exec -` (Codex must run inside a git repo, or pass `--skip-git-repo-check`).

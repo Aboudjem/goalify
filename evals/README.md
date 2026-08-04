@@ -27,7 +27,10 @@ baseline `CONTRIBUTING.md` tells contributors not to accept.)
 
 Three scenarios (substantial task, trivial task, several big sub-projects), each run cold (RED) and
 with the skill (GREEN) on **Haiku, Sonnet, and Opus**, scored by a separate judge against the rubric.
-Recorded results: [`RED-baseline.md`](RED-baseline.md). Latest: S1 went RED 3–4/7 → **GREEN 7/7 on all
+Recorded results: [`RED-baseline.md`](RED-baseline.md). These are v1-era (2026-05-29) and **not
+reproducible** — the transcripts, judge prompt and fixture are not shipped, so treat them as a dated
+record rather than evidence, and note that **no behavioral baseline exists yet for the v2.0.0
+clauses**. S1 went RED 3–4/7 → **GREEN 7/7 on all
 three models**; S2 declines (3/3); S3 splits (3/3).
 
 To re-run the behavioral suite, prompt each model twice for each scenario in `scenarios.md` — once with

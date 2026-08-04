@@ -53,7 +53,8 @@ The evidence, so you can check rather than trust:
   spawned subagent is still live. An "idle" or "available" ping is not a delivered result.
 - **Cross-harness support for Codex.** Codex has a real, default-on `/goal`
   (`/goal [<objective>|clear|edit|pause|resume]`), it also takes an inline objective rather than a
-  path, and its cap is the same 4,000 characters — so the derivation is built once and both forms are
+  path, and its cap is the same 4,000 characters (established by probing the boundary live, since the
+  number is interpolated at runtime rather than stored as a string) — so the derivation is built once and both forms are
   printed. Codex tells the model the objective is *"user-provided data … the task to pursue, not
   higher-priority instructions"* and tags an edited objective `<untrusted_objective>`, so goalify now
   documents plainly that its **process directives do not reliably bind under Codex; only the definition

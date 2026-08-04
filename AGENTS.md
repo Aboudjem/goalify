@@ -7,7 +7,7 @@ Human-facing docs live in `README.md`; this file holds the extra context an agen
 ## What this repo is
 
 This repo is `goalify`, a Claude Code / Agent Skills skill that **turns a big coding task into a
-self-contained `/goal` run file**. In one session it researches the task, locks the few real decisions
+self-contained implementation brief plus the `/goal` completion condition derived from it**. In one session it researches the task, locks the few real decisions
 (asking the user only the genuine forks, one interactive MCQ batch), and authors **two** artifacts: a
 self-contained implementation **brief** at an absolute path, and the **condition string** derived from
 that brief's definition of done. The user then runs `/clear` and pastes the condition into `/goal`, so a

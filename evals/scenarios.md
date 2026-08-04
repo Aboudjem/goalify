@@ -63,7 +63,9 @@ and (3) migrate the data warehouse — these are independent and each is large."
 ## How to run
 
 - **Deterministic (CI):** `python3 evals/check_skill.py skills/goalify/SKILL.md` → exit 0.
-  RED→GREEN demo: run it against the legacy `goal-prep/SKILL.md` (fails) vs `goalify/SKILL.md` (passes).
+  RED→GREEN demo, reproducible from this repo's history:
+  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 29/52) vs `skills/goalify/SKILL.md` (passes, 52/52).
+  See `README.md` in this directory for the exact commands.
 - **Behavioral:** for each scenario, prompt a model twice — once cold (RED) and once with
   `skills/goalify/SKILL.md` prepended (GREEN) — on Haiku, Sonnet, and Opus, and judge each transcript
   against the rubric above. Results recorded in `RED-baseline.md`.

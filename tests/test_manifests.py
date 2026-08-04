@@ -158,12 +158,18 @@ check(
     "found at " + ", ".join(path_handoffs[:8]),
 )
 # Documenting the banned pattern requires writing it, so a line may opt out with the
-# marker below. Exemptions are counted, not unlimited: if this number grows, someone is
-# using the escape hatch to reintroduce the handoff rather than to describe it.
+# marker below. The cap is pinned to exactly the number in use, so ADDING an exemption
+# fails the build and forces a deliberate review rather than sliding through a spare
+# slot. Note what this enforces: a COUNT. It cannot tell prose about the old handoff
+# from an instruction to use it — that judgement is the reviewer's, and the cap exists
+# to make sure a reviewer is actually summoned.
+EXPECTED_EXEMPTIONS = 3
 check(
-    f"v1-antipattern exemptions stay few ({len(exempt)} lines: {', '.join(exempt) or 'none'})",
-    len(exempt) <= 4,
-    "each exemption must be prose ABOUT the old handoff, never an instruction to use it",
+    f"v1-antipattern exemptions stay pinned at {EXPECTED_EXEMPTIONS} "
+    f"({len(exempt)} in use: {', '.join(exempt) or 'none'})",
+    len(exempt) == EXPECTED_EXEMPTIONS,
+    "adding one is a deliberate act: confirm the line DESCRIBES the old handoff rather "
+    "than instructing it, then bump EXPECTED_EXEMPTIONS in the same commit",
 )
 
 # --- The shipped example must satisfy every clause the SKILL.md template mandates ---

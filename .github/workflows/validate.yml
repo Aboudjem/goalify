@@ -268,9 +268,10 @@ jobs:
           print(f"PASS: all {checked} relative markdown link(s) resolve")
           PY
 
-  # The teaser source used to be invisible to CI. A commit that left a component
-  # untracked while another file imported it merged green and broke HEAD's build;
-  # this job typechecks video/ so that cannot happen again.
+  # The teaser source used to be invisible to CI. No commit ever actually shipped a
+  # broken tree, but the v2.0.0 recut came one `git commit -a` away from it: a new
+  # component was untracked while another file imported it, and nothing here looked
+  # at video/. This job typechecks it so that near miss cannot become a real one.
   video:
     name: Typecheck teaser source
     runs-on: ubuntu-latest
@@ -293,8 +294,9 @@ jobs:
         working-directory: video
         run: npx tsc --noEmit
 
-      # Every source file the composition imports must be tracked by git — the exact
-      # failure that shipped a broken HEAD before this gate existed.
+      # Every source file the composition imports must be tracked by git. `git commit -a`
+      # stages tracked modifications and deletions but not new untracked files, so without
+      # this gate a green build can still produce a HEAD whose imports do not resolve.
       - name: Every imported source file is tracked by git
         shell: bash
         run: |
