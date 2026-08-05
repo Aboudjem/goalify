@@ -22,6 +22,11 @@ Because anything left out of it is unenforceable. The condition is the only thin
 judges; the brief could say "run the tests" a hundred times and it would not matter. The cap is 4,000
 characters, and goalify spends them on the acceptance criteria rather than restating the brief.
 
+**What else is in the condition besides the brief's path?**
+A sentinel token the evaluator can search for, the exact commands whose output has to be quoted, and
+a turn bound. On success the brief is archived to `.goal/done/` with a completion stamp, so the
+promise and the outcome can be compared later.
+
 **Why does it insist on a "closeout turn"?**
 Once a session grows past roughly half the evaluator's context budget, older messages are dropped and
 replaced with a notice telling it to refuse when the evidence might sit in the omitted prefix. So

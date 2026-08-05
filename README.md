@@ -22,14 +22,18 @@
 ---
 
 ```text
-claude plugin marketplace add Aboudjem/10x    # once
+claude plugin marketplace add Aboudjem/10x        # once
 claude plugin install goalify@10x
+
 /goalify migrate our API to async/await
-                                      # goalify writes a brief file + a condition string
+    brief      ~/acme/.goal/api-migration.md      a file — the run works from it
+    condition  1,284 chars                        a string — you paste it below
+
 /clear
-/goal Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when
-      the last turn quotes npm test passing and says ASYNC-OK. Or stop after 40 turns.
+/goal Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK. Or stop after 40 turns.
 ```
+
+That last line is one line. It scrolls; you paste all of it.
 
 ## Why
 
@@ -40,59 +44,27 @@ stops you can't tell whether it finished or just ran out of things to say.
 goalify does the prep while it still has your context, and wires the condition to commands the run
 has to quote.
 
-## The run, end to end
-
-```text
-> /goalify migrate our API from callbacks to async/await, keep tests green
-
-  researching the repo · locking the real decisions
-
-  brief      ~/acme/.goal/api-migration.md      the file the run works from
-  condition  1,284 chars                        the string you paste into /goal
-
-  Next — two steps:
-    1  /clear
-    2  /goal Read and fully execute the brief at ~/acme/.goal/api-migration.md — implement
-       every phase. Done when npm test passes: the most recent turn must quote its output
-       showing 0 failures and contain ASYNC-OK. Or stop after 40 turns.
-```
-
-Step 2 is one line you paste whole. It is long on purpose: everything left out of it is
-unenforceable.
-
 ## Two artifacts, two readers
 
 <p align="center">
   <img src="assets/two-artifacts.svg" alt="The brief file goes to the worker; the condition string goes to /goal's tool-less evaluator. Never the path alone." width="100%">
 </p>
 
-```text
-brief file ──── opened by ────> the worker     because the condition names its path
-
-condition ──┬── given to ─────> the worker     as its objective  (has tools)
-            └── judged by ────> the evaluator  as the finish line (no tools, no files)
-```
-
-So the condition goes to *both* readers, and that is the whole reason it has to be a string: the
-worker acts on it and can follow the path inside it; the evaluator only ever judges it against what
-it can see in the transcript.
+The condition goes to **both** readers. The worker gets it as its objective and can follow the path
+inside it; the evaluator only ever judges it against what it can see in the transcript. `/goal`'s
+argument is a string because that is what the command accepts — the evaluator's tool-lessness is why
+a *path* cannot work as one.
 
 |  | **The brief** | **The condition** |
 |---|---|---|
+| **Is it `/goal`'s argument?** | **No** — the condition names its path | **Yes** — this is the argument |
 | What it is | a Markdown file | a plain string |
 | Who reads it | the **worker** only | **both** — the worker as its objective, the evaluator as the finish line |
 | Why it's shaped that way | full context, absolute paths, cited research; it can be long | the evaluator gets no tools and a truncated transcript, so ≤ 4,000 characters and quotable |
-| **Is it `/goal`'s argument?** | **No** — the condition names its path | **Yes** — this is the argument |
 
 Deriving the condition from the brief's definition of done is what keeps the two in step — a
-mitigation, not a guarantee. Beyond the
-brief's path, the condition carries a sentinel token, names the exact commands whose output must be
-quoted, and demands a **closeout turn**: rerun every check together immediately before presenting the
-evidence. That last part matters more than it sounds — once a session passes roughly half the
-evaluator's context budget, older messages are dropped, so proof from turn 3 is invisible on turn 90.
-
-On success the brief is archived to `.goal/done/` with a completion stamp, so the promise and the
-outcome can be compared later.
+mitigation, not a guarantee. How it does that (sentinels, the closeout turn, transcript truncation,
+what happens to the brief afterwards) is in the [FAQ](docs/faq.md).
 
 ## Install
 
@@ -117,7 +89,7 @@ cp -r goalify/skills/goalify ~/.claude/skills/goalify
 
 ## Use it
 
-1. **Run it.** goalify inspects the repo, researches what it doesn't know, and asks at most one short
+1. **`/goalify <your task>`.** goalify inspects the repo, researches what it doesn't know, and asks at most one short
    batch of questions — only where there is a genuine fork.
 2. **Read the brief it wrote**, and the condition it derived from that brief's definition of done.
 3. **`/clear`, then paste the condition** — the whole string, not the path it names. Handing `/goal`

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 658" width="900" height="658" role="img" aria-labelledby="h-t h-d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 744" width="900" height="744" role="img" aria-labelledby="h-t h-d">
   <title id="h-t">goalify: what you type, and what you get back</title>
-  <desc id="h-d">You run /goalify migrate our API to async/await. goalify writes a brief — the file ~/acme/.goal/api-migration.md, which the worker opens — and a condition string. You /clear, then paste the condition after /goal: "Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK, 40 turns max". The condition names the brief by path, which is how the run finds it. Handing /goal that path on its own is shown struck through, because the evaluator cannot open files. The run ends at GOAL COMPLETE.</desc>
+  <desc id="h-d">You run /goalify migrate our API to async/await. goalify writes a brief — the file ~/acme/.goal/api-migration.md, which the worker opens — and a condition string. You /clear, then paste the condition after /goal: "Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK, 40 turns max". The condition names the brief by path, which is how the run finds it. Handing /goal that path on its own is shown struck through, because the evaluator cannot open files. The run ends at GOAL COMPLETE — or stops early, which is not the same thing, so either way you re-check it.</desc>
   <style>
     .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
@@ -61,12 +61,12 @@
         stroke="#7C6AF0" stroke-width="2.5"/>
   <line x1="158" y1="272" x2="158" y2="474" stroke="#7C6AF0" stroke-width="7" stroke-linecap="round"/>
   <text class="sans head" x="180" y="292" fill="#312A85">CONDITION</text>
-  <text class="sans tag glowB" x="828" y="290" text-anchor="end" fill="#7C6AF0">A STRING</text>
+  <text class="sans tag glowB" x="828" y="290" text-anchor="end" fill="#7C6AF0">ONE STRING, WRAPPED</text>
   <text class="mono val" x="180" y="336">Read and fully execute the brief at</text>
   <text class="mono val" x="180" y="370">~/acme/.goal/api-migration.md,</text>
   <text class="mono val" x="180" y="404">done when the last turn QUOTES npm test</text>
   <text class="mono val" x="180" y="438">passing and says ASYNC-OK. 40 turns max.</text>
-  <text class="sans note" x="180" y="476" fill="#5C5852">both readers get this string</text>
+  <text class="sans note" x="180" y="476" fill="#5C5852">worker acts on it · evaluator judges it</text>
 
   <!-- The counter-example. Struck at full opacity in every frame, never animated.
        data-antipattern="v1" is what lets the flattened-text gate in
@@ -84,5 +84,8 @@
   <line x1="40" y1="600" x2="860" y2="600" stroke="#6E7887" stroke-width="1.5" opacity=".28"/>
   <path class="tick" d="M42 632 l12 14 l26 -32" fill="none" stroke="#3F8F5F" stroke-width="6"
         stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="98" y="644"><tspan class="sans done">GOAL COMPLETE</tspan><tspan class="sans step" dx="22">re-check it yourself</tspan></text>
+  <text class="sans done" x="98" y="644">GOAL COMPLETE</text>
+  <path d="M46 668 L68 690 M68 668 L46 690" stroke="#828C9A" stroke-width="4" stroke-linecap="round"/>
+  <text class="sans step" x="98" y="686">STOPPED EARLY — a different outcome, not this one</text>
+  <text class="sans step" x="46" y="726">Neither is proof. Re-run the checks yourself before you believe it.</text>
 </svg>
