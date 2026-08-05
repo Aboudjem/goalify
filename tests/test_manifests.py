@@ -16,6 +16,7 @@ import os
 import re
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -120,21 +121,51 @@ check(
 # relative paths (./x, .goal/auth.md, docs/plan.md). The relative form is the one that
 # matters: the v1.1.0 teaser rendered `/goal .goal/auth.md` on screen (v1-antipattern), and an
 # absolute-path-only regex over *.md alone let it through.
-PATH_HANDOFF_RE = re.compile(
-    r"/goal\s+(?:"
+PATH_TOKEN = (
+    r"(?:"
     r"<\s*(?:abs|absolute|path|file)"      # <path>, <ABSOLUTE PATH>, <file...>
-    r"|~/|\./|/[A-Za-z._~-]"               # ~/x, ./x, /Users/x
+    r"|~/|\./"                             # ~/x, ./x
+    # /Users/x — a further separator or an extension is required, so that the bare word
+    # `/goal` (or any other slash-command) is not mistaken for the start of a path.
+    r"|/[A-Za-z._~-][\w.\-]*(?:/|\.[A-Za-z])"
     r"|\$\{?HOME"                          # $HOME/x
+    r"|[A-Za-z]:\\"                        # C:\Users\me\plan.md
     r"|[\w.\-/]*\.(?:md|markdown|txt)\b"   # .goal/auth.md, docs/plan.md
-    r")",
-    re.I,
+    r")"
 )
+# `\W{0,4}` absorbs quoting and emphasis that would otherwise sit between the command and
+# the path. Belt and braces with _scannable() below, which strips those characters anyway.
+PATH_HANDOFF_RE = re.compile(r"/goal\s+\W{0,4}" + PATH_TOKEN, re.I)
+
+# A line is normalised before it is scanned, because the banned instruction is written by
+# humans in prose, not by a fuzzer. Without this, every one of these slipped through while
+# reading as an unambiguous instruction to do the banned thing:
+#     /goal "~/acme/.goal/plan.md"   <- v1-antipattern specimen (also backtick/emphasis)
+#     /goal C:\Users\me\plan.md      <- v1-antipattern specimen (Windows drive form)
+# Markdown links collapse to their target first, then quoting/emphasis characters are
+# dropped. Known remaining gap, stated rather than papered over: a path introduced by
+# intervening *words* ("/goal followed by ~/x.md") is not caught by a regex, and the
+# counted exemption list plus review is the backstop for that.
+MD_LINK_RE = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
+STRIP_RE = re.compile(r"[`*_\"'\u2018\u2019\u201c\u201d()\[\]]")
+
+
+def _scannable(line):
+    return STRIP_RE.sub("", MD_LINK_RE.sub(r"\2", line))
 BINARY_EXT = {".png", ".jpg", ".jpeg", ".gif", ".mp4", ".mp3", ".woff", ".woff2",
               ".ico", ".pdf", ".zip", ".ttf", ".otf"}
 tracked = subprocess.run(
     ["git", "ls-files"], capture_output=True, text=True, cwd=ROOT,
 ).stdout.splitlines()
 EXEMPT_MARKER = "v1-antipattern"
+# Teaching "don't type this" means printing the thing you must not type, so a line may opt
+# out. Two carriers, both invisible to a reader:
+#   - the marker on the line itself (prose and comments);
+#   - the marker in a fenced block's INFO STRING (```text v1-antipattern). CommonMark trims
+#     the info string and GitHub renders only the first word as the language, so the marker
+#     never appears on the page — which matters, because a wrong-example block has to stay
+#     clean enough to read next to the right one.
+FENCE_RE = re.compile(r"^\s{0,3}(`{3,}|~{3,})(.*)$")
 path_handoffs = []
 exempt = []
 scanned = 0
@@ -144,12 +175,36 @@ for rel in tracked:
     try:
         with open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore") as f:
             scanned += 1
+            fence = None          # the opening fence string, while inside a block
+            fence_exempt = False
+            prev = ""             # so a command wrapped onto the next line is still seen
+            prev_exempt = False
+            prev_hit = False
             for ln, line in enumerate(f, 1):
-                if PATH_HANDOFF_RE.search(line):
-                    if EXEMPT_MARKER in line:
+                m = FENCE_RE.match(line)
+                if m:
+                    if fence is None:
+                        fence, fence_exempt = m.group(1)[0], EXEMPT_MARKER in m.group(2)
+                        prev = ""
+                        continue
+                    if m.group(1)[0] == fence and not m.group(2).strip():
+                        fence, fence_exempt = None, False
+                        prev = ""
+                        continue
+                cur = _scannable(line)
+                cur_hit = bool(PATH_HANDOFF_RE.search(cur))
+                # Only consult the two-line window when neither line matched on its own,
+                # so a wrapped command is caught once rather than reported twice.
+                win_hit = (
+                    not cur_hit and not prev_hit and bool(prev)
+                    and bool(PATH_HANDOFF_RE.search(prev.rstrip("\n") + " " + cur))
+                )
+                if cur_hit or win_hit:
+                    if EXEMPT_MARKER in line or fence_exempt or (win_hit and prev_exempt):
                         exempt.append(f"{rel}:{ln}")
                     else:
                         path_handoffs.append(f"{rel}:{ln}")
+                prev, prev_exempt, prev_hit = cur, (EXEMPT_MARKER in line), cur_hit or win_hit
     except (IsADirectoryError, FileNotFoundError, OSError):
         continue
 check(
@@ -163,7 +218,7 @@ check(
 # slot. Note what this enforces: a COUNT. It cannot tell prose about the old handoff
 # from an instruction to use it — that judgement is the reviewer's, and the cap exists
 # to make sure a reviewer is actually summoned.
-EXPECTED_EXEMPTIONS = 3
+EXPECTED_EXEMPTIONS = 10
 check(
     f"v1-antipattern exemptions stay pinned at {EXPECTED_EXEMPTIONS} "
     f"({len(exempt)} in use: {', '.join(exempt) or 'none'})",
@@ -172,8 +227,167 @@ check(
     "than instructing it, then bump EXPECTED_EXEMPTIONS in the same commit",
 )
 
+# --- Same contract, but read through the RENDERED text of XML/SVG artifacts ---
+# The line-oriented scan above has a blind spot: SVG splits a rendered string across
+# <tspan> children, so `/goal` is followed by `<` in the source and never by the path a
+# reader actually sees. assets/hero.svg rendered exactly that banned command through two
+# releases and no line-oriented regex could see it. Flattening itertext() per <text>
+# element — and again across all of them in document order, to catch a command split
+# across sibling elements — closes the hole.
+#
+# A counter-example that is drawn struck-through is not an instruction, so a <text> (or
+# any ancestor) may opt out with data-antipattern="v1". The count is pinned, exactly as
+# above: adding one has to be a deliberate, reviewed act.
+SVG_ANTIPATTERN_ATTR = "data-antipattern"
+
+
+def _localname(tag):
+    return tag.rsplit("}", 1)[-1] if isinstance(tag, str) else ""
+
+
+def _exempt_text_elements(tree):
+    """Elements whose rendered text is a marked counter-example (self or ancestor)."""
+    parent = {}
+    for p in tree.iter():
+        for c in p:
+            parent[c] = p
+    exempt = set()
+    for el in tree.iter():
+        node = el
+        while node is not None:
+            if node.get(SVG_ANTIPATTERN_ATTR) == "v1":
+                exempt.add(el)
+                break
+            node = parent.get(node)
+    return exempt
+
+
+rendered_hits = []
+rendered_exempt = []
+xml_scanned = 0
+for rel in tracked:
+    if os.path.splitext(rel)[1].lower() not in (".svg", ".xml"):
+        continue
+    try:
+        tree = ET.parse(os.path.join(ROOT, rel))
+    except ET.ParseError as e:
+        check(f"{rel} is well-formed XML", False, str(e))
+        continue
+    xml_scanned += 1
+    exempt_els = _exempt_text_elements(tree)
+    # Walk the WHOLE document, not just <text>. Scanning `<text>` alone left the same hole
+    # one element deeper: `<foreignObject>` renders visible words with no <text> ancestor,
+    # so an SVG could display the banned command and pass. `<style>` is skipped because it
+    # is CSS, not rendered copy.
+    def flat_of(node):
+        parts = []
+
+        def walk(n):
+            if n in exempt_els or _localname(n.tag) in ("style", "script"):
+                return
+            if n.text:
+                parts.append(n.text)
+            for c in n:
+                walk(c)
+                if c.tail:
+                    parts.append(c.tail)
+
+        walk(node)
+        return " ".join(" ".join(parts).split())
+
+    for el in tree.iter():
+        if _localname(el.tag) != "text":
+            continue
+        flat = _scannable(" ".join("".join(el.itertext()).split()))
+        if flat and el in exempt_els and PATH_HANDOFF_RE.search(flat):
+            rendered_exempt.append(f"{rel}:{flat[:60]}")
+
+    joined = _scannable(flat_of(tree.getroot()))
+    hit = PATH_HANDOFF_RE.search(joined)
+    if hit:
+        rendered_hits.append(f"{rel} (rendered text): {hit.group(0)!r}")
+
+check(
+    f"no XML/SVG artifact RENDERS a file path after /goal ({xml_scanned} parsed, "
+    f"tspan-split text flattened)",
+    not rendered_hits,
+    "found " + "; ".join(rendered_hits[:4]),
+)
+EXPECTED_SVG_ANTIPATTERNS = 1
+check(
+    f"struck-through counter-examples in SVG stay pinned at {EXPECTED_SVG_ANTIPATTERNS} "
+    f"({len(rendered_exempt)} in use)",
+    len(rendered_exempt) == EXPECTED_SVG_ANTIPATTERNS,
+    "each must be drawn struck-through and marked "
+    f'{SVG_ANTIPATTERN_ATTR}="v1"; bump this constant in the same commit',
+)
+
+# --- Vocabulary: the two artifacts are a brief (a file) and a condition (a string) ---
+# PATH_HANDOFF_RE only catches *paths*. It cannot catch the phrasing that blurs the two
+# artifacts into one imaginary input, which is the confusion underneath the path bug.
+# Backticks and emphasis are stripped first so the markdown form is caught too.
+BLUR_RE = re.compile(r"goal[-\s ]+file|/goal\s+MD\b|/goal\s+run\s+file", re.I)
+blur_hits = []
+for rel in tracked:
+    if os.path.splitext(rel)[1].lower() in BINARY_EXT:
+        continue
+    try:
+        with open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore") as f:
+            for ln, line in enumerate(f, 1):
+                norm = re.sub(r"[`*_]", "", line)
+                if BLUR_RE.search(norm):
+                    blur_hits.append(f"{rel}:{ln}")
+    except (IsADirectoryError, FileNotFoundError, OSError):
+        continue
+check(
+    "no tracked file blurs the file and the string into one phantom artifact "
+    "(a brief is a file; a condition is a string)",
+    not blur_hits,
+    "found at " + ", ".join(blur_hits[:8]),
+)
+
+# --- Every shipped SVG must be safe on GitHub AND actually animate ---
+# GitHub serves assets/*.svg byte-for-byte under `default-src 'none'; sandbox`, so an
+# external reference or a <script> is dead weight at best. "Animated" is asserted because
+# a static replacement for an animated asset is a silent regression nothing else catches.
+EXTERNAL_REF_RE = re.compile(
+    r"""<script|@import|xlink:href\s*=\s*["']https?:|href\s*=\s*["']https?:"""
+    r"""|url\(\s*['"]?https?:|src\s*=\s*["']https?:|<image\b""",
+    re.I,
+)
+SMIL_RE = re.compile(r"<(?:animate|animateTransform|animateMotion|set)\b", re.I)
+GENERIC_FAMILIES = {
+    "serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui",
+    "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded", "math", "emoji",
+}
+shipped_svgs = sorted(r for r in tracked if r.startswith("assets/") and r.endswith(".svg"))
+check("assets/ ships at least three SVGs", len(shipped_svgs) >= 3, f"found {shipped_svgs}")
+for rel in shipped_svgs:
+    raw = open(os.path.join(ROOT, rel), encoding="utf-8").read()
+    try:
+        ET.fromstring(raw)
+        wellformed, why = True, ""
+    except ET.ParseError as e:
+        wellformed, why = False, str(e)
+    check(f"{rel}: well-formed XML", wellformed, why)
+    ext = EXTERNAL_REF_RE.search(raw)
+    check(f"{rel}: no <script> and no external reference", not ext,
+          f"matched {ext.group(0)!r}" if ext else "")
+    check(f"{rel}: is animated (@keyframes or SMIL)",
+          "@keyframes" in raw or bool(SMIL_RE.search(raw)),
+          "a static SVG here is a silent regression")
+    stacks = (re.findall(r'font-family\s*=\s*"([^"]*)"', raw)
+              + re.findall(r"font-family\s*=\s*'([^']*)'", raw)
+              + re.findall(r"font-family\s*:\s*([^;{}]+)", raw))
+    bad_stacks = [
+        v.strip() for v in stacks
+        if v.split(",")[-1].strip().strip("\"'").lower() not in GENERIC_FAMILIES
+    ]
+    check(f"{rel}: every font stack ends in a generic family (unmatched falls back to serif)",
+          not bad_stacks, f"{bad_stacks[:2]}")
+
 # --- The shipped example must satisfy every clause the SKILL.md template mandates ---
-example_path = os.path.join(ROOT, "examples", "sample-goal-file.md")
+example_path = os.path.join(ROOT, "examples", "sample-brief.md")
 try:
     with open(example_path, encoding="utf-8") as f:
         ex_raw = f.read()
@@ -242,7 +456,7 @@ try:
         ]:
             check(f"example condition: {clause}", needle in flat_cond)
 except (FileNotFoundError, OSError) as e:
-    check("examples/sample-goal-file.md is readable", False, str(e))
+    check("examples/sample-brief.md is readable", False, str(e))
 
 # --- Report ---
 print("-" * 60)

@@ -10,23 +10,23 @@
 
 `check_skill.py` encodes the confirmed authoring edits as pass/fail assertions and runs in CI.
 
-### v2.0.0 (recorded 2026-08-04) — 52 assertions
+### v2.1.0 (re-recorded 2026-08-05) — 55 assertions
 
 The v2 RED target is **this repo's own v1.1.0 skill**, reproduced from git history, so anyone with a
 clone can falsify the number. v1.1.0 shipped the `/goal <file-path>` handoff <!-- v1-antipattern -->, which the tool-less
-evaluator can never verify; the 23 assertions it fails are the v2 condition-string contract.
+evaluator can never verify; the 25 assertions it fails are the v2 condition-string contract.
 
 | Target | Result |
 |---|---|
-| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **29 / 52 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. |
-| `skills/goalify/SKILL.md` (v2.0.0, GREEN) | **52 / 52 pass** |
+| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 55 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. |
+| `skills/goalify/SKILL.md` (v2.1.0, GREEN) | **55 / 55 pass** |
 
 Reproduce:
 ```bash
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md
 mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md
-python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 29/52)
-python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 52/52)
+python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 30/55)
+python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 55/55)
 ```
 
 ### v1.0.0 (recorded 2026-05-29) — 29 assertions, historical
@@ -67,13 +67,13 @@ Run against a real fixture repo (`/tmp/goalify-eval-fixture`: Express 4, callbac
 | Sonnet | 4 / 7 | **7 / 7** |
 | Opus   | 3 / 7 | **7 / 7** |
 
-- **RED misses (all models):** no self-contained `/goal` MD authored, no absolute-path file with a
+- **RED misses (all models):** no self-contained brief authored, no absolute-path file with a
   gated self-destruct, no `/clear` + `/goal` handoff. (RED models *did* stay in PREPARE and inspect
   with evidence — the baseline isn't reckless, it just doesn't produce the durable, resumable handoff
   artifact the skill guarantees. *v1-era wording: at the time this was recorded that artifact deleted
   itself; since v2.0.0 it is archived instead.*)
 - **GREEN (every model):** stayed in PREPARE; inspected the repo with cited evidence (real
-  `src/server.js`, `orders.js`, `test/orders.test.js`); authored a self-contained `/goal` MD at an
+  `src/server.js`, `orders.js`, `test/orders.test.js`); authored a self-contained brief at an
   absolute path with a gated low-freedom self-destruct; success criteria wired to a named command
   (`npm test` / `node --test`); printed the `/clear` then the v1 file-path handoff and stopped; did
   not over-ask. `green_beats_red_each_model: true`. (That handoff step is exactly what v2.0.0 replaced
@@ -81,7 +81,7 @@ Run against a real fixture repo (`/tmp/goalify-eval-fixture`: Express 4, callbac
 
 ### Scenario 2 — trivial task (fix one typo) → must decline
 
-GREEN (Sonnet): **3 / 3** — recognized the task is too small for a `/goal` file, declined to author an
+GREEN (Sonnet): **3 / 3** — recognized the task is too small for an autonomous run, declined to author an
 MD, offered to just do it, fabricated no phases or research.
 
 ### Scenario 3 — three big independent sub-projects → must split

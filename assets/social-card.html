@@ -6,52 +6,64 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1280px; height: 640px; }
   body {
-    background: linear-gradient(160deg, #0D1117 0%, #0A0E14 100%);
-    color: #E6EDF3;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #FBFAF8;
+    color: #2B2622;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     overflow: hidden;
-    padding: 78px 86px;
+    padding: 58px 86px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  .grid { position: absolute; inset: 0; background-image:
-      radial-gradient(circle at 1px 1px, #1B2230 1.4px, transparent 0);
-    background-size: 38px 38px; opacity: .5; }
-  .glow { position: absolute; width: 640px; height: 640px; right: -180px; bottom: -220px;
-    background: radial-gradient(circle, rgba(47,184,92,.20), transparent 62%); }
-  .eyebrow { display:flex; align-items:center; gap:14px; color:#6E7B8A; font-size:21px; font-weight:600;
-    letter-spacing:1.4px; text-transform:uppercase; position:relative; }
-  .eyebrow .tick { width:42px; height:4px; border-radius:2px; background:#D97757; }
-  h1 { font-size:120px; font-weight:800; letter-spacing:-3px; line-height:1; margin:26px 0 0; position:relative; }
-  .tag { font-size:33px; font-weight:500; color:#9FB0C0; margin-top:24px; position:relative; max-width:1010px; }
-  .sub { font-size:23px; color:#6E7B8A; margin-top:14px; position:relative;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .chips { display:flex; gap:16px; margin-top:46px; position:relative; }
-  .chip { display:flex; align-items:center; gap:11px; background:#11161F; border:1px solid #1B2230;
-    border-radius:999px; padding:13px 22px; font-size:21px; color:#C2CDDA; font-weight:500; }
-  .chip.done { border-color:#235638; color:#7DEBA3; background:#0E2A1A; font-weight:700;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing:1px; }
-  .dot { width:9px; height:9px; border-radius:50%; }
-  .footer { position:absolute; left:86px; bottom:60px; font-size:22px; color:#566273; font-weight:500;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .accent { color:#D97757; }
+  /* the two lanes, as a hairline signature down the left edge */
+  .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; }
+  .rail .a { position: absolute; inset: 0 0 50% 0; background: #C2643F; }
+  .rail .b { position: absolute; inset: 50% 0 0 0; background: #7C6AF0; }
+
+  .eyebrow { display: flex; align-items: center; gap: 14px; color: #8A7F76; font-size: 21px;
+    font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+  .eyebrow .tick { width: 42px; height: 4px; border-radius: 2px; background: #C2643F; }
+  h1 { font-size: 104px; font-weight: 800; letter-spacing: -4px; line-height: 1; margin: 22px 0 0; color: #1E1A17; }
+  .tag { font-size: 31px; font-weight: 500; color: #6E7887; margin-top: 22px; max-width: 1020px; line-height: 1.34; }
+
+  .lanes { display: flex; gap: 22px; margin-top: 34px; }
+  .card { flex: 1; border-radius: 18px; padding: 18px 24px; }
+  .card .k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 21px; font-weight: 700; letter-spacing: 2px; }
+  .card .v { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 25px; color: #3F3A36; margin-top: 10px; line-height: 1.35; }
+  .card .r { font-size: 21px; color: #7A7069; margin-top: 12px; }
+  .brief { background: #FBF1EA; border: 2px solid #C2643F; border-top-right-radius: 4px; }
+  .brief .k { color: #7C2D12; }
+  .cond { background: #EFEDFB; border: 2px solid #7C6AF0; }
+  .cond .k { color: #312A85; }
+  .cond .r b { color: #4C3FBF; }
+
+  .footer { position: absolute; left: 86px; bottom: 22px; font-size: 21px; color: #8A7F76; font-weight: 500;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
 </style>
 </head>
 <body>
-  <div class="grid"></div>
-  <div class="glow"></div>
+  <div class="rail"><span class="a"></span><span class="b"></span></div>
+
   <div class="eyebrow"><span class="tick"></span> Claude Code skill</div>
   <h1>goalify</h1>
-  <div class="tag">Lock the few <span class="accent">real decisions</span>, wire the finish line to commands, and let a fresh session verify every criterion before a big task is done.</div>
-  <div class="sub">decisions locked · machine-checkable criteria · verified before done · /goal</div>
-  <div class="chips">
-    <span class="chip"><span class="dot" style="background:#D97757"></span> self-contained</span>
-    <span class="chip"><span class="dot" style="background:#58A6FF"></span> cited research</span>
-    <span class="chip done">✓ GOAL COMPLETE</span>
-    <span class="chip"><span class="dot" style="background:#7C8896"></span> MIT · open source</span>
+  <div class="tag">Preps a big coding task so it can run unattended in a fresh session — and prove it actually finished.</div>
+
+  <div class="lanes">
+    <div class="card brief">
+      <div class="k">BRIEF · A FILE</div>
+      <div class="v">~/acme/.goal/api-migration.md</div>
+      <div class="r">the worker opens it</div>
+    </div>
+    <div class="card cond">
+      <div class="k">CONDITION · A STRING</div>
+      <div class="v">Read the brief at<br>~/acme/.goal/api-migration.md,<br>then npm test must pass</div>
+      <div class="r">you paste it into <b>/goal</b></div>
+    </div>
   </div>
+
   <div class="footer">github.com/Aboudjem/goalify</div>
 </body>
 </html>

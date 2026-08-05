@@ -1,6 +1,6 @@
 {
   "name": "goalify",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "goalify sets up a big coding task to run autonomously: it scopes the work, locks the few real decisions, writes a self-contained implementation brief, and derives the /goal completion condition from it \u2014 because /goal takes a condition string, never a file path \u2014 so a fresh session executes the whole job and has to prove every success criterion before it stops.",
   "author": {
     "name": "Adam Boudjemaa",

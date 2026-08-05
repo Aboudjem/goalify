@@ -25,12 +25,12 @@ const Stage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <AbsoluteFill style={{ ...center, paddingTop: 168 }}>{children}</AbsoluteFill>
 );
 // a typed-in command with a live caret
-const TermCmd: React.FC<{ cmd: string; start: number; cpf?: number }> = ({ cmd, start, cpf = 0.7 }) => {
+const TermCmd: React.FC<{ cmd: string; start: number; cpf?: number; size?: number }> = ({ cmd, start, cpf = 0.7, size = 33 }) => {
   const f = useCurrentFrame();
   const t = typed(cmd, f, start, cpf);
   const typing = t.length < cmd.length;
   return (
-    <div style={{ fontSize: 33, color: P.textHi, lineHeight: "54px" }}>
+    <div style={{ fontSize: size, color: P.textHi, lineHeight: "54px" }}>
       <Prompt><span style={{ whiteSpace: "pre" }}>{t}</span>{f >= start && typing && <Caret h={31} />}</Prompt>
     </div>
   );
@@ -72,31 +72,46 @@ const S2: React.FC = () => (
   </Bg>
 );
 
-// 3 — PLAN: scout agents find the best way & write the plan (terminal)
+// a labelled artifact row — the tag colour is the lane, shared with the README's SVGs
+const Artifact: React.FC<{ d: number; tag: string; value: string; color: string }> = ({ d, tag, value, color }) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  if (f < d) return null;
+  const s = rise(f, fps, d, 13);
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", gap: 20, lineHeight: "58px", opacity: s, transform: `translateY(${interpolate(s, [0, 1], [8, 0])}px)` }}>
+      <span style={{ fontFamily: FONT_MONO, fontSize: 23, fontWeight: 700, letterSpacing: 2, color, minWidth: 262 }}>{tag}</span>
+      <span style={{ fontFamily: FONT_MONO, fontSize: 30, color: P.textHi }}>{value}</span>
+    </div>
+  );
+};
+
+// 3 — WHAT COMES BACK: two artifacts, visibly separate and differently coloured
 const S3: React.FC = () => (
   <Bg glowColor={P.fill} glowAt="22% 22%">
-    <Cap main="Read the plan. Approve it once." sub="scout agents find the best way" />
+    <Cap main="Two things come back, not one." sub="a brief file, and a condition string" />
     <Stage>
       <Win title="claude code" w={1180}>
-        <TermCmd cmd="/goalify add user auth" start={14} cpf={0.7} />
-        <TLine d={50} color={P.neon2}>↳ scout agents finding the best approach…</TLine>
-        <TLine d={70}><Check size={24} /> wrote <Neon color={P.neon2}>.goal/auth.md</Neon> + the finish line</TLine>
-        <TLine d={88} indent={40} color={P.textDim}>· gaps filled · decisions locked · done = npm test</TLine>
+        <TermCmd cmd="/goalify migrate our API to async/await" start={12} cpf={1.1} />
+        <TLine d={52} color={P.textDim}>↳ researching the repo · locking the real decisions</TLine>
+        <Artifact d={72} tag="BRIEF FILE" value="~/acme/.goal/api-migration.md" color={P.laneA} />
+        <Artifact d={92} tag="CONDITION STRING" value="Read the brief at ~/acme/.goal/api-migration.md," color={P.laneB} />
+        <Artifact d={104} tag="" value="npm test must pass" color={P.laneB} />
       </Win>
     </Stage>
   </Bg>
 );
 
-// 4 — RUNS ALL NIGHT: kick it off, it streams overnight (terminal)
+// 4 — RUNS ALL NIGHT: the /goal beat. What follows /goal is PROSE, never a path.
 const S4: React.FC = () => (
   <Bg glowColor={P.fill} glowAt="78% 24%">
-    <Cap main="Then it runs the whole job, all night." sub="you paste the finish line, not a file path" />
+    <Cap main="Then it runs the whole job, all night." sub="you paste the condition — /goal never takes a file path" />
     <Stage>
       <Win title="claude code" w={1180}>
-        <TermCmd cmd="/goal done when npm test passes" start={14} cpf={0.7} />
-        <TLine d={52} color={P.textDim}>[01:12]  building the feature…</TLine>
-        <TLine d={74} color={P.textDim}>[03:40]  writing the tests…</TLine>
-        <TLine d={96} color={P.neon2}>[05:28]  all checks passing</TLine>
+        <TermCmd cmd="/goal Read the brief at ~/acme/.goal/api-migration.md, then npm test must pass" start={12} cpf={1.8} size={23} />
+        <TLine d={60} color={P.textDim}>[01:12]  building the feature…</TLine>
+        <TLine d={84} color={P.textDim}>[03:40]  writing the tests…</TLine>
+        <TLine d={108} color={P.neon2}>[05:28]  all checks passing</TLine>
       </Win>
     </Stage>
   </Bg>
@@ -105,7 +120,7 @@ const S4: React.FC = () => (
 // 5 — VERIFY: separate verifier agents check the work (terminal climax)
 const S5: React.FC = () => (
   <Bg glowColor={P.success} glowAt="50% 80%" glowSize={54}>
-    <Cap main="It won't say done until every check passes." sub="separate agents verify it, not itself" />
+    <Cap main="It has to show its work before it says done." sub="separate agents verify it, not itself" />
     <Stage>
       <Win title="claude code" w={1180}>
         <TLine d={14} color={P.textDim}>↳ verifier agents reviewing the work…</TLine>
@@ -127,7 +142,7 @@ const S6: React.FC = () => {
         <div style={{ fontFamily: FONT_MONO, fontSize: 28, color: P.textDim, opacity: interpolate(f, [4, 16], [0, 1], clamp), letterSpacing: 2 }}>EXAMPLE RUN · 0 check-ins</div>
         <Stat n="37" label="checks · all green" delay={8} />
         <div style={{ fontFamily: FONT_MONO, fontSize: 30, color: P.neon2, opacity: gone, transform: `translateX(${(1 - gone) * 22}px)`, textShadow: `0 0 14px ${P.neon2}44` }}>
-          <span style={{ color: P.textDim }}>then the goal file archives itself ·</span> .goal/auth.md
+          <span style={{ color: P.textDim }}>then the brief archives itself ·</span> ~/acme/.goal/api-migration.md
         </div>
       </Col>
     </Bg>
@@ -177,7 +192,7 @@ const S8: React.FC = () => {
     <Bg glowColor={P.fill} glowAt="50% 18%" glowSize={50}>
       <AbsoluteFill style={{ ...center, flexDirection: "column", gap: 28 }}>
         <div style={{ opacity: word, transform: `translateY(${interpolate(word, [0, 1], [14, 0])}px)`, fontFamily: FONT_UI, fontWeight: 800, fontSize: 104, letterSpacing: -3, color: P.textHi, textShadow: `0 0 40px ${P.glow}55` }}>goalify</div>
-        <div style={{ opacity: tag, fontFamily: FONT_UI, fontWeight: 600, fontSize: 42, color: P.textDim }}>No babysitting. No surprises.</div>
+        <div style={{ opacity: tag, fontFamily: FONT_UI, fontWeight: 600, fontSize: 42, color: P.textDim }}>No babysitting. Evidence you can check.</div>
         <div style={{ opacity: box, transform: `translateY(${interpolate(box, [0, 1], [14, 0])}px)`, borderRadius: 14, border: `1px solid ${P.neon1}66`, background: P.surface, padding: "24px 42px", fontFamily: FONT_MONO, fontSize: 40, color: P.textHi, boxShadow: `0 0 40px ${P.fill}30`, display: "flex", alignItems: "center" }}>
           <span style={{ color: P.success }}>$</span>&nbsp;claude plugin install&nbsp;<Neon color={P.neon1} strength={20}>goalify@10x</Neon>{f >= 30 && <Caret h={34} />}
         </div>
@@ -188,13 +203,13 @@ const S8: React.FC = () => {
 };
 
 const SCENES: [React.FC, number][] = [
-  [S1, 100], // hook — approve once, go to sleep
-  [S2, 96],  // what it is
-  [S3, 120], // approve once (terminal: write the plan)
-  [S4, 126], // runs all night (terminal: overnight run)
+  [S1, 92],  // hook — approve once, go to sleep
+  [S2, 90],  // what it is
+  [S3, 150], // what comes back: the two artifacts, named and colour-coded
+  [S4, 150], // runs all night (the /goal beat — prose after /goal, never a path)
   [S5, 120], // verify climax (terminal: checks flip green)
   [S6, 104], // sample KPI + the gated archive step
-  [S7, 124], // what you get (advantages)
+  [S7, 110], // what you get (advantages)
   [S8, 100], // CTA
 ];
 

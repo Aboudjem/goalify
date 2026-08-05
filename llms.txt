@@ -14,7 +14,7 @@ best practice). It is a two-phase model: PREPARE (research, decide, author the f
 session) then EXECUTE (the user pastes the derived condition into `/goal` in a fresh session). It
 authors the handoff; it does not run the task itself. For immediate in-session execution, use autopilot/ultrawork/ralph.
 
-The generated file is hardened with the patterns most autonomous runs miss: a declarative spec,
+The brief is hardened with the patterns most autonomous runs miss: a declarative spec,
 machine-checkable success criteria wired to named commands, a separate-agent verification pass,
 fan-out guardrails (parallel for independent discovery/verify; serialize builds/tests/same-file
 writes), output-redirection, anti-placeholder and search-before-assuming rules, a resumable progress
@@ -30,8 +30,11 @@ objective as untrusted data, so only the definition of done binds there, not the
 ## Docs
 
 - [README](https://github.com/Aboudjem/goalify/blob/main/README.md): What goalify is, who it is for, how to install and use it.
-- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the goal-MD template, the one-vs-several decision, the handoff format, and hard rules.
-- [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install and run goalify in three steps.
+- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the brief template, the one-vs-several decision, the handoff format, and hard rules.
+- [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install goalify and run it, step by step.
+- [Honest limits](https://github.com/Aboudjem/goalify/blob/main/docs/limits.md): Everything goalify does not promise, including that a stopped `/goal` run is not proof of completion.
+- [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which directives do not carry over.
+- [FAQ](https://github.com/Aboudjem/goalify/blob/main/docs/faq.md): Common questions about the two artifacts and the run.
 - [LICENSE (MIT)](https://github.com/Aboudjem/goalify/blob/main/LICENSE): Permissive MIT license.
 
 ## Install
@@ -40,8 +43,8 @@ goalify ships as a Claude Code plugin (in the 10x marketplace) and as a drop-in 
 get `/goalify`, which authors the run; you start it with Claude Code's built-in `/goal <condition>`
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
-- [Plugin (recommended)](https://github.com/Aboudjem/goalify#quick-start--plugin-install-recommended): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
-- [Manual / skill-only](https://github.com/Aboudjem/goalify#install-manual--skill-only): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
+- [Plugin (recommended)](https://github.com/Aboudjem/goalify#install): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
+- [Manual / skill-only](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill
 
@@ -50,7 +53,7 @@ command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
 ## Examples
 
-- [Worked example](https://github.com/Aboudjem/goalify/blob/main/examples/sample-goal-file.md): An illustrative brief plus the `/goal` condition derived from it, in the shape goalify produces.
+- [Worked example](https://github.com/Aboudjem/goalify/blob/main/examples/sample-brief.md): An illustrative brief plus the `/goal` condition derived from it, in the shape goalify produces.
 
 ## Optional
 

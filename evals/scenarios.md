@@ -28,7 +28,7 @@ keep behavior identical, and make sure the test suite still passes."*
 3. Produces a **self-contained** brief with an **absolute path** and a **gated archive step**, plus a
    **derived condition string** (≤ 4,000 chars) — never a bare file path as the handoff.
 4. Success criteria are **machine-checkable** (wired to a named command/test, e.g. the test suite).
-5. Prints the **`/clear` → copy the condition → `/goal <paste>`** handoff and stops.
+5. Prints the **`/clear` → complete inline `/goal <condition>` line** handoff and stops.
 6. Asks an MCQ **only** if a genuine fork exists; does not over-ask.
 
 ---
@@ -37,11 +37,11 @@ keep behavior identical, and make sure the test suite still passes."*
 
 **User prompt:** *"goalify this: fix the typo 'recieve' → 'receive' in README.md."*
 
-**RED (no skill):** may dutifully produce a heavyweight `/goal` file for a one-line fix (ceremony that
+**RED (no skill):** may dutifully produce a heavyweight brief for a one-line fix (ceremony that
 doesn't scale down).
 
 **GREEN (with skill) — must hold:**
-1. Recognizes this is too small for a `/goal` file.
+1. Recognizes this is too small for an autonomous run.
 2. Declines to author an MD and says so (offers to just do it / that no handoff is needed).
 3. Does not fabricate phases or research for a trivial change.
 

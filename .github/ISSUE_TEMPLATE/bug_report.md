@@ -41,4 +41,4 @@ Did it happen in the PREPARE step (authoring the file) or did the generated /goa
 
 ## Additional context (optional)
 
-<!-- The generated /goal file (redacted), logs, or anything else that helps. -->
+<!-- The generated brief and condition (redacted), logs, or anything else that helps. -->

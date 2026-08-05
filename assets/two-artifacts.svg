@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 590" width="900" height="590" role="img" aria-labelledby="ta-t ta-d">
+  <title id="ta-t">Two artifacts, two readers</title>
+  <desc id="ta-d">goalify writes a brief — a markdown file at ~/acme/.goal/api-migration.md, which the worker session opens — and a condition, a plain string reading "Read the brief at ~/acme/.goal/api-migration.md — then npm test must pass", which is what you paste into /goal. The evaluator behind /goal has no tools and cannot open files, so the brief's path can never be passed to it on its own.</desc>
+  <style>
+    .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
+    .eyebrow{font-size:28px;font-weight:700;letter-spacing:4px;fill:#6E7887}
+    .head{font-size:36px;font-weight:800}
+    .tag{font-size:28px;font-weight:700;letter-spacing:1.5px}
+    .val{font-size:28px;font-weight:500;fill:#3F3A36}
+    .note{font-size:28px;font-weight:400;fill:#6B5F57}
+    .dest{font-size:28px;font-weight:800;fill:#6E7887;letter-spacing:.5px}
+    .sub{font-size:28px;font-weight:400;fill:#828C9A}
+    .refuse{font-size:28px;font-weight:500;fill:#828C9A}
+
+    /* Motion budget: opacity only, plus a 4-unit dot travelling a 66-unit rail.
+       Slowest 0.11 Hz, fastest 0.2 Hz — an order of magnitude under WCAG 2.3.1's 3 Hz.
+       prefers-reduced-motion does not reach an img-embedded SVG, so this is gentle by
+       construction rather than by opt-out. Nothing meaning-bearing starts from zero:
+       every single frame is a complete, correct diagram. The refusal never animates. */
+    .flow{animation:ta-flow 5s linear infinite}
+    .tagpulse{animation:ta-breathe 9s ease-in-out infinite}
+    .tagpulse2{animation:ta-breathe 9s ease-in-out infinite -4.5s}
+    @keyframes ta-flow{from{stroke-dashoffset:0}to{stroke-dashoffset:-66}}
+    @keyframes ta-breathe{0%,100%{opacity:.72}50%{opacity:1}}
+    @media (prefers-reduced-motion: reduce){
+      .flow,.tagpulse,.tagpulse2{animation:none;opacity:1}
+    }
+  </style>
+
+  <!-- ── header ─────────────────────────────────────────────────────────── -->
+  <text class="sans eyebrow" x="40" y="40">GOALIFY WRITES TWO THINGS</text>
+  <text class="sans eyebrow" x="860" y="40" text-anchor="end" opacity=".8">TWO READERS</text>
+  <line x1="40" y1="60" x2="860" y2="60" stroke="#6E7887" stroke-width="1.5" opacity=".35"/>
+
+  <!-- ── LANE A — the brief: a square, dog-eared page on a solid rail ────── -->
+  <path d="M56 86 H556 L600 130 V220 Q600 236 584 236 H56 Q40 236 40 220 V102 Q40 86 56 86 Z"
+        fill="#FBF1EA" stroke="#C2643F" stroke-width="2.5"/>
+  <path d="M556 86 L600 130 H556 Z" fill="#EFD9C9" stroke="#C2643F" stroke-width="2.5"
+        stroke-linejoin="round"/>
+  <text class="sans head" x="72" y="132" fill="#7C2D12">BRIEF</text>
+  <text class="sans tag tagpulse" x="540" y="130" text-anchor="end" fill="#C2643F">A FILE</text>
+  <text class="mono val" x="72" y="178">~/acme/.goal/api-migration.md</text>
+  <text class="sans note" x="72" y="216">the worker opens this file</text>
+
+  <!-- Lane A's rail is SOLID and lane B's is DASHED. That contrast is a load-bearing
+       channel, so nothing may be overlaid on this line that breaks it up. -->
+  <line x1="600" y1="161" x2="666" y2="161" stroke="#C2643F" stroke-width="4" stroke-linecap="round"/>
+  <path d="M666 153 L682 161 L666 169 Z" fill="#C2643F"/>
+  <text class="sans dest" x="698" y="145">WORKER</text>
+  <text class="sans sub" x="698" y="181">has tools</text>
+  <text class="sans sub" x="698" y="213">opens it</text>
+
+  <!-- ── LANE B — the condition: a round plate of text on a dashed rail ──── -->
+  <rect x="40" y="266" width="560" height="222" rx="28" fill="#EFEDFB"
+        stroke="#7C6AF0" stroke-width="2.5"/>
+  <line x1="60" y1="304" x2="60" y2="456" stroke="#7C6AF0" stroke-width="7" stroke-linecap="round"/>
+  <text class="sans head" x="82" y="320" fill="#312A85">CONDITION</text>
+  <text class="sans tag tagpulse2" x="578" y="318" text-anchor="end" fill="#7C6AF0">A STRING</text>
+  <text class="mono val" x="82" y="364">Read the brief at</text>
+  <text class="mono val" x="82" y="398">~/acme/.goal/api-migration.md</text>
+  <text class="mono val" x="82" y="432">— then npm test must pass</text>
+  <text class="sans note" x="82" y="470" fill="#5C5852">plain text you paste</text>
+
+  <!-- The dashes march: the condition travels as text, not as a file. -->
+  <line class="flow" x1="600" y1="377" x2="666" y2="377" stroke="#7C6AF0" stroke-width="4"
+        stroke-linecap="round" stroke-dasharray="10 9"/>
+  <path d="M666 369 L682 377 L666 385 Z" fill="#7C6AF0"/>
+  <text class="mono" x="698" y="347" font-size="28" font-weight="700" fill="#7C6AF0">/goal</text>
+  <text class="sans dest" x="698" y="383">EVALUATOR</text>
+  <text class="sans sub" x="698" y="419">no tools</text>
+  <text class="sans sub" x="698" y="451">no files</text>
+
+  <!-- ── the refusal — owned by /goal, in neither lane, and never animated ─ -->
+  <line x1="40" y1="514" x2="860" y2="514" stroke="#6E7887" stroke-width="1.5" opacity=".35"/>
+  <path d="M46 536 L68 558 M68 536 L46 558" stroke="#C2643F" stroke-width="4" stroke-linecap="round"/>
+  <text class="mono refuse" x="88" y="555">/goal the brief&#8217;s path</text>
+  <line x1="88" y1="546" x2="440" y2="546" stroke="#C2643F" stroke-width="2.5"/>
+  <text class="sans refuse" x="464" y="555">— the evaluator can&#8217;t open files</text>
+</svg>

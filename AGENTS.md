@@ -24,7 +24,7 @@ binary contains `No goal set. Usage: /goal <condition>` with no file-path branch
 ## How an agent should invoke / honor the skill
 
 - If running inside Claude Code with the skill installed: trigger it by describing the user's intent,
-  e.g. "goalify this: <task>", "prep a goal", "make the md for /goal", "set up an autonomous run to
+  e.g. "goalify this: <task>", "prep a goal", "make the brief for /goal", "set up an autonomous run to
   launch later". Claude Code matches these to the skill's `description` and loads `SKILL.md`.
 - Install: the plugin (`claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`), or drop in manually: `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. The runner is Claude Code's built-in `/goal`; goalify does not ship its own.
 - **This skill AUTHORS a handoff file; it does not execute the task.** If the user wants the work done
@@ -47,11 +47,11 @@ These are non-negotiable. Do not look for loopholes; violating the letter violat
    stamp only after every criterion is met and verification passed; otherwise it stays in place so the
    run can resume. Do not modify the `mv` command or weaken the gate.
 5b. **Never emit a file path where a condition belongs.** The handoff is `/clear` → copy the condition
-   → `/goal <paste>`. Anything omitted from the condition is unenforceable, so derive it from the
+   printed inline as a complete `/goal` line. Anything omitted from the condition is unenforceable,
    brief's definition of done and lint it (≤ 4,000 chars, no bare `$`, a sentinel, a named command per
    criterion, a closeout-turn requirement, an explicit turn bound).
 6. **Don't over-ask.** One MCQ batch, only genuine forks. Skip it entirely if there are none.
-7. **Decline when a `/goal` file is the wrong tool** — a trivial task (just do it) or open-ended
+7. **Decline when an autonomous run is the wrong tool** — a trivial task (just do it) or open-ended
    exploration (no definable end state). A vague spec produces a meh autonomous run.
 
 Additional hygiene for agents editing this repo: never commit secrets or tokens. Keep the SVGs in

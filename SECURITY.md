@@ -32,7 +32,7 @@ safety properties matter. Security is part of its design, not an afterthought.
 
 Please report any of the following:
 
-- A path by which the skill (or a generated `/goal` file) could **fetch and execute remote
+- A path by which the skill (or a generated brief) could **fetch and execute remote
   instructions or code**.
 - A way the archive `mv` could fire on the **wrong path** or before its success-criteria gate.
 - Anything that could **leak credentials**, tokens, or a user's private project data off the machine.

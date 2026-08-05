@@ -4,6 +4,80 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-08-05
+
+A README rebuilt around the contract, a new visual system, and two CI gates that close the holes the
+last two releases slipped through. The condition contract itself is unchanged.
+
+### Fixed
+
+- **The hero image still shipped the bug v2.0.0 exists to fix.** `assets/hero.svg` rendered
+  `/goal  api-migration.md` — a file path — as the first thing a visitor saw, through two releases of <!-- v1-antipattern -->
+  source-level review. The reason it survived is the interesting part: the string was split across
+  `<tspan>` elements, so in the raw bytes `/goal` is followed by `<`, and the line-oriented regex in
+  `tests/test_manifests.py` could never match it. **The test now flattens `itertext()` per `<text>`
+  element, and again across the whole document**, so a command split across tags — including inside a
+  `<foreignObject>`, which has no `<text>` ancestor at all — is caught. Verified the way it should
+  have been the first time: the new check fails against the old asset, and against a purpose-built
+  `<foreignObject>` probe.
+- **The same gate was defeated by a quotation mark.** An adversarial pass proved that
+  `/goal "~/path.md"`, the backtick form, the `**emphasis**` form, the `[markdown](link)` form and the <!-- v1-antipattern -->
+  Windows `C:\...` form all passed while reading as unambiguous instructions to do the banned thing.
+  Lines are now normalised before matching (markdown links collapse to their target, quoting and
+  emphasis characters are dropped), a two-line window catches a wrapped command, and the absolute-path
+  form requires a real separator so the word `/goal` is no longer mistaken for the start of a path.
+  All ten forms are now caught; three legitimate forms are still correctly ignored. The one gap that
+  remains — a path introduced by intervening words — is written down in the test rather than implied
+  away.
+- **The handoff put a file path in the user's hand at the exact moment they type `/goal`.** Step 2 of
+  the printed handoff was `pbcopy < <condition file>`. `SKILL.md` now prints the **complete `/goal`
+  line inline and verbatim**, ready to copy in one piece; `.goal/CONDITION-<slug>.txt` remains as a
+  durable fallback and is explicitly demoted to "a convenience, never the required step".
+  `evals/check_skill.py` asserts both halves of that, and fails against the old handoff.
+- **Thirteen tracked files blurred the two artifacts into one imaginary one**, naming the brief as though
+  it were the thing `/goal` receives. The vocabulary is now **brief** (a file) and **condition** (a
+  string) everywhere, and a new gate rejects the blurred phrasing across every tracked text file. The
+  worked example is renamed `examples/sample-brief.md`.
+
+### Added
+
+- **`assets/two-artifacts.svg`** — a new diagram whose only job is the routing rule: the brief file
+  goes to the worker, the condition string goes to `/goal`'s evaluator, and the evaluator has no tools.
+- **A gate asserting every shipped SVG is animated**, well-formed, script-free, free of external
+  references, and that every font stack ends in a generic keyword (an unmatched stack falls back to
+  *serif*, which is the loudest possible failure).
+- **`docs/codex.md`, `docs/limits.md`, `docs/faq.md`** — the Codex specifics, the full honest-limits
+  list, and the long-tail FAQ, split out of the README. The limit that changes behaviour stays visible
+  in the README itself rather than being buried by the split.
+
+### Changed
+
+- **A new visual system across all five assets.** The dark-terminal-card metaphor is retired. Four
+  directions were explored in parallel and judged by a separate agent (`.goal/design-directions.md`);
+  the chosen one codes the two artifacts as two lanes — warm/square/solid for the file, cool/round/
+  dashed for the string — so the routing survives a thumbnail, a grayscale screenshot, and
+  colour-blindness. Only the two artifacts get an opaque plate; everything else sits on a transparent
+  canvas in an ink (`#6E7887`) sitting essentially on the dual-safe optimum — solving
+  `1.05/(L+0.05) = (L+0.05)/(L_dark+0.05)` for `#0d1117` gives `L = 0.1914` and a ceiling of
+  4.35:1; the chosen ink measures `L = 0.1850`, **4.47:1 on white and 4.24:1 on `#0d1117`**. That
+  clears WCAG AA Large (3:1) on both themes, which is the applicable bar for display type, and is
+  short of the 4.5:1 normal-text bar — an unavoidable consequence of asking one colour to work on
+  both backgrounds, which is why small text sits on a plate instead.
+- **Text is legible on a phone.** The retired assets used a 1200-unit viewBox with a 12-unit type
+  floor — under 4 px on a 340 px column. The new ones use a 900-unit viewBox and a 28-unit floor,
+  clearing the `viewBox / 34` bar with margin.
+- **Motion is gentle by construction.** `prefers-reduced-motion` does not reach an `<img>`-embedded
+  SVG, so the user cannot opt out; the fastest feature is now 0.2 Hz against WCAG 2.3.1's 3 Hz limit,
+  nothing meaning-bearing animates from zero, and the struck-through counter-example never animates at
+  all — no single frame can show it un-negated.
+- **The README is rebuilt around the reader's first question.** The v2.0.0 forensics move here; the
+  two-artifact model and a real, literal condition string arrive in the first screenful instead of
+  around line 111; and the brief-vs-condition distinction is flowing prose immediately before the
+  `/goal` step rather than a callout, because readers skip callouts.
+- **The teaser is re-cut** to the same lane coding and the same worked example, and its `/goal` beat
+  now shows a condition that names the brief. 916 frames, 30.55 s.
+- `assets/social-preview.png` regenerated at 1280×640 from the rebuilt `social-card.html`.
+
 ## [2.0.1] - 2026-08-04
 
 Documentation corrections found by an independent post-release verification pass. No behavior change;
@@ -57,8 +131,8 @@ The evidence, so you can check rather than trust:
 
 - **The handoff is now a derived condition string, not a path.** goalify still writes a self-contained
   implementation brief, but it now also **derives a `/goal` condition from that brief's definition of
-  done** and writes it to `.goal/CONDITION-<slug>.txt` so you can `pbcopy` it. The handoff became
-  three steps: `/clear` → copy the condition → `/goal <paste>`, with auto mode on for an unattended
+  done** and writes it to `.goal/CONDITION-<slug>.txt` as a durable copy. The handoff became
+  three steps: `/clear` → copy the condition → run it, with auto mode on for an unattended
   run (it is the default in current Claude Code).
 - **The generated brief separates the definition of done from the process directives.** The definition
   of done is portable and is what the condition is derived from; the process directives are what binds
@@ -167,7 +241,7 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
 ### Added
 
 - The `goalify` skill (`skills/goalify/SKILL.md`): a two-phase PREPARE → EXECUTE model that
-  authors the `/goal` file you run after `/clear` in a fresh session.
+  authors the brief you run after `/clear` in a fresh session.
 - A WHEN-only, disambiguated `description` (carries the `goalify` trigger, says
   author-not-execute, and disambiguates against `autopilot`/`ultrawork`/`ralph`), a quoted
   `argument-hint`, a documented `/goalify` command with `$ARGUMENTS`, and `metadata.version`.
@@ -180,7 +254,7 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
 - `evals/`: a deterministic check (`check_skill.py`, run in CI) that encodes the confirmed
   edits as a RED→GREEN regression guard, plus behavioral scenarios validated on Haiku,
   Sonnet, and Opus and a recorded baseline (`RED-baseline.md`).
-- A worked example `/goal` file (`examples/`), a quickstart, a terminal-themed animated SVG
+- A worked example brief (`examples/`), a quickstart, a terminal-themed animated SVG
   hero and "how it works" diagram, GEO files (`llms.txt`, `AGENTS.md`), and a CI workflow
   that validates frontmatter, runs the skill eval, checks relative links, scans for secrets,
   and gates the SVGs against `<script>` and external references.

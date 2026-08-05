@@ -182,6 +182,16 @@ def main():
             "3-strike" in low,
         "archive-not-delete gate (audit trail preserved)":
             "archive gate" in low and "mv " in body,
+        # D6: the handoff must hand the user a COMMAND, not a file. A `pbcopy` step puts a
+        # path in their hand at the exact moment they type `/goal` — the most reliable way
+        # to produce the wrong input. Assert the inline form is mandated AND that the copy
+        # step is explicitly demoted, so a future edit cannot quietly restore it.
+        "handoff prints the complete /goal line inline, ready to copy in one piece":
+            "inline" in low and "verbatim" in low and "entire condition text" in low,
+        "handoff does NOT make pbcopy the required step":
+            "never the required step" in low and "pbcopy < <paste>" not in low,
+        "handoff shows no <paste> placeholder in place of the condition":
+            "/goal <paste>" not in low,
         "handoff sets --permission-mode auto for unattended runs":
             "--permission-mode auto" in low,
         "handoff prints the headless form":

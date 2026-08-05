@@ -17,6 +17,11 @@ export const P = {
   danger: "#FF5C8A",
   glow: "#DF00FF", // magenta — glow / large hero only
   fill: "#8A00FF", // glow / fill ONLY, never text
+  /* Lane coding, shared with the README's SVG system so the two read as one design:
+     lane A is the brief (a FILE, warm), lane B is the condition (a STRING, cool).
+     Never use one for the other — the colour is half of how the contract is taught. */
+  laneA: "#F0916A",
+  laneB: "#C4A6FF",
 };
 
 export const FONT_UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';

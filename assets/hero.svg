@@ -1,75 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-labelledby="htitle hdesc"
-  font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
-  <title id="htitle">goalify — /goal runs to GOAL COMPLETE</title>
-  <desc id="hdesc">A clean terminal: on the left the command /goal runs and ticks off its steps; on the right it resolves to a confident green GOAL COMPLETE. goalify prepares an autonomous run that a fresh Claude Code session executes and verifies.</desc>
-  <defs>
-    <linearGradient id="h-card" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#10151D"/><stop offset="1" stop-color="#0A0E14"/>
-    </linearGradient>
-    <radialGradient id="h-amb" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#2FB85C" stop-opacity="0.5"/><stop offset="1" stop-color="#2FB85C" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="h-blur" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="26"/></filter>
-    <filter id="h-glow" x="-70%" y="-70%" width="240%" height="240%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <clipPath id="h-clip"><rect x="64" y="40" width="1072" height="300" rx="16"/></clipPath>
-    <style>
-      .h-cmd{font-size:23px;font-weight:600}
-      .h-lbl{font-size:19px;fill:#C4CEDA}
-      .h-ttl{font-size:15px;fill:#AEB9C9;letter-spacing:3px;font-weight:600}
-      .h-bh{font-size:23px;font-weight:800;letter-spacing:2px;fill:#7DEBA3}
-      .h-bsub{font-size:14px;fill:#5E6E81;letter-spacing:.5px}
-      #h-l1{animation:h-r1 6s ease-out infinite}
-      #h-l2{animation:h-r2 6s ease-out infinite}
-      #h-l3{animation:h-r3 6s ease-out infinite}
-      .h-res{transform-box:fill-box;transform-origin:center;opacity:1;animation:h-pb 6s ease-out infinite}
-      .h-cur{animation:h-blink 1.06s steps(1,end) infinite}
-      .h-ambient{animation:h-breathe 4.2s ease-in-out infinite}
-      @keyframes h-r1{0%,8%{opacity:0;transform:translateY(8px)}15%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
-      @keyframes h-r2{0%,17%{opacity:0;transform:translateY(8px)}24%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
-      @keyframes h-r3{0%,26%{opacity:0;transform:translateY(8px)}33%,93%{opacity:1;transform:translateY(0)}99%,100%{opacity:0}}
-      @keyframes h-pb{0%,40%{opacity:0;transform:scale(.9)}48%{opacity:1;transform:scale(1.04)}55%,93%{opacity:1;transform:scale(1)}99%,100%{opacity:0}}
-      @keyframes h-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
-      @keyframes h-breathe{0%,100%{opacity:.35}50%{opacity:.7}}
-    </style>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 658" width="900" height="658" role="img" aria-labelledby="h-t h-d">
+  <title id="h-t">goalify: what you type, and what you get back</title>
+  <desc id="h-d">You run /goalify migrate our API to async/await. goalify writes a brief — the file ~/acme/.goal/api-migration.md, which the worker opens — and a condition string. You /clear, then paste the condition after /goal: "Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK, 40 turns max". The condition names the brief by path, which is how the run finds it. Handing /goal that path on its own is shown struck through, because the evaluator cannot open files. The run ends at GOAL COMPLETE.</desc>
+  <style>
+    .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
+    .cmd{font-size:32px;font-weight:700}
+    .said{font-size:30px;font-weight:500;fill:#6E7887}
+    .head{font-size:34px;font-weight:800}
+    .tag{font-size:28px;font-weight:700;letter-spacing:1.5px}
+    .val{font-size:28px;font-weight:500;fill:#3F3A36}
+    .note{font-size:28px;font-weight:400;fill:#6B5F57}
+    .step{font-size:28px;font-weight:400;fill:#828C9A}
+    .key{font-size:28px;font-weight:600}
+    .done{font-size:32px;font-weight:800;fill:#3F8F5F;letter-spacing:1px}
 
-  <rect x="64" y="40" width="1072" height="300" rx="16" fill="url(#h-card)" stroke="#202A3A" stroke-width="1.5"/>
-  <g clip-path="url(#h-clip)">
-    <ellipse class="h-ambient" cx="884" cy="206" rx="210" ry="170" fill="url(#h-amb)" filter="url(#h-blur)" opacity="0.45"/>
+    /* Opacity only, plus marching dashes on one 56-unit rule. Fastest feature 0.2 Hz,
+       slowest 0.09 Hz — WCAG 2.3.1 draws the line at 3 Hz. prefers-reduced-motion does
+       not reach an img-embedded SVG, so nothing here relies on the user opting out.
+       Nothing meaning-bearing animates from zero: every frame is a complete diagram,
+       which matters because README images get screenshotted. The struck-through
+       counter-example is deliberately excluded from all motion — a reader who catches
+       any single frame must never see it un-negated. */
+    .flow{animation:h-flow 5s linear infinite}
+    .glowA{animation:h-breathe 11s ease-in-out infinite}
+    .glowB{animation:h-breathe 11s ease-in-out infinite -5.5s}
+    .tick{animation:h-breathe 11s ease-in-out infinite -2.75s}
+    @keyframes h-flow{from{stroke-dashoffset:0}to{stroke-dashoffset:-40}}
+    @keyframes h-breathe{0%,100%{opacity:.7}50%{opacity:1}}
+    @media (prefers-reduced-motion: reduce){
+      .flow,.glowA,.glowB,.tick{animation:none;opacity:1}
+    }
+  </style>
 
-    <circle cx="96" cy="64" r="6.5" fill="#FF5F57"/>
-    <circle cx="120" cy="64" r="6.5" fill="#FEBC2E"/>
-    <circle cx="144" cy="64" r="6.5" fill="#28C840"/>
-    <text x="600" y="69" text-anchor="middle" class="h-ttl">goalify</text>
-    <line x1="64" y1="88" x2="1136" y2="88" stroke="#1A2230" stroke-width="1.5"/>
+  <!-- ── what you type ──────────────────────────────────────────────────── -->
+  <text x="40" y="46"><tspan class="mono cmd" fill="#C2643F">/goalify</tspan><tspan class="sans said" dx="18">migrate our API to async/await</tspan></text>
+  <line x1="40" y1="68" x2="860" y2="68" stroke="#6E7887" stroke-width="1.5" opacity=".28"/>
 
-    <line x1="652" y1="116" x2="652" y2="312" stroke="#18202E" stroke-width="1.5"/>
+  <!-- ── artifact 1: the brief. A file, so it is drawn as one. ──────────── -->
+  <path d="M56 86 H816 L860 130 V164 Q860 180 844 180 H56 Q40 180 40 164 V102 Q40 86 56 86 Z"
+        fill="#FBF1EA" stroke="#C2643F" stroke-width="2.5"/>
+  <path d="M816 86 L860 130 H816 Z" fill="#EFD9C9" stroke="#C2643F" stroke-width="2.5"
+        stroke-linejoin="round"/>
+  <text class="sans head" x="72" y="124" fill="#7C2D12">BRIEF</text>
+  <text class="sans tag glowA" x="770" y="122" text-anchor="end" fill="#C2643F">A FILE</text>
+  <text class="mono val" x="72" y="164">~/acme/.goal/api-migration.md</text>
+  <text class="sans note" x="828" y="164" text-anchor="end">the worker opens it</text>
 
-    <path d="M104 133 l11 9 l-11 9" fill="none" stroke="#D97757" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="130" y="150" class="h-cmd"><tspan fill="#E9EEF5">/goal</tspan><tspan fill="#8A97A9">  api-migration.md</tspan></text>
-    <rect class="h-cur" x="452" y="132" width="11" height="21" rx="1.5" fill="#D97757"/>
+  <!-- ── you clear, then paste artifact 2 ───────────────────────────────── -->
+  <text class="mono key" x="68" y="216" fill="#6E7887">/clear</text>
+  <text class="sans step" x="180" y="216">then paste this, whole:</text>
+  <line class="flow" x1="42" y1="182" x2="42" y2="238" stroke="#7C6AF0" stroke-width="3"
+        stroke-dasharray="7 9" opacity=".75"/>
 
-    <g id="h-l1">
-      <path d="M101 198 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="130" y="204" class="h-lbl">researched · decisions locked</text>
-    </g>
-    <g id="h-l2">
-      <path d="M101 238 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="130" y="244" class="h-lbl">ran in a fresh, full-context session</text>
-    </g>
-    <g id="h-l3">
-      <path d="M101 278 l5 6 l12 -15" fill="none" stroke="#3FB950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="130" y="284" class="h-lbl">success criteria verified</text>
-    </g>
+  <!-- ── artifact 2: the condition. `/goal` is the COMMAND and sits outside the
+         plate; the plate is the ARGUMENT. Keeping them visually separate is the
+         whole point — the condition is the string, not the string plus the verb.
+         It names the brief by path, which is how the run ever finds the file. ── -->
+  <text class="mono key" x="40" y="342" fill="#4C3FBF" font-weight="700">/goal</text>
+  <rect x="140" y="248" width="720" height="250" rx="26" fill="#EFEDFB"
+        stroke="#7C6AF0" stroke-width="2.5"/>
+  <line x1="158" y1="272" x2="158" y2="474" stroke="#7C6AF0" stroke-width="7" stroke-linecap="round"/>
+  <text class="sans head" x="180" y="292" fill="#312A85">CONDITION</text>
+  <text class="sans tag glowB" x="828" y="290" text-anchor="end" fill="#7C6AF0">A STRING</text>
+  <text class="mono val" x="180" y="336">Read and fully execute the brief at</text>
+  <text class="mono val" x="180" y="370">~/acme/.goal/api-migration.md,</text>
+  <text class="mono val" x="180" y="404">done when the last turn QUOTES npm test</text>
+  <text class="mono val" x="180" y="438">passing and says ASYNC-OK. 40 turns max.</text>
+  <text class="sans note" x="180" y="476" fill="#5C5852">both readers get this string</text>
 
-    <g class="h-res">
-      <rect x="824" y="120" width="120" height="120" rx="30" fill="#0E2A1A" stroke="#2C9A56" stroke-width="1.5"/>
-      <path d="M856 182 l18 18 l34 -42" fill="none" stroke="#4ADE80" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#h-glow)"/>
-      <text x="884" y="286" text-anchor="middle" class="h-bh">GOAL COMPLETE</text>
-      <text x="884" y="312" text-anchor="middle" class="h-bsub">every success criterion met</text>
-    </g>
+  <!-- The counter-example. Struck at full opacity in every frame, never animated.
+       data-antipattern="v1" is what lets the flattened-text gate in
+       tests/test_manifests.py tell a negated example from an instruction.
+       It uses the SAME path as the condition above, so the contrast is exactly
+       "the whole string" versus "only the path it names". -->
+  <g data-antipattern="v1">
+    <text class="sans step" x="64" y="538">not:</text>
+    <text class="mono step" x="140" y="538">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
+    <line x1="140" y1="529" x2="728" y2="529" stroke="#C2643F" stroke-width="2.5"/>
+    <text class="sans step" x="140" y="572">— the evaluator cannot open this file or check what is in it</text>
   </g>
+
+  <!-- ── the finish line ────────────────────────────────────────────────── -->
+  <line x1="40" y1="600" x2="860" y2="600" stroke="#6E7887" stroke-width="1.5" opacity=".28"/>
+  <path class="tick" d="M42 632 l12 14 l26 -32" fill="none" stroke="#3F8F5F" stroke-width="6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="98" y="644"><tspan class="sans done">GOAL COMPLETE</tspan><tspan class="sans step" dx="22">re-check it yourself</tspan></text>
 </svg>

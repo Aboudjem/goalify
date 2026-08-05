@@ -6,15 +6,15 @@ description: >-
   implementation brief, and derives the `/goal` completion condition that makes
   a fresh session prove it finished — because `/goal` takes a condition string,
   never a file path. Use when the user says "goalify", "goalify this", "goalify
-  <task>", "/goalify <task>", "prep a goal", "prepare a goal file", "make an md
-  for /goal", "set up an autonomous run to launch later", or wants a Codex
+  <task>", "/goalify <task>", "prep a goal", "prepare a brief for /goal", "make an
+  md for /goal", "set up an autonomous run to launch later", or wants a Codex
   `/goal` objective. This skill AUTHORS the handoff now; it does NOT execute the
   work in this session. For a task to be done immediately here, use autopilot,
   ultrawork, or ralph instead, not goalify.
 argument-hint: "[task to prepare a /goal run for]"
 license: MIT
 metadata:
-  version: 2.0.1
+  version: 2.1.0
 ---
 
 # goalify
@@ -126,8 +126,10 @@ available (`TaskCreate`/`TaskUpdate`, or your environment's equivalent); write a
 8. **Save the brief to an absolute path** under `.goal/` in the project (create the dir; if the repo has
    a `.gitignore`, **idempotently append** `.goal/` to it — grep first, append only if absent), or
    `~/.claude/goalify/` if not in a project. Name it `<slug>-<stamp>.md`. Write the condition next to it
-   as `.goal/CONDITION-<slug>.txt` so the user can `pbcopy` it instead of hand-copying 4,000 characters.
-9. **Hand off (short).** Print the bullet summary, the caps, and the three steps (see Handoff format).
+   as `.goal/CONDITION-<slug>.txt` as a durable copy — a fallback for a long condition, not the
+   primary instruction.
+9. **Hand off (short).** Print the bullet summary, the caps, and the two steps — with the complete
+   `/goal` line inline and verbatim (see Handoff format).
 
 ### Dry run and caps
 
@@ -278,19 +280,32 @@ Every clause is load-bearing:
 
 ## Handoff format (what you print — short, bullets, not verbose)
 
+**Print the `/goal` line in full, inline.** Step 2 must contain the complete condition text, verbatim,
+ready to copy in one piece — not a `pbcopy` instruction and not a `<paste>` placeholder. The reason is
+the whole v2 correction: a copy step puts a **file path in the user's hand at the exact moment they
+are about to type `/goal`**, which is the most reliable way to produce the wrong input. Make the wrong
+input hard to even form. The brief's absolute path lives *inside* the condition text, so printing the
+line inline is also how the run gets pointed at the brief without `/goal` ever receiving a bare path.
+
 ```
 Prepared the run. Here's what it will do:
 - <bullet> <bullet> <bullet>   (high level, plain language)
 Decisions you set: <one line, if any>
 Plan: <N> phases · <N> subagents · turn cap <N>
 Brief:     <ABSOLUTE PATH>
-Condition: <ABSOLUTE PATH>/CONDITION-<slug>.txt  (<N> chars, under the 4,000 limit)
+Condition: <N> chars, under the 4,000 limit
 
-Next — three steps:
+Next — two steps:
 1.  /clear
-2.  pbcopy < <CONDITION FILE PATH>
-3.  /goal <paste>       ← unattended? confirm auto mode is on (the default in current Claude
-                             Code; otherwise Shift+Tab, or --permission-mode auto)
+2.  /goal <THE ENTIRE CONDITION TEXT, INLINE AND VERBATIM — every character of it, on one
+    pasteable line. The brief's absolute path appears inside this text; that is how the run
+    is pointed at the brief without handing /goal a bare path.>
+
+    Unattended? Confirm auto mode is on — the default in current Claude Code; otherwise
+    Shift+Tab, or --permission-mode auto.
+
+A copy is saved at <ABSOLUTE PATH>/CONDITION-<slug>.txt if the condition is long and you would
+rather not scroll: `pbcopy < <that file>` is a convenience, never the required step.
 
 Headless instead:
     claude -p "/goal $(cat <CONDITION FILE PATH>)" --permission-mode auto \
