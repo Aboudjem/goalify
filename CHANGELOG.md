@@ -4,6 +4,47 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-08-05
+
+A mass-audience README in plain English, and a dark neon visual system that finally matches the
+teaser. The condition contract itself is unchanged.
+
+### Changed
+
+- **README rewritten from scratch in plain, pain-first English.** It opens on the reader's problem —
+  the plan dying at `/clear` — before goalify is named, shows the whole handoff in one block with the
+  literal 157-character condition, and adds a with/without comparison plus a what-you-get list. The
+  two-artifact distinction stays in flowing prose; the single `[!IMPORTANT]` remains reserved for the
+  stopped-run caveat. A separate judging agent reviewed the draft against the voice spec before it
+  shipped, and an independent codex critique rated the result **9/10**, twice in a row. (For
+  calibration: the pre-v2.1.0 README rated 5/10, under an earlier and harsher critique prompt.)
+- **All five visuals now share one Deep Plum Neon system** — the palette the teaser already used
+  (`video/src/neon.tsx`). `hero.svg`, `two-artifacts.svg` and `how-it-works.svg` are self-contained
+  dark cards with their own fill, so they render identically on both GitHub themes (a deliberate
+  dark panel on light). The two-lane grammar is unchanged: warm solid rail for the brief, cool
+  dashed rail for the condition, `/goal` outside the condition plate, the struck counter-example at
+  full opacity in every frame. Animation proven by two-timestamp headless renders; every asset
+  viewed at 900px on dark and light pages and at 380px.
+- **The worked example's condition is byte-identical everywhere it appears in full** — the README
+  sequence block, the right/wrong fence, the hero's condition plate and the hero's `<desc>` all
+  carry the same 157 characters. Renderings that abridge it (two-artifacts, social card, teaser) now
+  mark the cut with an ellipsis.
+- **docs/ rewritten in the same voice with zero factual drift** — quickstart, FAQ, honest limits and
+  the Codex page were each rewritten by its own agent and cross-checked line by line against the old
+  page; an independent verifier then re-derived the load-bearing claims from primaries.
+- **Social card and teaser re-voiced to the new copy.** `social-preview.png` regenerated at exactly
+  1280×640 in the dark system; the teaser re-rendered (30.5 s) with its `/goal` beat showing the
+  condition that names the brief's path.
+- **Descriptions rewritten in the same voice**: `plugin.json`, `marketplace.json`, the `llms.txt`
+  opening, and the README tagline — now "evidence you can check yourself", the honest form of the
+  old "prove it finished".
+
+### Fixed
+
+- Two literal-truth defects the critique caught: the quickstart/FAQ claim that "nothing in your repo
+  changes" during prep (goalify writes the two artifacts under `.goal/`), and a comparison-table
+  cell that implied every stopped run reruns its checks — only a successful closeout does.
+
 ## [2.1.0] - 2026-08-05
 
 A README rebuilt around the contract, a new visual system, and two CI gates that close the holes the

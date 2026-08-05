@@ -4,14 +4,14 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "Home marketplace for goalify \u2014 the Claude Code skill that writes a self-contained implementation brief and derives the /goal completion condition from it, so a fresh session executes the job and has to prove every criterion before it stops."
+    "description": "Home marketplace for goalify \u2014 the Claude Code skill that writes a brief for the fresh session to work from and derives the /goal condition it has to prove, so an unattended run ends with evidence you can check."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "goalify sets up a big coding task to run autonomously: it scopes the work, locks the few real decisions, writes a self-contained implementation brief, and derives the /goal completion condition from it \u2014 because /goal takes a condition string, never a file path \u2014 so a fresh session executes the whole job and has to prove every success criterion before it stops.",
-      "version": "2.1.0"
+      "description": "goalify preps a big coding task while Claude still has your context: it locks the real decisions, writes a self-contained brief (a file the fresh session works from) and derives the /goal condition (a string \u2014 /goal never takes a file path), so an unattended run finishes the job and shows evidence you can check.",
+      "version": "2.2.0"
     }
   ]
 }

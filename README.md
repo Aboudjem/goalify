@@ -5,12 +5,7 @@
 <h1 align="center">goalify</h1>
 
 <p align="center">
-  <strong>goalify preps a big coding task so it can run unattended in a fresh Claude Code session — and prove it actually finished.</strong>
-</p>
-
-<p align="center">
-  Run <code>/goalify &lt;your task&gt;</code>. You get back a <strong>brief</strong> — a file the worker opens — and a<br>
-  <strong>condition</strong> — the string you paste into <code>/goal</code>, which names the brief's path inside it.
+  <strong>Prep a big coding task while Claude still has your context. Run it unattended in a fresh session. Get evidence you can check yourself.</strong>
 </p>
 
 <p align="center">
@@ -19,7 +14,12 @@
   <img src="https://img.shields.io/badge/Claude%20Code-skill-d97757" alt="Claude Code skill">
 </p>
 
----
+You scope a big task in chat — a refactor, a migration, an audit. Then you `/clear` so the run can
+start clean, and the plan dies with the old chat. The fresh run improvises, drifts on decisions you
+never made, and when it stops you can't tell whether it finished or just stopped talking.
+
+goalify is a Claude Code skill that closes that gap: it does the prep while it still has your
+context, and wires the finish line to commands the run has to quote. The whole handoff:
 
 ```text
 claude plugin marketplace add Aboudjem/10x        # once
@@ -27,22 +27,23 @@ claude plugin install goalify@10x
 
 /goalify migrate our API to async/await
     brief      ~/acme/.goal/api-migration.md      a file — the run works from it
-    condition  1,284 chars                        a string — you paste it below
+    condition  157 chars                          a string — you paste it below
 
 /clear
 /goal Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK. Or stop after 40 turns.
 ```
 
-That last line is one line. It scrolls; you paste all of it.
+That last line is one line. It scrolls; you paste all of it. (The printout above is abridged; the
+strings in it are exact.)
 
-## Why
+## What changes
 
-You scope a big task in chat — a refactor, a migration, an audit. Then you `/clear` for a clean
-session, and the plan is gone. The run improvises, drifts on decisions you never made, and when it
-stops you can't tell whether it finished or just ran out of things to say.
-
-goalify does the prep while it still has your context, and wires the condition to commands the run
-has to quote.
+| | Without goalify | With goalify |
+|---|---|---|
+| **Your plan after `/clear`** | gone with the old chat | saved as a brief the run is told to re-read as it works |
+| **Decisions mid-run** | improvised on the spot | locked with you before the run starts |
+| **"Done" means** | the run stopped talking | the last turn quotes `npm test` passing and says `ASYNC-OK` |
+| **When it stops** | scroll back and hope | on success, every check rerun at the end; either way you can re-check |
 
 ## Two artifacts, two readers
 
@@ -50,21 +51,25 @@ has to quote.
   <img src="assets/two-artifacts.svg" alt="The brief file goes to the worker; the condition string goes to /goal's tool-less evaluator. Never the path alone." width="100%">
 </p>
 
-The condition goes to **both** readers. The worker gets it as its objective and can follow the path
-inside it; the evaluator only ever judges it against what it can see in the transcript. `/goal`'s
-argument is a string because that is what the command accepts — the evaluator's tool-lessness is why
-a *path* cannot work as one.
+goalify writes a **brief** and a **condition**, and they go to different readers. The brief is a
+file: the worker — the fresh session doing the job — opens it and works from it. The condition is a
+string: it goes to the worker as its objective, and to the evaluator behind `/goal`, which decides
+every turn whether the work is proven. The evaluator has no tools and cannot open files. That is
+why `/goal`'s argument is the condition text itself, and why the condition names the brief's path
+*inside* it: the worker follows the path; the evaluator only reads the words.
 
 |  | **The brief** | **The condition** |
 |---|---|---|
 | **Is it `/goal`'s argument?** | **No** — the condition names its path | **Yes** — this is the argument |
 | What it is | a Markdown file | a plain string |
 | Who reads it | the **worker** only | **both** — the worker as its objective, the evaluator as the finish line |
-| Why it's shaped that way | full context, absolute paths, cited research; it can be long | the evaluator gets no tools and a truncated transcript, so ≤ 4,000 characters and quotable |
+| Why that shape | full context, absolute paths, cited research; it can be long | the evaluator gets no tools and a truncated transcript, so ≤ 4,000 characters and quotable |
 
-Deriving the condition from the brief's definition of done is what keeps the two in step — a
-mitigation, not a guarantee. How it does that (sentinels, the closeout turn, transcript truncation,
-what happens to the brief afterwards) is in the [FAQ](docs/faq.md).
+Deriving the condition from the brief's definition of done keeps the two in step — a mitigation,
+not a guarantee. goalify also saves the condition to `.goal/CONDITION-<slug>.txt` so you can copy it
+without scrolling back; that file is just where the string lives, never what you hand to `/goal`. The mechanics
+(sentinels, the closeout turn, transcript truncation, what happens to the brief afterwards) are in
+the [FAQ](docs/faq.md).
 
 ## Install
 
@@ -89,30 +94,42 @@ cp -r goalify/skills/goalify ~/.claude/skills/goalify
 
 ## Use it
 
-1. **`/goalify <your task>`.** goalify inspects the repo, researches what it doesn't know, and asks at most one short
-   batch of questions — only where there is a genuine fork.
-2. **Read the brief it wrote**, and the condition it derived from that brief's definition of done.
+1. **`/goalify <your task>`.** goalify inspects the repo, researches what it doesn't know, and asks
+   at most one short batch of questions — only where there is a genuine fork.
+2. **Read what it wrote** — the brief, and the condition it derived from the brief's definition of
+   done.
 3. **`/clear`, then paste the condition** — the whole string, not the path it names. Handing `/goal`
-   the path on its own fails quietly: nothing errors, and the check does not stop running, it just
-   keeps asking "is `~/acme/.goal/api-migration.md` satisfied?" — which no transcript can answer.
-   Meanwhile the first turn reads the path and starts working, so the run looks healthy.
-
-Use it for a substantial, well-specified job. Skip it for a one-line fix (just ask Claude), for
-open-ended exploration with no definable end state — goalify will decline rather than write a vague
-brief — and for work you want done *right now* in this session.
+   the path on its own fails quietly: nothing errors, and the first turn reads the path and starts
+   working, so the run looks healthy. But the check is now asking whether the text
+   `~/acme/.goal/api-migration.md` is satisfied — a question no transcript can answer, so the run
+   can never prove it finished.
 
 ```text v1-antipattern
-# paste the condition text itself
-/goal Read and fully execute the brief at ~/acme/.goal/api-migration.md — implement every phase.
-Done when npm test passes: the most recent turn must quote its output showing 0 failures and
-contain ASYNC-OK. Or stop after 40 turns.
+# paste the condition text itself — the same string, byte for byte, that goalify printed
+/goal Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the last turn quotes npm test passing and says ASYNC-OK. Or stop after 40 turns.
 
 # not the path on its own — nothing errors; the check just becomes unprovable
 /goal ~/acme/.goal/api-migration.md
 ```
 
+Use it for a substantial, well-specified job. Skip it for a one-line fix — just ask Claude. Skip it
+for work you want done *right now* in this session. And skip it for open-ended exploration with no
+definable end state: goalify will decline rather than write a vague brief.
+
 Unattended runs and the headless `claude -p` form are in the
 [quickstart](docs/quickstart.md#2-use-it).
+
+## What you get
+
+- **A brief that survives `/clear`** — self-contained, absolute paths, your decisions locked, and
+  phases in dependency order, so the run never has to guess what you meant.
+- **A condition wired to real commands** — a made-up word the run has to print (`ASYNC-OK` above), the
+  exact commands whose output must be quoted, and a turn bound, all under 4,000 characters.
+- **A fresh-context run** — the work starts at 100% context instead of the dregs of a long chat.
+- **A closeout turn** — every check reruns together at the end, so the evidence lands where the
+  evaluator can still see it.
+- **A paper trail** — on success the brief is archived to `.goal/done/` with a completion stamp; on
+  failure it stays put, checklist intact, so you can resume.
 
 ## Honest limits
 

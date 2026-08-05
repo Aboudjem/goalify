@@ -19,7 +19,7 @@ evaluator can never verify; the 25 assertions it fails are the v2 condition-stri
 | Target | Result |
 |---|---|
 | `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 55 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. |
-| `skills/goalify/SKILL.md` (v2.1.0, GREEN) | **55 / 55 pass** |
+| `skills/goalify/SKILL.md` (v2.2.0, GREEN) | **55 / 55 pass** |
 
 Reproduce:
 ```bash

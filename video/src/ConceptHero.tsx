@@ -5,7 +5,7 @@ import { P, FONT_UI, FONT_MONO, clamp, typed, rise, center, Bg, Fade, Caret, Che
 /* ===================== The goalify teaser — "Sleep on it" cut =====================
    Outcome-first kinetic typography bookends a live-terminal core. One idea per screen.
    Leads with the feeling (approve once, sleep, wake to a finished verified job), shows
-   the real CLI writing the plan, running it overnight, and the checks flipping green,
+   the real CLI writing the brief, running it overnight, and the checks flipping green,
    then an honest sample KPI, the advantages, and the after-state.
    No context-reset framing anywhere. */
 
@@ -66,7 +66,7 @@ const S1: React.FC = () => (
 const S2: React.FC = () => (
   <Bg glowColor={P.fill} glowAt="24% 22%">
     <Col>
-      <Big><Neon color={P.glow} strength={40}>goalify</Neon> turns your task into a real plan.</Big>
+      <Big><Neon color={P.glow} strength={40}>goalify</Neon> preps your task to run without you.</Big>
       <Sub delay={18}>a free Claude Code plugin</Sub>
     </Col>
   </Bg>
@@ -96,7 +96,7 @@ const S3: React.FC = () => (
         <TLine d={52} color={P.textDim}>↳ researching the repo · locking the real decisions</TLine>
         <Artifact d={72} tag="BRIEF FILE" value="~/acme/.goal/api-migration.md" color={P.laneA} />
         <Artifact d={92} tag="CONDITION STRING" value="Read the brief at ~/acme/.goal/api-migration.md," color={P.laneB} />
-        <Artifact d={104} tag="" value="npm test must pass" color={P.laneB} />
+        <Artifact d={104} tag="" value="then npm test must pass …" color={P.laneB} />
       </Win>
     </Stage>
   </Bg>
@@ -151,7 +151,7 @@ const S6: React.FC = () => {
 
 // 7 — WHAT YOU GET: the advantages (kinetic list)
 const ADV: React.ReactNode[] = [
-  <>A real plan, not a vague to-do</>,
+  <>A self-contained brief, not a vague to-do</>,
   <>The key decisions, locked up front</>,
   <>Done only when the tests pass</>,
   <>Free and open source</>,

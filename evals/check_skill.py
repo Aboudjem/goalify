@@ -7,8 +7,8 @@ This is the deterministic half of the eval suite (the behavioral scenarios live 
 research edits as pass/fail checks so a regression is caught in CI.
 
 It doubles as the RED→GREEN demonstration, reproducible from this repo's own history:
-point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 29/52); point it
-at the current `goalify` SKILL.md and it PASSES (GREEN, 52/52).
+point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/55); point it
+at the current `goalify` SKILL.md and it PASSES (GREEN, 55/55).
 
 Usage:
     python3 evals/check_skill.py [path-to-SKILL.md]   # default: skills/goalify/SKILL.md

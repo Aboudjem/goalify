@@ -1,15 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 424" width="900" height="424" role="img" aria-labelledby="w-t w-d">
   <title id="w-t">How goalify works, in three steps</title>
   <desc id="w-d">Step 1, research and decide: goalify inspects the repo and locks the few real decisions. Step 2, write both artifacts: a brief file the worker opens, and a condition string derived from the brief's definition of done. Step 3, run it fresh: you /clear, paste the condition string into /goal, and the run proves every criterion before it stops.</desc>
+  <defs>
+    <!-- Deep Plum Neon (video/src/neon.tsx). Self-contained dark card: identical on
+         both GitHub themes. laneA #F0916A = the brief; laneB #C4A6FF = the condition. -->
+    <linearGradient id="w-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#150A28"/>
+      <stop offset="1" stop-color="#0C0518"/>
+    </linearGradient>
+    <radialGradient id="w-glow" cx="0.85" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#8A00FF" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#8A00FF" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="w-dots" width="50" height="50" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.2" fill="#2A1A47"/>
+    </pattern>
+  </defs>
   <style>
     .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
-    .eyebrow{font-size:28px;font-weight:700;letter-spacing:4px;fill:#6E7887}
-    .num{font-size:34px;font-weight:800;fill:#828C9A}
-    .ttl{font-size:32px;font-weight:800;fill:#6E7887;letter-spacing:.3px}
-    .body{font-size:28px;font-weight:400;fill:#828C9A}
-    .a{font-size:28px;font-weight:700;fill:#C2643F}
-    .b{font-size:28px;font-weight:700;fill:#7C6AF0}
+    .eyebrow{font-size:28px;font-weight:700;letter-spacing:4px;fill:#CFC4E8}
+    .num{font-size:34px;font-weight:800;fill:#CFC4E8}
+    .ttl{font-size:32px;font-weight:800;fill:#F4F0FF;letter-spacing:.3px}
+    .body{font-size:28px;font-weight:400;fill:#CFC4E8}
+    .a{font-size:28px;font-weight:700;fill:#F0916A}
+    .b{font-size:28px;font-weight:700;fill:#C4A6FF}
 
     /* Same budget as the other two assets: opacity plus marching dashes on one short
        rule. Fastest 0.2 Hz. prefers-reduced-motion cannot reach an img-embedded SVG,
@@ -24,8 +39,13 @@
     }
   </style>
 
+  <!-- ── the card: its own dark ground on every GitHub theme ─────────────── -->
+  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-bg)" stroke="#33215C" stroke-width="2.5"/>
+  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-dots)" opacity="0.5"/>
+  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-glow)"/>
+
   <text class="sans eyebrow" x="40" y="40">HOW IT WORKS</text>
-  <line x1="40" y1="60" x2="860" y2="60" stroke="#6E7887" stroke-width="1.5" opacity=".3"/>
+  <line x1="40" y1="60" x2="860" y2="60" stroke="#CFC4E8" stroke-width="1.5" opacity=".22"/>
 
   <!-- 1 -->
   <text class="sans num p1" x="40" y="108">1</text>
@@ -41,6 +61,6 @@
   <!-- 3 -->
   <text class="sans num p3" x="40" y="326">3</text>
   <text class="sans ttl" x="96" y="326">Run it fresh</text>
-  <text x="96" y="362"><tspan class="mono body" fill="#6E7887">/clear</tspan><tspan class="sans body">, then paste the </tspan><tspan class="sans b">condition string</tspan></text>
-  <text x="96" y="396"><tspan class="sans body">into </tspan><tspan class="mono body" fill="#7C6AF0">/goal</tspan><tspan class="sans body"> — it proves every criterion.</tspan></text>
+  <text x="96" y="362"><tspan class="mono body" fill="#CFC4E8">/clear</tspan><tspan class="sans body">, then paste the </tspan><tspan class="sans b">condition string</tspan></text>
+  <text x="96" y="396"><tspan class="sans body">into </tspan><tspan class="mono body" fill="#C4A6FF">/goal</tspan><tspan class="sans body"> — it </tspan><tspan class="sans body" fill="#34F5C5" font-weight="700">proves every criterion</tspan><tspan class="sans body">.</tspan></text>
 </svg>

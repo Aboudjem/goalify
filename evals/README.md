@@ -11,15 +11,15 @@ red. `tests/test_manifests.py` covers the rest — manifest validity, version co
 sources, the repo-wide "no file path to `/goal`" contract, and the shipped example's clauses.
 
 ```bash
-python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (52/52)
+python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (55/55)
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md \
   && mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md \
-  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (29/52)
+  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (30/55)
 ```
 
 The RED target is reproduced **from this repo's own git history**, so the claim is falsifiable by
-anyone with a clone: the shipped v1.1.0 skill scores 29/52 against the v2 assertions; the current
-skill scores 52/52. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
+anyone with a clone: the shipped v1.1.0 skill scores 30/55 against the v2 assertions; the current
+skill scores 55/55. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
 that no longer exists, which made the headline number unverifiable — exactly the kind of unfalsifiable
 baseline `CONTRIBUTING.md` tells contributors not to accept.)
 

@@ -3,11 +3,16 @@
 <head>
 <meta charset="utf-8">
 <style>
+  /* Deep Plum Neon (video/src/neon.tsx) — same system as the README SVGs and the teaser.
+     laneA #F0916A = the brief (a file); laneB #C4A6FF = the condition (a string). */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1280px; height: 640px; }
   body {
-    background: #FBFAF8;
-    color: #2B2622;
+    background:
+      radial-gradient(55% 55% at 22% 8%, rgba(138,0,255,.17) 0%, transparent 70%),
+      radial-gradient(circle at 1.5px 1.5px, #2A1A47 1.2px, transparent 0) 0 0 / 50px 50px,
+      linear-gradient(180deg, #150A28 0%, #0C0518 100%);
+    color: #F4F0FF;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     overflow: hidden;
@@ -18,29 +23,31 @@
   }
   /* the two lanes, as a hairline signature down the left edge */
   .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; }
-  .rail .a { position: absolute; inset: 0 0 50% 0; background: #C2643F; }
-  .rail .b { position: absolute; inset: 50% 0 0 0; background: #7C6AF0; }
+  .rail .a { position: absolute; inset: 0 0 50% 0; background: #F0916A; }
+  .rail .b { position: absolute; inset: 50% 0 0 0; background: #C4A6FF; }
 
-  .eyebrow { display: flex; align-items: center; gap: 14px; color: #8A7F76; font-size: 21px;
+  .eyebrow { display: flex; align-items: center; gap: 14px; color: #CFC4E8; font-size: 21px;
     font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
-  .eyebrow .tick { width: 42px; height: 4px; border-radius: 2px; background: #C2643F; }
-  h1 { font-size: 104px; font-weight: 800; letter-spacing: -4px; line-height: 1; margin: 22px 0 0; color: #1E1A17; }
-  .tag { font-size: 31px; font-weight: 500; color: #6E7887; margin-top: 22px; max-width: 1020px; line-height: 1.34; }
+  .eyebrow .tick { width: 42px; height: 4px; border-radius: 2px; background: #F0916A; }
+  h1 { font-size: 104px; font-weight: 800; letter-spacing: -4px; line-height: 1; margin: 22px 0 0;
+    color: #F4F0FF; text-shadow: 0 0 42px rgba(168,85,247,.45); }
+  .tag { font-size: 31px; font-weight: 500; color: #CFC4E8; margin-top: 22px; max-width: 1020px; line-height: 1.34; }
 
   .lanes { display: flex; gap: 22px; margin-top: 34px; }
-  .card { flex: 1; border-radius: 18px; padding: 18px 24px; }
+  .card { flex: 1; border-radius: 18px; padding: 18px 24px; background: #1E0F38; }
   .card .k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     font-size: 21px; font-weight: 700; letter-spacing: 2px; }
   .card .v { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 25px; color: #3F3A36; margin-top: 10px; line-height: 1.35; }
-  .card .r { font-size: 21px; color: #7A7069; margin-top: 12px; }
-  .brief { background: #FBF1EA; border: 2px solid #C2643F; border-top-right-radius: 4px; }
-  .brief .k { color: #7C2D12; }
-  .cond { background: #EFEDFB; border: 2px solid #7C6AF0; }
-  .cond .k { color: #312A85; }
-  .cond .r b { color: #4C3FBF; }
+    font-size: 25px; color: #F4F0FF; margin-top: 10px; line-height: 1.35; }
+  .card .r { font-size: 21px; color: #CFC4E8; margin-top: 12px; }
+  .brief { border: 2px solid #F0916A; border-top-right-radius: 4px;
+    box-shadow: 0 0 26px rgba(240,145,106,.18); }
+  .brief .k { color: #F0916A; }
+  .cond { border: 2px solid #C4A6FF; box-shadow: 0 0 26px rgba(196,166,255,.20); }
+  .cond .k { color: #C4A6FF; }
+  .cond .r b { color: #C4A6FF; }
 
-  .footer { position: absolute; left: 86px; bottom: 22px; font-size: 21px; color: #8A7F76; font-weight: 500;
+  .footer { position: absolute; left: 86px; bottom: 22px; font-size: 21px; color: #CFC4E8; font-weight: 500;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
 </style>
 </head>
@@ -49,7 +56,7 @@
 
   <div class="eyebrow"><span class="tick"></span> Claude Code skill</div>
   <h1>goalify</h1>
-  <div class="tag">Preps a big coding task so it can run unattended in a fresh session — and prove it actually finished.</div>
+  <div class="tag">Prep a big coding task once. Run it unattended in a fresh session. Get evidence you can check yourself.</div>
 
   <div class="lanes">
     <div class="card brief">
@@ -59,7 +66,7 @@
     </div>
     <div class="card cond">
       <div class="k">CONDITION · A STRING</div>
-      <div class="v">Read the brief at<br>~/acme/.goal/api-migration.md,<br>then npm test must pass</div>
+      <div class="v">Read the brief at<br>~/acme/.goal/api-migration.md,<br>then npm test must pass …</div>
       <div class="r">you paste it into <b>/goal</b></div>
     </div>
   </div>

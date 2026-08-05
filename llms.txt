@@ -1,11 +1,12 @@
 # goalify
 
-> A Claude Code / Agent Skills skill that turns a big coding task into two artifacts: a self-contained
-> implementation brief, and the `/goal` completion condition derived from that brief's definition of
-> done. In one session it researches the task, locks the few real decisions (asking the user only the
-> genuine forks, one interactive MCQ), and wires the finish line to commands the run can check, so the
-> user can `/clear`, paste the condition into `/goal`, and have a fresh, full-context session prove
-> every criterion before it stops. The brief is archived on success. MIT licensed.
+> A Claude Code / Agent Skills skill that preps a big coding task while the current session still has
+> the user's context. It turns the task into two artifacts: a **brief** — a self-contained
+> implementation file the fresh session works from — and a **condition** — the `/goal` string derived
+> from that brief's definition of done. It researches the task, locks the few real decisions (asking
+> the user only the genuine forks, one interactive MCQ), and wires the finish line to commands the run
+> can check, so the user can `/clear`, paste the condition into `/goal`, and have a fresh, full-context
+> session prove every criterion before it stops. The brief is archived on success. MIT licensed.
 
 goalify solves a specific, unresolved problem: carrying a plan across `/clear` into a fresh
 implementation session (Claude Code issue #32916, "Best practice for plan-to-implementation context
