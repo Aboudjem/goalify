@@ -1,7 +1,8 @@
 # Quickstart
 
-Set up a big autonomous Claude Code run the right way. You do the prep **before** you `/clear`, then
-start the run in a fresh session that still has its full context.
+You describe a big coding job. goalify writes the instructions the AI works from, and the finish
+line it has to prove it reached. You do the prep **before** you `/clear`, then start the run in a
+fresh session that still has its full context.
 
 goalify only **authors** the run. It does not do your task, and you are the one who starts it. It
 writes two things: a **brief**, the Markdown file the run works from, and a **condition**, the plain
@@ -12,8 +13,10 @@ string the run has to prove it satisfied.
 ## 0. Prerequisites
 
 - **Claude Code**, installed and working. goalify is a Claude Code skill (Agent Skills).
-- **A task worth a full session** — a refactor, a migration, a feature, an audit. For a one-line fix,
-  just ask Claude to do it; you do not need an autonomous run for that.
+- **A substantial, well-specified job** — a refactor, a migration, a feature, an audit; something
+  worth a session of its own. For a one-line fix, just ask Claude to do it; you do not need an
+  autonomous run for that. The rest of the skip list is in
+  [when NOT to use it](#when-not-to-use-it).
 
 ---
 
@@ -31,21 +34,21 @@ claude plugin install goalify@10x
 ```shell
 git clone https://github.com/Aboudjem/goalify.git
 mkdir -p ~/.claude/skills
-cp -R goalify/skills/goalify ~/.claude/skills/goalify
+cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
 Either way, you get `/goalify`, which authors the run. You start the run yourself with Claude Code's
 built-in `/goal <condition>` command, which needs
 [Claude Code 2.1.139+](https://code.claude.com/docs/en/goal).
 
-**Claude Code finds the skill on its own.** One exception: a brand-new top-level skills directory may
-need one restart before Claude Code watches it. To update later, pull again and re-copy. To remove
-it, delete `~/.claude/skills/goalify`.
+**Claude Code finds the skill on its own.** Restart it if it was already open — and a brand-new
+top-level skills directory may need that one restart before Claude Code watches it. To update later,
+pull again and re-copy. To remove it, delete `~/.claude/skills/goalify`.
 
 ---
 
 <p align="center">
-  <img src="../assets/how-it-works.svg" alt="Three steps: goalify researches and decides, writes the brief and derives the condition, then you run it fresh." width="100%">
+  <img src="../assets/how-it-works.svg" alt="Five steps: prep with /goalify, reset with /clear, paste the condition into /goal, rerun every check, the brief archives." width="100%">
 </p>
 
 goalify inspects the repo and locks the few real decisions, then writes the brief and derives the
@@ -62,24 +65,27 @@ in a closeout turn before the brief is archived.
    condition from it, and prints the two commands you run yourself.
 
 3. **Run those two commands.** `/clear` first, then the `/goal` line goalify printed. That line is
-   long because it is the condition text itself, and it opens by naming the brief's absolute path so
-   the fresh session knows where to start reading. Paste the whole thing.
+   long because it is the condition text itself, and the brief's absolute path rides along inside it
+   so the fresh session knows where to start reading. Paste the whole thing.
 
    **What `/goal` receives is text, not a file.** The evaluator behind `/goal` has no tools and
    cannot open anything. Hand it the brief's path and that path just becomes the condition, so every
    turn the evaluator is asked whether the string `~/acme/.goal/api-migration.md` is satisfied — a
    question the transcript can never answer.
 
-   **Nothing errors when that happens,** which is what makes it worth knowing. The check keeps
-   running, it just runs against something unprovable, while the first turn reads the path and starts
-   working. The run looks fine right up until it does not end.
+   **Nothing errors when that happens,** which is what makes it worth knowing. The main agent has
+   full tools, so it reads the path and starts working, and the run looks healthy. What breaks is
+   the termination check: the loop's exit test is now a string the evaluator cannot interpret, so
+   the run keeps going past real completion. The failure is discoverable rather than invisible —
+   `/goal` with no argument shows the evaluator's most recent reason, which in this case reads
+   something like "insufficient evidence in transcript".
 
    ```text v1-antipattern
-   # the shape of what you paste — the condition text itself (ONE line; wrapped here to fit)
-   /goal Read and fully execute the brief at ~/acme/.goal/api-migration.md, done when the
-   last turn quotes npm test passing and says ASYNC-OK. Or stop after 40 turns.
+   # what you paste — the condition text itself (ONE line of 149 characters; wrapped here to fit)
+   /goal Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn
+   quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
 
-   # not the brief's path
+   # not the brief's path on its own
    /goal ~/acme/.goal/api-migration.md
    ```
 
@@ -104,6 +110,10 @@ under the hard rules baked into the brief: no hallucination, separate-agent veri
 gated destructive actions.
 
 ---
+
+<p align="center">
+  <img src="../assets/two-artifacts.svg" alt="The brief goes to the worker, which opens it; the condition goes through /goal to the evaluator, which reads words only." width="100%">
+</p>
 
 ## What you get
 

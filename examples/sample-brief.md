@@ -4,7 +4,8 @@
 > Express fixture used in this repo's evals), lightly trimmed. It shows the *shape* of the handoff:
 > a declarative goal, verified context with absolute paths, phases with fan-out guardrails, process
 > directives kept separate from the definition of done, machine-checkable criteria, a progress
-> checklist, and a gated archive step. In a real run the paths are yours.
+> checklist, a gated archive step, and — at the bottom — the one short sentence derived from it that
+> the user actually pastes into `/goal`. In a real run the paths are yours.
 >
 > Self-contained implementation brief. Authored 2026-05-29 by goalify. Runs in a fresh session.
 > This file's own path: `/Users/example/widget-api/.goal/cb-to-async-2026-05-29.md`
@@ -53,11 +54,16 @@ behavior is uncertain. Do not stop until every criterion in Definition of done h
 4. **Verify (serialize).** Run `cd /Users/example/widget-api && npm test > /tmp/widget-test.log 2>&1`,
    then `tail -20 /tmp/widget-test.log`. A SEPARATE agent re-reads the diff and confirms the route
    contract is byte-identical to Phase 1's `contract.md`.
-5. **Closeout + final report.** Re-run every Definition-of-done command together in one turn and
-   present the evidence packet (see Handoff).
+5. **Closeout + final report (serialize).** Re-run every Definition-of-done command together in one
+   dedicated turn, then present the evidence packet and the Done / Proof / Next report in that same
+   turn (see the Closeout turn directive and Final output below).
 
-## Process directives (reliable in Claude Code; see the README for what survives in Codex)
+## Process directives (reliable in Claude Code; see docs/codex.md for what survives in Codex)
 
+- **Live visible progress.** At the start, create ONE task per phase in the task tracker
+  (`TaskCreate`, or this environment's equivalent). Flip each one `in_progress` → `completed` as it
+  lands — never in one batch at the end — and tick this file's progress checklist below as you go;
+  that checklist IS the resume state. A silent run is indistinguishable from a stalled one.
 - **Maximum effort.** Fan out parallel subagents for all independent discovery and verification.
 - **Subagent barrier.** Never write a deliverable, tick a criterion, or end a turn while a spawned
   subagent or background task is still live. Wait for it, read its artifact from disk, confirm the
@@ -72,8 +78,16 @@ behavior is uncertain. Do not stop until every criterion in Definition of done h
 - **Redirect noisy output.** `npm test > /tmp/widget-test.log 2>&1` then `tail` — don't flood context.
 - **Commit before risky steps.** Commit the green baseline before editing; `git reset --hard` + re-run
   is valid recovery.
+- **Closeout turn.** Immediately before you report, rerun every Definition-of-done check together in
+  one dedicated turn and quote the fresh output. The whole evidence packet — the sentinel
+  `WIDGET_ASYNC_EVIDENCE`, each command and its output, and "unresolved failures: none" or the list of
+  them — must land in the single most recent assistant turn. Do not rely on results proven in earlier
+  turns: on a long run the evaluator sees only a recent window of the transcript and rejects evidence
+  it cannot quote. Claims without freshly quoted command output are not evidence.
 - **3-strike escalation.** On failure: (1) retry with a root-cause probe; (2) retry with a narrowed fix
-  scope; (3) STOP, write `.goal/BLOCKERS-<stamp>.md`, and say BLOCKED explicitly.
+  scope; (3) STOP, write `.goal/BLOCKERS-<stamp>.md`, and say BLOCKED explicitly. Do not treat
+  inability, difficulty, or partial progress as completion, and do not declare this goal impossible in
+  order to finish.
 - **Resumable.** Re-read this file each loop; tick the checklist here; write notes to `.goal/`.
 
 ## Definition of done (portable — the condition is derived from exactly this list)
@@ -93,12 +107,23 @@ behavior is uncertain. Do not stop until every criterion in Definition of done h
 - [ ] `server.js` handlers async/await, contract preserved
 - [ ] `npm test` green (2/2)
 - [ ] Independent agent confirmed the contract held
+- [ ] Closeout turn done: every check rerun together and freshly quoted in one turn
 - [ ] All criteria hold → safe to archive
 
-## Final output
+## Final output (short bullets under Done / Proof / Next — no long paragraphs)
 
-A short summary: what changed (files + the async pattern used), the `npm test` result (2/2),
-confirmation the route contract held, and confidence per decision. No public-API change.
+Exactly these three headers, a few short bullets under each, and nothing else.
+
+- **Done** — what changed: `orders.js` promisified, both route handlers on async/await, no
+  public-API change. One bullet per thing.
+- **Proof** — every check as rerun in the closeout turn, with its actual quoted output: the `grep`
+  returning nothing, `npm test` at 2/2, the separate agent's contract confirmation. Confidence per
+  decision (confirmed · likely · uncertain · blocked · needs-approval).
+- **Next** — the user's next commands, plus anything still open.
+
+Then state plainly, in the report itself: a `/goal` run that stopped is not proof of completion — the
+evaluator can end the loop by judging the condition unachievable — and give the verify-only re-check:
+open a fresh session and run only the Definition-of-done commands above.
 
 ## Archive gate (LOW FREEDOM — do not modify this gate or the command)
 
@@ -117,24 +142,16 @@ Then confirm the destination exists and the original path no longer does.
 
 ## Handoff — the condition string (this is what the user types, not this file's path)
 
-Derived from Definition of done above; 1,415 characters, under the 4,000-character limit
+Derived from Definition of done above; 190 characters, far under the 4,000-character limit
 (`tests/test_manifests.py` asserts the limit and re-counts this block, so the number cannot drift).
+One plain sentence carrying the four teeth and nothing more: this file's absolute path, a
+quoted-evidence clause naming a runnable command, a made-up sentinel, and a turn bound. Every heavy
+directive — the closeout turn, the freshly-quoted rule, "do not declare this goal impossible",
+maximum effort — lives in the brief above, which the worker reads in full. The condition only has to
+be checkable by an evaluator that has no tools and cannot read files.
 
 ```text
-Read and fully execute the implementation brief at /Users/example/widget-api/.goal/cb-to-async-2026-05-29.md
-— read it first, implement every phase, do not merely summarize it. Work at maximum effort and never end a
-turn while a subagent is still running. This condition is satisfied ONLY when the single most recent
-assistant turn contains the sentinel WIDGET_ASYNC_EVIDENCE followed, in that same turn, by all of:
-(1) `grep -rn "cb(" /Users/example/widget-api/src` rerun and quoted, returning nothing; (2) `cd
-/Users/example/widget-api && npm test` rerun with exit 0 and its last lines quoted showing 2/2 passing;
-(3) a quoted diff or statement from a SEPARATE agent confirming the route contract is unchanged;
-(4) the line "unresolved failures: none" or an explicit list of them. Immediately before presenting that
-packet, rerun every one of those checks together in one dedicated closeout turn — do not rely on results
-proven in earlier turns, because on a long run the evaluator sees only a recent window of the transcript
-and will reject evidence it cannot quote. Claims without freshly quoted command output are insufficient evidence. Do not
-treat inability, difficulty, or partial progress as completion, and do not declare this goal impossible
-in order to finish: if genuinely blocked, write a blockers report to .goal/ and state BLOCKED explicitly.
-Or stop after 40 turns and report a non-success timeout.
+Do everything in /Users/example/widget-api/.goal/cb-to-async-2026-05-29.md and prove it — done when the last turn quotes npm test passing and says WIDGET_ASYNC_EVIDENCE. Stop after 40 turns.
 ```
 
 The user runs `/clear`, then pastes that string into `/goal` (with `--permission-mode auto` for an

@@ -3,31 +3,37 @@
 > The evidence that each part of the skill fixes a real, observed failure. Skills are built
 > test-first (RED → GREEN → REFACTOR): watch the failure happen *without* the skill, write the
 > minimum that fixes it, prove it now behaves. This file records the baselines so a future change
-> can't quietly regress them. §1 records both the v2.0.0 baseline (**2026-08-04**) and the original
+> can't quietly regress them. §1 records the current v2.3.0 baseline (**2026-08-06**) and the original
 > v1.0.0 one (**2026-05-29**); §2 and §3 are the v1-era behavioral runs, recorded **2026-05-29**.
 
 ## 1. Deterministic check (`check_skill.py`) — the artifact-level RED→GREEN
 
 `check_skill.py` encodes the confirmed authoring edits as pass/fail assertions and runs in CI.
 
-### v2.1.0 (re-recorded 2026-08-05) — 55 assertions
+### v2.3.0 (re-recorded 2026-08-06) — 78 assertions
 
-The v2 RED target is **this repo's own v1.1.0 skill**, reproduced from git history, so anyone with a
+The RED target is **this repo's own v1.1.0 skill**, reproduced from git history, so anyone with a
 clone can falsify the number. v1.1.0 shipped the `/goal <file-path>` handoff <!-- v1-antipattern -->, which the tool-less
-evaluator can never verify; the 25 assertions it fails are the v2 condition-string contract.
+evaluator can never verify; the 47 assertions it fails are the v2 condition-string contract (25) plus
+the v2.3 plain-language contract (22).
 
 | Target | Result |
 |---|---|
-| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 55 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. |
-| `skills/goalify/SKILL.md` (v2.2.0, GREEN) | **55 / 55 pass** |
+| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 78 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. And every v2.3 assertion: no plain-words story in the description or the overview, no short-condition default, no ceiling-not-a-target framing, no canonical worked example, no four-teeth rule, no short-read lint, no rule keeping process directives out of the condition, no `/clear` + one-line handoff, no ban on a launcher or wrapper, no Done/Proof/Next report requirement, no ban on long paragraphs, no stopped-run caveat inside the template, no live-visible-progress requirement (template or PREPARE), no `in_progress → completed` rule, no read-the-deliverable-from-disk rule, no never-hand-off-while-live rule, no brief-is-a-file / condition-is-a-string vocabulary lock. |
+| `skills/goalify/SKILL.md` (v2.3.0, GREEN) | **78 / 78 pass** |
 
 Reproduce:
 ```bash
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md
 mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md
-python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 30/55)
-python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 55/55)
+python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 30/78)
+python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 78/78)
 ```
+
+The RED number is unchanged from the v2.1.0 recording (30) because v1.1.0 passes none of the 22 new
+assertions — the delta is entirely in the denominator. One pre-existing assertion was **tightened**
+rather than added: `handoff does NOT make pbcopy the required step` now also requires the handoff to
+ban the copy step outright, not merely demote it. v1.1.0 failed it before and fails it now.
 
 ### v1.0.0 (recorded 2026-05-29) — 29 assertions, historical
 
@@ -48,9 +54,12 @@ The original baseline compared against a legacy `goal-prep` skill that lived at
 > **Same reproducibility caveat as the retired 7/29 figure above.** These are LLM-judged transcripts
 > from 2026-05-29; the transcripts and judge prompt are not shipped and the fixture at
 > `/tmp/goalify-eval-fixture` is gone, so a reader cannot re-derive these numbers. They are kept as a
-> dated record, not as evidence. **No behavioral baseline has been recorded for the v2.0.0 clauses** —
-> §1's v2 table is a static re-scoring of the v1.1.0 file, which is a regression diff, not an observed
-> model failure. Recording one is the top open task for the next release.
+> dated record, not as evidence. **No behavioral baseline has been recorded for the v2.0.0 or v2.3.0
+> clauses** — §1's table is a static re-scoring of the v1.1.0 file, which is a regression diff, not an
+> observed model failure. Recording one is the top open task for the next release. The S1 rubric in
+> `scenarios.md` was also reworded for v2.3.0 (short plain condition; one-line handoff; no hand-off
+> while a subagent is live) without changing the number of dimensions, so the `/7` figures below were
+> scored against the v1-era wording of those same dimensions.
 
 Each scenario was run twice per model — once **cold** (no skill, RED) and once with `goalify` active
 (GREEN) — and scored by a **separate** Opus judge against the scenario rubric (never self-approved).

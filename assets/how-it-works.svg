@@ -1,66 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 424" width="900" height="424" role="img" aria-labelledby="w-t w-d">
-  <title id="w-t">How goalify works, in three steps</title>
-  <desc id="w-d">Step 1, research and decide: goalify inspects the repo and locks the few real decisions. Step 2, write both artifacts: a brief file the worker opens, and a condition string derived from the brief's definition of done. Step 3, run it fresh: you /clear, paste the condition string into /goal, and the run proves every criterion before it stops.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-labelledby="hiw-t hiw-d">
+  <title id="hiw-t">How goalify works — five steps down a staircase, and which artifact governs each one</title>
+  <desc id="hiw-d">A staircase of five indented rows. Step 1: goalify runs while the context is still hot, shown by a meter at ninety per cent. Step 2: clear the session, so the run starts with full context again. Step 3: paste the condition — the string, not the path — into the command chip. This is the hand-off: a solid warm rail carrying the brief runs down steps 1 to 3, and a dashed cool rail carrying the condition takes over from step 3 down to step 5, the two crossing at step 3's left edge. Step 4: the closing turn reruns every check and quotes npm test, saying ASYNC-OK. Step 5: the brief archives itself into the done folder, where the warm chip comes to rest.</desc>
   <defs>
-    <!-- Deep Plum Neon (video/src/neon.tsx). Self-contained dark card: identical on
-         both GitHub themes. laneA #F0916A = the brief; laneB #C4A6FF = the condition. -->
-    <linearGradient id="w-bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="hiw-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#150A28"/>
       <stop offset="1" stop-color="#0C0518"/>
     </linearGradient>
-    <radialGradient id="w-glow" cx="0.85" cy="0.85" r="0.6">
-      <stop offset="0" stop-color="#8A00FF" stop-opacity="0.14"/>
+    <radialGradient id="hiw-glow" cx="0.18" cy="0.05" r="0.55">
+      <stop offset="0" stop-color="#8A00FF" stop-opacity="0.16"/>
       <stop offset="1" stop-color="#8A00FF" stop-opacity="0"/>
     </radialGradient>
-    <pattern id="w-dots" width="50" height="50" patternUnits="userSpaceOnUse">
-      <circle cx="1.5" cy="1.5" r="1.2" fill="#2A1A47"/>
+    <pattern id="hiw-dots" width="50" height="50" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1.2" fill="#2A1A47"/>
     </pattern>
+    <clipPath id="hiw-clip"><rect x="2" y="2" width="896" height="716" rx="24"/></clipPath>
   </defs>
   <style>
-    .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
-    .eyebrow{font-size:28px;font-weight:700;letter-spacing:4px;fill:#CFC4E8}
-    .num{font-size:34px;font-weight:800;fill:#CFC4E8}
-    .ttl{font-size:32px;font-weight:800;fill:#F4F0FF;letter-spacing:.3px}
-    .body{font-size:28px;font-weight:400;fill:#CFC4E8}
-    .a{font-size:28px;font-weight:700;fill:#F0916A}
-    .b{font-size:28px;font-weight:700;fill:#C4A6FF}
-
-    /* Same budget as the other two assets: opacity plus marching dashes on one short
-       rule. Fastest 0.2 Hz. prefers-reduced-motion cannot reach an img-embedded SVG,
-       so the motion is gentle by construction; the block below ships regardless.
-       No element animates from zero — every frame is a complete, readable diagram. */
-    .p1{animation:w-breathe 12s ease-in-out infinite}
-    .p2{animation:w-breathe 12s ease-in-out infinite -4s}
-    .p3{animation:w-breathe 12s ease-in-out infinite -8s}
-    @keyframes w-breathe{0%,100%{opacity:.68}50%{opacity:1}}
-    @media (prefers-reduced-motion: reduce){
-      .p1,.p2,.p3{animation:none;opacity:1}
-    }
+    .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+    /* One faint highlight travels the five rows as five overlay bands, 10s = 0.10 Hz.
+       The bands carry no information — their peak is .06 — and the rows, rails, chips and
+       text under them never move and never change opacity, so every frame is the whole flow.
+       The only content animation is the step-4 tick, floored at .8. */
+    .sweep{animation:hiw-sweep 10s ease-in-out infinite}
+    .s2{animation-delay:-2s}
+    .s3{animation-delay:-4s}
+    .s4{animation-delay:-6s}
+    .s5{animation-delay:-8s}
+    .tick{animation:hiw-tick 10s ease-in-out infinite}
+    @keyframes hiw-sweep{0%,40%,100%{opacity:0}20%{opacity:.06}}
+    @keyframes hiw-tick{0%,100%{opacity:1}50%{opacity:.8}}
+    @media (prefers-reduced-motion: reduce){.sweep{animation:none}.tick{animation:none;opacity:1}}
   </style>
 
-  <!-- ── the card: its own dark ground on every GitHub theme ─────────────── -->
-  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-bg)" stroke="#33215C" stroke-width="2.5"/>
-  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-dots)" opacity="0.5"/>
-  <rect x="2" y="2" width="896" height="420" rx="24" fill="url(#w-glow)"/>
+  <rect x="2" y="2" width="896" height="716" rx="24" fill="url(#hiw-bg)" stroke="#33215C" stroke-width="2.5"/>
+  <g clip-path="url(#hiw-clip)">
+    <rect x="2" y="2" width="896" height="716" fill="url(#hiw-glow)"/>
+    <rect x="2" y="2" width="896" height="716" fill="url(#hiw-dots)" opacity="0.5"/>
+  </g>
 
-  <text class="sans eyebrow" x="40" y="40">HOW IT WORKS</text>
-  <line x1="40" y1="60" x2="860" y2="60" stroke="#CFC4E8" stroke-width="1.5" opacity=".22"/>
+  <!-- header -->
+  <text class="sans" font-size="28" font-weight="700" letter-spacing="4" x="40" y="44" fill="#CFC4E8">HOW IT WORKS</text>
+  <text class="sans" font-size="28" font-weight="700" letter-spacing="4" x="860" y="44" text-anchor="end" fill="#CFC4E8" opacity="0.8">FIVE STEPS, ONE RUN</text>
+  <line x1="40" y1="64" x2="860" y2="64" stroke="#CFC4E8" stroke-width="1.5" opacity="0.22"/>
 
-  <!-- 1 -->
-  <text class="sans num p1" x="40" y="108">1</text>
-  <text class="sans ttl" x="96" y="108">Research &amp; decide</text>
-  <text class="sans body" x="96" y="144">goalify inspects the repo and locks the few real decisions.</text>
+  <!-- the sweep bands: decoration only, peak .06, drawn under everything -->
+  <rect class="sweep" x="40" y="96" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
+  <rect class="sweep s2" x="40" y="216" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
+  <rect class="sweep s3" x="40" y="336" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
+  <rect class="sweep s4" x="40" y="456" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
+  <rect class="sweep s5" x="40" y="576" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
 
-  <!-- 2 — the two artifacts are colour- and word-coded the same way everywhere -->
-  <text class="sans num p2" x="40" y="200">2</text>
-  <text class="sans ttl" x="96" y="200">Write the brief, derive the condition</text>
-  <text x="96" y="236"><tspan class="sans body">Two artifacts: a </tspan><tspan class="sans a">brief file</tspan><tspan class="sans body"> the worker opens, and a</tspan></text>
-  <text x="96" y="270"><tspan class="sans b">condition string</tspan><tspan class="sans body"> derived from its definition of done.</tspan></text>
+  <!-- risers: the SOLID warm rail carries the brief down steps 1-3; the DASHED cool rail
+       carries the condition from step 3 down to step 5. They overlap at step 3's left edge,
+       and that overlap is the hand-off. -->
+  <path d="M52 96 V210 H84 V330 H116 V404" fill="none" stroke="#F0916A" stroke-width="4"/>
+  <path d="M116 376 V450 H148 V570 H180 V684" fill="none" stroke="#C4A6FF" stroke-width="4" stroke-dasharray="12 8"/>
+  <circle cx="116" cy="390" r="24" fill="none" stroke="#CFC4E8" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- 3 -->
-  <text class="sans num p3" x="40" y="326">3</text>
-  <text class="sans ttl" x="96" y="326">Run it fresh</text>
-  <text x="96" y="362"><tspan class="mono body" fill="#CFC4E8">/clear</tspan><tspan class="sans body">, then paste the </tspan><tspan class="sans b">condition string</tspan></text>
-  <text x="96" y="396"><tspan class="sans body">into </tspan><tspan class="mono body" fill="#C4A6FF">/goal</tspan><tspan class="sans body"> — it </tspan><tspan class="sans body" fill="#34F5C5" font-weight="700">proves every criterion</tspan><tspan class="sans body">.</tspan></text>
+  <!-- carried chips: warm = the brief (sharp), cool = the condition (capsule). Static at every step. -->
+  <rect x="38" y="136" width="28" height="28" fill="#F0916A"/>
+  <rect x="70" y="256" width="28" height="28" fill="#F0916A"/>
+  <rect x="102" y="376" width="28" height="28" rx="14" fill="#C4A6FF"/>
+  <rect x="134" y="496" width="28" height="28" rx="14" fill="#C4A6FF"/>
+  <rect x="166" y="616" width="28" height="28" rx="14" fill="#C4A6FF"/>
+
+  <!-- 1 — prep while the context is still hot -->
+  <text class="sans" font-size="44" font-weight="800" x="104" y="148" fill="#A855F7">1</text>
+  <text class="mono" font-size="32" font-weight="700" x="148" y="148" fill="#F4F0FF">/goalify</text>
+  <text class="sans" font-size="28" x="148" y="188" fill="#CFC4E8">prep while the context is still hot</text>
+  <text class="sans" font-size="28" x="860" y="150" text-anchor="end" fill="#CFC4E8">context 90%</text>
+  <rect x="700" y="166" width="160" height="12" rx="6" fill="#33215C"/>
+  <rect x="700" y="166" width="144" height="12" rx="6" fill="#F0916A"/>
+
+  <!-- 2 — a fresh session -->
+  <text class="sans" font-size="44" font-weight="800" x="136" y="268" fill="#A855F7">2</text>
+  <text class="mono" font-size="32" font-weight="700" x="180" y="268" fill="#F4F0FF">/clear</text>
+  <rect x="314" y="246" width="12" height="30" fill="#CFC4E8" opacity="0.5"/>
+  <text class="sans" font-size="28" x="180" y="308" fill="#CFC4E8">a fresh session, full context again</text>
+
+  <!-- 3 — the hand-off row: the brief's rail ends here, the condition's rail begins -->
+  <text class="sans" font-size="44" font-weight="800" x="168" y="388" fill="#A855F7">3</text>
+  <text class="sans" font-size="32" font-weight="700" x="212" y="388" fill="#F4F0FF">paste the condition into</text>
+  <rect x="610" y="362" width="108" height="38" rx="8" fill="#150A28" stroke="#33215C" stroke-width="2"/>
+  <text class="mono" font-size="28" font-weight="700" x="664" y="388" text-anchor="middle" fill="#C4A6FF">/goal</text>
+  <text class="sans" font-size="28" x="212" y="428" fill="#CFC4E8">the string, not the path</text>
+
+  <!-- 4 — the closing turn. Sole success-colour moment in this asset. -->
+  <text class="sans" font-size="44" font-weight="800" x="200" y="508" fill="#A855F7">4</text>
+  <path class="tick" d="M166 508 L174 516 L190 496" fill="none" stroke="#34F5C5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="sans" font-size="32" font-weight="700" x="244" y="508" fill="#F4F0FF">the closing turn reruns every check</text>
+  <text class="sans" font-size="28" x="244" y="548" fill="#CFC4E8">quotes <tspan font-weight="600" fill="#F4F0FF">npm test</tspan>, says <tspan font-weight="600" fill="#F4F0FF">ASYNC-OK</tspan></text>
+
+  <!-- 5 — the brief comes to rest -->
+  <text class="sans" font-size="44" font-weight="800" x="232" y="628" fill="#A855F7">5</text>
+  <text class="sans" font-size="32" font-weight="700" x="276" y="628" fill="#F4F0FF">the brief archives itself</text>
+  <text class="mono" font-size="28" x="276" y="668" fill="#CFC4E8">.goal/done/</text>
+  <rect x="784" y="594" width="72" height="72" rx="4" fill="#150A28" stroke="#33215C" stroke-width="2"/>
+  <rect x="806" y="616" width="28" height="28" fill="#F0916A"/>
 </svg>

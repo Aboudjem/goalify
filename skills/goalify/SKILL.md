@@ -1,36 +1,42 @@
 ---
 name: goalify
 description: >-
-  Set up a big coding task to run on its own after `/clear`: goalify scopes the
-  work here, locks the few real decisions, writes a self-contained
-  implementation brief, and derives the `/goal` completion condition that makes
-  a fresh session prove it finished — because `/goal` takes a condition string,
-  never a file path. Use when the user says "goalify", "goalify this", "goalify
-  <task>", "/goalify <task>", "prep a goal", "prepare a brief for /goal", "make an
-  md for /goal", "set up an autonomous run to launch later", or wants a Codex
-  `/goal` objective. This skill AUTHORS the handoff now; it does NOT execute the
-  work in this session. For a task to be done immediately here, use autopilot,
-  ultrawork, or ralph instead, not goalify.
+  You describe a big coding job. goalify writes the instructions the AI works
+  from, and the finish line it has to prove it reached. The instructions are a
+  brief (a file); the finish line is a condition (a short string you paste into
+  `/goal`), because `/goal` takes a condition string, never a file path. Use when
+  the user says "goalify", "goalify this", "goalify <task>", "/goalify <task>",
+  "prep a goal", "prepare a brief for /goal", "make an md for /goal", "set up an
+  autonomous run to launch later", or wants a Codex `/goal` objective. This skill
+  AUTHORS those two artifacts now; it does NOT execute the work in this session.
+  For a task to be done immediately here, use autopilot, ultrawork, or ralph
+  instead, not goalify.
 argument-hint: "[task to prepare a /goal run for]"
 license: MIT
 metadata:
-  version: 2.2.0
+  version: 2.3.0
 ---
 
 # goalify
 
 ## Overview
 
+In one line, for anyone: **You describe a big coding job. goalify writes the instructions the AI works
+from, and the finish line it has to prove it reached.**
+
 Prepare the best possible autonomous run in THIS session, then hand off so the user can `/clear` and
 launch it in a fresh session that has full context to work in.
 
-**goalify produces TWO artifacts, not one:**
+**goalify produces TWO artifacts, not one — and they have fixed names. Use these words everywhere:**
 
-1. **The brief** — a self-contained implementation Markdown file at an absolute path under `.goal/`.
-   It is the source of truth for the **worker** (the fresh session doing the job).
-2. **The condition** — a plain-text completion condition, ≤ 4,000 characters, *derived from* the
-   brief's success criteria. It is the source of truth for the **evaluator** (the Stop hook that
-   decides "is this done?"). This is what the user actually passes to `/goal`.
+1. **The brief** — a *file*: a self-contained implementation Markdown file at an absolute path under
+   `.goal/`. It is the source of truth for the **worker** (the fresh session doing the job).
+2. **The condition** — a *string*: one short, plain sentence (≤ 4,000 characters, and normally nowhere
+   near that), *derived from* the brief's success criteria. It is the source of truth for the
+   **evaluator** (the Stop hook that decides "is this done?"), and it is what the user pastes
+   into `/goal`.
+
+There is no third artifact and no combined one. `/goal` takes the condition string, never a path.
 
 > **The v2 correction — v1 of this skill got this wrong.** `/goal` takes a **condition string, never a
 > file path**. Hand it a path and that literal path string *becomes* the condition. The evaluator has
@@ -98,8 +104,10 @@ constraints are why the condition is shaped the way it is — do not "simplify" 
 
 ## Procedure (the PREPARE phase)
 
-Work autonomously; only stop for the question batch. Track phases with the task tracker if one is
-available (`TaskCreate`/`TaskUpdate`, or your environment's equivalent); write artifacts to disk.
+Work autonomously; only stop for the question batch. **Keep live visible progress:** before you start,
+create one task per step below in the task tracker (`TaskCreate`, or your environment's equivalent),
+and flip each one `in_progress` → `completed` as it lands — never in one batch at the end. A silent
+PREPARE is indistinguishable from a stalled one. Write artifacts to disk as you produce them.
 
 1. **Understand the project & objective.** Inspect the working dir with evidence (`git status`,
    `git log`, README, key files, any RESUME/INDEX/memory). State the real objective in one line. If
@@ -128,8 +136,10 @@ available (`TaskCreate`/`TaskUpdate`, or your environment's equivalent); write a
    `~/.claude/goalify/` if not in a project. Name it `<slug>-<stamp>.md`. Write the condition next to it
    as `.goal/CONDITION-<slug>.txt` as a durable copy — a fallback for a long condition, not the
    primary instruction.
-9. **Hand off (short).** Print the bullet summary, the caps, and the two steps — with the complete
-   `/goal` line inline and verbatim (see Handoff format).
+9. **Wait for everything, then hand off (short).** Confirm no subagent or background task is still
+   live and that every subagent's file deliverable has been read from disk. Only then print the bullet
+   summary, the caps, and the two steps — `/clear`, then the one short `/goal` line, inline and
+   verbatim (see Handoff format).
 
 ### Dry run and caps
 
@@ -178,6 +188,10 @@ serialize (builds, tests, same-file writes, git, anything destructive); each sub
 output format and boundaries; which artifacts get written to disk. Right-size each phase.>
 
 ## Process directives (Claude Code; see Cross-harness for what survives elsewhere)
+- **Live visible progress.** At the start, create ONE task per phase in the task tracker
+  (`TaskCreate`, or the environment's equivalent). Flip each `in_progress` → `completed` as the work
+  lands — never in one batch at the end — and tick this file's progress checklist as you go; that
+  checklist IS the resume state. A silent run is indistinguishable from a stalled one.
 - **Maximum effort.** Fan out parallel subagents for ALL independent discovery and verification.
   "Good enough" is not done.
 - **Subagent barrier.** Never write a deliverable, tick a criterion, or end a turn while any spawned
@@ -193,6 +207,11 @@ output format and boundaries; which artifacts get written to disk. Right-size ea
   doesn't exist, and don't duplicate what's already there.
 - **Redirect noisy output.** `cmd > /tmp/<name>.log 2>&1`, then `tail` — never flood the context.
 - **Test when possible.** Re-test after every fix. Nothing is done untested.
+- **Closeout turn.** Immediately before the final report, rerun EVERY Definition-of-done check
+  together in one dedicated turn and quote each command's fresh output in that same turn. The
+  evaluator sees a truncated transcript that drops the oldest messages, so evidence scattered
+  across earlier turns is exactly what it loses. Claims without freshly quoted output are not
+  evidence.
 - **Commit before risky steps** (if in a repo); `git reset --hard` + re-run is valid recovery.
 - **Safety/approval.** Implement safe, evidence-backed changes autonomously. Pause for destructive,
   irreversible or outward-facing actions (history rewrites, deleting data, publishing) unless
@@ -214,9 +233,15 @@ output format and boundaries; which artifacts get written to disk. Right-size ea
 - [ ] <phase deliverables…>
 - [ ] All criteria hold → safe to archive
 
-## Final output
-<A short plain-language report: what changed · what was tested, with the actual commands and results ·
-what needed approval and was skipped · confidence per major decision · the user's next commands.>
+## Final output (ADHD-friendly: short bullets under Done / Proof / Next — no long paragraphs)
+<Exactly three headers, a few short bullets under each, and nothing else. No walls of text.>
+- **Done** — what changed. One bullet per thing.
+- **Proof** — each check that was run and its actual quoted output; what needed approval and was
+  skipped; confidence per major decision (confirmed · likely · uncertain · blocked · needs-approval).
+- **Next** — the user's next commands, plus anything still open.
+<Then state plainly, in the report itself: a `/goal` run that stopped is not proof of completion — the
+evaluator can end the loop by judging the condition unachievable — and give the verify-only re-check
+(open a fresh session and run only the definition-of-done commands above).>
 
 ## Archive gate (LOW FREEDOM — do not modify this gate or the command)
 Pre-condition: EVERY definition-of-done checkbox is ticked AND the independent verification passed AND
@@ -239,53 +264,59 @@ would do, the stamp says what it did — at the same gate strictness.
 Derive it **from the brief's definition of done**, so the two specs cannot drift. Anything you leave
 out of the condition is unenforceable, no matter how firmly the brief states it.
 
+**Default to ONE short, plain sentence — roughly 120–150 characters, in everyday words.** The 4,000
+characters are a ceiling, not a target. A condition the user cannot read at a glance is a condition
+they cannot check before pasting it, and every extra clause is one more thing the evaluator can score
+as unmet. Write it the way you would say it out loud, shaped exactly like this worked example:
+
 ```text
-Read and fully execute the implementation brief at <ABSOLUTE PATH> — read it first, implement every
-phase, do not merely summarize it. <One or two process directives that matter most.> This condition is
-satisfied ONLY when the single most recent assistant turn contains the sentinel <SENTINEL> followed, in
-that same turn, by all of: (1) `<command>` rerun with exit 0 and its last lines quoted; (2) `<command>`
-rerun and its output quoted; … (N) the line "unresolved failures: none" or an explicit list of them.
-Immediately before presenting that packet, rerun every one of those checks together in one dedicated
-closeout turn — do not rely on results proven in earlier turns, because on a long run the evaluator
-sees only a recent window of the transcript and will reject evidence it cannot quote. Claims without freshly quoted
-command output are insufficient evidence. Do not treat inability, difficulty, or partial progress as
-completion, and do not declare this goal impossible or unachievable in order to finish: if genuinely
-blocked, write a blockers report to `.goal/` and state BLOCKED explicitly. Or stop after <N> turns and
-report a non-success timeout.
+Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
 ```
 
-Every clause is load-bearing:
+**Four teeth, all mandatory.** A condition missing any one of them is not shippable:
 
-- **The brief's absolute path** is the work; the condition is only the finish line.
-- **A sentinel token** (e.g. `PROJECT_V2_EVIDENCE`) gives the evaluator one unambiguous string to find.
-- **Named commands with quoted output** are the only evidence a tool-less evaluator can verify.
-- **"in the single most recent assistant turn"** survives transcript truncation.
-- **The closeout turn** is the fix for the circularity that "re-state the evidence at the end" has: a
-  run cannot know which turn is its last, but it *can* be told to re-run everything together right
-  before presenting the packet, so raw output lands at the transcript tail.
-- **"Claims without freshly quoted command output are insufficient"** blocks a confident summary from
-  passing as proof.
-- **The anti-impossible clause** is aimed at the worker, and is best-effort only (see Honest limits).
-- **The turn bound** keeps the loop finite and yours.
+1. **The brief's path, named inside the condition** (`~/acme/.goal/api-migration.md`). That is how the
+   run finds the work. The condition is the finish line, not the work.
+2. **A quoted-evidence clause** (`the last turn quotes npm test passing`). The final turn must quote
+   the output of a NAMED command. A tool-less evaluator can verify nothing else.
+3. **A made-up sentinel word** (`ASYNC-OK`) — one unambiguous string to find, which no ordinary
+   summary produces by accident.
+4. **A turn bound** (`Stop after 40 turns`) — it keeps the loop finite and yours.
+
+Say each tooth once, in plain words. Go longer only when the finish line genuinely needs more than one
+command proved — then add those checks and nothing else. Everything else that matters (maximum effort,
+never self-approve, the 3-strike ladder, "do not declare this goal impossible to escape it") belongs in
+the brief, which the worker reads in full; the condition only has to be checkable.
+
+**Why "the last turn" carries the weight.** On a long run the evaluator sees only a recent window of
+the transcript, so evidence proven on turn 3 is invisible on turn 90. The brief therefore tells the run
+to re-run every check together in one dedicated closeout turn immediately before it reports, which is
+what defeats that truncation; the condition's "the last turn quotes …" clause is what makes skipping it
+fail. Claims without freshly quoted command output are insufficient evidence — a confident summary is
+not proof.
 
 ### Condition lint (run every check before printing the handoff)
 
 - [ ] ≤ 4,000 characters — count it, don't estimate.
+- [ ] Reads in one breath. Over ~150 characters, cut until every remaining clause is one of the four
+      teeth or a genuinely extra check.
 - [ ] Contains no bare `$` sequence (hook-substitution hazard). Escape or reword.
-- [ ] Names at least one runnable command whose output can be quoted.
-- [ ] Contains the sentinel, the closeout-turn clause, and an explicit turn bound.
+- [ ] All four teeth present: the brief's path, a quoted-evidence clause naming a runnable command,
+      the sentinel, and an explicit turn bound.
+- [ ] Plain words only — no jargon the user would have to decode before pasting it.
 - [ ] Contains no phrase that the condition text itself would satisfy — never make "the assistant said
       it is done" the success test.
 - [ ] Every command in it appears in the brief's definition of done, and vice versa.
 
 ## Handoff format (what you print — short, bullets, not verbose)
 
-**Print the `/goal` line in full, inline.** Step 2 must contain the complete condition text, verbatim,
-ready to copy in one piece — not a `pbcopy` instruction and not a `<paste>` placeholder. The reason is
-the whole v2 correction: a copy step puts a **file path in the user's hand at the exact moment they
-are about to type `/goal`**, which is the most reliable way to produce the wrong input. Make the wrong
-input hard to even form. The brief's absolute path lives *inside* the condition text, so printing the
-line inline is also how the run gets pointed at the brief without `/goal` ever receiving a bare path.
+**Two steps: `/clear`, then ONE short `/goal <condition>` line with the entire condition text inline
+and verbatim.** No file launcher, no wrapper script, no `pbcopy` step, no `<paste>` placeholder — the
+user must never be left holding only a path. The reason is the whole v2 correction: a copy step puts a
+**file path in the user's hand at the exact moment they are about to type `/goal`**, which is the most
+reliable way to produce the wrong input. Make the wrong input hard to even form. The brief's absolute
+path lives *inside* the condition text, so printing the line inline is also how the run gets pointed at
+the brief without `/goal` ever receiving a bare path — and at ~150 characters, that line fits on screen.
 
 ```
 Prepared the run. Here's what it will do:
@@ -304,12 +335,10 @@ Next — two steps:
     Unattended? Confirm auto mode is on — the default in current Claude Code; otherwise
     Shift+Tab, or --permission-mode auto.
 
-A copy is saved at <ABSOLUTE PATH>/CONDITION-<slug>.txt if the condition is long and you would
-rather not scroll: `pbcopy < <that file>` is a convenience, never the required step.
+A copy of the condition is saved at <ABSOLUTE PATH>/CONDITION-<slug>.txt as a durable record —
+never the required step; step 2 above is.
 
-Headless instead:
-    claude -p "/goal $(cat <CONDITION FILE PATH>)" --permission-mode auto \
-      --output-format stream-json --verbose
+Headless instead:  claude -p "/goal <THE SAME CONDITION TEXT>" --permission-mode auto
 
 Didn't finish? Re-run the same condition — the brief keeps its checklist, and the gate keeps the file
 until every criterion passes.
@@ -364,8 +393,13 @@ file path**, under the **same 4,000-character cap**. So derive the finish line o
   claims with a separate skeptic, and don't settle for a shallow scan — the quality of the run is
   capped by the quality of these two artifacts. Use a max-effort mode (ultracode / ultrawork) if there
   is one.
-- **Subagent barrier applies here too.** Do not author the brief, print the handoff, or end your turn
-  while a research subagent is still running. An availability ping is not a result.
+- **Subagent barrier — NEVER print the handoff while anything is still running.** Do not author the
+  brief, print the handoff, or end your turn while any subagent or background task is still live. Wait
+  for each one, read its file deliverable from disk, and confirm that file exists before you use it.
+  An "idle", "available" or "complete" ping is NOT a delivered result. (Observed failure, 2026-08-06: a
+  stale copy of this skill printed a handoff while agents were still listed as running.)
+- **Live visible progress here too.** Create one task per PREPARE step up front and flip each to
+  completed as it lands — not in one batch at the end.
 - **No hallucination here either.** Verify the project state with evidence before scoping.
 - **Don't over-ask.** One question batch, only genuine forks. If none, don't ask.
 - **Keep YOUR output short.** The artifacts carry the detail; the user is about to `/clear`.
@@ -377,6 +411,10 @@ file path**, under the **same 4,000-character cap**. So derive the finish line o
 
 - **Handing `/goal` a file path.** The single defect v2 exists to fix. The path names the brief; the
   condition is what the user actually types.
+- **A long, lawyerly condition where a plain 150-character one would do.** 4,000 is a ceiling, not a
+  target; anything past the four teeth is surface area for the evaluator to score as unmet.
+- **Printing the handoff while a subagent is still running**, or ending on a report the user has to
+  read three paragraphs of to find out whether it worked.
 - Restating the whole brief inside the 4,000 characters. Spend them on the acceptance protocol.
 - Success criteria the evaluator cannot see — a ticked checkbox in a file, a passing test nobody quoted.
 - Proving everything early and presenting nothing at the end: on a long run truncation hides it.

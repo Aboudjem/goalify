@@ -7,8 +7,8 @@ This is the deterministic half of the eval suite (the behavioral scenarios live 
 research edits as pass/fail checks so a regression is caught in CI.
 
 It doubles as the RED→GREEN demonstration, reproducible from this repo's own history:
-point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/55); point it
-at the current `goalify` SKILL.md and it PASSES (GREEN, 55/55).
+point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/78); point it
+at the current `goalify` SKILL.md and it PASSES (GREEN, 78/78).
 
 Usage:
     python3 evals/check_skill.py [path-to-SKILL.md]   # default: skills/goalify/SKILL.md
@@ -188,8 +188,13 @@ def main():
         # step is explicitly demoted, so a future edit cannot quietly restore it.
         "handoff prints the complete /goal line inline, ready to copy in one piece":
             "inline" in low and "verbatim" in low and "entire condition text" in low,
+        # TIGHTENED in v2.3.0: the old form only checked that pbcopy was *demoted*. The
+        # v2.3.0 handoff removes the copy STEP outright (the condition is short enough to
+        # read on screen), so the ban is now asserted directly as well as the demotion of
+        # the saved-condition file, which still exists as a durable record.
         "handoff does NOT make pbcopy the required step":
-            "never the required step" in low and "pbcopy < <paste>" not in low,
+            "never the required step" in low and "no pbcopy step" in low
+            and "pbcopy < <paste>" not in low,
         "handoff shows no <paste> placeholder in place of the condition":
             "/goal <paste>" not in low,
         "handoff sets --permission-mode auto for unattended runs":
@@ -209,6 +214,94 @@ def main():
     }
     for clause, ok in v2_clauses.items():
         checks.append((f"v2: {clause}", ok, ""))
+
+    # --- v2.3 CONTRACT: plain words, a SHORT condition, a one-line handoff, visible work ---
+    # v2.2 was correct and unreadable: it taught a 4,000-character acceptance protocol as the
+    # default shape, printed a handoff with a copy step, and let a run go dark for an hour and
+    # then report in prose. These assertions pin the three fixes.
+
+    # Two strings are locked byte-identical across the whole repo. They are compared against the
+    # RAW text (not `low`), because the point of locking them is that the wording does not drift.
+    STORY = ("You describe a big coding job. goalify writes the instructions the AI works from, "
+             "and the finish line it has to prove it reached.")
+    CANON = ("Do everything in ~/acme/.goal/api-migration.md and prove it — done when the "
+             "last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.")
+
+    # The brief TEMPLATE is checked in its own scope. A substring check over the whole body
+    # cannot tell "the skill mentions X somewhere" from "the template the skill authors REQUIRES
+    # X", and every clause below is a requirement placed on the generated brief.
+    tm = re.search(r"^```markdown\s*\n(.*?)\n```\s*$", body, re.DOTALL | re.MULTILINE)
+    tmpl = tm.group(1) if tm else ""
+    tmpl_low = re.sub(r"\s+", " ", tmpl).replace("`", "").replace("*", "").lower()
+
+    v23_clauses = {
+        # -- the plain-words story, verbatim, in both places a newcomer meets the skill --
+        "the plain-words story appears VERBATIM in the frontmatter description":
+            STORY in desc,
+        "the plain-words story appears VERBATIM in the body's overview":
+            STORY.lower() in low,
+
+        # -- a SHORT, plain condition is the default shape --
+        "condition default is ONE short, plain sentence of ~120-150 characters":
+            "one short, plain sentence" in low and "120–150 characters" in low,
+        "the 4,000-char limit is framed as a ceiling, not a target":
+            "ceiling, not a target" in low,
+        "ships the canonical short worked-example condition, byte-identical":
+            CANON in body,
+        "the four teeth (brief path, quoted evidence, sentinel, turn bound) are MANDATORY":
+            "four teeth, all mandatory" in low,
+        "lint enforces the short read AND all four teeth":
+            "reads in one breath" in low and "all four teeth present" in low,
+        "heavy process directives belong in the brief, not in the condition":
+            "belongs in the brief" in low,
+
+        # -- the handoff is /clear + ONE short inline /goal line, nothing else --
+        "handoff is /clear then ONE short /goal line with the condition inline":
+            "/clear, then one short /goal <condition> line" in low,
+        "handoff forbids a file launcher and a wrapper script":
+            "no file launcher" in low and "no wrapper script" in low,
+        "handoff never leaves the user holding only a path":
+            "never be left holding only a path" in low,
+
+        # -- the brief the skill AUTHORS must demand an ADHD-friendly report --
+        "template: final report is short bullets under Done / Proof / Next":
+            "done / proof / next" in tmpl_low and "short bullets" in tmpl_low,
+        "template: final report bans long paragraphs":
+            "no long paragraphs" in tmpl_low,
+        "template: final report states a stopped run is NOT proof of completion":
+            "not proof of completion" in tmpl_low,
+
+        # -- the brief the skill AUTHORS must demand live, visible progress --
+        "template: mandates live visible progress via the task tracker (TaskCreate)":
+            "live visible progress" in tmpl_low and "taskcreate" in tmpl_low
+            and "one task per phase" in tmpl_low,
+        "template: tasks flip in_progress -> completed, not batched at the end":
+            "in_progress → completed" in tmpl_low and "batch at the end" in tmpl_low,
+        "template: the brief's own progress checklist is the resume state":
+            "progress checklist" in tmpl_low and "resume state" in tmpl_low,
+        "template: closeout turn reruns every check together and quotes fresh output":
+            "closeout turn" in tmpl_low and "rerun every" in tmpl_low
+            and "freshly quoted" in tmpl_low,
+
+        # -- PREPARE itself obeys the same two rules --
+        "PREPARE creates visible tasks for its own steps":
+            "create one task per step" in low,
+        "PREPARE NEVER prints the handoff while a subagent or background task is live":
+            "never print the handoff while anything is still running" in low,
+        "PREPARE reads every subagent's file deliverable from disk before handing off":
+            "read its file deliverable from disk" in low,
+
+        # -- vocabulary lock: a brief is a file, a condition is a string, nothing else --
+        "vocabulary lock: the brief is a FILE and the condition is a STRING":
+            "the brief — a file" in low and "the condition — a string" in low,
+        # The banned bigram is not spelled out in this label on purpose: the repo-wide
+        # vocabulary scan in tests/test_manifests.py greps every tracked file for it, and a
+        # test that names it would flag itself.
+        "vocabulary lock: the blurred file-plus-goal phrasing never appears in the skill":
+            not re.search(r"goal[-\s]+file", low),
+    }
+    for clause, ok in v23_clauses.items():
+        checks.append((f"v2.3: {clause}", ok, ""))
 
     # --- Gated, low-freedom end-of-run gate: archive since v2.0.0 (claim 4) ---
     checks.append(("end-of-run gate is a LOW-FREEDOM gated block",

@@ -1,7 +1,7 @@
 {
   "name": "goalify",
-  "version": "2.2.0",
-  "description": "goalify preps a big coding task while Claude still has your context: it locks the real decisions, writes a self-contained brief (a file the fresh session works from) and derives the /goal condition (a string \u2014 /goal never takes a file path), so an unattended run finishes the job and shows evidence you can check.",
+  "version": "2.3.0",
+  "description": "You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached.",
   "author": {
     "name": "Adam Boudjemaa",
     "email": "boudjemaa.adam@gmail.com"

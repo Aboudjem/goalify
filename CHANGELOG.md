@@ -4,6 +4,75 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-08-06
+
+A README a non-technical reader gets in thirty seconds, a one-line handoff, shorter and plainer
+conditions, and four hardened gates. The condition contract itself is unchanged.
+
+### Changed
+
+- **README radically rewritten to ~90 lines.** A two-sentence plain-words story ("You describe a
+  big coding job…"), ONE image, three numbered steps carrying the literal **149-character**
+  condition (down from 157), a single `[!IMPORTANT]` stopped-run caveat, and links out to docs/.
+  Install variants, the with/without table and the deep two-artifacts dive moved to
+  `docs/quickstart.md`. A separate two-persona judge (a smart non-technical reader plus a
+  mechanical checklist) reviewed the draft; all seven required fixes were applied before ship.
+- **The canonical worked condition is shorter and plainer** — "Do everything in
+  ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and
+  says ASYNC-OK. Stop after 40 turns." (149 characters), byte-identical across the README sequence
+  block, the README right/wrong fence, the hero's condition plate and `<desc>`, and the quickstart
+  fence. Abridged renderings keep their ellipsis-marked short forms.
+- **The skill authors short, plain conditions by default** (~120–150 characters, everyday words),
+  with four mandatory teeth: the brief's path inside, a quoted-evidence clause naming a runnable
+  command, a made-up sentinel, and a turn bound. The 4,000-character cap is now framed as a ceiling,
+  not a target; heavy process directives moved into the brief, which the worker reads in full.
+- **The handoff is two steps: `/clear`, then ONE short `/goal` line** with the whole condition
+  inline. No file launcher, no wrapper script, no copy step — the user is never left holding only a
+  path.
+- **Every brief the skill authors now requires live visible progress** — one task per phase in the
+  task tracker, flipped in progress → completed as work lands, plus the brief's own checklist as
+  resume state — and a final report of short bullets under **Done / Proof / Next** that states
+  plainly a stopped `/goal` run is not proof of completion. The PREPARE phase obeys the same two
+  rules itself and never prints the handoff while a subagent is still running.
+- **One story, verbatim on every surface**: README tagline, quickstart, `llms.txt`,
+  `plugin.json`, `marketplace.json` and the skill's frontmatter and overview.
+- **All three SVGs and the social card redesigned from scratch** through a multi-model design pass
+  (two independent candidate sets, cross-checked, winners picked by a separate judge): a
+  terminal-chrome system in the same Deep Plum Neon palette, artifacts coded by shape as well as
+  colour (sharp folded sheet = brief, capsule = condition), `/goal` always a neutral chip outside
+  the condition plate, struck counter-examples static and marked. Animation proven by two-timestamp
+  headless renders; every asset viewed at 900px on dark and light and at 380px;
+  `social-preview.png` regenerated at exactly 1280×640. The teaser was not re-rendered — the new
+  assets match its palette and framing (its spoken condition predates the four-teeth rule).
+- **The shipped example matches the new default**: its condition rewritten to the short shape
+  (190 characters, all four teeth), the displaced closeout-turn / freshly-quoted / impossible-hatch
+  clauses moved into its brief body, and the brief gained the live-progress and Done/Proof/Next
+  directives — with `tests/test_manifests.py`'s example assertions moved in the same commit.
+- **docs/faq.md and docs/limits.md record three newly verified facts**, re-derived from the shipped
+  Claude Code 2.1.223 binary: the evaluator behind `/goal` has a 30-second default timeout per
+  check; two hard gates can block `/goal` entirely (untrusted workspace, restricted hooks — exact
+  messages quoted); an over-4,000-character condition is rejected loudly before any hook is
+  registered, and on long runs the evaluator's transcript view drops the oldest messages with a
+  banner instructing it to answer not-met if the evidence may sit in the dropped beginning.
+
+### Added
+
+- **Four gate blind spots closed in `tests/test_manifests.py`**, each proven RED on a purpose-built
+  specimen in a temp tree and GREEN on the real one, with permanent in-suite self-tests so the
+  specimens stay caught: attribute values (`aria-label`, `alt`, `title`, `content`, `data-*`) are
+  scanned across svg/xml/html/md/tsx/json; HTML entities, NFKC compatibility forms, slash and
+  common letter homoglyphs, and zero-width characters are normalised before every scan; tracked
+  HTML and the SVGs are flattened with both spaced and tight joins, so a command split mid-word
+  across inline tags is still seen; and
+  the words-only counter-example in `two-artifacts.svg` is pinned marked-and-struck by a dedicated
+  assertion. Exemptions deliberately re-pinned 10 → 15 (the five new marked specimens in the test
+  file itself).
+- **`evals/check_skill.py` grew 55 → 78 assertions** (+23 new v2.3 clauses, 1 tightened knowingly,
+  0 deleted), pinning the short-condition default, the four teeth, the one-line handoff, the
+  Done/Proof/Next template, the live-progress rules, the no-handoff-while-agents-live rule, and —
+  after an adversarial pass caught the template omitting it — the closeout-turn directive inside
+  the brief template itself. The RED baseline against v1.1.0 was re-run, not predicted: **30/78**.
+
 ## [2.2.0] - 2026-08-05
 
 A mass-audience README in plain English, and a dark neon visual system that finally matches the
@@ -300,6 +369,9 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
   that validates frontmatter, runs the skill eval, checks relative links, scans for secrets,
   and gates the SVGs against `<script>` and external references.
 
+[2.3.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.3.0
+[2.2.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.2.0
+[2.1.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.1.0
 [2.0.1]: https://github.com/Aboudjem/goalify/releases/tag/v2.0.1
 [2.0.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.0.0
 [1.1.0]: https://github.com/Aboudjem/goalify/releases/tag/v1.1.0

@@ -13,6 +13,24 @@ work is proven, and it has no tools and only a truncated transcript, so it needs
 can quote. That is the condition. Collapsing the two into one artifact is the exact thing this
 design exists to prevent.
 
+**So what actually goes wrong if I paste the path instead?**
+Less than you would expect, and worse. Nothing errors: the main agent has full tools, so it opens
+the brief and works. What breaks is the *termination* check. The loop's exit test is now a string
+the evaluator cannot interpret, so the run carries on past the point where the job is done. The
+failure is discoverable — running `/goal` with no argument shows the evaluator's most recent reason,
+which will read something like "insufficient evidence in transcript" — but it never raises, so
+nobody looks.
+
+**What if `/goal` will not start at all?**
+Two gates can block it outright, and each says so in as many words:
+
+- `/goal is only available in trusted workspaces. Restart, accept the trust dialog, and try again.`
+- `/goal can't run while hooks are restricted (disableAllHooks or allowManagedHooksOnly is set in settings or by policy).`
+
+Both are checked before any hook is registered, so nothing half-starts. Neither is something goalify
+can clear for you: the first wants the workspace trust dialog accepted, the second wants the hook
+restriction lifted in settings or by whoever set the policy.
+
 **What if the run cannot finish?**
 The archive step is gated. If even one criterion is unmet, the brief stays where it is with its
 checklist intact, so you can pick the work back up. You resume by pasting the same condition again.
@@ -28,6 +46,13 @@ judges. The brief could say "run the tests" a hundred times and it would change 
 4,000 characters, and goalify spends them on the acceptance criteria rather than on restating the
 brief.
 
+**What happens if the condition goes over 4,000 characters?**
+It is rejected out loud, at launch: `Goal condition is limited to 4000 characters (got N)`. The
+length check runs *before* the hook is registered, so no goal is set and the run never starts. There
+is no silent truncation anywhere in that path — an oversize condition cannot quietly become a
+shorter one you did not write. That is the failure mode you want, and it is why goalify lints the
+string it derives rather than trusting it to fit.
+
 **What is in the condition besides the brief's path?**
 Three more things. A sentinel — a made-up token the run has to say, so the evaluator can search the
 transcript for it. The exact commands whose output has to be quoted back. And a turn bound, so the
@@ -35,12 +60,20 @@ loop stays finite. The path itself opens the condition, so the worker knows wher
 `~/acme/.goal/api-migration.md` in goalify's worked example. On success the brief is archived to
 `.goal/done/` with a completion stamp, so the promise and the outcome stay comparable later.
 
+**How long does each check get?**
+Thirty seconds. The evaluator behind `/goal` runs under a 30-second default timeout per check, and
+`/goal` registers its hook without a timeout of its own, so that default is always the one in force.
+Nothing you write in the condition changes it — which is another reason the condition is a short
+string to be judged rather than a body of work to be done.
+
 **Why does it insist on a "closeout turn"?**
-Because evidence ages out of the transcript. Once a session grows past roughly half the evaluator's
-context budget, the oldest messages are dropped and replaced with a notice telling it to refuse when
-the evidence might sit in that dropped beginning. A test you proved on turn 3 is invisible on turn 90. The
-closeout turn is the fix: rerun every check together right before the evidence packet is presented,
-so the raw output lands at the tail of the transcript, where the evaluator can still read it.
+Because evidence ages out of the transcript. Once a session outgrows the evaluator's transcript
+budget, the **oldest** messages are dropped and a banner takes their place — and that banner tells
+the evaluator, in its own words, to answer not-met if the evidence it needs might be sitting in the
+omitted beginning. So a test you proved on turn 3 is not merely forgotten by turn 90; the evaluator
+is instructed to treat its absence as insufficient evidence. The closeout turn is the fix: rerun
+every check together right before the evidence packet is presented, so the raw output lands at the
+tail of the transcript, where the evaluator can still read it.
 
 **Does it work outside Claude Code?**
 Codex is directly supported, and that support was verified against the binary Codex actually ships —
@@ -69,5 +102,10 @@ goalify inspects the repo, researches what it does not know, and changes no code
 later, in the fresh session you start with the condition.
 
 ---
+
+<sub>The `/goal` behavior described on this page — the 30-second evaluator timeout, the two startup
+gates and their exact messages, the visible over-4,000-character rejection, and the oldest-first
+transcript truncation — was re-derived from the shipped Claude Code 2.1.223 binary and the official
+`/goal` docs, 2026.</sub>
 
 Back to the [README](../README.md) · [honest limits](limits.md) · [quickstart](quickstart.md)

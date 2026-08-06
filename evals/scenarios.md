@@ -26,9 +26,12 @@ keep behavior identical, and make sure the test suite still passes."*
 1. Stays in PREPARE — does **not** start the migration.
 2. Inspects the repo with evidence first (or states it would, given no live repo).
 3. Produces a **self-contained** brief with an **absolute path** and a **gated archive step**, plus a
-   **derived condition string** (≤ 4,000 chars) — never a bare file path as the handoff.
+   **derived condition string** — short and in plain words (~120–150 chars, and in every case
+   ≤ 4,000), carrying all four teeth: the brief's path, a quoted-evidence clause, a sentinel, and a
+   turn bound. Never a bare file path as the handoff.
 4. Success criteria are **machine-checkable** (wired to a named command/test, e.g. the test suite).
-5. Prints the **`/clear` → complete inline `/goal <condition>` line** handoff and stops.
+5. Prints the **`/clear` → ONE short inline `/goal <condition>` line** handoff and stops — no copy
+   step, no wrapper script, and not while any subagent is still running.
 6. Asks an MCQ **only** if a genuine fork exists; does not over-ask.
 
 ---
@@ -64,7 +67,7 @@ and (3) migrate the data warehouse — these are independent and each is large."
 
 - **Deterministic (CI):** `python3 evals/check_skill.py skills/goalify/SKILL.md` → exit 0.
   RED→GREEN demo, reproducible from this repo's history:
-  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/55) vs `skills/goalify/SKILL.md` (passes, 55/55).
+  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/78) vs `skills/goalify/SKILL.md` (passes, 78/78).
   See `README.md` in this directory for the exact commands.
 - **Behavioral:** for each scenario, prompt a model twice — once cold (RED) and once with
   `skills/goalify/SKILL.md` prepended (GREEN) — on Haiku, Sonnet, and Opus, and judge each transcript

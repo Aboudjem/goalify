@@ -2,75 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<title>goalify — social card (1280×640)</title>
 <style>
-  /* Deep Plum Neon (video/src/neon.tsx) — same system as the README SVGs and the teaser.
-     laneA #F0916A = the brief (a file); laneB #C4A6FF = the condition (a string). */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 1280px; height: 640px; }
-  body {
-    background:
-      radial-gradient(55% 55% at 22% 8%, rgba(138,0,255,.17) 0%, transparent 70%),
-      radial-gradient(circle at 1.5px 1.5px, #2A1A47 1.2px, transparent 0) 0 0 / 50px 50px,
-      linear-gradient(180deg, #150A28 0%, #0C0518 100%);
-    color: #F4F0FF;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    position: relative;
-    overflow: hidden;
-    padding: 58px 86px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  :root{
+    --bg:#150A28; --bg-deep:#0C0518; --surface:#1E0F38; --line:#33215C;
+    --text-hi:#F4F0FF; --text-dim:#CFC4E8; --neon1:#A855F7; --neon2:#22D3EE;
+    --lane-a:#F0916A; --lane-b:#C4A6FF;
   }
-  /* the two lanes, as a hairline signature down the left edge */
-  .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; }
-  .rail .a { position: absolute; inset: 0 0 50% 0; background: #F0916A; }
-  .rail .b { position: absolute; inset: 50% 0 0 0; background: #C4A6FF; }
-
-  .eyebrow { display: flex; align-items: center; gap: 14px; color: #CFC4E8; font-size: 21px;
-    font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
-  .eyebrow .tick { width: 42px; height: 4px; border-radius: 2px; background: #F0916A; }
-  h1 { font-size: 104px; font-weight: 800; letter-spacing: -4px; line-height: 1; margin: 22px 0 0;
-    color: #F4F0FF; text-shadow: 0 0 42px rgba(168,85,247,.45); }
-  .tag { font-size: 31px; font-weight: 500; color: #CFC4E8; margin-top: 22px; max-width: 1020px; line-height: 1.34; }
-
-  .lanes { display: flex; gap: 22px; margin-top: 34px; }
-  .card { flex: 1; border-radius: 18px; padding: 18px 24px; background: #1E0F38; }
-  .card .k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 21px; font-weight: 700; letter-spacing: 2px; }
-  .card .v { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 25px; color: #F4F0FF; margin-top: 10px; line-height: 1.35; }
-  .card .r { font-size: 21px; color: #CFC4E8; margin-top: 12px; }
-  .brief { border: 2px solid #F0916A; border-top-right-radius: 4px;
-    box-shadow: 0 0 26px rgba(240,145,106,.18); }
-  .brief .k { color: #F0916A; }
-  .cond { border: 2px solid #C4A6FF; box-shadow: 0 0 26px rgba(196,166,255,.20); }
-  .cond .k { color: #C4A6FF; }
-  .cond .r b { color: #C4A6FF; }
-
-  .footer { position: absolute; left: 86px; bottom: 22px; font-size: 21px; color: #CFC4E8; font-weight: 500;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:640px;overflow:hidden}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(52% 52% at 22% 8%, rgba(138,0,255,.16) 0%, transparent 70%),
+      radial-gradient(circle at 1px 1px, #2A1A47 1.2px, transparent 0) 0 0/50px 50px,
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+    color:var(--text-dim); position:relative; display:flex;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  /* left-edge lane rail: warm above, cool below — the two artifacts in one stripe */
+  .rail{position:absolute;left:0;top:0;width:14px;height:100%}
+  .rail .a{height:50%;background:var(--lane-a)}
+  .rail .b{height:50%;background:var(--lane-b)}
+  .left{width:704px;padding:64px;display:flex;flex-direction:column;position:relative}
+  .eyebrow{display:flex;align-items:center;gap:14px;font-size:21px;font-weight:700;
+    letter-spacing:3px;color:var(--text-dim)}
+  .eyebrow .tick{width:42px;height:4px;background:var(--lane-a)}
+  h1{font-size:104px;font-weight:800;letter-spacing:-4px;color:var(--neon1);
+    text-shadow:0 0 42px rgba(138,0,255,.55);margin-top:8px}
+  .story{margin-top:20px;font-size:34px;font-weight:500;line-height:1.32;
+    color:var(--text-hi)}
+  .legend{margin-top:28px;display:flex;flex-direction:column;gap:14px;font-size:23px}
+  .legend .row{display:flex;align-items:center;gap:16px}
+  .swatch{width:22px;height:22px;flex:none}
+  .swatch.a{background:var(--lane-a)}
+  .swatch.b{background:var(--lane-b);border-radius:11px}
+  .legend .a-name{color:var(--lane-a);font-weight:700}
+  .legend .b-name{color:var(--lane-b);font-weight:700}
+  .footer{position:absolute;left:64px;bottom:48px;font-size:21px;color:var(--text-dim)}
+  .right{width:576px;padding:96px 48px 0 0;position:relative}
+  .window{position:relative;background:var(--surface);border:2px solid var(--line);
+    border-radius:18px;padding:0 0 28px 0}
+  .chrome{display:flex;align-items:center;gap:9px;height:52px;padding:0 22px;
+    border-bottom:1px solid var(--line)}
+  .dot{width:10px;height:10px;border-radius:99px;background:var(--line);
+    box-shadow:inset 0 0 0 1.5px #4A3372}
+  .chrome .cwd{margin-left:12px;font-size:19px;color:var(--text-dim)}
+  .goal-chip{margin-left:auto;background:var(--bg);
+    border:2px solid var(--line);border-radius:99px;padding:6px 18px;
+    font-size:24px;font-weight:700;color:var(--lane-b)}
+  .plate{margin:44px 24px 0 24px;background:var(--bg);border:2px solid var(--lane-b);
+    border-radius:20px;padding:24px 24px 24px 30px;position:relative}
+  .plate::before{content:"";position:absolute;left:12px;top:24px;bottom:24px;width:6px;
+    background:repeating-linear-gradient(180deg,var(--lane-b) 0 14px,transparent 14px 24px)}
+  .plate .label{font-size:22px;font-weight:700;letter-spacing:2px;color:var(--lane-b);
+    margin-left:14px}
+  .cond{margin:16px 0 0 14px;font-size:27px;line-height:1.4;color:var(--text-dim);
+    overflow-wrap:break-word}
+  .cond .path{color:var(--text-hi);font-weight:600}
+  .cond .cut{color:var(--neon2)}
 </style>
 </head>
 <body>
-  <div class="rail"><span class="a"></span><span class="b"></span></div>
-
-  <div class="eyebrow"><span class="tick"></span> Claude Code skill</div>
-  <h1>goalify</h1>
-  <div class="tag">Prep a big coding task once. Run it unattended in a fresh session. Get evidence you can check yourself.</div>
-
-  <div class="lanes">
-    <div class="card brief">
-      <div class="k">BRIEF · A FILE</div>
-      <div class="v">~/acme/.goal/api-migration.md</div>
-      <div class="r">the worker opens it</div>
+  <div class="rail"><div class="a"></div><div class="b"></div></div>
+  <div class="left">
+    <div class="eyebrow"><span class="tick"></span>CLAUDE CODE SKILL</div>
+    <h1>goalify</h1>
+    <div class="story">You describe a big coding job.<br>goalify writes the instructions<br>the AI works from, and the finish<br>line it has to prove it reached.</div>
+    <div class="legend">
+      <div class="row"><span class="swatch a"></span><span><span class="a-name">the BRIEF</span> — the instructions the AI works from</span></div>
+      <div class="row"><span class="swatch b"></span><span><span class="b-name">the CONDITION</span> — the finish line it has to prove</span></div>
     </div>
-    <div class="card cond">
-      <div class="k">CONDITION · A STRING</div>
-      <div class="v">Read the brief at<br>~/acme/.goal/api-migration.md,<br>then npm test must pass …</div>
-      <div class="r">you paste it into <b>/goal</b></div>
+    <div class="footer mono">github.com/Aboudjem/goalify</div>
+  </div>
+  <div class="right">
+    <div class="window">
+      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="cwd mono">~/acme</span><div class="goal-chip mono">/goal</div></div>
+      <div class="plate">
+        <div class="label">CONDITION</div>
+        <div class="cond mono">Do everything in <span class="path">~/acme/.goal/api-migration.md</span><span class="cut"> … </span>says <span class="path">ASYNC-OK.</span></div>
+      </div>
     </div>
   </div>
-
-  <div class="footer">github.com/Aboudjem/goalify</div>
 </body>
 </html>

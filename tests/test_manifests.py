@@ -11,11 +11,13 @@ No third-party deps; standard library only.
 Run: python3 tests/test_manifests.py
 Exit 0 = all pass, 1 = at least one failed.
 """
+import html
 import json
 import os
 import re
 import subprocess
 import sys
+import unicodedata
 import xml.etree.ElementTree as ET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -149,9 +151,25 @@ PATH_HANDOFF_RE = re.compile(r"/goal\s+\W{0,4}" + PATH_TOKEN, re.I)
 MD_LINK_RE = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
 STRIP_RE = re.compile(r"[`*_\"'\u2018\u2019\u201c\u201d()\[\]]")
 
+# The banned instruction can be spelled without its raw bytes: an HTML entity form
+# renders as the real thing, NFKC compatibility characters read as the real thing, a
+# slash homoglyph (FRACTION SLASH, DIVISION SLASH, FULLWIDTH SOLIDUS, BIG SOLIDUS) or a
+# Cyrillic/Latin letter lookalike makes the command look typed while evading a literal
+# `/goal` match, and zero-width characters can break the word invisibly. Every scan below
+# normalises first, so the match runs on what a READER sees, not on the source bytes.
+_FOLD = {
+    **dict.fromkeys(map(ord, "\u2044\u2215\uff0f\u29f8"), "/"),
+    **dict.fromkeys(map(ord, "\u200b\u200c\u200d\u00ad\ufeff"), None),
+    **{ord(k): v for k, v in zip("\u0430\u0435\u043e\u0440\u0441\u0443\u0445\u0455\u0456\u0458\u0501\u0261\u0410\u0415\u041e\u0420\u0421\u0423\u0425\u0405\u0406\u0408", "aeopcyxsijdgAEOPCYXSIJ")},
+}
+
+
+def _normalize(text):
+    return unicodedata.normalize("NFKC", html.unescape(text)).translate(_FOLD)
+
 
 def _scannable(line):
-    return STRIP_RE.sub("", MD_LINK_RE.sub(r"\2", line))
+    return STRIP_RE.sub("", MD_LINK_RE.sub(r"\2", _normalize(line)))
 BINARY_EXT = {".png", ".jpg", ".jpeg", ".gif", ".mp4", ".mp3", ".woff", ".woff2",
               ".ico", ".pdf", ".zip", ".ttf", ".otf"}
 tracked = subprocess.run(
@@ -218,7 +236,11 @@ check(
 # slot. Note what this enforces: a COUNT. It cannot tell prose about the old handoff
 # from an instruction to use it — that judgement is the reviewer's, and the cap exists
 # to make sure a reviewer is actually summoned.
-EXPECTED_EXEMPTIONS = 10
+# 15 = CHANGELOG history ×2, README right/wrong fence, quickstart fence, hero.svg struck
+# counter-example, RED-baseline note, and this file's own specimens (4 legacy + 5 added
+# with the v2.3.0 gate self-tests: entity, slash-homoglyph, attribute-value,
+# letter-homoglyph and zero-width forms).
+EXPECTED_EXEMPTIONS = 15
 check(
     f"v1-antipattern exemptions stay pinned at {EXPECTED_EXEMPTIONS} "
     f"({len(exempt)} in use: {', '.join(exempt) or 'none'})",
@@ -293,7 +315,9 @@ for rel in tracked:
                     parts.append(c.tail)
 
         walk(node)
-        return " ".join(" ".join(parts).split())
+        # Both joins are scanned: spaced for sibling-element splits, tight for a
+        # command split mid-word across inline elements.
+        return (" ".join(" ".join(parts).split()), " ".join("".join(parts).split()))
 
     for el in tree.iter():
         if _localname(el.tag) != "text":
@@ -302,10 +326,11 @@ for rel in tracked:
         if flat and el in exempt_els and PATH_HANDOFF_RE.search(flat):
             rendered_exempt.append(f"{rel}:{flat[:60]}")
 
-    joined = _scannable(flat_of(tree.getroot()))
-    hit = PATH_HANDOFF_RE.search(joined)
-    if hit:
-        rendered_hits.append(f"{rel} (rendered text): {hit.group(0)!r}")
+    for joined in flat_of(tree.getroot()):
+        hit = PATH_HANDOFF_RE.search(_scannable(joined))
+        if hit:
+            rendered_hits.append(f"{rel} (rendered text): {hit.group(0)!r}")
+            break
 
 check(
     f"no XML/SVG artifact RENDERS a file path after /goal ({xml_scanned} parsed, "
@@ -322,6 +347,155 @@ check(
     f'{SVG_ANTIPATTERN_ATTR}="v1"; bump this constant in the same commit',
 )
 
+# --- Same contract, read through ATTRIBUTE VALUES (G1) ---
+# itertext() walks element text and the line scan reads prose, but a screen reader (or a
+# hover) renders `aria-label`, `alt`, `title`, `content` and `data-*` too — including
+# values that span source lines or hide behind entities. This pass extracts those values
+# whole-file and scans them normalised, exactly like rendered text.
+ATTR_VALUE_RE = re.compile(
+    r"""(?:aria-label|aria-description|alt|title|content|placeholder|data-[\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')""",
+    re.I | re.S,
+)
+ATTR_EXTS = {".svg", ".xml", ".html", ".htm", ".md", ".tsx", ".json"}
+attr_hits, attr_exempt = [], []
+attr_files = 0
+for rel in tracked:
+    if os.path.splitext(rel)[1].lower() not in ATTR_EXTS:
+        continue
+    try:
+        raw = open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore").read()
+    except OSError:
+        continue
+    attr_files += 1
+    lines = raw.splitlines()
+    for m in ATTR_VALUE_RE.finditer(raw):
+        value = m.group(1) if m.group(1) is not None else m.group(2)
+        flat = _scannable(" ".join(value.split()))
+        if PATH_HANDOFF_RE.search(flat):
+            ln = raw.count("\n", 0, m.start()) + 1
+            line_text = lines[ln - 1] if ln <= len(lines) else ""
+            if EXEMPT_MARKER in line_text or EXEMPT_MARKER in value:
+                attr_exempt.append(f"{rel}:{ln}")
+            else:
+                attr_hits.append(f"{rel}:{ln}: {flat[:60]!r}")
+check(
+    f"no attribute value renders a file path after /goal ({attr_files} files' attributes scanned)",
+    not attr_hits,
+    "found " + "; ".join(attr_hits[:4]),
+)
+EXPECTED_ATTR_EXEMPTIONS = 0
+check(
+    f"attribute-value exemptions stay pinned at {EXPECTED_ATTR_EXEMPTIONS} "
+    f"({len(attr_exempt)} in use: {', '.join(attr_exempt) or 'none'})",
+    len(attr_exempt) == EXPECTED_ATTR_EXEMPTIONS,
+    "an attribute may opt out only with the marker on its line; bump this constant in the same commit",
+)
+
+# --- Same contract, read through the RENDERED text of tracked HTML (G3) ---
+# The SVG flatten exists because <tspan> splits hid the banned handoff from every line
+# regex. HTML has the same bug class one file type over: `<span>/goal</span><code>~/x.md</code>`
+# leaves no whitespace after /goal in the raw bytes. Tags become spaces, then the
+# collapsed text is scanned like any rendered surface. <script>/<style> are dropped —
+# they are code, not copy.
+def _flatten_html(raw):
+    """Both joins are scanned: tags-as-spaces catches `<span>/goal</span> <code>path</code>`,
+    tags-as-nothing catches a command split MID-WORD (`/go<b>al</b> path`)."""
+    raw = re.sub(r"(?is)<(script|style)\b.*?(?:</\1\s*>|\Z)", " ", raw)
+    raw = re.sub(r"(?s)<!--.*?-->", " ", raw)
+    spaced = " ".join(_scannable(re.sub(r"<[^>]+>", " ", raw)).split())
+    tight = " ".join(_scannable(re.sub(r"<[^>]+>", "", raw)).split())
+    return (spaced, tight)
+
+
+html_hits = []
+html_files = 0
+for rel in tracked:
+    if not rel.lower().endswith((".html", ".htm")):
+        continue
+    try:
+        raw = open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore").read()
+    except OSError:
+        continue
+    html_files += 1
+    for variant in _flatten_html(raw):
+        hit = PATH_HANDOFF_RE.search(variant)
+        if hit:
+            html_hits.append(f"{rel} (rendered text): {hit.group(0)!r}")
+            break
+check(
+    f"no tracked HTML file RENDERS a file path after /goal ({html_files} flattened)",
+    not html_hits,
+    "found " + "; ".join(html_hits[:4]),
+)
+
+# --- The words-only counter-example is protected by a test, not by review alone (G4) ---
+# two-artifacts.svg negates `/goal the brief's path` in WORDS, so PATH_HANDOFF_RE never
+# fires on it and no pinned count would notice its strikethrough quietly disappearing.
+# This assertion pins the whole shape: a data-antipattern="v1" element whose rendered
+# text names /goal, drawn struck (a <line> in the marked subtree or a line-through).
+def _counterexample_ok(root):
+    for el in root.iter():
+        if el.get(SVG_ANTIPATTERN_ATTR) != "v1":
+            continue
+        flat = " ".join("".join(el.itertext()).split())
+        if "/goal" not in flat:
+            continue
+        struck = any(_localname(d.tag) == "line" for d in el.iter()) or \
+            "line-through" in ET.tostring(el, encoding="unicode")
+        if struck:
+            return True
+    return False
+
+
+_two_art_path = os.path.join(ROOT, "assets", "two-artifacts.svg")
+try:
+    _two_art_raw = open(_two_art_path, encoding="utf-8").read()
+    check(
+        'two-artifacts.svg: words-only counter-example stays marked data-antipattern="v1" and struck',
+        _counterexample_ok(ET.fromstring(_two_art_raw)),
+        "the struck /goal counter-example must sit in a marked group with its strike line",
+    )
+    check(
+        "gate self-test: an unmarked counter-example would fail the check above (RED stays red)",
+        not _counterexample_ok(ET.fromstring(_two_art_raw.replace(SVG_ANTIPATTERN_ATTR + '="v1"', ""))),
+    )
+except (OSError, ET.ParseError) as e:
+    check("assets/two-artifacts.svg is readable and well-formed", False, str(e))
+
+# --- Gate self-tests: each hardened scan must still CATCH its specimen ---
+# A gate that silently stopped matching is worse than no gate. Each specimen below is the
+# minimal violation the corresponding pass exists to catch; if one stops firing, the scan
+# regressed. Specimen lines carry the marker so the line scan counts them as exemptions.
+check(
+    "gate self-test: HTML-entity path after /goal is caught once normalised",
+    bool(PATH_HANDOFF_RE.search(_scannable("/goal &#126;/acme/.goal/x.md"))),  # v1-antipattern specimen
+)
+check(
+    "gate self-test: homoglyph slash-command is caught once folded",
+    bool(PATH_HANDOFF_RE.search(_scannable("⁄goal ~/acme/.goal/x.md"))),  # v1-antipattern specimen
+)
+_spec_attr = ATTR_VALUE_RE.search('<p title="/goal &#126;/acme/.goal/x.md">demo</p>')  # v1-antipattern specimen
+check(
+    "gate self-test: attribute-value path after /goal is caught",
+    bool(_spec_attr and PATH_HANDOFF_RE.search(_scannable(_spec_attr.group(1) or _spec_attr.group(2) or ""))),
+)
+check(
+    "gate self-test: tag-split path after /goal is caught in flattened HTML",
+    any(PATH_HANDOFF_RE.search(v) for v in _flatten_html("<span>/goal</span><code>~/acme/.goal/x.md</code>")),  # v1-antipattern specimen
+)
+check(
+    "gate self-test: MID-WORD tag split is caught in flattened HTML",
+    any(PATH_HANDOFF_RE.search(v) for v in _flatten_html("<p>/go<b>al</b> ~/acme/.goal/x.md</p>")),  # v1-antipattern specimen
+)
+check(
+    "gate self-test: letter-homoglyph command is caught once folded",
+    bool(PATH_HANDOFF_RE.search(_scannable("/gоal ~/acme/.goal/x.md"))),  # v1-antipattern specimen
+)
+check(
+    "gate self-test: zero-width-broken command is caught once stripped",
+    bool(PATH_HANDOFF_RE.search(_scannable("/go​al ~/acme/.goal/x.md"))),  # v1-antipattern specimen
+)
+
 # --- Vocabulary: the two artifacts are a brief (a file) and a condition (a string) ---
 # PATH_HANDOFF_RE only catches *paths*. It cannot catch the phrasing that blurs the two
 # artifacts into one imaginary input, which is the confusion underneath the path bug.
@@ -334,7 +508,7 @@ for rel in tracked:
     try:
         with open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore") as f:
             for ln, line in enumerate(f, 1):
-                norm = re.sub(r"[`*_]", "", line)
+                norm = re.sub(r"[`*_]", "", _normalize(line))
                 if BLUR_RE.search(norm):
                     blur_hits.append(f"{rel}:{ln}")
     except (IsADirectoryError, FileNotFoundError, OSError):
@@ -413,7 +587,21 @@ try:
         "3-strike escalation": "3-strike" in ex,
         "definition of done wired to commands": "definition of done" in ex and "verified by" in ex,
         "progress checklist": "progress checklist" in ex,
+        # v2.3.0 moved these four out of the condition and into the brief. They are asserted
+        # here, not deleted: the condition stayed short only because the brief still carries
+        # every one of them, so dropping the assertion would let the teeth vanish entirely.
+        "closeout turn reruns every check": "closeout turn" in ex and "rerun every" in ex,
+        "freshly-quoted evidence rule": "freshly quoted" in ex,
+        "evidence packet lands in the last turn": "most recent assistant turn" in ex,
+        "do-not-declare-impossible counter": "do not declare this goal impossible" in ex,
+        # New in the v2.3.0 template: a run nobody can watch, and a report nobody can skim,
+        # are both failure modes the example has to demonstrate the fix for.
+        "live visible progress via task tracker": "live visible progress" in ex and "task tracker" in ex,
         "final output section": "final output" in ex,
+        "final output is Done / Proof / Next bullets":
+            all(f"- {h} —" in ex for h in ("done", "proof", "next")),
+        "a stopped run is not proof of completion":
+            "not proof of completion" in ex and "unachievable" in ex,
         "archive gate is LOW FREEDOM": "low freedom" in ex and "do not modify" in ex,
         "archive gate has rationalization counters": "basically done" in ex,
         "archive gate keeps the file on failure": "leave the file" in ex,
@@ -444,17 +632,26 @@ try:
             not re.search(r"(?<!\\)\$", condition),
             "escape or reword any $ sequence",
         )
-        flat_cond = " ".join(condition.split())
+        # v2.3.0: the condition is ONE plain sentence with exactly four teeth. The process
+        # directives it used to carry are asserted in example_clauses above, where they now
+        # live — in the brief, which the worker reads in full. Matching is case-insensitive
+        # so a sentence-initial "Stop after 40 turns." reads the same to the test as it does
+        # to a person.
+        flat_cond = " ".join(condition.split()).lower()
         for clause, needle in [
-            ("names the brief by absolute path", "/Users/example/widget-api/.goal/"),
-            ("carries a sentinel token", "_EVIDENCE"),
-            ("requires the most recent turn", "most recent assistant turn"),
-            ("requires a dedicated closeout turn", "closeout turn"),
-            ("rejects unquoted claims", "freshly quoted"),
-            ("blocks the impossible escape hatch", "do not declare this goal impossible"),
+            ("names the brief by absolute path", "/users/example/widget-api/.goal/"),
+            ("names a runnable command whose output the last turn must quote", "quotes npm test"),
+            ("carries a sentinel token", "_evidence"),
             ("carries an explicit turn bound", "stop after"),
         ]:
             check(f"example condition: {clause}", needle in flat_cond)
+        # The shape itself is the lesson: a 1,415-character lawyerly condition is the mistake
+        # SKILL.md now names by name, so "short and one line" is pinned rather than trusted.
+        check(
+            "example condition is one line the user can read at a glance",
+            "\n" not in condition and len(condition) <= 400,
+            f"{len(condition)} chars, {condition.count(chr(10)) + 1} lines",
+        )
 except (FileNotFoundError, OSError) as e:
     check("examples/sample-brief.md is readable", False, str(e))
 

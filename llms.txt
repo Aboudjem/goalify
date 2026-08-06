@@ -1,7 +1,9 @@
 # goalify
 
-> A Claude Code / Agent Skills skill that preps a big coding task while the current session still has
-> the user's context. It turns the task into two artifacts: a **brief** — a self-contained
+> You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached.
+>
+> Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current session
+> still has the user's context. It turns the task into two artifacts: a **brief** — a self-contained
 > implementation file the fresh session works from — and a **condition** — the `/goal` string derived
 > from that brief's definition of done. It researches the task, locks the few real decisions (asking
 > the user only the genuine forks, one interactive MCQ), and wires the finish line to commands the run
