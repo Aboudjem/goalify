@@ -5,7 +5,7 @@
 <h1 align="center">goalify</h1>
 
 <p align="center">
-  <strong>You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached.</strong>
+  <strong>Hand Claude a huge task. Come back to proof it's done — not a promise that it is.</strong>
 </p>
 
 <p align="center">
@@ -14,26 +14,25 @@
   <img src="https://img.shields.io/badge/Claude%20Code-skill-d97757" alt="Claude Code skill">
 </p>
 
-Hand an AI a big job — a refactor, a migration, an audit — and two things tend to go wrong:
-everything you scoped together disappears when the chat is cleared, and when the work stops you
-can't tell whether it finished or just stopped talking. goalify, a skill for
-[Claude Code](https://code.claude.com/docs/en/goal), closes both gaps by writing the job down as
-two pieces: a **brief** — a file holding everything the run needs (your decisions, the exact paths,
-the order of work) — and a **condition** — one line saying what must be true, on screen, before the
-run may call itself done. The whole handoff, typed in the Claude Code chat:
+goalify is a Claude Code skill for work too big to babysit: a refactor, a migration, an audit. It
+preps the whole run while Claude still has your context, then hands you one line to paste. Behind
+that line sit a **brief** — a file holding everything the run needs (your decisions, the exact
+paths, the order of work) — and a **condition** — one line that says what done must look like.
+`/goal` is Claude Code's built-in stop-check: hand it a condition and the session keeps working,
+judged every turn, until that condition is proven. goalify writes both pieces.
 
-```text
-/goalify migrate our API to async/await
-    brief      ~/acme/.goal/api-migration.md      a file — the run works from it
-    condition  149 chars                          one line — you paste it below
+## What you get
 
-/clear
-/goal Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
-```
-
-It wraps on screen, but that last line is one line — you paste all of it. `~/acme/` stands in for
-your own project: goalify prints this line with your real paths already in it, and that printed
-line is what you paste. (The printout above is abridged.)
+- ⚡ **One-line handoff** — `/clear`, paste one line, walk away.
+- 🧠 **Survives `/clear`** — the brief carries your decisions and context into the fresh session.
+- 🔒 **Decisions locked first** — the few real choices are settled with you before the run starts.
+- 📋 **Live progress** — the run keeps a task list ticking; glance at it, don't babysit it.
+- ✅ **Proof-or-nothing** — the last turn has to quote the checks passing and print a made-up word
+  (`ASYNC-OK` below); a run that skipped the work has to claim it outright.
+- 🔁 **Nothing lost on a stop** — the brief stays put, checklist intact; you resume, not restart.
+- ⏱️ **A hard turn cap** — the run ends on time; it never wanders for hours.
+- 📦 **Proof, then archive** — success reruns every check in one closing turn, quotes the output,
+  and files the brief into `.goal/done/` — a file move you can see in any file browser.
 
 ## Three steps
 
@@ -44,36 +43,38 @@ claude plugin marketplace add Aboudjem/10x
 claude plugin install goalify@10x
 ```
 
-1. **Describe the job.** Back in the Claude Code chat, `/goalify` plus your task — goalify
-   inspects your project, asks about the few real decisions, then writes the brief and the
-   condition and shows you both.
-2. **Clear the chat.** `/clear` — the job starts fresh, at full attention, and the brief carries
-   everything across.
-3. **Paste the condition.** The whole line, exactly as printed. The brief's path rides along
-   *inside* it, because the automated judge behind `/goal` — the evaluator — can't open files;
-   only the words you paste ever reach it.
+Then, in the Claude Code chat:
+
+```text
+/goalify migrate our API to async/await
+    brief      ~/acme/.goal/api-migration.md      a file — the run works from it
+    condition  149 chars                          one line — you paste it below
+
+/clear
+/goal Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
+```
+
+1. **Describe the job.** `/goalify` plus your task. goalify digs through your project, asks about
+   the few real decisions, then writes the brief and the condition and shows you both.
+2. **Clear the chat.** The run starts fresh, at full attention.
+3. **Paste the condition.** The whole line — it wraps on screen, paste all of it. The brief's path
+   rides along *inside* it, because the evaluator behind `/goal` can't open files; only the words
+   you paste reach it. `~/acme/` stands in for your project: goalify prints this line with your
+   real paths already in it.
 
 ```text v1-antipattern
-# paste the condition itself — the exact line goalify printed (149 characters here)
+# the condition itself — the exact line goalify printed (149 characters)
 /goal Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
 
 # not the path on its own — nothing errors; the check just becomes unprovable
 /goal ~/acme/.goal/api-migration.md
 ```
 
-While it runs you can watch the steps tick by — the brief tells the run to keep a live task list —
-and the condition caps the job (40 turns above; a turn is one reply from the AI). `ASYNC-OK` is a
-made-up word the condition requires the run to print, so a run that skipped the work has to claim
-it outright rather than trail off. The brief also requires a closing turn that reruns every check
-and quotes the output where you (and the evaluator) can see it. When the run proves out, the brief
-moves itself into `.goal/done/` — a file move you can see in any file browser; otherwise it stays
-put, checklist intact, so you can resume.
-
 > [!IMPORTANT]
-> A run that stops is not proof it finished. The evaluator applies its own judgment and can end a
-> run by deciding the finish line is unreachable — no wording prevents that. Before you believe a
-> green result, reread the closing evidence — the quoted checks in the last reply, the brief moved
-> into `.goal/done/` — or rerun the checks yourself.
+> A run that stops is not proof it finished. The evaluator judges for itself and can end a run by
+> deciding the finish line is unreachable. Before you trust a green result, reread the closing
+> evidence — the quoted checks in the last reply, the brief moved into `.goal/done/` — or rerun
+> the checks yourself.
 
 ## Learn more
 

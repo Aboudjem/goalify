@@ -222,8 +222,8 @@ def main():
 
     # Two strings are locked byte-identical across the whole repo. They are compared against the
     # RAW text (not `low`), because the point of locking them is that the wording does not drift.
-    STORY = ("You describe a big coding job. goalify writes the instructions the AI works from, "
-             "and the finish line it has to prove it reached.")
+    STORY = ("Hand Claude a huge task. Come back to proof it's done — "
+             "not a promise that it is.")
     CANON = ("Do everything in ~/acme/.goal/api-migration.md and prove it — done when the "
              "last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.")
 

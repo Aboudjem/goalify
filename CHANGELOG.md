@@ -4,6 +4,29 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-08-06
+
+The confident-closer re-voice. One story on every surface — "Hand Claude a huge task. Come back to
+proof it's done — not a promise that it is." — and a README built to land in seconds.
+
+### Changed
+
+- **README rewritten in the new voice.** The story up top, a short plain answer to "what is this"
+  that includes a two-line explanation of the built-in `/goal` command, an eight-item
+  **What you get** feature list (one-line handoff, survives `/clear`, decisions locked first, live
+  progress, proof-or-nothing, resume on stop, hard turn cap, proof-then-archive), then the same
+  three steps, right/wrong pair and stopped-run caveat. Copy went through a humanizer pass to strip
+  AI-writing patterns.
+- **The story replaced verbatim on every surface**: quickstart, `llms.txt`, `plugin.json`,
+  `marketplace.json` (both fields), and the skill's frontmatter description and overview —
+  with `check_skill.py`'s two verbatim-story assertions re-pinned to the new wording in the same
+  commit (still 78/78; the RED baseline is unchanged at 30/78).
+- **Social card re-voiced** (story plus legend glosses) and re-shot at exactly 1280×640, viewed;
+  the hero's title bar now reads "hand it off · come back to proof", re-rendered two-timestamp
+  (hashes differ) and viewed.
+- **The contract is untouched.** Same 149-character canonical condition, byte-identical in the same
+  five places; same gates, same counts, same facts.
+
 ## [2.3.0] - 2026-08-06
 
 A README a non-technical reader gets in thirty seconds, a one-line handoff, shorter and plainer
@@ -369,6 +392,7 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
   that validates frontmatter, runs the skill eval, checks relative links, scans for secrets,
   and gates the SVGs against `<script>` and external references.
 
+[2.4.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.4.0
 [2.3.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.3.0
 [2.2.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.2.0
 [2.1.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.1.0

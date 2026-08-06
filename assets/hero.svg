@@ -41,7 +41,7 @@
   <circle cx="76" cy="40" r="9" fill="#33215C" stroke="#4A3372" stroke-width="1.5"/>
   <circle cx="108" cy="40" r="9" fill="#33215C" stroke="#4A3372" stroke-width="1.5"/>
   <text class="mono" font-size="28" x="140" y="49" fill="#CFC4E8">~/acme</text>
-  <text class="sans" font-size="28" x="860" y="49" text-anchor="end" fill="#CFC4E8" opacity="0.75" letter-spacing="1">write the work · prove the finish</text>
+  <text class="sans" font-size="28" x="860" y="49" text-anchor="end" fill="#CFC4E8" opacity="0.75" letter-spacing="1">hand it off · come back to proof</text>
   <line x1="2" y1="72" x2="898" y2="72" stroke="#33215C" stroke-width="2"/>
 
   <!-- BRIEF band — laneA: warm, sharp corners, folded top-right, solid rail -->

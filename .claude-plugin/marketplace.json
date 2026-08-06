@@ -4,14 +4,14 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached."
+    "description": "Hand Claude a huge task. Come back to proof it's done — not a promise that it is."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached.",
-      "version": "2.3.0"
+      "description": "Hand Claude a huge task. Come back to proof it's done — not a promise that it is.",
+      "version": "2.4.0"
     }
   ]
 }

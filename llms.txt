@@ -1,6 +1,6 @@
 # goalify
 
-> You describe a big coding job. goalify writes the instructions the AI works from, and the finish line it has to prove it reached.
+> Hand Claude a huge task. Come back to proof it's done — not a promise that it is.
 >
 > Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current session
 > still has the user's context. It turns the task into two artifacts: a **brief** — a self-contained

@@ -1,8 +1,7 @@
 # Quickstart
 
-You describe a big coding job. goalify writes the instructions the AI works from, and the finish
-line it has to prove it reached. You do the prep **before** you `/clear`, then start the run in a
-fresh session that still has its full context.
+Hand Claude a huge task. Come back to proof it's done — not a promise that it is. You do the prep
+**before** you `/clear`, then start the run in a fresh session that still has its full context.
 
 goalify only **authors** the run. It does not do your task, and you are the one who starts it. It
 writes two things: a **brief**, the Markdown file the run works from, and a **condition**, the plain

@@ -1,9 +1,9 @@
 ---
 name: goalify
 description: >-
-  You describe a big coding job. goalify writes the instructions the AI works
-  from, and the finish line it has to prove it reached. The instructions are a
-  brief (a file); the finish line is a condition (a short string you paste into
+  Hand Claude a huge task. Come back to proof it's done — not a promise that it
+  is. goalify writes the brief (a file with the instructions the run works from)
+  and the condition (a short string you paste into
   `/goal`), because `/goal` takes a condition string, never a file path. Use when
   the user says "goalify", "goalify this", "goalify <task>", "/goalify <task>",
   "prep a goal", "prepare a brief for /goal", "make an md for /goal", "set up an
@@ -14,15 +14,15 @@ description: >-
 argument-hint: "[task to prepare a /goal run for]"
 license: MIT
 metadata:
-  version: 2.3.0
+  version: 2.4.0
 ---
 
 # goalify
 
 ## Overview
 
-In one line, for anyone: **You describe a big coding job. goalify writes the instructions the AI works
-from, and the finish line it has to prove it reached.**
+In one line, for anyone: **Hand Claude a huge task. Come back to proof it's done — not a promise
+that it is.**
 
 Prepare the best possible autonomous run in THIS session, then hand off so the user can `/clear` and
 launch it in a fresh session that has full context to work in.
