@@ -24,8 +24,8 @@ It writes two things. A **brief** — a file holding everything the run needs: y
 exact paths, the order of work. And a **condition** — one line you paste into `/goal`, Claude Code's
 built-in stop-check, which keeps the session working and judges every turn until that line is proven.
 Picture a building site: the brief is the plans a builder works from, and the condition is the
-checklist an inspector signs off against, without ever reading those plans. The inspector just goes
-and looks at the building.
+checklist an inspector signs off against. The inspector never reads the plans and never visits the
+site — they judge only the evidence the builder shows them.
 
 ## What you get
 

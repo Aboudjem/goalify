@@ -3,30 +3,32 @@
 > The evidence that each part of the skill fixes a real, observed failure. Skills are built
 > test-first (RED → GREEN → REFACTOR): watch the failure happen *without* the skill, write the
 > minimum that fixes it, prove it now behaves. This file records the baselines so a future change
-> can't quietly regress them. §1 records the current v2.3.0 baseline (**2026-08-06**) and the original
-> v1.0.0 one (**2026-05-29**); §2 and §3 are the v1-era behavioral runs, recorded **2026-05-29**.
+> can't quietly regress them. §1 records the current baseline (re-measured **2026-08-07** at v2.5.0)
+> and the original v1.0.0 one (**2026-05-29**); §2 and §3 are the v1-era behavioral runs, recorded
+> **2026-05-29**.
 
 ## 1. Deterministic check (`check_skill.py`) — the artifact-level RED→GREEN
 
 `check_skill.py` encodes the confirmed authoring edits as pass/fail assertions and runs in CI.
 
-### v2.3.0 (re-recorded 2026-08-06) — 78 assertions
+### Current — 78 assertions (recorded 2026-08-06 at v2.3.0; re-measured 2026-08-07 at v2.5.0)
 
 The RED target is **this repo's own v1.1.0 skill**, reproduced from git history, so anyone with a
 clone can falsify the number. v1.1.0 shipped the `/goal <file-path>` handoff <!-- v1-antipattern -->, which the tool-less
-evaluator can never verify; the 47 assertions it fails are the v2 condition-string contract (25) plus
-the v2.3 plain-language contract (22).
+evaluator can never verify; the 49 assertions it fails are the v2 condition-string contract plus the
+plain-language contract (two story assertions were re-pinned to the v2.4 wording, which moved the
+RED score from the 30/78 recorded at v2.3.0 to the 29/78 measured today).
 
 | Target | Result |
 |---|---|
-| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 78 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. And every v2.3 assertion: no plain-words story in the description or the overview, no short-condition default, no ceiling-not-a-target framing, no canonical worked example, no four-teeth rule, no short-read lint, no rule keeping process directives out of the condition, no `/clear` + one-line handoff, no ban on a launcher or wrapper, no Done/Proof/Next report requirement, no ban on long paragraphs, no stopped-run caveat inside the template, no live-visible-progress requirement (template or PREPARE), no `in_progress → completed` rule, no read-the-deliverable-from-disk rule, no never-hand-off-while-live rule, no brief-is-a-file / condition-is-a-string vocabulary lock. |
-| `skills/goalify/SKILL.md` (v2.3.0, GREEN) | **78 / 78 pass** |
+| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **29 / 78 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. And every v2.3 assertion: no plain-words story in the description or the overview, no short-condition default, no ceiling-not-a-target framing, no canonical worked example, no four-teeth rule, no short-read lint, no rule keeping process directives out of the condition, no `/clear` + one-line handoff, no ban on a launcher or wrapper, no Done/Proof/Next report requirement, no ban on long paragraphs, no stopped-run caveat inside the template, no live-visible-progress requirement (template or PREPARE), no `in_progress → completed` rule, no read-the-deliverable-from-disk rule, no never-hand-off-while-live rule, no brief-is-a-file / condition-is-a-string vocabulary lock. |
+| `skills/goalify/SKILL.md` (v2.5.0, GREEN) | **78 / 78 pass** |
 
 Reproduce:
 ```bash
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md
 mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md
-python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 30/78)
+python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 29/78)
 python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 78/78)
 ```
 

@@ -36,7 +36,7 @@ instructions about how to work.
 ## Docs
 
 - [README](https://github.com/Aboudjem/goalify/blob/main/README.md): What goalify is, who it is for, how to install and use it.
-- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the brief template, the one-vs-several decision, the handoff format, and hard rules.
+- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the brief template, the condition-authoring rules, the handoff format, and hard rules.
 - [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install goalify and run it, step by step.
 - [Honest limits](https://github.com/Aboudjem/goalify/blob/main/docs/limits.md): Everything goalify does not promise, including that a stopped `/goal` run is not proof of completion.
 - [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which instructions do not carry over.

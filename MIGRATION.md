@@ -14,7 +14,7 @@ only for completeness.
 | Tool references | vague nouns ("the Workflow tool") | a capability + fallback that resolves in a fresh session |
 | Self-destruct | prose `rm` | a LOW-freedom gated block with rationalization counters (**v2.0.0 replaced this with a gated *archive* step** — the brief moves to `.goal/done/` instead of being deleted) |
 | Generated-MD template | strong, but missing several run-hardening clauses | adds output-redirection, anti-placeholder, search-before-assuming, machine-checkable criteria, a progress checklist, just-in-time identifiers, and fan-out guardrails |
-| `metadata.version` | absent | `1.0.0` (currently `2.0.0`) |
+| `metadata.version` | absent | `1.0.0` at the time of the rename (see [CHANGELOG.md](CHANGELOG.md) for the current version) |
 | Evals | none shipped | `evals/` (deterministic + behavioral, RED→GREEN on Haiku/Sonnet/Opus) |
 
 Why these specific changes: see [`evals/RED-baseline.md`](evals/RED-baseline.md) for the observed

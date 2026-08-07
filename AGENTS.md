@@ -46,10 +46,10 @@ These are non-negotiable. Do not look for loopholes; violating the letter violat
 5. **The archive gate is gated and low-freedom.** The brief moves to `.goal/done/` with a completion
    stamp only after every criterion is met and verification passed; otherwise it stays in place so the
    run can resume. Do not modify the `mv` command or weaken the gate.
-5b. **Never emit a file path where a condition belongs.** The handoff is `/clear` → copy the condition
-   printed inline as a complete `/goal` line. Anything omitted from the condition is unenforceable,
-   brief's definition of done and lint it (≤ 4,000 chars, no bare `$`, a sentinel, a named command per
-   criterion, a closeout-turn requirement, an explicit turn bound).
+5b. **Never emit a file path where a condition belongs.** The handoff is `/clear`, then the condition
+   printed inline as a complete `/goal` line the user pastes whole. Anything omitted from the
+   condition is unenforceable; derive the condition from the brief's definition of done and lint it
+   (≤ 4,000 chars, no bare `$`, a sentinel, a named command per criterion, an explicit turn bound).
 6. **Don't over-ask.** One MCQ batch, only genuine forks. Skip it entirely if there are none.
 7. **Decline when an autonomous run is the wrong tool** — a trivial task (just do it) or open-ended
    exploration (no definable end state). A vague spec produces a meh autonomous run.
@@ -60,8 +60,8 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 
 ## Where things live
 
-- `skills/goalify/SKILL.md` — the skill: two-phase model, procedure, the goal-MD template, the
-  one-vs-several decision, the handoff format, hard rules, common mistakes.
+- `skills/goalify/SKILL.md` — the skill: two-phase model, procedure, the brief template, the
+  condition-authoring rules (the four teeth), the handoff format, hard rules, common mistakes.
 - `evals/` — `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
   (recorded RED→GREEN on Haiku/Sonnet/Opus).
 - `examples/` — an illustrative brief plus the `/goal` condition derived from it.
@@ -70,9 +70,10 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 - `video/` — Remotion source for the README teaser; typechecked in CI, and every relative import must
   be tracked by git.
 - `assets/` — the animated SVG hero and "how it works" diagram, plus the social-preview card.
-- `docs/` — the quickstart. (A local build journal lives in `docs/audit/`, which `.gitignore` excludes.)
+- `docs/` — the quickstart, honest limits, FAQ, and the Codex guide. (A local build journal lives in
+  `docs/audit/`, which `.gitignore` excludes.)
 - `README.md` — human-facing overview; `LICENSE` — MIT.
-- `MIGRATION.md` — the pre-public-release `goal-prep` → `goalify` rename note (historical, still accurate).
+- `MIGRATION.md` — the pre-public-release `goal-prep` → `goalify` rename note (historical).
 
 ## Validate before claiming done
 
@@ -87,7 +88,7 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 **How do I set up a big autonomous Claude Code run?**
 Install goalify, then say "goalify this: <your big task>". It researches, asks you the few real
 decisions, writes one self-contained brief to an absolute path, and derives the completion condition
-from it. It then prints three steps — `/clear`, copy the condition, paste it into `/goal` — and a fresh
+from it. It then prints two steps — `/clear`, then paste the printed `/goal` line whole — and a fresh
 full-context session executes the task and proves every criterion before it stops.
 
 **Does it run the task itself?**

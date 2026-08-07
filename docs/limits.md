@@ -75,9 +75,9 @@ across. Only the definition of done does. The specifics are in [running it under
 
 ## The eval baseline is a static diff, not a behavioral one
 
-goalify is built test-first, against a baseline you can reproduce. Measured by today's 55-assertion
-check, this repo's own v1.1.0 skill scores **30/55** and the current skill scores **55/55**
-([baseline](../evals/RED-baseline.md)).
+goalify is built test-first, against a baseline you can reproduce. Measured by today's 78-assertion
+check, this repo's own v1.1.0 skill scores **29/78** and the current skill scores **78/78**
+([baseline](../evals/RED-baseline.md), re-measured 2026-08-07).
 
 Read that number for what it is: a comparison of two files against a checklist. Nobody has yet
 recorded the v2 clauses failing and then passing in a live run, and the baseline says so rather than
