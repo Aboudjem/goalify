@@ -5,83 +5,83 @@
 <title>goalify — social card (1280×640)</title>
 <style>
   :root{
-    --bg:#150A28; --bg-deep:#0C0518; --surface:#1E0F38; --line:#33215C;
-    --text-hi:#F4F0FF; --text-dim:#CFC4E8; --neon1:#A855F7; --neon2:#22D3EE;
-    --lane-a:#F0916A; --lane-b:#C4A6FF;
+    --paper:#F6F1E8; --sheet:#FFFCF7; --ink:#263536; --ink-2:#4C5654;
+    --brief-ink:#1B5A78; --brief-tint:#DCEBF4; --cond-ink:#7A5200; --cond-tint:#F7E9C6;
+    --proof-ink:#265C43; --rule:#96896E; --grain:#EDE5D6;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:1280px;height:640px;overflow:hidden}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:
-      radial-gradient(52% 52% at 22% 8%, rgba(138,0,255,.16) 0%, transparent 70%),
-      radial-gradient(circle at 1px 1px, #2A1A47 1.2px, transparent 0) 0 0/50px 50px,
-      linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
-    color:var(--text-dim); position:relative; display:flex;
+      radial-gradient(60% 60% at 16% 4%, rgba(255,255,255,.55) 0%, transparent 70%),
+      radial-gradient(circle at 1px 1px, var(--grain) 0.8px, transparent 0) 0 0/6px 6px,
+      var(--paper);
+    color:var(--ink); position:relative; display:flex;
   }
+  .serif{font-family:ui-serif,Georgia,"Times New Roman",serif}
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-  /* left-edge lane rail: warm above, cool below — the two artifacts in one stripe */
-  .rail{position:absolute;left:0;top:0;width:14px;height:100%}
-  .rail .a{height:50%;background:var(--lane-a)}
-  .rail .b{height:50%;background:var(--lane-b)}
-  .left{width:704px;padding:64px;display:flex;flex-direction:column;position:relative}
-  .eyebrow{display:flex;align-items:center;gap:14px;font-size:21px;font-weight:700;
-    letter-spacing:3px;color:var(--text-dim)}
-  .eyebrow .tick{width:42px;height:4px;background:var(--lane-a)}
-  h1{font-size:104px;font-weight:800;letter-spacing:-4px;color:var(--neon1);
-    text-shadow:0 0 42px rgba(138,0,255,.55);margin-top:8px}
-  .story{margin-top:20px;font-size:34px;font-weight:500;line-height:1.32;
-    color:var(--text-hi)}
-  .legend{margin-top:28px;display:flex;flex-direction:column;gap:14px;font-size:23px}
+  .left{width:740px;padding:64px;display:flex;flex-direction:column;position:relative}
+  .eyebrow{font-size:22px;font-weight:700;letter-spacing:3px;color:var(--ink-2)}
+  h1{font-size:96px;font-weight:700;letter-spacing:-2px;color:var(--ink);margin-top:12px}
+  .story{margin-top:26px;font-size:34px;font-weight:500;line-height:1.34;color:var(--ink)}
+  .legend{margin-top:36px;display:flex;flex-direction:column;gap:16px;font-size:24px;color:var(--ink-2)}
   .legend .row{display:flex;align-items:center;gap:16px}
   .swatch{width:22px;height:22px;flex:none}
-  .swatch.a{background:var(--lane-a)}
-  .swatch.b{background:var(--lane-b);border-radius:11px}
-  .legend .a-name{color:var(--lane-a);font-weight:700}
-  .legend .b-name{color:var(--lane-b);font-weight:700}
-  .footer{position:absolute;left:64px;bottom:48px;font-size:21px;color:var(--text-dim)}
-  .right{width:576px;padding:96px 48px 0 0;position:relative}
-  .window{position:relative;background:var(--surface);border:2px solid var(--line);
-    border-radius:18px;padding:0 0 28px 0}
-  .chrome{display:flex;align-items:center;gap:9px;height:52px;padding:0 22px;
-    border-bottom:1px solid var(--line)}
-  .dot{width:10px;height:10px;border-radius:99px;background:var(--line);
-    box-shadow:inset 0 0 0 1.5px #4A3372}
-  .chrome .cwd{margin-left:12px;font-size:19px;color:var(--text-dim)}
-  .goal-chip{margin-left:auto;background:var(--bg);
-    border:2px solid var(--line);border-radius:99px;padding:6px 18px;
-    font-size:24px;font-weight:700;color:var(--lane-b)}
-  .plate{margin:44px 24px 0 24px;background:var(--bg);border:2px solid var(--lane-b);
-    border-radius:20px;padding:24px 24px 24px 30px;position:relative}
-  .plate::before{content:"";position:absolute;left:12px;top:24px;bottom:24px;width:6px;
-    background:repeating-linear-gradient(180deg,var(--lane-b) 0 14px,transparent 14px 24px)}
-  .plate .label{font-size:22px;font-weight:700;letter-spacing:2px;color:var(--lane-b);
-    margin-left:14px}
-  .cond{margin:16px 0 0 14px;font-size:27px;line-height:1.4;color:var(--text-dim);
-    overflow-wrap:break-word}
-  .cond .path{color:var(--text-hi);font-weight:600}
-  .cond .cut{color:var(--neon2)}
+  .swatch.a{background:var(--brief-ink)}
+  .swatch.b{background:var(--cond-ink);border-radius:11px}
+  .legend .a-name{color:var(--brief-ink);font-weight:700}
+  .legend .b-name{color:var(--cond-ink);font-weight:700}
+  .footer{position:absolute;left:64px;bottom:48px;font-size:21px;color:var(--ink-2)}
+  .right{width:540px;padding:52px 56px 0 0;position:relative}
+  .sheet{position:relative;background:var(--sheet);border:2px solid var(--rule);padding:20px 24px 22px 36px}
+  .sheet::before{content:"";position:absolute;left:0;top:0;bottom:0;width:12px;background:var(--brief-ink)}
+  .sheet::after{content:"";position:absolute;right:0;top:0;border-style:solid;
+    border-width:0 28px 28px 0;border-color:var(--paper) var(--paper) var(--grain) transparent}
+  .sheet .head{display:flex;justify-content:space-between;align-items:baseline}
+  .sheet .label{font-size:26px;font-weight:800;color:var(--brief-ink)}
+  .sheet .kind{font-size:22px;font-weight:700;letter-spacing:1.5px;color:var(--brief-ink);margin-right:34px}
+  .sheet .file{margin-top:8px;font-size:26px;color:var(--ink)}
+  .sheet .ruled{margin-top:12px;height:2px;background:var(--rule);opacity:.55}
+  .sheet .ruled.short{width:70%;margin-top:10px}
+  .goalrow{margin-top:24px;display:flex;align-items:center;gap:20px}
+  .goal-chip{background:var(--ink);color:var(--sheet);border-radius:12px;
+    padding:8px 22px;font-size:26px;font-weight:700}
+  .goalrow .cap{font-size:22px;color:var(--ink-2)}
+  .plate{margin-top:20px;background:var(--cond-tint);border:3px solid var(--cond-ink);
+    border-radius:46px;padding:22px 34px}
+  .plate .label{font-size:24px;font-weight:700;letter-spacing:2px;color:var(--cond-ink)}
+  .cond{margin-top:12px;font-size:24px;line-height:1.45;color:var(--ink);overflow-wrap:break-word}
+  .proof{margin-top:26px;display:flex;align-items:center;gap:14px;font-size:24px;color:var(--proof-ink);font-weight:600}
+  .proof svg{flex:none}
 </style>
 </head>
 <body>
-  <div class="rail"><div class="a"></div><div class="b"></div></div>
   <div class="left">
-    <div class="eyebrow"><span class="tick"></span>CLAUDE CODE SKILL</div>
-    <h1>goalify</h1>
+    <div class="eyebrow">A CLAUDE CODE SKILL</div>
+    <h1 class="serif">goalify</h1>
     <div class="story">Hand Claude a huge task.<br>Come back to proof it's done —<br>not a promise that it is.</div>
     <div class="legend">
-      <div class="row"><span class="swatch a"></span><span><span class="a-name">the BRIEF</span> — the instructions the run works from</span></div>
-      <div class="row"><span class="swatch b"></span><span><span class="b-name">the CONDITION</span> — the finish line it must prove</span></div>
+      <div class="row"><span class="swatch a"></span><span><span class="a-name">the BRIEF</span> — a file the run works from</span></div>
+      <div class="row"><span class="swatch b"></span><span><span class="b-name">the CONDITION</span> — one line you paste</span></div>
     </div>
     <div class="footer mono">github.com/Aboudjem/goalify</div>
   </div>
   <div class="right">
-    <div class="window">
-      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="cwd mono">~/acme</span><div class="goal-chip mono">/goal</div></div>
-      <div class="plate">
-        <div class="label">CONDITION</div>
-        <div class="cond mono">Do everything in <span class="path">~/acme/.goal/api-migration.md</span><span class="cut"> … </span>says <span class="path">ASYNC-OK.</span></div>
-      </div>
+    <div class="sheet">
+      <div class="head"><span class="label">BRIEF</span><span class="kind">A FILE</span></div>
+      <div class="file mono">api-migration.md</div>
+      <div class="ruled"></div>
+      <div class="ruled short"></div>
+    </div>
+    <div class="goalrow"><div class="goal-chip mono">/goal</div><div class="cap">paste the whole string</div></div>
+    <div class="plate">
+      <div class="label">CONDITION</div>
+      <div class="cond mono">Do everything in ~/acme/.goal/api-migration.md … quotes npm test … says ASYNC-OK. Stop after 40 turns.</div>
+    </div>
+    <div class="proof">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M4 14l6 6L22 6" stroke="#265C43" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      done, checked, filed
     </div>
   </div>
 </body>

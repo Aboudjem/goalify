@@ -2,20 +2,22 @@
 
 > Hand Claude a huge task. Come back to proof it's done — not a promise that it is.
 >
-> Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current session
-> still has the user's context. It turns the task into two artifacts: a **brief** — a self-contained
-> implementation file the fresh session works from — and a **condition** — the `/goal` string derived
-> from that brief's definition of done. It researches the task, locks the few real decisions (asking
-> the user only the genuine forks, one interactive MCQ), and wires the finish line to commands the run
-> can check, so the user can `/clear`, paste the condition into `/goal`, and have a fresh, full-context
-> session prove every criterion before it stops. The brief is archived on success. MIT licensed.
+> Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current
+> session still has the user's context. It turns the task into two artifacts. A **brief** — a
+> self-contained implementation file the fresh session works from. And a **condition** — the `/goal`
+> string derived from that brief's definition of done. goalify researches the task, locks the few real
+> decisions (asking the user only the genuine forks, one interactive MCQ), and wires the finish line
+> to commands the run can check. So the user can `/clear`, paste the condition into `/goal`, and have
+> a fresh, full-context session prove every criterion before it stops. The brief is archived on
+> success. MIT licensed.
 
 goalify solves a specific, unresolved problem: carrying a plan across `/clear` into a fresh
 implementation session (Claude Code issue #32916, "Best practice for plan-to-implementation context
 handoff across /clear?", raised on Anthropic's tracker and closed as not planned, with no documented
-best practice). It is a two-phase model: PREPARE (research, decide, author the file, in the current
-session) then EXECUTE (the user pastes the derived condition into `/goal` in a fresh session). It
-authors the handoff; it does not run the task itself. For immediate in-session execution, use autopilot/ultrawork/ralph.
+best practice). It is a two-phase model. PREPARE: research, decide, author the file, in the current
+session. EXECUTE: the user pastes the derived condition into `/goal` in a fresh session. goalify
+authors the handoff; it does not run the task itself. For immediate in-session execution, use
+autopilot/ultrawork/ralph.
 
 The brief is hardened with the patterns most autonomous runs miss: a declarative spec,
 machine-checkable success criteria wired to named commands, a separate-agent verification pass,
@@ -26,9 +28,10 @@ checklist, and a low-freedom gated archive step that fires only on full success.
 Since v2.0.0 goalify emits two artifacts, because `/goal` takes a **completion condition, not a file
 path** (docs: "Run `/goal` followed by the condition you want satisfied"; binary: `No goal set. Usage:
 /goal <condition>`; the evaluator has no tools and cannot read files). The brief is what the worker
-implements; the derived, linted condition string is what the user pastes into `/goal`. Codex's `/goal`
-also takes an inline objective rather than a path, so both forms are printed — but Codex wraps the
-objective as untrusted data, so only the definition of done binds there, not the process directives.
+implements; the derived, checked condition string is what the user pastes into `/goal`. Codex's
+`/goal` also takes a typed-in objective rather than a path, so both forms are printed — but Codex
+wraps the objective as untrusted data, so only the definition of done binds there, not the
+instructions about how to work.
 
 ## Docs
 
@@ -36,7 +39,7 @@ objective as untrusted data, so only the definition of done binds there, not the
 - [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the brief template, the one-vs-several decision, the handoff format, and hard rules.
 - [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install goalify and run it, step by step.
 - [Honest limits](https://github.com/Aboudjem/goalify/blob/main/docs/limits.md): Everything goalify does not promise, including that a stopped `/goal` run is not proof of completion.
-- [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which directives do not carry over.
+- [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which instructions do not carry over.
 - [FAQ](https://github.com/Aboudjem/goalify/blob/main/docs/faq.md): Common questions about the two artifacts and the run.
 - [LICENSE (MIT)](https://github.com/Aboudjem/goalify/blob/main/LICENSE): Permissive MIT license.
 
@@ -46,8 +49,8 @@ goalify ships as a Claude Code plugin (in the 10x marketplace) and as a drop-in 
 get `/goalify`, which authors the run; you start it with Claude Code's built-in `/goal <condition>`
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
-- [Plugin (recommended)](https://github.com/Aboudjem/goalify#install): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
-- [Manual / skill-only](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
+- [Plugin (recommended)](https://github.com/Aboudjem/goalify#three-steps): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
+- [Manual / skill-only](https://github.com/Aboudjem/goalify#three-steps): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill
 

@@ -72,6 +72,7 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 - `assets/` — the animated SVG hero and "how it works" diagram, plus the social-preview card.
 - `docs/` — the quickstart. (A local build journal lives in `docs/audit/`, which `.gitignore` excludes.)
 - `README.md` — human-facing overview; `LICENSE` — MIT.
+- `MIGRATION.md` — the pre-public-release `goal-prep` → `goalify` rename note (historical, still accurate).
 
 ## Validate before claiming done
 

@@ -24,6 +24,7 @@ __pycache__/
 venv/
 .cache/
 .omc/
+.claude/
 
 # build journal (local resumability only)
 docs/audit/

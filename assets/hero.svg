@@ -1,99 +1,99 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 940" role="img" aria-labelledby="hero-t hero-d">
-  <title id="hero-t">goalify — the brief is a file the worker opens; the condition is one string pasted into /goal</title>
-  <desc id="hero-d">goalify writes two artifacts: a brief (a file the worker opens) and a condition (one string pasted into /goal). The condition, verbatim: Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns. Below the plate, a struck-through wrong form shows that handing the path alone to the command leaves an unprovable check. The ledger shows GOAL COMPLETE beside STOPPED EARLY, and either way you re-check the evidence.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1160" role="img" aria-labelledby="hero-t hero-d">
+  <title id="hero-t">goalify — the brief is a file the run works from; the condition is one line pasted into /goal</title>
+  <desc id="hero-d">A sunlit paper worktable. goalify writes two things: a brief (a sheet of paper, a file the run works from) and a condition (a label strip, one line pasted into /goal). The condition, verbatim: Do everything in ~/acme/.goal/api-migration.md and prove it — done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns. Below the label, a struck-through wrong form shows that handing the path alone to the command leaves an unprovable check. The outcome row shows GOAL COMPLETE beside STOPPED EARLY, and either way you re-check the evidence yourself.</desc>
   <defs>
-    <linearGradient id="hero-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#150A28"/>
-      <stop offset="1" stop-color="#0C0518"/>
-    </linearGradient>
-    <radialGradient id="hero-glow" cx="0.18" cy="0.05" r="0.55">
-      <stop offset="0" stop-color="#8A00FF" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#8A00FF" stop-opacity="0"/>
+    <radialGradient id="hero-wash" cx="0.16" cy="0.04" r="0.6">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </radialGradient>
-    <pattern id="hero-dots" width="50" height="50" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="1.2" fill="#2A1A47"/>
+    <pattern id="hero-grain" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.6" fill="#EDE5D6"/>
     </pattern>
-    <clipPath id="hero-clip"><rect x="2" y="2" width="896" height="936" rx="24"/></clipPath>
+    <clipPath id="hero-clip"><rect x="2" y="2" width="896" height="1156" rx="24"/></clipPath>
   </defs>
   <style>
-    .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .serif{font-family:ui-serif,Georgia,"Times New Roman",serif}
+    .sans{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-    .railA{animation:hero-pulse 10s ease-in-out infinite}
-    .railB{animation:hero-pulse 10s ease-in-out infinite;animation-delay:-5s}
-    .pathswell{animation:hero-swell 8s ease-in-out infinite}
-    .tie{animation:hero-tie 6s linear infinite}
-    .tick{animation:hero-tick 10s ease-in-out infinite}
-    @keyframes hero-pulse{0%,100%{opacity:1}50%{opacity:.75}}
-    @keyframes hero-swell{0%,100%{opacity:1}50%{opacity:.85}}
-    @keyframes hero-tie{to{stroke-dashoffset:-32}}
-    @keyframes hero-tick{0%,100%{opacity:1}50%{opacity:.8}}
-    @media (prefers-reduced-motion: reduce){.railA,.railB,.pathswell,.tie,.tick{animation:none;opacity:1}}
+    .breath{animation:wt-breath 8s ease-in-out infinite}
+    .settle{animation:wt-settle 6s ease-in-out infinite}
+    .tick{animation:wt-tick 10s ease-in-out infinite}
+    @keyframes wt-breath{0%,100%{opacity:1}50%{opacity:.94}}
+    @keyframes wt-settle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+    @keyframes wt-tick{0%,100%{opacity:1}50%{opacity:.8}}
+    @media (prefers-reduced-motion: reduce){
+      .breath,.settle,.tick,.focus{animation:none}
+      .breath,.settle,.tick{opacity:1;transform:none}
+      .focus{opacity:0}
+    }
   </style>
 
-  <rect x="2" y="2" width="896" height="936" rx="24" fill="url(#hero-bg)" stroke="#33215C" stroke-width="2.5"/>
+  <!-- the worktable: opaque paper, identical on GitHub light and dark -->
+  <rect x="2" y="2" width="896" height="1156" rx="24" fill="#F6F1E8" stroke="#96896E" stroke-width="1.5"/>
   <g clip-path="url(#hero-clip)">
-    <rect x="2" y="2" width="896" height="936" fill="url(#hero-glow)"/>
-    <rect x="2" y="2" width="896" height="936" fill="url(#hero-dots)" opacity="0.5"/>
+    <rect x="2" y="2" width="896" height="1156" fill="url(#hero-wash)"/>
+    <rect x="2" y="2" width="896" height="1156" fill="url(#hero-grain)" opacity="0.5"/>
   </g>
 
-  <!-- terminal title bar — the recurring stage; chrome dots neutral so lane colours stay semantic -->
-  <circle cx="44" cy="40" r="9" fill="#33215C" stroke="#4A3372" stroke-width="1.5"/>
-  <circle cx="76" cy="40" r="9" fill="#33215C" stroke="#4A3372" stroke-width="1.5"/>
-  <circle cx="108" cy="40" r="9" fill="#33215C" stroke="#4A3372" stroke-width="1.5"/>
-  <text class="mono" font-size="28" x="140" y="49" fill="#CFC4E8">~/acme</text>
-  <text class="sans" font-size="28" x="860" y="49" text-anchor="end" fill="#CFC4E8" opacity="0.75" letter-spacing="1">hand it off · come back to proof</text>
-  <line x1="2" y1="72" x2="898" y2="72" stroke="#33215C" stroke-width="2"/>
+  <!-- Z0 masthead -->
+  <text class="serif" font-size="46" font-weight="700" x="48" y="62" fill="#263536">goalify</text>
+  <text class="sans" font-size="28" x="852" y="62" text-anchor="end" fill="#4C5654">a Claude Code skill</text>
+  <line x1="48" y1="88" x2="852" y2="88" stroke="#96896E" stroke-width="1.5"/>
 
-  <!-- BRIEF band — laneA: warm, sharp corners, folded top-right, solid rail -->
-  <path d="M36 96 H830 L870 136 V204 H36 Z" fill="#1E0F38" stroke="#F0916A" stroke-width="2.5"/>
-  <path d="M36 96 H830 L870 136 V204 H36 Z" fill="none" stroke="#F0916A" stroke-width="7" opacity="0.22"/>
-  <path d="M830 96 L870 136 H830 Z" fill="#150A28" stroke="#F0916A" stroke-width="2.5"/>
-  <line class="railA" x1="55" y1="116" x2="55" y2="184" stroke="#F0916A" stroke-width="7"/>
-  <text class="sans" font-size="34" font-weight="800" x="76" y="142" fill="#F0916A">BRIEF</text>
-  <text class="sans" font-size="28" font-weight="700" x="820" y="140" text-anchor="end" fill="#F0916A" letter-spacing="1.5">A FILE</text>
-  <text class="mono" font-size="28" x="76" y="186" fill="#F4F0FF">~/acme/.goal/api-migration.md</text>
-  <text class="sans" font-size="28" x="820" y="186" text-anchor="end" fill="#CFC4E8">the worker opens it</text>
+  <!-- Z1 headline -->
+  <text class="serif" font-size="44" font-weight="700" x="48" y="148" fill="#263536">Hand Claude a huge task.</text>
+  <text class="sans" font-size="28" x="48" y="190" fill="#4C5654">Come back to proof it's done — not a promise that it is.</text>
 
-  <!-- the one cross-lane line in the whole set: the brief's path reappears inside the condition -->
-  <line class="tie" x1="72" y1="207" x2="72" y2="229" stroke="#F0916A" stroke-width="1.5" opacity="0.35" stroke-dasharray="6 6"/>
+  <!-- Z2 the BRIEF: a sheet of paper — square corners, folded top-right, blue binding edge -->
+  <g class="breath">
+    <path d="M48 228 H812 L852 268 V408 H48 Z" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
+    <path d="M812 228 L852 268 H812 Z" fill="#EDE5D6" stroke="#96896E" stroke-width="1.5"/>
+    <rect x="48" y="228" width="10" height="180" fill="#1B5A78"/>
+    <text class="sans" font-size="34" font-weight="700" x="84" y="274" fill="#1B5A78">BRIEF</text>
+    <text class="sans" font-size="28" font-weight="700" letter-spacing="1.5" x="822" y="274" text-anchor="end" fill="#1B5A78">A FILE</text>
+    <text class="mono" font-size="28" x="84" y="320" fill="#263536">~/acme/.goal/api-migration.md</text>
+    <line x1="84" y1="346" x2="720" y2="346" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
+    <line x1="84" y1="368" x2="660" y2="368" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
+    <line x1="84" y1="390" x2="700" y2="390" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
+  </g>
+  <text class="sans" font-size="28" x="48" y="442" fill="#4C5654">the full instructions — the run works from this file</text>
 
-  <!-- CONDITION plate — laneB: cool, rounded, dashed rail; the full 149-char string, path inside -->
-  <rect x="36" y="232" width="834" height="304" rx="28" fill="#1E0F38" stroke="#C4A6FF" stroke-width="2.5"/>
-  <rect x="36" y="232" width="834" height="304" rx="28" fill="none" stroke="#C4A6FF" stroke-width="7" opacity="0.22"/>
-  <line class="railB" x1="55" y1="256" x2="55" y2="512" stroke="#C4A6FF" stroke-width="7" stroke-dasharray="14 10"/>
-  <text class="sans" font-size="34" font-weight="800" x="76" y="272" fill="#C4A6FF">CONDITION</text>
-  <text class="sans" font-size="28" font-weight="700" x="840" y="270" text-anchor="end" fill="#C4A6FF" letter-spacing="1.5">ONE STRING · 149 CHARACTERS</text>
-  <text class="mono" font-size="28" x="68" y="336" fill="#CFC4E8">Do everything in <tspan class="pathswell" font-weight="600" fill="#F4F0FF">~/acme/.goal/api-migration.md</tspan></text>
-  <text class="mono" font-size="28" x="68" y="380" fill="#CFC4E8">and prove it — done when the last turn quotes</text>
-  <text class="mono" font-size="28" x="68" y="424" fill="#CFC4E8"><tspan font-weight="600" fill="#F4F0FF">npm test</tspan> passing and says <tspan font-weight="600" fill="#F4F0FF">ASYNC-OK.</tspan></text>
-  <text class="mono" font-size="28" x="68" y="468" fill="#CFC4E8">Stop after 40 turns.</text>
-  <text class="sans" font-size="28" x="68" y="512" fill="#CFC4E8">paste it whole</text>
+  <!-- Z3 the /goal prompt: a command, not an artifact; it never wraps the label below -->
+  <rect x="36" y="460" width="828" height="64" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
+  <rect x="52" y="472" width="110" height="40" rx="10" fill="#263536"/>
+  <text class="mono" font-size="32" font-weight="700" x="107" y="500" text-anchor="middle" fill="#FFFCF7">/goal</text>
+  <text class="sans" font-size="28" x="180" y="500" fill="#4C5654">type the command, then paste the label below</text>
+  <line x1="107" y1="524" x2="107" y2="556" stroke="#7A5200" stroke-width="2.5"/>
+  <path d="M100 548 L107 560 L114 548 Z" fill="#7A5200"/>
 
-  <!-- /goal prompt bar — the command stays OUTSIDE the plate; the plate arrives as its argument -->
-  <path d="M120 536 C120 570 140 597 180 603" fill="none" stroke="#C4A6FF" stroke-width="2.5" stroke-dasharray="10 6"/>
-  <rect x="36" y="570" width="834" height="64" fill="#150A28" stroke="#33215C" stroke-width="2"/>
-  <text class="mono" font-size="32" font-weight="700" x="68" y="612" fill="#C4A6FF">/goal</text>
-  <rect x="180" y="584" width="420" height="38" rx="16" fill="none" stroke="#C4A6FF" stroke-width="2" stroke-dasharray="10 6" opacity="0.55"/>
-  <text class="sans" font-size="28" x="390" y="612" text-anchor="middle" fill="#CFC4E8">the whole condition above</text>
+  <!-- Z4 the CONDITION: a label strip — capsule ends, one line, exactly these characters -->
+  <g class="settle">
+    <rect x="36" y="568" width="828" height="236" rx="44" fill="#F7E9C6" stroke="#7A5200" stroke-width="2.5"/>
+    <text class="sans" font-size="34" font-weight="700" x="72" y="614" fill="#7A5200">CONDITION</text>
+    <text class="sans" font-size="28" font-weight="700" letter-spacing="1.5" x="828" y="612" text-anchor="end" fill="#7A5200">ONE STRING · 149 CHARACTERS</text>
+    <text class="mono" font-size="28" x="72" y="664" fill="#263536" data-cond="1">Do everything in ~/acme/.goal/api-migration.md</text>
+    <text class="mono" font-size="28" x="72" y="700" fill="#263536" data-cond="1">and prove it — done when the last turn quotes</text>
+    <text class="mono" font-size="28" x="72" y="736" fill="#263536" data-cond="1">npm test passing and says ASYNC-OK.</text>
+    <text class="mono" font-size="28" x="72" y="772" fill="#263536" data-cond="1">Stop after 40 turns.</text>
+  </g>
+  <text class="sans" font-size="28" x="36" y="836" fill="#4C5654">one line, pasted whole — it names the brief, the proof, and the limit</text>
 
-  <!-- the wrong form — struck, static, never animated -->
-  <g data-antipattern="v1"><!-- v1-antipattern -->
-    <text class="mono" font-size="28" x="68" y="670" fill="#CFC4E8">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
-    <line x1="68" y1="661" x2="656" y2="661" stroke="#FF5C8A" stroke-width="2.5"/>
-    <text class="sans" font-size="28" x="68" y="706" fill="#CFC4E8">A path is not a condition — the evaluator can't open it.</text>
+  <!-- Z5 the wrong form — bare text, struck, static, never an object -->
+  <line x1="36" y1="856" x2="864" y2="856" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
+  <g data-antipattern="v1">
+    <text class="mono" font-size="28" x="36" y="898" fill="#4C5654">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
+    <line x1="36" y1="889" x2="624" y2="889" stroke="#8E2F24" stroke-width="2.5"/>
+    <text class="sans" font-size="28" x="36" y="934" fill="#8E2F24">a path is not a finish line — the check cannot open a file.</text>
   </g>
 
-  <line x1="36" y1="740" x2="870" y2="740" stroke="#CFC4E8" stroke-width="1.5" opacity="0.22"/>
-
-  <!-- outcome ledger — two boxed end-states; success colour spent here only -->
-  <rect x="36" y="760" width="412" height="112" fill="none" stroke="#34F5C5" stroke-width="1.5" opacity="0.5"/>
-  <path class="tick" d="M56 800 L70 814 L94 786" fill="none" stroke="#34F5C5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="sans" font-size="32" font-weight="800" x="108" y="810" fill="#34F5C5">GOAL COMPLETE</text>
-  <text class="mono" font-size="28" x="60" y="852" fill="#CFC4E8">npm test ✓ · ASYNC-OK</text>
-  <rect x="458" y="760" width="412" height="112" fill="none" stroke="#33215C" stroke-width="1.5"/>
-  <path d="M482 790 L502 810 M502 790 L482 810" fill="none" stroke="#CFC4E8" stroke-width="3" opacity="0.7" stroke-linecap="round"/>
-  <text class="sans" font-size="32" font-weight="800" x="522" y="810" fill="#CFC4E8">STOPPED EARLY</text>
-  <text class="sans" font-size="28" x="482" y="852" fill="#CFC4E8">hit turn 40 — not proof</text>
-
-  <text class="sans" font-size="28" x="36" y="916" fill="#22D3EE">Either way, re-check the evidence yourself.</text>
+  <!-- Z6 the outcome: proof spent once, and an honest second ending -->
+  <rect x="36" y="964" width="402" height="116" fill="#FFFCF7" stroke="#265C43" stroke-width="2"/>
+  <path class="tick" d="M60 1004 L74 1018 L98 990" fill="none" stroke="#265C43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="sans" font-size="32" font-weight="800" x="108" y="1014" fill="#265C43">GOAL COMPLETE</text>
+  <text class="mono" font-size="28" x="60" y="1056" fill="#4C5654">npm test ✓ · ASYNC-OK</text>
+  <rect x="462" y="964" width="402" height="116" fill="#FFFCF7" stroke="#96896E" stroke-width="2"/>
+  <path d="M486 994 L506 1014 M506 994 L486 1014" fill="none" stroke="#4C5654" stroke-width="3" stroke-linecap="round"/>
+  <text class="sans" font-size="32" font-weight="800" x="530" y="1014" fill="#263536">STOPPED EARLY</text>
+  <text class="sans" font-size="28" x="486" y="1056" fill="#4C5654">hit turn 40 — not proof</text>
+  <text class="sans" font-size="28" x="36" y="1122" fill="#263536">Either way, re-check the evidence yourself.</text>
 </svg>

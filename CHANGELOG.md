@@ -4,6 +4,48 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-08-07
+
+The simplicity redo: a brand-new visual direction anyone gets in seconds, plain-English copy with
+use cases anyone can picture, and a fully re-scripted teaser.
+
+### Changed
+
+- **New visual direction — "Sunday Worktable" — replaces Deep Plum Neon** across all five visuals
+  (hero, two-artifacts, how-it-works, social card, teaser): a warm paper field, the brief as a
+  sheet of paper with a blue binding edge, the condition as an ochre capsule label, proof green
+  spent once per asset. Chosen by a multi-model design battle (codex, kimi and gemini each produced
+  two directions; a three-grader cross-model panel confirmed the winner; a separate judge wrote the
+  implementation spec with 26 measured contrast pairs, 0 failures — lowest body-text pair 5.74:1
+  against the 4.5:1 floor). Every SVG stays self-contained, animated and reduced-motion-aware, and
+  renders identically on GitHub light and dark.
+- **README and docs re-read in simple English**, with use cases a non-programmer can picture
+  (rename one thing everywhere, move an old project onto newer code, clean up a messy project);
+  every jargon word glossed in the same breath or cut; the builder-plans/inspector comparison used
+  once. Two-persona judge: the non-technical reader answered 3/3 correctly from the README alone,
+  and the mechanical checklist passed. The story and the 149-character condition stay
+  byte-identical on every surface that carries them.
+- **Teaser fully re-scripted** (27.9s, 836 frames) in the new direction: no terminal chrome, every
+  frame a complete statement, and the `/goal` beat now shows the condition carrying all four teeth
+  — the brief's path inside it, the quoted-evidence clause, the sentinel word, the turn bound —
+  each underlined and captioned in plain words (closes the v2.3 adversary's S5 follow-up). GIF
+  re-derived (13fps, 900px).
+
+### Removed
+
+- `video/src/ConceptHero.tsx` (11,895 bytes) and `video/src/neon.tsx` (7,348 bytes) — the Deep
+  Plum Neon composition and palette, superseded by the self-contained `GoalifyTeaser.tsx`.
+  Evidence: no tracked file imports them any more (`Root.tsx` imports `GoalifyTeaser.tsx` only,
+  and CI's import-walk gate would fail on a dangling import).
+
+### Repo hygiene
+
+- `MIGRATION.md` is now discoverable — listed in AGENTS.md's "Where things live".
+- `video/scripts/genmusic.js` is now documented in `video/README.md`'s commands block.
+- `assets/social-preview.png` kept deliberately (it is the repo's GitHub social-preview image) and
+  regenerated at exactly 1280×640 in the new direction.
+- `.claude/` added to `.gitignore` (local session lock files; parity with `.omc/`).
+
 ## [2.4.0] - 2026-08-06
 
 The confident-closer re-voice. One story on every surface — "Hand Claude a huge task. Come back to

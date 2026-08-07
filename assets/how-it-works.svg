@@ -1,101 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-labelledby="hiw-t hiw-d">
-  <title id="hiw-t">How goalify works — five steps down a staircase, and which artifact governs each one</title>
-  <desc id="hiw-d">A staircase of five indented rows. Step 1: goalify runs while the context is still hot, shown by a meter at ninety per cent. Step 2: clear the session, so the run starts with full context again. Step 3: paste the condition — the string, not the path — into the command chip. This is the hand-off: a solid warm rail carrying the brief runs down steps 1 to 3, and a dashed cool rail carrying the condition takes over from step 3 down to step 5, the two crossing at step 3's left edge. Step 4: the closing turn reruns every check and quotes npm test, saying ASYNC-OK. Step 5: the brief archives itself into the done folder, where the warm chip comes to rest.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" role="img" aria-labelledby="hiw-t hiw-d">
+  <title id="hiw-t">How goalify works — five steps, and which artifact carries each one</title>
+  <desc id="hiw-d">Five steps, read top to bottom. Two rails run down the left edge and their lengths are the point. The solid blue brief rail runs the full height, from step 1 to step 5, because the brief exists for the whole run: it is written in step 1, named by the condition in step 3, worked from during step 4, and filed in step 5. The dashed ochre condition rail runs beside it from step 3 to step 4 only, because the condition exists from the moment you paste it until the closing turn proves it, and no longer. Step 1: goalify runs while the context is still hot, shown by a meter at ninety per cent. Step 2: clear the session, so the run starts with full context again. Step 3: paste the condition — the string, not the path — into the command chip. Step 4: the closing turn reruns every check and quotes npm test, saying ASYNC-OK. Step 5: the brief archives itself into the done folder; its chip and the square resting in the archive box are blue, the brief's colour, because it is the brief that comes to rest.</desc>
   <defs>
-    <linearGradient id="hiw-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#150A28"/>
-      <stop offset="1" stop-color="#0C0518"/>
-    </linearGradient>
-    <radialGradient id="hiw-glow" cx="0.18" cy="0.05" r="0.55">
-      <stop offset="0" stop-color="#8A00FF" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#8A00FF" stop-opacity="0"/>
+    <radialGradient id="hiw-wash" cx="0.16" cy="0.04" r="0.6">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </radialGradient>
-    <pattern id="hiw-dots" width="50" height="50" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="1.2" fill="#2A1A47"/>
+    <pattern id="hiw-grain" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.6" fill="#EDE5D6"/>
     </pattern>
-    <clipPath id="hiw-clip"><rect x="2" y="2" width="896" height="716" rx="24"/></clipPath>
+    <clipPath id="hiw-clip"><rect x="2" y="2" width="896" height="756" rx="24"/></clipPath>
   </defs>
   <style>
-    .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .serif{font-family:ui-serif,Georgia,"Times New Roman",serif}
+    .sans{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-    /* One faint highlight travels the five rows as five overlay bands, 10s = 0.10 Hz.
-       The bands carry no information — their peak is .06 — and the rows, rails, chips and
-       text under them never move and never change opacity, so every frame is the whole flow.
-       The only content animation is the step-4 tick, floored at .8. */
-    .sweep{animation:hiw-sweep 10s ease-in-out infinite}
-    .s2{animation-delay:-2s}
-    .s3{animation-delay:-4s}
-    .s4{animation-delay:-6s}
-    .s5{animation-delay:-8s}
-    .tick{animation:hiw-tick 10s ease-in-out infinite}
-    @keyframes hiw-sweep{0%,40%,100%{opacity:0}20%{opacity:.06}}
-    @keyframes hiw-tick{0%,100%{opacity:1}50%{opacity:.8}}
-    @media (prefers-reduced-motion: reduce){.sweep{animation:none}.tick{animation:none;opacity:1}}
+    .tick{animation:wt-tick 10s ease-in-out infinite}
+    .focus{animation:wt-focus 10s ease-in-out infinite}
+    .f2{animation-delay:-2s}.f3{animation-delay:-4s}.f4{animation-delay:-6s}.f5{animation-delay:-8s}
+    @keyframes wt-tick{0%,100%{opacity:1}50%{opacity:.8}}
+    @keyframes wt-focus{0%,40%,100%{opacity:0}20%{opacity:.05}}
+    @media (prefers-reduced-motion: reduce){
+      .breath,.settle,.tick,.focus{animation:none}
+      .breath,.settle,.tick{opacity:1;transform:none}
+      .focus{opacity:0}
+    }
   </style>
 
-  <rect x="2" y="2" width="896" height="716" rx="24" fill="url(#hiw-bg)" stroke="#33215C" stroke-width="2.5"/>
+  <rect x="2" y="2" width="896" height="756" rx="24" fill="#F6F1E8" stroke="#96896E" stroke-width="1.5"/>
   <g clip-path="url(#hiw-clip)">
-    <rect x="2" y="2" width="896" height="716" fill="url(#hiw-glow)"/>
-    <rect x="2" y="2" width="896" height="716" fill="url(#hiw-dots)" opacity="0.5"/>
+    <rect x="2" y="2" width="896" height="756" fill="url(#hiw-wash)"/>
+    <rect x="2" y="2" width="896" height="756" fill="url(#hiw-grain)" opacity="0.5"/>
   </g>
 
   <!-- header -->
-  <text class="sans" font-size="28" font-weight="700" letter-spacing="4" x="40" y="44" fill="#CFC4E8">HOW IT WORKS</text>
-  <text class="sans" font-size="28" font-weight="700" letter-spacing="4" x="860" y="44" text-anchor="end" fill="#CFC4E8" opacity="0.8">FIVE STEPS, ONE RUN</text>
-  <line x1="40" y1="64" x2="860" y2="64" stroke="#CFC4E8" stroke-width="1.5" opacity="0.22"/>
+  <text class="serif" font-size="40" font-weight="700" x="48" y="60" fill="#263536">How it works</text>
+  <text class="sans" font-size="28" font-weight="700" letter-spacing="1.5" x="852" y="60" text-anchor="end" fill="#4C5654">FIVE STEPS, ONE RUN</text>
+  <line x1="48" y1="88" x2="852" y2="88" stroke="#96896E" stroke-width="1.5"/>
 
-  <!-- the sweep bands: decoration only, peak .06, drawn under everything -->
-  <rect class="sweep" x="40" y="96" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
-  <rect class="sweep s2" x="40" y="216" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
-  <rect class="sweep s3" x="40" y="336" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
-  <rect class="sweep s4" x="40" y="456" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
-  <rect class="sweep s5" x="40" y="576" width="820" height="108" rx="8" fill="#A855F7" opacity="0"/>
+  <!-- decorative focus bands: peak .05, under everything, carry no information -->
+  <rect class="focus" x="40" y="116" width="820" height="108" rx="8" fill="#7A5200" opacity="0"/>
+  <rect class="focus f2" x="40" y="240" width="820" height="108" rx="8" fill="#7A5200" opacity="0"/>
+  <rect class="focus f3" x="40" y="364" width="820" height="108" rx="8" fill="#7A5200" opacity="0"/>
+  <rect class="focus f4" x="40" y="488" width="820" height="108" rx="8" fill="#7A5200" opacity="0"/>
+  <rect class="focus f5" x="40" y="612" width="820" height="108" rx="8" fill="#7A5200" opacity="0"/>
 
-  <!-- risers: the SOLID warm rail carries the brief down steps 1-3; the DASHED cool rail
-       carries the condition from step 3 down to step 5. They overlap at step 3's left edge,
-       and that overlap is the hand-off. -->
-  <path d="M52 96 V210 H84 V330 H116 V404" fill="none" stroke="#F0916A" stroke-width="4"/>
-  <path d="M116 376 V450 H148 V570 H180 V684" fill="none" stroke="#C4A6FF" stroke-width="4" stroke-dasharray="12 8"/>
-  <circle cx="116" cy="390" r="24" fill="none" stroke="#CFC4E8" stroke-width="1.5" opacity="0.3"/>
-
-  <!-- carried chips: warm = the brief (sharp), cool = the condition (capsule). Static at every step. -->
-  <rect x="38" y="136" width="28" height="28" fill="#F0916A"/>
-  <rect x="70" y="256" width="28" height="28" fill="#F0916A"/>
-  <rect x="102" y="376" width="28" height="28" rx="14" fill="#C4A6FF"/>
-  <rect x="134" y="496" width="28" height="28" rx="14" fill="#C4A6FF"/>
-  <rect x="166" y="616" width="28" height="28" rx="14" fill="#C4A6FF"/>
+  <!-- the two rails, with honest lifetimes: the brief exists for the whole run;
+       the condition exists only from paste (step 3) to proof (step 4) -->
+  <line x1="56" y1="132" x2="56" y2="700" stroke="#1B5A78" stroke-width="4"/>
+  <line x1="88" y1="380" x2="88" y2="560" stroke="#7A5200" stroke-width="4" stroke-dasharray="12 8"/>
 
   <!-- 1 — prep while the context is still hot -->
-  <text class="sans" font-size="44" font-weight="800" x="104" y="148" fill="#A855F7">1</text>
-  <text class="mono" font-size="32" font-weight="700" x="148" y="148" fill="#F4F0FF">/goalify</text>
-  <text class="sans" font-size="28" x="148" y="188" fill="#CFC4E8">prep while the context is still hot</text>
-  <text class="sans" font-size="28" x="860" y="150" text-anchor="end" fill="#CFC4E8">context 90%</text>
-  <rect x="700" y="166" width="160" height="12" rx="6" fill="#33215C"/>
-  <rect x="700" y="166" width="144" height="12" rx="6" fill="#F0916A"/>
+  <rect x="42" y="150" width="28" height="28" fill="#1B5A78"/>
+  <text class="sans" font-size="44" font-weight="800" x="128" y="172" fill="#263536">1</text>
+  <text class="mono" font-size="32" font-weight="700" x="180" y="172" fill="#263536">/goalify</text>
+  <text class="sans" font-size="28" x="180" y="212" fill="#4C5654">prepare while the context is still hot</text>
+  <text class="sans" font-size="28" x="852" y="172" text-anchor="end" fill="#4C5654">context 90%</text>
+  <rect x="692" y="188" width="160" height="12" rx="6" fill="#96896E"/>
+  <rect x="692" y="188" width="144" height="12" rx="6" fill="#1B5A78"/>
 
   <!-- 2 — a fresh session -->
-  <text class="sans" font-size="44" font-weight="800" x="136" y="268" fill="#A855F7">2</text>
-  <text class="mono" font-size="32" font-weight="700" x="180" y="268" fill="#F4F0FF">/clear</text>
-  <rect x="314" y="246" width="12" height="30" fill="#CFC4E8" opacity="0.5"/>
-  <text class="sans" font-size="28" x="180" y="308" fill="#CFC4E8">a fresh session, full context again</text>
+  <rect x="42" y="274" width="28" height="28" fill="#1B5A78"/>
+  <text class="sans" font-size="44" font-weight="800" x="128" y="296" fill="#263536">2</text>
+  <text class="mono" font-size="32" font-weight="700" x="180" y="296" fill="#263536">/clear</text>
+  <text class="sans" font-size="28" x="180" y="336" fill="#4C5654">a fresh session — full context again</text>
 
-  <!-- 3 — the hand-off row: the brief's rail ends here, the condition's rail begins -->
-  <text class="sans" font-size="44" font-weight="800" x="168" y="388" fill="#A855F7">3</text>
-  <text class="sans" font-size="32" font-weight="700" x="212" y="388" fill="#F4F0FF">paste the condition into</text>
-  <rect x="610" y="362" width="108" height="38" rx="8" fill="#150A28" stroke="#33215C" stroke-width="2"/>
-  <text class="mono" font-size="28" font-weight="700" x="664" y="388" text-anchor="middle" fill="#C4A6FF">/goal</text>
-  <text class="sans" font-size="28" x="212" y="428" fill="#CFC4E8">the string, not the path</text>
+  <!-- 3 — the hand-off: the condition rail begins here -->
+  <rect x="74" y="398" width="28" height="28" rx="14" fill="#7A5200"/>
+  <text class="sans" font-size="44" font-weight="800" x="128" y="420" fill="#263536">3</text>
+  <text class="sans" font-size="32" font-weight="700" x="180" y="420" fill="#263536">paste the condition into</text>
+  <rect x="612" y="394" width="112" height="40" rx="10" fill="#263536"/>
+  <text class="mono" font-size="28" font-weight="700" x="668" y="422" text-anchor="middle" fill="#FFFCF7">/goal</text>
+  <text class="sans" font-size="28" x="180" y="460" fill="#4C5654">the string, not the path</text>
 
-  <!-- 4 — the closing turn. Sole success-colour moment in this asset. -->
-  <text class="sans" font-size="44" font-weight="800" x="200" y="508" fill="#A855F7">4</text>
-  <path class="tick" d="M166 508 L174 516 L190 496" fill="none" stroke="#34F5C5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="sans" font-size="32" font-weight="700" x="244" y="508" fill="#F4F0FF">the closing turn reruns every check</text>
-  <text class="sans" font-size="28" x="244" y="548" fill="#CFC4E8">quotes <tspan font-weight="600" fill="#F4F0FF">npm test</tspan>, says <tspan font-weight="600" fill="#F4F0FF">ASYNC-OK</tspan></text>
+  <!-- 4 — the closing turn. Sole proof-colour moment in this asset. -->
+  <rect x="74" y="522" width="28" height="28" rx="14" fill="#7A5200"/>
+  <text class="sans" font-size="44" font-weight="800" x="128" y="544" fill="#263536">4</text>
+  <text class="sans" font-size="32" font-weight="700" x="180" y="544" fill="#263536">the closing turn reruns every check</text>
+  <text class="sans" font-size="28" x="180" y="584" fill="#4C5654">quotes <tspan class="mono" font-weight="600" fill="#263536">npm test</tspan>, says <tspan class="mono" font-weight="600" fill="#263536">ASYNC-OK</tspan></text>
+  <path class="tick" d="M800 540 L814 554 L840 524" fill="none" stroke="#265C43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- 5 — the brief comes to rest -->
-  <text class="sans" font-size="44" font-weight="800" x="232" y="628" fill="#A855F7">5</text>
-  <text class="sans" font-size="32" font-weight="700" x="276" y="628" fill="#F4F0FF">the brief archives itself</text>
-  <text class="mono" font-size="28" x="276" y="668" fill="#CFC4E8">.goal/done/</text>
-  <rect x="784" y="594" width="72" height="72" rx="4" fill="#150A28" stroke="#33215C" stroke-width="2"/>
-  <rect x="806" y="616" width="28" height="28" fill="#F0916A"/>
+  <!-- 5 — the brief comes to rest: brief colour, brief shape -->
+  <rect x="42" y="646" width="28" height="28" fill="#1B5A78"/>
+  <text class="sans" font-size="44" font-weight="800" x="128" y="668" fill="#263536">5</text>
+  <text class="sans" font-size="32" font-weight="700" x="180" y="668" fill="#263536">the brief archives itself</text>
+  <text class="mono" font-size="28" x="180" y="708" fill="#4C5654">.goal/done/</text>
+  <rect x="780" y="636" width="72" height="72" rx="4" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
+  <rect x="802" y="658" width="28" height="28" fill="#1B5A78"/>
 </svg>

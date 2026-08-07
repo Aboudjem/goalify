@@ -1,7 +1,6 @@
 import "./index.css";
 import { Composition } from "remotion";
-import { GoalifyTeaser } from "./GoalifyTeaser";
-import { TEASER_FRAMES } from "./ConceptHero";
+import { GoalifyTeaser, TEASER_FRAMES } from "./GoalifyTeaser";
 
 export const RemotionRoot: React.FC = () => {
   return (

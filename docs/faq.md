@@ -8,18 +8,17 @@ Claude still has your context; the work happens with a full context of its own.
 **Why a file *and* a string?**
 Because two readers need two different things. The worker — the fresh session doing the job — needs
 detail: absolute paths, and the research goalify cited. That is the brief, and it is allowed to run
-long. The evaluator is the other reader. It decides each turn whether the
-work is proven, and it has no tools and only a truncated transcript, so it needs something short it
-can quote. That is the condition. Collapsing the two into one artifact is the exact thing this
-design exists to prevent.
+long. The evaluator is the other reader. It decides each turn whether the work is proven, and it has
+no tools and only a trimmed transcript, so it needs something short it can quote. That is the
+condition. Collapsing the two into one artifact is the exact thing this design exists to prevent.
 
 **So what actually goes wrong if I paste the path instead?**
-Less than you would expect, and worse. Nothing errors: the main agent has full tools, so it opens
-the brief and works. What breaks is the *termination* check. The loop's exit test is now a string
-the evaluator cannot interpret, so the run carries on past the point where the job is done. The
-failure is discoverable — running `/goal` with no argument shows the evaluator's most recent reason,
-which will read something like "insufficient evidence in transcript" — but it never raises, so
-nobody looks.
+Less than you would expect, and worse. Nothing errors: the main agent has full tools, so it opens the
+brief and works. What breaks is the *stopping* check. The loop's exit test is now a string the
+evaluator cannot interpret, so the run carries on past the point where the job is done. You can find
+the failure if you look — running `/goal` with no argument shows the evaluator's most recent reason,
+which will read something like "insufficient evidence in transcript" — but it never raises, so nobody
+looks.
 
 **What if `/goal` will not start at all?**
 Two gates can block it outright, and each says so in as many words:
@@ -35,9 +34,9 @@ restriction lifted in settings or by whoever set the policy.
 The archive step is gated. If even one criterion is unmet, the brief stays where it is with its
 checklist intact, so you can pick the work back up. You resume by pasting the same condition again.
 
-**Why archive the brief instead of deleting it?**
+**Why file the brief away instead of deleting it?**
 So you can hold the promise and the outcome next to each other afterwards. The brief moves to
-`.goal/done/` with a completion stamp, and that move runs at the same gate strictness — nothing is
+`.goal/done/` with a completion stamp, and that move runs at the same strictness — nothing is
 archived unless every criterion passed.
 
 **Why is the condition so long?**
@@ -49,12 +48,12 @@ brief.
 **What happens if the condition goes over 4,000 characters?**
 It is rejected out loud, at launch: `Goal condition is limited to 4000 characters (got N)`. The
 length check runs *before* the hook is registered, so no goal is set and the run never starts. There
-is no silent truncation anywhere in that path — an oversize condition cannot quietly become a
-shorter one you did not write. That is the failure mode you want, and it is why goalify lints the
-string it derives rather than trusting it to fit.
+is no silent cut anywhere in that path — an oversize condition cannot quietly become a shorter one
+you did not write. That is the failure mode you want, and it is why goalify checks the string it
+derives rather than trusting it to fit.
 
 **What is in the condition besides the brief's path?**
-Three more things. A sentinel — a made-up token the run has to say, so the evaluator can search the
+Three more things. A sentinel — a made-up word the run has to say, so the evaluator can search the
 transcript for it. The exact commands whose output has to be quoted back. And a turn bound, so the
 loop stays finite. The path itself opens the condition, so the worker knows where to start reading:
 `~/acme/.goal/api-migration.md` in goalify's worked example. On success the brief is archived to
@@ -67,13 +66,13 @@ Nothing you write in the condition changes it — which is another reason the co
 string to be judged rather than a body of work to be done.
 
 **Why does it insist on a "closeout turn"?**
-Because evidence ages out of the transcript. Once a session outgrows the evaluator's transcript
-budget, the **oldest** messages are dropped and a banner takes their place — and that banner tells
-the evaluator, in its own words, to answer not-met if the evidence it needs might be sitting in the
-omitted beginning. So a test you proved on turn 3 is not merely forgotten by turn 90; the evaluator
-is instructed to treat its absence as insufficient evidence. The closeout turn is the fix: rerun
-every check together right before the evidence packet is presented, so the raw output lands at the
-tail of the transcript, where the evaluator can still read it.
+That is the brief's name for one final turn that reruns every check together, and it exists because
+evidence ages out of the transcript. Once a session outgrows the evaluator's budget, the **oldest**
+messages are dropped and a banner takes their place — and that banner tells the evaluator, in its own
+words, to answer not-met if the evidence it needs might be sitting in the omitted beginning. So a
+test you proved on turn 3 is not merely forgotten by turn 90; the evaluator is instructed to treat
+its absence as insufficient evidence. Rerunning every check right before the evidence packet is
+presented puts the raw output at the tail of the transcript, where the evaluator can still read it.
 
 **Does it work outside Claude Code?**
 Codex is directly supported, and that support was verified against the binary Codex actually ships —
@@ -85,7 +84,7 @@ non-Claude agent.
 
 **How is this different from other goal-runner tools?**
 There are others. [supergoal](https://github.com/robzilla1738/supergoal) covers a similar niche and
-also targets both harnesses. goalify's own bets are four: it fans research out during prep, it runs a
+also targets both tools. goalify's own bets are four: it fans research out during prep, it runs a
 separate skeptic that re-derives load-bearing claims from primary sources, it locks the genuine
 decisions with you before the run starts, and it derives the condition from the brief so the two stay
 in step. Pick whichever fits how you work.
@@ -97,9 +96,9 @@ Code issue asking [how to carry a plan across `/clear`](https://github.com/anthr
 it was closed as not planned, so goalify is one answer to it.
 
 **Does anything in my repo change when I run `/goalify`?**
-Only `.goal/` does — it gains the brief and the condition. The prep phase is otherwise read-only:
-goalify inspects the repo, researches what it does not know, and changes no code. The work happens
-later, in the fresh session you start with the condition.
+Only `.goal/` does — it gains the brief and the condition. The prep phase reads and never writes
+anywhere else: goalify inspects the repo, researches what it does not know, and changes no code. The
+work happens later, in the fresh session you start with the condition.
 
 ---
 
