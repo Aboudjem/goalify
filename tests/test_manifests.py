@@ -108,9 +108,35 @@ versions = {
     "marketplace.json plugins[0].version": (mkt.get("plugins") or [{}])[0].get("version"),
     "CHANGELOG.md latest release": _changelog_version(),
 }
+
+# The two sibling editor manifests are ungated in every other repo in this portfolio, which is how
+# a stale number ends up inside a released tag. Here they join the same gate as the other four.
+# Present-only: adding a manifest opts it in, and there is nothing to skip past.
+for _editor in ("cursor", "copilot"):
+    _path = os.path.join(ROOT, f".{_editor}-plugin", "plugin.json")
+    if not os.path.exists(_path):
+        continue
+    try:
+        with open(_path) as f:
+            _m = json.load(f)
+    except json.JSONDecodeError as e:
+        check(f".{_editor}-plugin/plugin.json parses as valid JSON", False, str(e))
+        continue
+    check(f".{_editor}-plugin/plugin.json parses as valid JSON", True)
+    check(f".{_editor}-plugin/plugin.json name == 'goalify'", _m.get("name") == "goalify",
+          f"got {_m.get('name')!r}")
+    check(f".{_editor}-plugin/plugin.json 'license' == 'MIT'", _m.get("license") == "MIT",
+          f"got {_m.get('license')!r}")
+    check(f".{_editor}-plugin/plugin.json lists the goalify skill",
+          _m.get("skills") == ["goalify"], f"got {_m.get('skills')!r}")
+    check(f".{_editor}-plugin/plugin.json declares no MCP server (goalify is skill-only)",
+          "mcp" not in _m)
+    versions[f".{_editor}-plugin/plugin.json version"] = _m.get("version")
+
 distinct = set(versions.values())
 check(
-    "version is identical across SKILL.md, plugin.json, marketplace.json, CHANGELOG.md",
+    "version is identical across SKILL.md, plugin.json, marketplace.json, CHANGELOG.md "
+    "and every editor manifest present",
     len(distinct) == 1 and None not in distinct,
     ", ".join(f"{k}={v!r}" for k, v in versions.items()),
 )

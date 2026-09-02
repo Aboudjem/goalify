@@ -37,6 +37,13 @@ mkdir -p ~/.claude/skills
 cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
+**Or install it into any other agent** (Cursor, Codex, Copilot, Gemini CLI, OpenCode, Windsurf, Zed
+and 70 more), one line, agent codes and paths in [editors](editors.md):
+
+```shell
+npx skills add Aboudjem/goalify -a cursor
+```
+
 Either way you get `/goalify`, which writes the run. You start the run yourself with Claude Code's
 built-in `/goal <condition>` command, which needs
 [Claude Code 2.1.139+](https://code.claude.com/docs/en/goal).

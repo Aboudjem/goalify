@@ -1,0 +1,25 @@
+{
+  "name": "goalify",
+  "version": "2.6.0",
+  "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is.",
+  "author": {
+    "name": "Adam Boudjemaa",
+    "url": "https://github.com/Aboudjem/goalify"
+  },
+  "homepage": "https://github.com/Aboudjem/goalify",
+  "repository": "https://github.com/Aboudjem/goalify",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "goalify",
+    "autonomous-agents",
+    "goal-driven",
+    "task-planning",
+    "agent-skills",
+    "productivity"
+  ],
+  "skills": [
+    "goalify"
+  ]
+}
