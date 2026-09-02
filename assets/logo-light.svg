@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" fill="none" role="img" aria-label="goalify: writes the brief and the condition">
+  <defs>
+    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#F7F8FB"/>
+      <stop offset="100%" stop-color="#F7F8FB"/>
+    </linearGradient>
+
+    <linearGradient id="g-brand" x1="0" y1="0" x2="1" y2="0.25" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#725BFF"/>
+      <stop offset="100%" stop-color="#A836FF"/>
+      <animateTransform attributeName="gradientTransform" type="translate"
+        values="-0.12 0; 0.12 0; -0.12 0" dur="18s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <linearGradient id="g-horizonline" gradientUnits="userSpaceOnUse" x1="40" y1="170" x2="680" y2="170">
+      <stop offset="0%"   stop-color="#725BFF" stop-opacity="0"/>
+      <stop offset="24%"  stop-color="#725BFF" stop-opacity="0.45"/>
+      <stop offset="58%"  stop-color="#A836FF" stop-opacity="0.65"/>
+      <stop offset="84%"  stop-color="#EB0054" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#EB0054" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="g-gridfade" gradientUnits="userSpaceOnUse" x1="0" y1="170" x2="0" y2="200">
+      <stop offset="0%"   stop-color="#725BFF" stop-opacity="0.4"/>
+      <stop offset="60%"  stop-color="#A836FF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#EB0054" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <linearGradient id="g-sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#FFFFFF" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <clipPath id="g-gridclip">
+      <rect x="0" y="170" width="720" height="30"/>
+    </clipPath>
+
+    <clipPath id="g-wordclip">
+      <text x="124" y="104" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+            font-size="62" font-weight="800" letter-spacing="-1.8">goalify</text>
+    </clipPath>
+  </defs>
+
+  <style>
+    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+    .tag  { font-size: 13.5px; letter-spacing: 1.6px; fill: #48546B; }
+
+    @keyframes g-flow { to { stroke-dashoffset: -240; } }
+    .flowline { animation: g-flow 14s linear infinite; }
+
+    @keyframes g-sheen {
+      0%   { transform: translateX(0); }
+      34%  { transform: translateX(480px); }
+      100% { transform: translateX(480px); }
+    }
+    .sheen { animation: g-sheen 7.5s linear infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+    }
+  </style>
+
+  <rect width="720" height="200" fill="url(#g-bg)"/>
+
+  <!-- perspective grid below the horizon, shipped off; flip this opacity to 1 to see it -->
+  <g id="grid" clip-path="url(#g-gridclip)" opacity="0">
+    <g stroke="url(#g-gridfade)" stroke-width="1" fill="none">
+      <path d="M360 170 L-620 200"/><path d="M360 170 L-180 200"/><path d="M360 170 L40 200"/>
+      <path d="M360 170 L180 200"/> <path d="M360 170 L280 200"/>  <path d="M360 170 L360 200"/>
+      <path d="M360 170 L440 200"/> <path d="M360 170 L540 200"/>  <path d="M360 170 L680 200"/>
+      <path d="M360 170 L900 200"/> <path d="M360 170 L1340 200"/>
+    </g>
+    <g stroke="url(#g-gridfade)" stroke-width="1" fill="none">
+      <line x1="0" y1="172"   x2="720" y2="172"/>
+      <line x1="0" y1="175"   x2="720" y2="175"/>
+      <line x1="0" y1="179.5" x2="720" y2="179.5"/>
+      <line x1="0" y1="186"   x2="720" y2="186"/>
+      <line x1="0" y1="195"   x2="720" y2="195"/>
+    </g>
+  </g>
+
+  <g opacity="0.95">
+    <line x1="40" y1="170" x2="680" y2="170" stroke="url(#g-horizonline)" stroke-width="1.25"/>
+    <line class="flowline" x1="40" y1="170" x2="680" y2="170" stroke="url(#g-horizonline)"
+          stroke-width="1.25" stroke-dasharray="3 9" opacity="0.85"/>
+  </g>
+
+  <!-- mark: concentric target, one pin through the centre -->
+  <g>
+    <g fill="none" stroke="url(#g-brand)" stroke-width="2.8">
+      <circle cx="72" cy="88" r="30"/>
+      <circle cx="72" cy="88" r="19.5" stroke-width="2.4" opacity="0.82"/>
+      <circle cx="72" cy="88" r="9" stroke-width="2.2" opacity="0.66"/>
+    </g>
+    <line x1="40" y1="56" x2="93" y2="109" stroke="#A836FF" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="36" cy="52" r="4.8" fill="#A836FF"/>
+    <circle cx="72" cy="88" r="3.4" fill="#07070C"/>
+  </g>
+
+  <text class="disp" x="124" y="104" font-size="62" font-weight="800" letter-spacing="-1.8" fill="url(#g-brand)">goalify</text>
+
+  <g clip-path="url(#g-wordclip)">
+    <g transform="skewX(-18)">
+      <rect class="sheen" x="-130" y="42" width="76" height="110" fill="url(#g-sheen)" opacity="0.8"/>
+    </g>
+  </g>
+
+  <text class="mono tag" x="126" y="140">writes the brief and the condition</text>
+</svg>

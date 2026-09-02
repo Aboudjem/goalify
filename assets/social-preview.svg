@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" fill="none" role="img" aria-label="goalify: come back to proof, not a promise. It writes the brief and the condition; the run works from the file.">
+  <defs>
+    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#0A0F1C"/>
+      <stop offset="60%" stop-color="#080C16"/>
+      <stop offset="100%" stop-color="#07070C"/>
+    </linearGradient>
+    <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.75">
+      <stop offset="0%"  stop-color="#FF2D78" stop-opacity="0.26"/>
+      <stop offset="38%" stop-color="#7C3AED" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="g-brand" x1="0" y1="0" x2="1" y2="0.25" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#8E7BFF"/>
+      <stop offset="100%" stop-color="#C77DFF"/>
+      <animateTransform attributeName="gradientTransform" type="translate"
+        values="-0.12 0; 0.12 0; -0.12 0" dur="18s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="g-horizonline" gradientUnits="userSpaceOnUse" x1="88" y1="482" x2="1192" y2="482">
+      <stop offset="0%"   stop-color="#8E7BFF" stop-opacity="0"/>
+      <stop offset="22%"  stop-color="#8E7BFF" stop-opacity="0.5"/>
+      <stop offset="55%"  stop-color="#C77DFF" stop-opacity="0.8"/>
+      <stop offset="82%"  stop-color="#FF4D8D" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FF4D8D" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+  </style>
+
+  <rect width="1280" height="640" fill="url(#g-bg)"/>
+  <ellipse cx="640" cy="648" rx="780" ry="280" fill="url(#g-bloom)" opacity="0.8"/>
+
+  <text class="mono" x="90" y="196" font-size="15" font-weight="600" letter-spacing="5" fill="#8E7BFF">AUTONOMOUS RUN PREP</text>
+  <text class="disp" x="88" y="316" font-size="112" font-weight="800" letter-spacing="-3" fill="url(#g-brand)">goalify</text>
+  <text class="disp" x="90" y="374" font-size="32" font-weight="700" letter-spacing="-0.4" fill="#F2F6FF">Come back to proof, not a promise</text>
+  <text class="disp" x="90" y="412" font-size="19" font-weight="500" fill="#B6C2DA">Writes the brief and the condition; the run works from the file.</text>
+
+  <!-- reserved square for the composited PNG mark: x 930 to 1150, y 210 to 430. Keep it empty. -->
+
+  <line x1="88" y1="482" x2="1192" y2="482" stroke="url(#g-horizonline)" stroke-width="1.5"/>
+
+  <text class="mono" x="90" y="556" font-size="20" letter-spacing="1.6" fill="#8494B0">github.com/Aboudjem/goalify</text>
+</svg>

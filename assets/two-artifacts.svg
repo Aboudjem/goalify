@@ -1,107 +1,142 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 770" role="img" aria-labelledby="ta-t ta-d">
-  <title id="ta-t">goalify — one command writes two things: a brief the worker opens, and a condition the evaluator reads</title>
-  <desc id="ta-d">A paper worktable diagram. One /goalify command forks into two lanes. The upper lane carries the BRIEF: a sheet of paper with a folded corner and a blue binding edge, named api-migration.md, which flows to the WORKER — a panel with a window and the sheet open inside it, because the worker opens the file. The lower lane carries the CONDITION: an ochre label strip with capsule ends, one line you paste whole, which flows through a neutral /goal chip to the EVALUATOR — a flat panel with no window and a struck-out folder, because it reads only the words you paste and cannot open files. Between the lanes, one fact: the condition carries the brief's path. At the bottom, a struck-through near-miss shows that words about the path are not the path.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 770" fill="none" role="img" aria-label="goalify: one command writes two things, a brief the worker opens and a condition the evaluator reads.">
+  <title>goalify: one command writes two things, a brief the worker opens and a condition the evaluator reads</title>
+  <desc>A two-lane diagram. One goalify command forks into two lanes. The upper lane carries the BRIEF: a sheet of paper with a folded corner and an indigo binding edge, named api-migration.md, which flows to the WORKER, a panel with a window and the sheet open inside it, because the worker opens the file. The lower lane carries the CONDITION: a violet capsule, one line you paste whole, which flows through a neutral goal chip to the EVALUATOR, a flat panel with no window and a struck-out folder, because it reads only the words you paste and cannot open files. Between the lanes, one fact: the condition carries the brief's path. At the bottom, a struck-through near-miss shows that words about the path are not the path.</desc>
   <defs>
-    <radialGradient id="ta-wash" cx="0.16" cy="0.04" r="0.6">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#0A0F1C"/>
+      <stop offset="60%" stop-color="#080C16"/>
+      <stop offset="100%" stop-color="#07070C"/>
+    </linearGradient>
+
+    <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
+      <stop offset="0%"  stop-color="#C77DFF" stop-opacity="0.18"/>
+      <stop offset="42%" stop-color="#7C3AED" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
     </radialGradient>
-    <pattern id="ta-grain" width="6" height="6" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="0.6" fill="#EDE5D6"/>
-    </pattern>
-    <clipPath id="ta-clip"><rect x="2" y="2" width="896" height="766" rx="24"/></clipPath>
+
+    <linearGradient id="g-rule" gradientUnits="userSpaceOnUse" x1="40" y1="86" x2="860" y2="86">
+      <stop offset="0%"   stop-color="#8E7BFF" stop-opacity="0.15"/>
+      <stop offset="26%"  stop-color="#8E7BFF" stop-opacity="0.75"/>
+      <stop offset="66%"  stop-color="#C77DFF" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <filter id="g-glow-sm" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
+
   <style>
-    .serif{font-family:ui-serif,Georgia,"Times New Roman",serif}
-    .sans{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-    .breath{animation:wt-breath 8s ease-in-out infinite}
-    .settle{animation:wt-settle 6s ease-in-out infinite}
-    @keyframes wt-breath{0%,100%{opacity:1}50%{opacity:.94}}
-    @keyframes wt-settle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-    @media (prefers-reduced-motion: reduce){
-      .breath,.settle,.tick,.focus{animation:none}
-      .breath,.settle,.tick{opacity:1;transform:none}
-      .focus{opacity:0}
+    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+    .lbl  { font-size: 30px; font-weight: 800; }
+    .cap  { font-size: 28px; font-weight: 700; letter-spacing: 1.5px; }
+    .body { font-size: 28px; font-weight: 500; }
+
+    @keyframes g-breathe { 0%,100% { opacity: 0.55; } 50% { opacity: 0.95; } }
+    .bloom { animation: g-breathe 9s ease-in-out infinite; }
+
+    @keyframes g-flow { to { stroke-dashoffset: -240; } }
+    .flowline { animation: g-flow 14s linear infinite; }
+
+    @keyframes g-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .row-1 { animation: g-rise 0.6s ease-out 0.3s both; }
+    .row-2 { animation: g-rise 0.6s ease-out 0.8s both; }
+    .row-3 { animation: g-rise 0.6s ease-out 1.3s both; }
+    .row-4 { animation: g-rise 0.6s ease-out 1.8s both; }
+
+    @keyframes g-pip { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+    .d1 { animation: g-pip 5s ease-in-out infinite 0s; }
+    .d2 { animation: g-pip 5s ease-in-out infinite 0.35s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
     }
   </style>
 
-  <rect x="2" y="2" width="896" height="766" rx="24" fill="#F6F1E8" stroke="#96896E" stroke-width="1.5"/>
-  <g clip-path="url(#ta-clip)">
-    <rect x="2" y="2" width="896" height="766" fill="url(#ta-wash)"/>
-    <rect x="2" y="2" width="896" height="766" fill="url(#ta-grain)" opacity="0.5"/>
-  </g>
+  <rect width="900" height="770" fill="url(#g-bg)"/>
+  <ellipse class="bloom" cx="450" cy="782" rx="600" ry="240" fill="url(#g-bloom)"/>
+  <rect x="2" y="2" width="896" height="766" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
 
   <!-- Z0 header -->
-  <text class="serif" font-size="40" font-weight="700" x="40" y="56" fill="#263536">One command. Two things.</text>
-  <text class="sans" font-size="28" font-weight="700" letter-spacing="1.5" x="860" y="56" text-anchor="end" fill="#4C5654">TWO READERS</text>
-  <line x1="40" y1="86" x2="860" y2="86" stroke="#96896E" stroke-width="1.5"/>
+  <text class="disp" font-size="40" font-weight="700" x="40" y="56" fill="#F2F6FF">One command. Two things.</text>
+  <text class="mono" font-size="22" letter-spacing="2.5" x="860" y="56" text-anchor="end" fill="#8494B0">TWO READERS</text>
+  <line x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5"/>
+  <line class="flowline" x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
 
   <!-- Z1 origin: the one command both things come out of; two lanes fork from it -->
-  <rect x="40" y="300" width="196" height="64" rx="6" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
-  <text class="mono" font-size="30" font-weight="700" x="138" y="342" text-anchor="middle" fill="#263536">/goalify</text>
-  <text class="sans" font-size="28" x="40" y="392" fill="#4C5654">writes both</text>
-  <path d="M236 332 C 280 332, 286 232, 292 232" fill="none" stroke="#1B5A78" stroke-width="4"/>
-  <path d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#7A5200" stroke-width="4" stroke-dasharray="12 8"/>
-
-  <!-- Z2 upper lane — the BRIEF: a sheet, folded corner, binding edge -->
-  <g class="breath">
-    <path d="M292 140 H596 L620 164 V324 H292 Z" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
-    <path d="M596 140 L620 164 H596 Z" fill="#EDE5D6" stroke="#96896E" stroke-width="1.5"/>
-    <rect x="292" y="140" width="8" height="184" fill="#1B5A78"/>
-    <text class="sans" font-size="30" font-weight="800" x="326" y="186" fill="#1B5A78">BRIEF</text>
-    <text class="sans" font-size="28" font-weight="700" letter-spacing="1.5" x="600" y="186" text-anchor="end" fill="#1B5A78">A FILE</text>
-    <text class="mono" font-size="28" x="326" y="230" fill="#263536">api-migration.md</text>
-    <line x1="326" y1="258" x2="560" y2="258" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
-    <line x1="326" y1="278" x2="520" y2="278" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
-    <line x1="326" y1="298" x2="548" y2="298" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
+  <g class="row-1">
+    <rect x="40" y="300" width="196" height="64" rx="6" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
+    <text class="mono" font-size="30" font-weight="700" x="138" y="342" text-anchor="middle" fill="#C77DFF">/goalify</text>
+    <text class="disp body" x="40" y="392" fill="#B6C2DA">writes both</text>
+    <path d="M236 332 C 280 332, 286 232, 292 232" fill="none" stroke="#8E7BFF" stroke-width="4"/>
+    <path d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
+    <path class="flowline" d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8" opacity="0.8"/>
   </g>
-  <line x1="620" y1="232" x2="648" y2="232" stroke="#1B5A78" stroke-width="4"/>
-  <path d="M648 225 L660 232 L648 239 Z" fill="#1B5A78"/>
 
-  <!-- Z2b the WORKER: it gets a window, with the sheet open inside -->
-  <rect x="664" y="140" width="196" height="190" rx="10" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
-  <path d="M688 176 H716 L724 184 V222 H688 Z" fill="none" stroke="#1B5A78" stroke-width="2"/>
-  <path d="M694 192 H714 M694 200 H710 M694 208 H714" stroke="#1B5A78" stroke-width="1.5" opacity="0.55"/>
-  <text class="sans" font-size="30" font-weight="800" x="688" y="266" fill="#263536">WORKER</text>
-  <text class="sans" font-size="28" x="688" y="300" fill="#4C5654">opens it</text>
+  <!-- Z2 upper lane, the BRIEF: a sheet, folded corner, binding edge -->
+  <g class="row-2">
+    <path d="M292 140 H596 L620 164 V324 H292 Z" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
+    <path d="M596 140 L620 164 H596 Z" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
+    <rect class="d1" x="292" y="140" width="8" height="184" fill="#8E7BFF" filter="url(#g-glow-sm)"/>
+    <text class="disp lbl" x="326" y="186" fill="#8E7BFF">BRIEF</text>
+    <text class="disp cap" x="600" y="186" text-anchor="end" fill="#8E7BFF">A FILE</text>
+    <text class="mono" font-size="28" x="326" y="230" fill="#F2F6FF">api-migration.md</text>
+    <line x1="326" y1="258" x2="560" y2="258" stroke="#1E2A42" stroke-width="2"/>
+    <line x1="326" y1="278" x2="520" y2="278" stroke="#1E2A42" stroke-width="2"/>
+    <line x1="326" y1="298" x2="548" y2="298" stroke="#1E2A42" stroke-width="2"/>
+
+    <line x1="620" y1="232" x2="648" y2="232" stroke="#8E7BFF" stroke-width="4"/>
+    <path d="M648 225 L660 232 L648 239 Z" fill="#8E7BFF"/>
+
+    <!-- Z2b the WORKER: it gets a window, with the sheet open inside -->
+    <rect x="664" y="140" width="196" height="190" rx="10" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
+    <path d="M688 176 H716 L724 184 V222 H688 Z" fill="none" stroke="#8E7BFF" stroke-width="2"/>
+    <path d="M694 192 H714 M694 200 H710 M694 208 H714" stroke="#8E7BFF" stroke-width="1.5" opacity="0.6"/>
+    <text class="disp lbl" x="688" y="266" fill="#F2F6FF">WORKER</text>
+    <text class="disp body" x="688" y="300" fill="#B6C2DA">opens it</text>
+  </g>
 
   <!-- Z3 the one cross-lane fact -->
-  <line x1="292" y1="344" x2="860" y2="344" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
-  <line x1="330" y1="306" x2="330" y2="340" stroke="#1B5A78" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.45"/>
-  <text class="sans" font-size="28" x="292" y="376" fill="#4C5654">The condition carries the brief's path.</text>
+  <line x1="292" y1="344" x2="860" y2="344" stroke="#1E2A42" stroke-width="1.5"/>
+  <line x1="330" y1="306" x2="330" y2="340" stroke="#8E7BFF" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.55"/>
+  <text class="disp body" x="292" y="376" fill="#B6C2DA">The condition carries the brief's path.</text>
 
   <!-- Z4 the /goal chip: a command, outside both plates, tied to the label below -->
-  <rect x="292" y="404" width="112" height="44" rx="10" fill="#263536"/>
-  <text class="mono" font-size="28" font-weight="700" x="348" y="434" text-anchor="middle" fill="#FFFCF7">/goal</text>
-  <text class="sans" font-size="28" x="420" y="434" fill="#4C5654">it takes the string, not the file</text>
-  <line x1="348" y1="448" x2="348" y2="454" stroke="#7A5200" stroke-width="2.5"/>
-  <path d="M342 452 L348 460 L354 452 Z" fill="#7A5200"/>
+  <g class="row-3">
+    <rect x="292" y="404" width="112" height="44" rx="10" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
+    <text class="mono" font-size="28" font-weight="700" x="348" y="434" text-anchor="middle" fill="#F2F6FF">/goal</text>
+    <text class="disp body" x="420" y="434" fill="#B6C2DA">it takes the string, not the file</text>
+    <line x1="348" y1="448" x2="348" y2="454" stroke="#C77DFF" stroke-width="2.5"/>
+    <path d="M342 452 L348 460 L354 452 Z" fill="#C77DFF"/>
 
-  <!-- Z5 lower lane — the CONDITION: a label strip, capsule ends -->
-  <g class="settle">
-    <rect x="292" y="464" width="328" height="148" rx="36" fill="#F7E9C6" stroke="#7A5200" stroke-width="2.5"/>
-    <text class="sans" font-size="28" font-weight="800" x="326" y="510" fill="#7A5200">CONDITION</text>
-    <text class="sans" font-size="28" font-weight="700" letter-spacing="1" x="600" y="510" text-anchor="end" fill="#7A5200">STRING</text>
-    <text class="mono" font-size="28" x="326" y="552" fill="#263536">Do everything in…</text>
-    <text class="sans" font-size="28" x="326" y="590" fill="#4C5654">you paste it whole</text>
+    <!-- Z5 lower lane, the CONDITION: a capsule, one line -->
+    <rect x="292" y="464" width="328" height="148" rx="36" fill="#0E1524" stroke="#C77DFF" stroke-width="2"/>
+    <text class="disp" font-size="26" font-weight="800" x="326" y="510" fill="#C77DFF">CONDITION</text>
+    <text class="disp" font-size="22" font-weight="700" letter-spacing="1.5" x="600" y="509" text-anchor="end" fill="#C77DFF">STRING</text>
+    <text class="mono" font-size="26" x="326" y="552" fill="#F2F6FF">Do everything in…</text>
+    <text class="disp body" x="326" y="590" fill="#B6C2DA">you paste it whole</text>
+
+    <line x1="620" y1="538" x2="648" y2="538" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
+    <path d="M648 531 L660 538 L648 545 Z" fill="#C77DFF"/>
+
+    <!-- Z5b the EVALUATOR: no window, no file, the absence is the argument -->
+    <rect x="664" y="464" width="196" height="180" rx="4" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
+    <path d="M688 496 H700 L704 490 H724 V524 H688 Z" fill="none" stroke="#5C6A85" stroke-width="1.5"/>
+    <path d="M694 500 L718 518 M718 500 L694 518" stroke="#FFB341" stroke-width="3" stroke-linecap="round"/>
+    <text class="disp" font-size="27" font-weight="800" x="688" y="560" fill="#F2F6FF">EVALUATOR</text>
+    <text class="disp body" x="688" y="592" fill="#B6C2DA">words only</text>
+    <text class="disp body" x="688" y="622" fill="#B6C2DA">no files</text>
   </g>
-  <line x1="620" y1="538" x2="648" y2="538" stroke="#7A5200" stroke-width="4" stroke-dasharray="12 8"/>
-  <path d="M648 531 L660 538 L648 545 Z" fill="#7A5200"/>
 
-  <!-- Z5b the EVALUATOR: no window, no file — the absence is the argument -->
-  <rect x="664" y="464" width="196" height="180" rx="4" fill="#FFFCF7" stroke="#96896E" stroke-width="1.5"/>
-  <path d="M688 496 H700 L704 490 H724 V524 H688 Z" fill="none" stroke="#96896E" stroke-width="1.5"/>
-  <path d="M694 500 L718 518 M718 500 L694 518" stroke="#8E2F24" stroke-width="3" stroke-linecap="round"/>
-  <text class="sans" font-size="30" font-weight="800" x="688" y="560" fill="#263536">EVALUATOR</text>
-  <text class="sans" font-size="28" x="688" y="592" fill="#4C5654">words only</text>
-  <text class="sans" font-size="28" x="688" y="622" fill="#4C5654">no files</text>
-
-  <!-- Z6 the words-only near-miss — struck, static, never an object -->
-  <line x1="40" y1="656" x2="860" y2="656" stroke="#96896E" stroke-width="1.5" opacity="0.6"/>
-  <g data-antipattern="v1">
-    <text class="mono" font-size="28" x="40" y="700" fill="#4C5654">/goal the brief's path</text>
-    <line x1="40" y1="691" x2="410" y2="691" stroke="#8E2F24" stroke-width="2.5"/>
-    <text class="sans" font-size="28" x="40" y="736" fill="#8E2F24">words about the path are not the path.</text>
+  <!-- Z6 the words-only near-miss, struck, static, never an object -->
+  <g class="row-4">
+    <line x1="40" y1="656" x2="860" y2="656" stroke="#1E2A42" stroke-width="1.5"/>
+    <g data-antipattern="v1">
+      <text class="mono" font-size="28" x="40" y="700" fill="#8494B0">/goal the brief's path</text>
+      <line x1="40" y1="691" x2="410" y2="691" stroke="#FFB341" stroke-width="2.5"/>
+      <text class="disp body" x="40" y="736" fill="#FFB341">words about the path are not the path.</text>
+    </g>
   </g>
 </svg>
