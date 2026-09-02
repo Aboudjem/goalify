@@ -11,28 +11,29 @@
 
 `check_skill.py` encodes the confirmed authoring edits as pass/fail assertions and runs in CI.
 
-### Current — 78 assertions (recorded 2026-08-06 at v2.3.0; re-measured 2026-08-07 at v2.5.0)
+### Current — 82 assertions (recorded 2026-08-06 at v2.3.0; re-measured 2026-09-02 at v2.6.0)
 
 The RED target is **this repo's own v1.1.0 skill**, reproduced from git history, so anyone with a
 clone can falsify the number. v1.1.0 shipped the `/goal <file-path>` handoff <!-- v1-antipattern -->, which the tool-less
-evaluator can never verify; the 49 assertions it fails are the v2 condition-string contract plus the
-plain-language contract (two story assertions were re-pinned to the v2.4 wording, which moved the
-RED score from the 30/78 recorded at v2.3.0 to the 29/78 measured today).
+evaluator can never verify; the 52 assertions it fails are the v2 condition-string contract, the
+plain-language contract, and the v2.6 wrap-up contract. The 29/78 figure this file carried between
+2026-08-07 and 2026-09-02 was wrong: re-running the v2.5.0 checker against v1.1.0 on 2026-09-02
+returns 30/78, so the RED count has stood at 30 since v2.1.0 and only the denominator has moved.
 
 | Target | Result |
 |---|---|
-| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **29 / 78 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. And every v2.3 assertion: no plain-words story in the description or the overview, no short-condition default, no ceiling-not-a-target framing, no canonical worked example, no four-teeth rule, no short-read lint, no rule keeping process directives out of the condition, no `/clear` + one-line handoff, no ban on a launcher or wrapper, no Done/Proof/Next report requirement, no ban on long paragraphs, no stopped-run caveat inside the template, no live-visible-progress requirement (template or PREPARE), no `in_progress → completed` rule, no read-the-deliverable-from-disk rule, no never-hand-off-while-live rule, no brief-is-a-file / condition-is-a-string vocabulary lock. |
-| `skills/goalify/SKILL.md` (v2.5.0, GREEN) | **78 / 78 pass** |
+| `git show v1.1.0:skills/goalify/SKILL.md` (RED) | **30 / 82 pass** — fails every v2 assertion: no condition-string handoff, a file-path handoff present, no derivation from a definition of done, no 4,000-char lint, no sentinel, no closeout-turn rule, no freshly-quoted-evidence rule, no turn bound, no bare-`$` lint, no tool-less-evaluator documentation, no subagent barrier, no model routing, no dry-run/caps, no rule against inventing a predicted cost, no 3-strike ladder, no archive gate, no `--permission-mode auto`, no headless form, no "not proof of completion" caveat, no verify-only re-check, no Codex cross-harness section, no untrusted-demotion note, no definition-of-done / process-directive split. And every v2.3 assertion: no plain-words story in the description or the overview, no short-condition default, no ceiling-not-a-target framing, no canonical worked example, no four-teeth rule, no short-read lint, no rule keeping process directives out of the condition, no `/clear` + one-line handoff, no ban on a launcher or wrapper, no Done/Proof/Next report requirement, no ban on long paragraphs, no stopped-run caveat inside the template, no live-visible-progress requirement (template or PREPARE), no `in_progress → completed` rule, no read-the-deliverable-from-disk rule, no never-hand-off-while-live rule, no brief-is-a-file / condition-is-a-string vocabulary lock. And every v2.6 assertion: no near-the-turn-cap wrap-up in the brief template, no commit-what-is-green rule, no statement that a run wrapping up at the cap still does not archive the brief, and no stopping-rule-not-a-completion-rule sentence where the turn-bound tooth is taught. |
+| `skills/goalify/SKILL.md` (v2.6.0, GREEN) | **82 / 82 pass** |
 
 Reproduce:
 ```bash
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md
 mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md
-python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 29/78)
-python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 78/78)
+python3 evals/check_skill.py /tmp/red/goalify/SKILL.md   # exit 1 (RED, 30/82)
+python3 evals/check_skill.py skills/goalify/SKILL.md     # exit 0 (GREEN, 82/82)
 ```
 
-The RED number is unchanged from the v2.1.0 recording (30) because v1.1.0 passes none of the 22 new
+The RED number is unchanged from the v2.1.0 recording (30) because v1.1.0 passes none of the 26 new
 assertions — the delta is entirely in the denominator. One pre-existing assertion was **tightened**
 rather than added: `handoff does NOT make pbcopy the required step` now also requires the handoff to
 ban the copy step outright, not merely demote it. v1.1.0 failed it before and fails it now.

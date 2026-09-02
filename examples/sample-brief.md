@@ -88,6 +88,11 @@ behavior is uncertain. Do not stop until every criterion in Definition of done h
   scope; (3) STOP, write `.goal/BLOCKERS-<stamp>.md`, and say BLOCKED explicitly. Do not treat
   inability, difficulty, or partial progress as completion, and do not declare this goal impossible in
   order to finish.
+- **Near the turn cap.** Within about five turns of the 40-turn cap, stop starting new work. Finish or
+  revert whatever is half-done, commit everything that is green (this brief does not authorize a push),
+  tick the progress checklist below honestly, and write what is left into it. Then say in the final
+  report that the run stopped early at the cap, and name what remains. A cap is a stopping rule, not a
+  completion rule, so the unticked boxes stay unticked and the archive gate still refuses to archive.
 - **Resumable.** Re-read this file each loop; tick the checklist here; write notes to `.goal/`.
 
 ## Definition of done (portable — the condition is derived from exactly this list)

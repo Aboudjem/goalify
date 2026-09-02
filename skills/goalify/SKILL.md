@@ -219,6 +219,12 @@ output format and boundaries; which artifacts get written to disk. Right-size ea
 - **3-strike escalation.** On failure: (1) retry with a root-cause probe; (2) retry with a narrowed
   fix scope; (3) STOP, write `.goal/BLOCKERS-<stamp>.md` (what failed, what you tried, what's needed),
   and say BLOCKED explicitly. Never loop forever, and never declare the goal impossible to escape it.
+- **Near the turn cap.** Within about five turns of the cap, stop starting new work. Finish or
+  revert whatever is half-done, commit everything that is green (push only if this brief already
+  authorizes pushing), tick this file's progress checklist honestly, and write what is left into it.
+  Then say in the final report that the run stopped early at the cap, and name what remains. A cap is
+  a stopping rule, not a completion rule, so the unticked boxes stay unticked and the archive gate
+  below still refuses to archive.
 - **Resumable.** Write artifacts to disk continuously; tick the checklist IN THIS FILE; re-read this
   file each loop; compact-and-reinitialize when the context fills.
 
@@ -281,7 +287,9 @@ Do everything in ~/acme/.goal/api-migration.md and prove it — done when the la
    the output of a NAMED command. A tool-less evaluator can verify nothing else.
 3. **A made-up sentinel word** (`ASYNC-OK`) — one unambiguous string to find, which no ordinary
    summary produces by accident.
-4. **A turn bound** (`Stop after 40 turns`) — it keeps the loop finite and yours.
+4. **A turn bound** (`Stop after 40 turns`) — it keeps the loop finite and yours. A cap is a
+   stopping rule, not a completion rule: reaching it is not finishing. That is why the brief tells
+   the run to wrap up cleanly as it nears the cap instead of stopping mid-edit.
 
 Say each tooth once, in plain words. Go longer only when the finish line genuinely needs more than one
 command proved — then add those checks and nothing else. Everything else that matters (maximum effort,

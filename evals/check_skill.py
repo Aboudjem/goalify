@@ -7,8 +7,8 @@ This is the deterministic half of the eval suite (the behavioral scenarios live 
 research edits as pass/fail checks so a regression is caught in CI.
 
 It doubles as the RED→GREEN demonstration, reproducible from this repo's own history:
-point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/78); point it
-at the current `goalify` SKILL.md and it PASSES (GREEN, 78/78).
+point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/82); point it
+at the current `goalify` SKILL.md and it PASSES (GREEN, 82/82).
 
 Usage:
     python3 evals/check_skill.py [path-to-SKILL.md]   # default: skills/goalify/SKILL.md
@@ -302,6 +302,28 @@ def main():
     }
     for clause, ok in v23_clauses.items():
         checks.append((f"v2.3: {clause}", ok, ""))
+
+    # --- v2.6 CONTRACT: a capped run wraps up instead of dying mid-edit ---
+    # A turn cap used to be a cliff: the brief gave a bound and said nothing about approaching it,
+    # so a run could stop with half an edit on disk and a report that never mentioned the cap.
+    #
+    # The turn-bound assertion is scoped to the four-teeth block on purpose. `low` already carries
+    # "stopping rule, not a completion rule" under Honest limits, a hundred lines away, so a
+    # body-wide check for that phrase is GREEN before this change and proves nothing.
+    teeth_m = re.search(r"four teeth, all mandatory(.*?)###", low, re.DOTALL)
+    teeth = teeth_m.group(1) if teeth_m else ""
+    v26_clauses = {
+        "template: the brief tells the run to wrap up as it nears the turn cap":
+            "near the turn cap" in tmpl_low and "stop starting new work" in tmpl_low,
+        "template: the wrap-up commits what is green and says the run stopped early":
+            "commit everything that is green" in tmpl_low and "stopped early at the cap" in tmpl_low,
+        "template: wrapping up at the cap still does NOT archive the brief":
+            "still refuses to archive" in tmpl_low,
+        "the turn-bound tooth itself says a cap is a stopping rule, not a completion rule":
+            "stopping rule, not a completion rule" in teeth,
+    }
+    for clause, ok in v26_clauses.items():
+        checks.append((f"v2.6: {clause}", ok, ""))
 
     # --- Gated, low-freedom end-of-run gate: archive since v2.0.0 (claim 4) ---
     checks.append(("end-of-run gate is a LOW-FREEDOM gated block",

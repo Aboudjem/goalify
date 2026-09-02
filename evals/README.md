@@ -13,21 +13,22 @@ of the v2.3 plain-language contract (the locked plain-words story, the short-con
 sources, the repo-wide "no file path to `/goal`" contract, and the shipped example's clauses.
 
 ```bash
-python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (78/78)
+python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (82/82)
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md \
   && mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md \
-  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (30/78)
+  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (30/82)
 ```
 
 The RED target is reproduced **from this repo's own git history**, so the claim is falsifiable by
-anyone with a clone: the shipped v1.1.0 skill scores 30/78 against the v2 + v2.3 assertions; the current
-skill scores 78/78. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
+anyone with a clone: the shipped v1.1.0 skill scores 30/82 against the v2, v2.3 and v2.6 assertions; the current
+skill scores 82/82. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
 that no longer exists, which made the headline number unverifiable — exactly the kind of unfalsifiable
 baseline `CONTRIBUTING.md` tells contributors not to accept.)
 
 ## 2. Behavioral — `scenarios.md` (judged transcripts)
 
-Three scenarios (substantial task, trivial task, several big sub-projects), each run cold (RED) and
+Four scenarios (substantial task, trivial task, several big sub-projects, a run that reaches its
+turn cap), each run cold (RED) and
 with the skill (GREEN) on **Haiku, Sonnet, and Opus**, scored by a separate judge against the rubric.
 Recorded results: [`RED-baseline.md`](RED-baseline.md). These are v1-era (2026-05-29) and **not
 reproducible** — the transcripts, judge prompt and fixture are not shipped, so treat them as a dated

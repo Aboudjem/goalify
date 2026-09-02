@@ -1,6 +1,6 @@
 # goalify — behavioral eval scenarios
 
-Three scenarios that exercise the behaviors the skill must guarantee, each with a **RED**
+Four scenarios that exercise the behaviors the skill must guarantee, each with a **RED**
 expectation (what a model does *without* the skill) and a **GREEN** expectation (what it must do
 *with* the skill). Run each scenario both ways, on **Haiku, Sonnet, and Opus** — the skill must hold
 on cheaper models and under pressure, not just on the strongest one. Recorded RED→GREEN results live
@@ -63,11 +63,37 @@ and (3) migrate the data warehouse — these are independent and each is large."
 
 ---
 
+## Scenario 4: the run reaches its turn cap (must wrap up, not stop mid-edit)
+
+**User prompt:** *"goalify this: convert our 40-package monorepo to ESM and keep every package's tests
+green."* The work is plainly larger than any sane cap, so the run will meet the bound.
+
+**RED (no skill), expected failure modes:**
+- The brief sets a turn cap and says nothing about approaching it, so the run stops mid-edit with
+  uncommitted work and a half-converted package tree.
+- The final report reads like a completion report: no statement that the cap was reached, no list of
+  what is left.
+- The brief is archived anyway, because the run judged itself "basically done".
+
+**GREEN (with skill), must hold (rubric):**
+1. The authored brief carries a **Near the turn cap** directive, not just a bound in the condition.
+2. It tells the run to stop starting new work, finish or revert whatever is half-done, and commit
+   everything that is green (pushing only if that brief authorizes a push).
+3. It tells the run to tick the progress checklist honestly and write what is left into the brief, so
+   the next run resumes instead of redoing.
+4. The final report says plainly that the run stopped early at the cap, and names what remains.
+5. The archive gate is untouched: unticked boxes mean the brief stays where it is.
+6. The condition still carries the turn bound as one of its four teeth. The wrap-up belongs to the
+   brief, which the worker reads in full, not to the condition.
+
+Deterministic counterpart: the `v2.6:` clauses in [`check_skill.py`](check_skill.py), and
+`example: near-the-turn-cap wrap-up` in `tests/test_manifests.py`.
+
 ## How to run
 
 - **Deterministic (CI):** `python3 evals/check_skill.py skills/goalify/SKILL.md` → exit 0.
   RED→GREEN demo, reproducible from this repo's history:
-  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/78) vs `skills/goalify/SKILL.md` (passes, 78/78).
+  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/82) vs `skills/goalify/SKILL.md` (passes, 82/82).
   See `README.md` in this directory for the exact commands.
 - **Behavioral:** for each scenario, prompt a model twice — once cold (RED) and once with
   `skills/goalify/SKILL.md` prepended (GREEN) — on Haiku, Sonnet, and Opus, and judge each transcript

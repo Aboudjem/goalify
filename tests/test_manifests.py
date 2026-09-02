@@ -606,6 +606,7 @@ try:
         "archive gate has rationalization counters": "basically done" in ex,
         "archive gate keeps the file on failure": "leave the file" in ex,
         "archive gate has a path rail": "path rail" in ex,
+        "near-the-turn-cap wrap-up": "near the turn cap" in ex and "stop starting new work" in ex,
     }
     for clause, ok in example_clauses.items():
         check(f"example: {clause}", ok)
