@@ -655,6 +655,53 @@ try:
 except (FileNotFoundError, OSError) as e:
     check("examples/sample-brief.md is readable", False, str(e))
 
+# --- The worked-conditions gallery (examples/conditions.md) ---
+# The condition is the artifact users get wrong, so the gallery ships as teaching material and is
+# held to the rules the skill states. A block opened with a bare ```text is a worked condition; a
+# block opened with any other info string (```text anti-pattern) is a deliberate counter-example
+# and is skipped. CommonMark trims the info string and GitHub renders only its first word as the
+# language, so the marker never shows on the page, which is the same trick the v1-antipattern
+# fences above use.
+def _fenced_blocks(text):
+    """(info string, block text) for every fenced block, in document order."""
+    out, fence, info, buf = [], None, "", []
+    for line in text.splitlines():
+        m = FENCE_RE.match(line)
+        if m:
+            if fence is None:
+                fence, info, buf = m.group(1)[0], m.group(2).strip(), []
+                continue
+            if m.group(1)[0] == fence and not m.group(2).strip():
+                out.append((info, "\n".join(buf)))
+                fence, info, buf = None, "", []
+                continue
+        if fence is not None:
+            buf.append(line)
+    return out
+
+
+gallery_path = os.path.join(ROOT, "examples", "conditions.md")
+check("conditions gallery: examples/conditions.md exists", os.path.exists(gallery_path))
+if os.path.exists(gallery_path):
+    g_raw = open(gallery_path, encoding="utf-8").read()
+    g_blocks = _fenced_blocks(g_raw)
+    worked = [b for info, b in g_blocks if info == "text"]
+    labelled = [b for info, b in g_blocks
+                if info != "text" and info.split(" ", 1)[0] == "text"]
+    check("conditions gallery: six to eight worked conditions",
+          6 <= len(worked) <= 8, f"found {len(worked)}")
+    check("conditions gallery: every worked condition is paired with a labelled anti-pattern",
+          len(labelled) == len(worked), f"{len(worked)} worked, {len(labelled)} labelled")
+    no_done = [c[:48] for c in worked if "done when" not in c.lower()]
+    check('conditions gallery: every worked condition says "done when"',
+          not no_done, f"missing in {no_done}")
+    abs_path = [c[:48] for c in worked if any(t.startswith("/") for t in c.split())]
+    check("conditions gallery: no worked condition carries a path starting with /",
+          not abs_path, f"found in {abs_path}")
+    over = [len(c) for c in worked if len(c) > 4000]
+    check("conditions gallery: every worked condition is <= 4,000 characters",
+          not over, f"lengths {over}")
+
 # --- Report ---
 print("-" * 60)
 passed = _total - len(failures)
