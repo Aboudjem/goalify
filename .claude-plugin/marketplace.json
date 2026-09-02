@@ -4,14 +4,14 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "Hand Claude a huge task. Come back to proof it's done — not a promise that it is."
+    "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "Hand Claude a huge task. Come back to proof it's done — not a promise that it is.",
-      "version": "2.5.0"
+      "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is.",
+      "version": "2.6.0"
     }
   ]
 }

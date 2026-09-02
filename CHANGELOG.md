@@ -4,7 +4,9 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.6.0] - 2026-09-02
+
+Identity, README and install refresh; improvements listed below as they land.
 
 ### Added
 
@@ -441,6 +443,8 @@ before deleting the file. Evolved from an internal `goal-prep` skill (see
   that validates frontmatter, runs the skill eval, checks relative links, scans for secrets,
   and gates the SVGs against `<script>` and external references.
 
+[2.6.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.6.0
+[2.5.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.5.0
 [2.4.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.4.0
 [2.3.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.3.0
 [2.2.0]: https://github.com/Aboudjem/goalify/releases/tag/v2.2.0
