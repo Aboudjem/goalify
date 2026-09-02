@@ -728,6 +728,17 @@ if os.path.exists(gallery_path):
     over = [len(c) for c in worked if len(c) > 4000]
     check("conditions gallery: every worked condition is <= 4,000 characters",
           not over, f"lengths {over}")
+    # Two of the four teeth are mechanically visible, so they are asserted rather than trusted:
+    # a gallery that taught a condition without an evidence clause or without a sentinel would be
+    # teaching the mistake. The turn bound is covered by tests/test_condition_lint.py, which runs
+    # every worked condition below through the linter.
+    no_quote = [c[:48] for c in worked if "the last turn quotes" not in c.lower()]
+    check("conditions gallery: every worked condition names a command the last turn must quote",
+          not no_quote, f"missing in {no_quote}")
+    sentinel_re = re.compile(r"\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+\b")
+    no_sentinel = [c[:48] for c in worked if not sentinel_re.search(c)]
+    check("conditions gallery: every worked condition carries a sentinel token",
+          not no_sentinel, f"missing in {no_sentinel}")
 
 # --- Report ---
 print("-" * 60)

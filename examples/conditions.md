@@ -33,9 +33,10 @@ Do everything in ~/acme/.goal/api-migration.md and prove it, done when the last 
 ~/acme/.goal/api-migration.md
 ```
 
-Loses all four teeth at once. A path is not a finish line, and the evaluator cannot open it, so every
-turn it is asked whether a literal string of characters is satisfied. This is the mistake goalify v2
-exists to prevent.
+Loses three teeth and misuses the fourth. The brief's path is there, but as the whole condition
+instead of named inside a sentence, so there is no finish line, no evidence clause, no sentinel and
+no bound. The evaluator cannot open the file, so every turn it is asked whether a literal string of
+characters is satisfied. This is the mistake goalify v2 exists to prevent.
 
 ## 2. Upgrade an app to React 19
 
@@ -83,12 +84,12 @@ Do everything in ~/infra/.goal/terraform-split.md, done when the last turn quote
 ```
 
 ```text anti-pattern
-Do everything described in the brief at ~/infra/.goal/terraform-split.md at maximum effort, fanning out parallel subagents for independent discovery while serializing all state operations, never self-approving any verification, following the 3-strike escalation ladder on failure, committing before every risky step, and not declaring the goal impossible in order to escape it, done when terraform validate and terraform plan report no changes and says TF-CLEAN. Stop after 60 turns.
+Do everything described in the brief at ~/infra/.goal/terraform-split.md at maximum effort, fanning out parallel subagents for independent discovery while serializing all state operations, never self-approving any verification, following the 3-strike escalation ladder on failure, committing before every risky step, and not declaring the goal impossible in order to escape it, done when the last turn quotes terraform validate and terraform plan reporting no changes and says TF-CLEAN. Stop after 60 turns.
 ```
 
-Everything after the fourth tooth is process, and process belongs in the brief, which the run reads
-in full. Here it is surface area: the evaluator can score any one of those clauses as unmet and hold
-the loop open.
+All four teeth are here, and so is half the brief. Process belongs in the brief, which the run reads
+in full. In the condition it is surface area: the evaluator can score any one of those clauses as
+unmet and hold the loop open.
 
 ## 6. Turn on TypeScript strict mode across a monorepo
 
