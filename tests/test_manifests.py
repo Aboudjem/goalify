@@ -262,11 +262,14 @@ check(
 # slot. Note what this enforces: a COUNT. It cannot tell prose about the old handoff
 # from an instruction to use it — that judgement is the reviewer's, and the cap exists
 # to make sure a reviewer is actually summoned.
-# 15 = CHANGELOG history ×2, README right/wrong fence, quickstart fence, hero.svg struck
-# counter-example, RED-baseline note, and this file's own specimens (4 legacy + 5 added
-# with the v2.3.0 gate self-tests: entity, slash-homoglyph, attribute-value,
-# letter-homoglyph and zero-width forms).
-EXPECTED_EXEMPTIONS = 15
+# 19 = CHANGELOG history ×2, README right/wrong fence, the same fence in each of the four
+# translations under READMEs/, quickstart fence, hero.svg struck counter-example,
+# RED-baseline note, and this file's own specimens (4 legacy + 5 added with the v2.3.0 gate
+# self-tests: entity, slash-homoglyph, attribute-value, letter-homoglyph and zero-width
+# forms). A translation's fence carries the marker for the reason the English one does: it
+# prints the wrong handoff in order to name it wrong, and CommonMark trims the info string
+# so the marker never reaches the page.
+EXPECTED_EXEMPTIONS = 19
 check(
     f"v1-antipattern exemptions stay pinned at {EXPECTED_EXEMPTIONS} "
     f"({len(exempt)} in use: {', '.join(exempt) or 'none'})",
