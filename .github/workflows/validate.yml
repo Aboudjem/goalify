@@ -124,6 +124,12 @@ jobs:
         shell: bash
         run: python3 tests/test_manifests.py
 
+      # (b3) CONDITION LINT TESTS: the skill's own condition-lint checklist, mechanised.
+      #      Covers each rule's specimen and every worked condition in examples/conditions.md.
+      - name: Condition lint tests (test_condition_lint.py)
+        shell: bash
+        run: python3 tests/test_condition_lint.py
+
       # (c) NO-SECRETS CHECK (all tracked files)
       - name: No secrets
         shell: bash

@@ -131,5 +131,22 @@ that proved nothing. Pick a string that appears nowhere else.
 
 ---
 
+## Check one before you paste it
+
+```bash
+python3 skills/goalify/scripts/condition_lint.py "Work through ~/crm/.goal/search-rewrite.md, done when the last turn quotes make test passing and says SEARCH-REWRITE-OK. Stop after 40 turns."
+```
+
+The linter reads a condition from its argument or from stdin and exits non-zero if a rule fails. It
+checks the length, that a finish line is stated, that the condition is a sentence rather than a path,
+that a stop rule is present with a number in it, and that no bare `$` is left for the hook prompt to
+rewrite.
+
+It catches three of the eight anti-patterns on this page. The other five pass every rule and are
+still bad conditions: an unnamed command, a self-satisfying claim, a lawyerly restatement of the
+brief, a ticked checkbox the evaluator cannot see, and a sentinel that is only the word "done". No
+mechanical check sees those, which is why the four teeth are worth reading for yourself before you
+paste.
+
 See [`docs/quickstart.md`](../docs/quickstart.md) for where the brief and the condition fit in a run,
 and [`docs/faq.md`](../docs/faq.md) for what happens when a run stops early.

@@ -316,6 +316,12 @@ not proof.
       it is done" the success test.
 - [ ] Every command in it appears in the brief's definition of done, and vice versa.
 
+The first four boxes and the bare-`$` one are mechanical, so run them rather than eyeballing them:
+`python3 skills/goalify/scripts/condition_lint.py "<the condition>"` (standard library, exits non-zero
+on a failure). The rest are judgment: whether the named command really proves the criterion, whether
+the sentinel is distinctive, and whether a clause is satisfied by the condition text itself. Worked
+pairs, good and bad, are in `examples/conditions.md`.
+
 ## Handoff format (what you print — short, bullets, not verbose)
 
 **Two steps: `/clear`, then ONE short `/goal <condition>` line with the entire condition text inline

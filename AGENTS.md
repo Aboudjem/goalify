@@ -14,8 +14,11 @@ that brief's definition of done. The user then runs `/clear` and pastes the cond
 **fresh** session executes the big task at full context, proves every criterion in a closeout turn, and
 archives the brief on success.
 
-The repo is the skill at `skills/goalify/SKILL.md`, the `/goalify` author. There is no script to run;
-the skill's output is the brief plus the condition. **`/goal` takes a condition string, never a file
+The repo is the skill at `skills/goalify/SKILL.md`, the `/goalify` author. goalify stays a **skill
+plugin**: no MCP server, no standalone CLI, no runtime dependency, no network call. Its one
+executable file, `skills/goalify/scripts/condition_lint.py`, is a standard-library helper the skill
+may run over a condition before it prints the handoff. It is not a command users install and it
+changes nothing about the output, which is still the brief plus the condition. **`/goal` takes a condition string, never a file
 path** — the docs say *"Run `/goal` followed by the condition you want satisfied"* and the shipped
 binary contains `No goal set. Usage: /goal <condition>` with no file-path branch. The evaluator behind
 `/goal` has no tools and cannot read files, so a path handed to it can never be verified
@@ -65,6 +68,8 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 - `evals/` — `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
   (recorded RED→GREEN on Haiku/Sonnet/Opus).
 - `examples/` — an illustrative brief plus the `/goal` condition derived from it.
+- `skills/goalify/scripts/condition_lint.py`: the checkable half of the skill's condition-lint
+  checklist, as a standard-library script. Judgment calls stay with the reader.
 - `tests/` — `test_manifests.py`: manifest validity, version consistency across all four sources, the
   "no file path to `/goal`" contract, and the shipped example's template clauses. A release gate.
 - `video/` — Remotion source for the README teaser; typechecked in CI, and every relative import must
@@ -79,6 +84,7 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 
 - `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (all checks pass).
 - `python3 tests/test_manifests.py` exits 0 (plugin + marketplace manifests valid).
+- `python3 tests/test_condition_lint.py` exits 0 (every lint rule fires on its own specimen).
 - `SKILL.md` frontmatter parses (valid YAML: `name`, `description`, `license`, `metadata.version`).
 - `assets/*.svg` contain no `<script>` and no external references, and are well-formed XML.
 - All relative Markdown links resolve.
