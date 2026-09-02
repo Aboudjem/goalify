@@ -6,12 +6,84 @@ All notable changes to this project are documented here. The format is based on
 
 ## [2.6.0] - 2026-09-02
 
-Identity, README and install refresh; improvements listed below as they land.
+A new visual identity, a README rebuilt to the shape of the ones people actually read, four
+translations, an install path for every agent, and three additions that make the condition easier
+to get right.
 
 ### Added
 
+- **A gallery of worked conditions** (`examples/conditions.md`). Eight task-to-condition pairs. Each
+  pair is a condition worth shipping next to the way the same job usually comes out on the first
+  try, plus one line naming the tooth the bad one loses: the bare path, the judgment call, the
+  unnamed command, the self-satisfying claim, the lawyerly restatement, the missing bound, the
+  ticked checkbox the evaluator cannot see, and the sentinel that is only the word "done". Eight new
+  assertions in `tests/test_manifests.py` pin every pair, each verified RED on a scratch copy first.
+- **A condition linter** (`skills/goalify/scripts/condition_lint.py`). Standard library only, reads
+  argv or stdin, six rules: the 4,000-character ceiling, a stated finish line, the condition is a
+  sentence and not a path, any stop-after clause carries a number, the last sentence bounds the
+  loop, and no bare `$`. `tests/test_condition_lint.py` gives each rule its own specimen, asserts
+  the exact rule ids that fire, and pins what the linter cannot see: it catches three of the eight
+  gallery anti-patterns, and the other five pass every rule while still being bad conditions.
+  Wired into `validate.yml`. goalify is still a skill plugin: no MCP server, no standalone CLI, no
+  runtime dependency, no network call.
+- **A wrap-up clause near the turn cap**, in the brief template in `skills/goalify/SKILL.md`. Within
+  about five turns of the cap the run stops starting new work, finishes or reverts what is half
+  done, commits what is green, ticks the checklist honestly, writes what is left into the brief, and
+  says in the final report that it stopped early. The archive gate is untouched: unticked boxes
+  still mean the brief stays where it is. `evals/check_skill.py` pins every step of the clause, and
+  `tests/test_manifests.py` asserts `examples/sample-brief.md` carries it too.
+- **The Neon Noir identity.** `assets/logo-mark.png` (1024) and `assets/logo-mark-512.png`,
+  `assets/hero-dark.svg` and `assets/hero-light.svg` (1200x400 README banners),
+  `assets/logo-dark.svg` and `assets/logo-light.svg` (720x200 lockups), and
+  `assets/social-preview.svg`, the source for a regenerated `assets/social-preview.png` at exactly
+  1280x640. The mark is three concentric rings with a pin driven through the centre on the diagonal.
+- **Four translations**, `READMEs/{zh-CN,ja,es,fr}.md`, linked from a language row under the badges.
+  Prose only: all seven fenced blocks are byte-identical to the English, every relative link carries
+  `../`, and each file ends with a machine-assisted-translation note in its own language. One
+  reviewer per language checked each file against the English for drift before it shipped.
+- **Editor install manifests and a per-agent table.** `.cursor-plugin/plugin.json` and
+  `.copilot-plugin/plugin.json` mirror the Claude manifest without an `mcp` key, and both are now
+  covered by the same version-parity assertion as the other four sources, so a tag can no longer
+  ship a stale number inside them. `docs/editors.md` is new: the `-a` code, the project path and the
+  global path for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, OpenCode, Windsurf, Zed
+  and Kimi Code CLI, read from the `vercel-labs/skills` supported-agents table on 2026-09-02, plus
+  the manual copy path and what changes about the handoff outside Claude Code.
 - Release workflow: pushing a `vX.Y.Z` tag now creates the GitHub release and tells the 10x
   marketplace to re-sync (`.github/workflows/release.yml`).
+
+### Changed
+
+- **README rewritten**, 95 lines to 168, to the plugin skeleton: a light and dark hero through
+  `<picture>`, three badges, the language row, the one-sentence purpose, six jump links and the
+  install block, all inside the first 30 lines, then What it does, Install, Use it, What you get,
+  Works in your editor, Good to know, Learn more. The install command moves from line 45 to line 28.
+  Gone: 19 em-dashes, the emoji bullets, and the numbered steps that trailed the block they
+  explained. Each of the three additions above gets exactly one line.
+- **`hero.svg`, `how-it-works.svg` and `two-artifacts.svg` rebuilt in place** in the new identity:
+  same viewBoxes, same words, same pinned counter-examples, a dark ground instead of the paper one.
+  Every shipped SVG stays self-contained and animated, with no `<script>`, no external reference,
+  a reduced-motion guard, and every font stack ending in a generic family.
+- **`docs/quickstart.md`** gains the `npx skills add` line and a pointer to the per-agent table.
+- **`AGENTS.md`** now restates the invariant in as many words: goalify is a skill plugin with no MCP
+  server, no standalone CLI, no runtime dependency and no network call, and the linter is a helper
+  the skill may call.
+
+### Fixed
+
+- **Two wrong explanations in the conditions gallery.** Pair 1 claimed the bare path loses all four
+  teeth when it still carries the brief's path, and pair 5's anti-pattern had dropped the evidence
+  clause as well, so its explanation named the wrong defect. Both are corrected and the gallery now
+  asserts the evidence clause and the sentinel over every worked condition.
+- **The v2.6 eval assertions pinned fragments, not the clause.** The wrap-up clause could have been
+  gutted to its first sentence and still passed. Every step it mandates is now pinned in both the
+  template assertion and the example's.
+- **`evals/RED-baseline.md` carried a wrong figure since 2026-08-07.** Running the previous checker
+  against the v1.1.0 skill returns 30/78, not the 29/78 recorded. The file now states the corrected
+  figure and how it was re-derived. Current baseline: RED 30/83, GREEN 83/83.
+- **The em-dash in both manifest descriptions** became a comma, so `plugin.json` and
+  `marketplace.json` still agree and the 10x marketplace pins a description the house style allows.
+  The em-dashes inside `skills/goalify/SKILL.md` stay: `evals/check_skill.py` pins the story and the
+  canonical condition byte-identically, and its vocabulary-lock assertions match on em-dash phrases.
 
 ## [2.5.0] - 2026-08-07
 

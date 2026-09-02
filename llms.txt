@@ -41,6 +41,7 @@ instructions about how to work.
 - [Honest limits](https://github.com/Aboudjem/goalify/blob/main/docs/limits.md): Everything goalify does not promise, including that a stopped `/goal` run is not proof of completion.
 - [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which instructions do not carry over.
 - [FAQ](https://github.com/Aboudjem/goalify/blob/main/docs/faq.md): Common questions about the two artifacts and the run.
+- [Install in your editor](https://github.com/Aboudjem/goalify/blob/main/docs/editors.md): The `-a` code, the project path and the global path for nine agents, plus the manual copy path.
 - [LICENSE (MIT)](https://github.com/Aboudjem/goalify/blob/main/LICENSE): Permissive MIT license.
 
 ## Install
@@ -49,8 +50,8 @@ goalify ships as a Claude Code plugin (in the 10x marketplace) and as a drop-in 
 get `/goalify`, which authors the run; you start it with Claude Code's built-in `/goal <condition>`
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
-- [Plugin (recommended)](https://github.com/Aboudjem/goalify#three-steps): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
-- [Manual / skill-only](https://github.com/Aboudjem/goalify#three-steps): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
+- [Plugin (recommended)](https://github.com/Aboudjem/goalify#install): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
+- [Manual / skill-only](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill
 
@@ -60,6 +61,7 @@ command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 ## Examples
 
 - [Worked example](https://github.com/Aboudjem/goalify/blob/main/examples/sample-brief.md): An illustrative brief plus the `/goal` condition derived from it, in the shape goalify produces.
+- [Worked conditions](https://github.com/Aboudjem/goalify/blob/main/examples/conditions.md): Eight task-to-condition pairs, each with the anti-pattern it is usually written as and the tooth that one loses.
 
 ## Optional
 

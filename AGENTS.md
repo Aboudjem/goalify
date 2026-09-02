@@ -74,7 +74,8 @@ source for any load-bearing claim, especially "works with X" / standard-complian
   "no file path to `/goal`" contract, and the shipped example's template clauses. A release gate.
 - `video/` — Remotion source for the README teaser; typechecked in CI, and every relative import must
   be tracked by git.
-- `assets/` — the animated SVG hero and "how it works" diagram, plus the social-preview card.
+- `assets/`: the animated SVG banners and logo lockups, the tall hero poster, the two diagrams, the
+  PNG logo mark, and the social preview.
 - `docs/` — the quickstart, honest limits, FAQ, and the Codex guide. (A local build journal lives in
   `docs/audit/`, which `.gitignore` excludes.)
 - `README.md` — human-facing overview; `LICENSE` — MIT.
