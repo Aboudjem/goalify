@@ -13,15 +13,15 @@ of the v2.3 plain-language contract (the locked plain-words story, the short-con
 sources, the repo-wide "no file path to `/goal`" contract, and the shipped example's clauses.
 
 ```bash
-python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (82/82)
+python3 evals/check_skill.py skills/goalify/SKILL.md        # GREEN: exit 0 (83/83)
 git show v1.1.0:skills/goalify/SKILL.md > /tmp/v1.md \
   && mkdir -p /tmp/red/goalify && mv /tmp/v1.md /tmp/red/goalify/SKILL.md \
-  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (30/82)
+  && python3 evals/check_skill.py /tmp/red/goalify/SKILL.md # RED:   exit 1 (30/83)
 ```
 
 The RED target is reproduced **from this repo's own git history**, so the claim is falsifiable by
-anyone with a clone: the shipped v1.1.0 skill scores 30/82 against the v2, v2.3 and v2.6 assertions; the current
-skill scores 82/82. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
+anyone with a clone: the shipped v1.1.0 skill scores 30/83 against the v2, v2.3 and v2.6 assertions; the current
+skill scores 83/83. (Before v2.0.0 this section pointed at a legacy `goal-prep` file outside the repo
 that no longer exists, which made the headline number unverifiable — exactly the kind of unfalsifiable
 baseline `CONTRIBUTING.md` tells contributors not to accept.)
 

@@ -633,6 +633,12 @@ try:
         "archive gate keeps the file on failure": "leave the file" in ex,
         "archive gate has a path rail": "path rail" in ex,
         "near-the-turn-cap wrap-up": "near the turn cap" in ex and "stop starting new work" in ex,
+        "near-the-turn-cap wrap-up names every step": all(needle in ex for needle in (
+            "finish or revert whatever is half-done",
+            "progress checklist below honestly",
+            "write what is left into it",
+            "name what remains",
+        )),
     }
     for clause, ok in example_clauses.items():
         check(f"example: {clause}", ok)

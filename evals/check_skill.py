@@ -7,8 +7,8 @@ This is the deterministic half of the eval suite (the behavioral scenarios live 
 research edits as pass/fail checks so a regression is caught in CI.
 
 It doubles as the RED→GREEN demonstration, reproducible from this repo's own history:
-point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/82); point it
-at the current `goalify` SKILL.md and it PASSES (GREEN, 82/82).
+point it at `git show v1.1.0:skills/goalify/SKILL.md` and it FAILS (RED, 30/83); point it
+at the current `goalify` SKILL.md and it PASSES (GREEN, 83/83).
 
 Usage:
     python3 evals/check_skill.py [path-to-SKILL.md]   # default: skills/goalify/SKILL.md
@@ -319,6 +319,16 @@ def main():
             "commit everything that is green" in tmpl_low and "stopped early at the cap" in tmpl_low,
         "template: wrapping up at the cap still does NOT archive the brief":
             "still refuses to archive" in tmpl_low,
+        # Two fragments would let the clause be gutted down to its first sentence and still
+        # pass. Every step the clause mandates is pinned, so removing one is a visible failure.
+        "template: the wrap-up names every step it requires":
+            all(needle in tmpl_low for needle in (
+                "finish or revert whatever is half-done",
+                "push only if this brief already authorizes pushing",
+                "progress checklist honestly",
+                "write what is left into it",
+                "name what remains",
+            )),
         "the turn-bound tooth itself says a cap is a stopping rule, not a completion rule":
             "stopping rule, not a completion rule" in teeth,
     }

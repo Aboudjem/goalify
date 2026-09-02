@@ -93,7 +93,7 @@ Deterministic counterpart: the `v2.6:` clauses in [`check_skill.py`](check_skill
 
 - **Deterministic (CI):** `python3 evals/check_skill.py skills/goalify/SKILL.md` → exit 0.
   RED→GREEN demo, reproducible from this repo's history:
-  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/82) vs `skills/goalify/SKILL.md` (passes, 82/82).
+  `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/83) vs `skills/goalify/SKILL.md` (passes, 83/83).
   See `README.md` in this directory for the exact commands.
 - **Behavioral:** for each scenario, prompt a model twice — once cold (RED) and once with
   `skills/goalify/SKILL.md` prepended (GREEN) — on Haiku, Sonnet, and Opus, and judge each transcript
