@@ -11,7 +11,7 @@
       "name": "goalify",
       "source": "./",
       "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is.",
-      "version": "2.6.0"
+      "version": "2.6.1"
     }
   ]
 }

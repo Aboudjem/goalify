@@ -1,6 +1,6 @@
 {
   "name": "goalify",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is.",
   "author": {
     "name": "Adam Boudjemaa",

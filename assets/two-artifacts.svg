@@ -3,9 +3,9 @@
   <desc>A two-lane diagram. One goalify command forks into two lanes. The upper lane carries the BRIEF: a sheet of paper with a folded corner and an indigo binding edge, named api-migration.md, which flows to the WORKER, a panel with a window and the sheet open inside it, because the worker opens the file. The lower lane carries the CONDITION: a violet capsule, one line you paste whole, which flows through a neutral goal chip to the EVALUATOR, a flat panel with no window and a struck-out folder, because it reads only the words you paste and cannot open files. Between the lanes, one fact: the condition carries the brief's path. At the bottom, a struck-through near-miss shows that words about the path are not the path.</desc>
   <defs>
     <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#0A0F1C"/>
-      <stop offset="60%" stop-color="#080C16"/>
-      <stop offset="100%" stop-color="#07070C"/>
+      <stop offset="0%" stop-color="#14102A"/>
+      <stop offset="60%" stop-color="#0A0F1C"/>
+      <stop offset="100%" stop-color="#080C18"/>
     </linearGradient>
 
     <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
@@ -25,6 +25,14 @@
       <feGaussianBlur stdDeviation="3.2" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+      <radialGradient id="v2-bloomA" cx="0.18" cy="0.22" r="0.72">
+      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="v2-bloomB" cx="0.84" cy="0.86" r="0.68">
+      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
   <style>
@@ -53,15 +61,18 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; }
     }
+      @keyframes v2-breathe { 0%,100% { opacity:0.66; } 50% { opacity:1; } }
+    .v2bloom { animation: v2-breathe 11s ease-in-out infinite; }
   </style>
 
   <rect width="900" height="770" fill="url(#g-bg)"/>
+  <g class="v2bloom"><rect width="900" height="770" fill="url(#v2-bloomA)"/><rect width="900" height="770" fill="url(#v2-bloomB)"/></g>
   <ellipse class="bloom" cx="450" cy="782" rx="600" ry="240" fill="url(#g-bloom)"/>
   <rect x="2" y="2" width="896" height="766" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
 
   <!-- Z0 header -->
   <text class="disp" font-size="40" font-weight="700" x="40" y="56" fill="#F2F6FF">One command. Two things.</text>
-  <text class="mono" font-size="22" letter-spacing="2.5" x="860" y="56" text-anchor="end" fill="#8494B0">TWO READERS</text>
+  <text class="mono" font-size="22" letter-spacing="2.5" x="860" y="56" text-anchor="end" fill="#93A2BE">TWO READERS</text>
   <line x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5"/>
   <line class="flowline" x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
 
@@ -69,7 +80,7 @@
   <g class="row-1">
     <rect x="40" y="300" width="196" height="64" rx="6" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
     <text class="mono" font-size="30" font-weight="700" x="138" y="342" text-anchor="middle" fill="#C77DFF">/goalify</text>
-    <text class="disp body" x="40" y="392" fill="#B6C2DA">writes both</text>
+    <text class="disp body" x="40" y="392" fill="#C2CDE4">writes both</text>
     <path d="M236 332 C 280 332, 286 232, 292 232" fill="none" stroke="#8E7BFF" stroke-width="4"/>
     <path d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
     <path class="flowline" d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8" opacity="0.8"/>
@@ -95,19 +106,19 @@
     <path d="M688 176 H716 L724 184 V222 H688 Z" fill="none" stroke="#8E7BFF" stroke-width="2"/>
     <path d="M694 192 H714 M694 200 H710 M694 208 H714" stroke="#8E7BFF" stroke-width="1.5" opacity="0.6"/>
     <text class="disp lbl" x="688" y="266" fill="#F2F6FF">WORKER</text>
-    <text class="disp body" x="688" y="300" fill="#B6C2DA">opens it</text>
+    <text class="disp body" x="688" y="300" fill="#C2CDE4">opens it</text>
   </g>
 
   <!-- Z3 the one cross-lane fact -->
   <line x1="292" y1="344" x2="860" y2="344" stroke="#1E2A42" stroke-width="1.5"/>
   <line x1="330" y1="306" x2="330" y2="340" stroke="#8E7BFF" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.55"/>
-  <text class="disp body" x="292" y="376" fill="#B6C2DA">The condition carries the brief's path.</text>
+  <text class="disp body" x="292" y="376" fill="#C2CDE4">The condition carries the brief's path.</text>
 
   <!-- Z4 the /goal chip: a command, outside both plates, tied to the label below -->
   <g class="row-3">
     <rect x="292" y="404" width="112" height="44" rx="10" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
     <text class="mono" font-size="28" font-weight="700" x="348" y="434" text-anchor="middle" fill="#F2F6FF">/goal</text>
-    <text class="disp body" x="420" y="434" fill="#B6C2DA">it takes the string, not the file</text>
+    <text class="disp body" x="420" y="434" fill="#C2CDE4">it takes the string, not the file</text>
     <line x1="348" y1="448" x2="348" y2="454" stroke="#C77DFF" stroke-width="2.5"/>
     <path d="M342 452 L348 460 L354 452 Z" fill="#C77DFF"/>
 
@@ -116,7 +127,7 @@
     <text class="disp" font-size="26" font-weight="800" x="326" y="510" fill="#C77DFF">CONDITION</text>
     <text class="disp" font-size="22" font-weight="700" letter-spacing="1.5" x="600" y="509" text-anchor="end" fill="#C77DFF">STRING</text>
     <text class="mono" font-size="26" x="326" y="552" fill="#F2F6FF">Do everything in…</text>
-    <text class="disp body" x="326" y="590" fill="#B6C2DA">you paste it whole</text>
+    <text class="disp body" x="326" y="590" fill="#C2CDE4">you paste it whole</text>
 
     <line x1="620" y1="538" x2="648" y2="538" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
     <path d="M648 531 L660 538 L648 545 Z" fill="#C77DFF"/>
@@ -126,15 +137,15 @@
     <path d="M688 496 H700 L704 490 H724 V524 H688 Z" fill="none" stroke="#5C6A85" stroke-width="1.5"/>
     <path d="M694 500 L718 518 M718 500 L694 518" stroke="#FFB341" stroke-width="3" stroke-linecap="round"/>
     <text class="disp" font-size="27" font-weight="800" x="688" y="560" fill="#F2F6FF">EVALUATOR</text>
-    <text class="disp body" x="688" y="592" fill="#B6C2DA">words only</text>
-    <text class="disp body" x="688" y="622" fill="#B6C2DA">no files</text>
+    <text class="disp body" x="688" y="592" fill="#C2CDE4">words only</text>
+    <text class="disp body" x="688" y="622" fill="#C2CDE4">no files</text>
   </g>
 
   <!-- Z6 the words-only near-miss, struck, static, never an object -->
   <g class="row-4">
     <line x1="40" y1="656" x2="860" y2="656" stroke="#1E2A42" stroke-width="1.5"/>
     <g data-antipattern="v1">
-      <text class="mono" font-size="28" x="40" y="700" fill="#8494B0">/goal the brief's path</text>
+      <text class="mono" font-size="28" x="40" y="700" fill="#93A2BE">/goal the brief's path</text>
       <line x1="40" y1="691" x2="410" y2="691" stroke="#FFB341" stroke-width="2.5"/>
       <text class="disp body" x="40" y="736" fill="#FFB341">words about the path are not the path.</text>
     </g>

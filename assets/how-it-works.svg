@@ -3,9 +3,9 @@
   <desc>Five steps, read top to bottom. Two rails run down the left edge and their lengths are the point. The solid indigo brief rail runs the full height, from step 1 to step 5, because the brief exists for the whole run: it is written in step 1, named by the condition in step 3, worked from during step 4, and filed in step 5. The dashed violet condition rail runs beside it from step 3 to step 4 only, because the condition exists from the moment you paste it until the closing turn proves it, and no longer. Step 1: goalify runs while the context is still hot, shown by a meter at ninety per cent. Step 2: clear the session, so the run starts with full context again. Step 3: paste the condition, the string rather than the path, into the command chip. Step 4: the closing turn reruns every check and quotes npm test, saying ASYNC-OK. Step 5: the brief archives itself into the done folder; its chip and the square resting in the archive box are indigo, the brief's colour, because it is the brief that comes to rest.</desc>
   <defs>
     <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#0A0F1C"/>
-      <stop offset="60%" stop-color="#080C16"/>
-      <stop offset="100%" stop-color="#07070C"/>
+      <stop offset="0%" stop-color="#14102A"/>
+      <stop offset="60%" stop-color="#0A0F1C"/>
+      <stop offset="100%" stop-color="#080C18"/>
     </linearGradient>
 
     <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
@@ -25,6 +25,14 @@
       <feGaussianBlur stdDeviation="3.2" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+      <radialGradient id="v2-bloomA" cx="0.18" cy="0.22" r="0.72">
+      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="v2-bloomB" cx="0.84" cy="0.86" r="0.68">
+      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
   <style>
@@ -60,15 +68,18 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; }
     }
+      @keyframes v2-breathe { 0%,100% { opacity:0.66; } 50% { opacity:1; } }
+    .v2bloom { animation: v2-breathe 11s ease-in-out infinite; }
   </style>
 
   <rect width="900" height="760" fill="url(#g-bg)"/>
+  <g class="v2bloom"><rect width="900" height="760" fill="url(#v2-bloomA)"/><rect width="900" height="760" fill="url(#v2-bloomB)"/></g>
   <ellipse class="bloom" cx="450" cy="772" rx="600" ry="240" fill="url(#g-bloom)"/>
   <rect x="2" y="2" width="896" height="756" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
 
   <!-- header -->
   <text class="disp" font-size="40" font-weight="700" x="48" y="60" fill="#F2F6FF">How it works</text>
-  <text class="mono" font-size="22" letter-spacing="2.5" x="852" y="60" text-anchor="end" fill="#8494B0">FIVE STEPS, ONE RUN</text>
+  <text class="mono" font-size="22" letter-spacing="2.5" x="852" y="60" text-anchor="end" fill="#93A2BE">FIVE STEPS, ONE RUN</text>
   <line x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5"/>
   <line class="flowline" x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
 
@@ -83,8 +94,8 @@
     <rect class="d1" x="42" y="150" width="28" height="28" fill="#8E7BFF" filter="url(#g-glow-sm)"/>
     <text class="disp num"  x="128" y="172" fill="#F2F6FF">1</text>
     <text class="mono" font-size="32" font-weight="700" x="180" y="172" fill="#C77DFF">/goalify</text>
-    <text class="disp body" x="180" y="212" fill="#B6C2DA">prepare while the context is still hot</text>
-    <text class="disp body" x="852" y="172" text-anchor="end" fill="#B6C2DA">context 90%</text>
+    <text class="disp body" x="180" y="212" fill="#C2CDE4">prepare while the context is still hot</text>
+    <text class="disp body" x="852" y="172" text-anchor="end" fill="#C2CDE4">context 90%</text>
     <rect x="692" y="188" width="160" height="12" rx="6" fill="#1E2A42"/>
     <rect x="692" y="188" width="144" height="12" rx="6" fill="#8E7BFF"/>
   </g>
@@ -94,7 +105,7 @@
     <rect class="d2" x="42" y="274" width="28" height="28" fill="#8E7BFF" filter="url(#g-glow-sm)"/>
     <text class="disp num"  x="128" y="296" fill="#F2F6FF">2</text>
     <text class="mono" font-size="32" font-weight="700" x="180" y="296" fill="#C77DFF">/clear</text>
-    <text class="disp body" x="180" y="336" fill="#B6C2DA">a fresh session, full context again</text>
+    <text class="disp body" x="180" y="336" fill="#C2CDE4">a fresh session, full context again</text>
   </g>
 
   <!-- 3, the hand-off: the condition rail begins here -->
@@ -104,7 +115,7 @@
     <text class="disp step" x="180" y="420" fill="#F2F6FF">paste the condition into</text>
     <rect x="612" y="394" width="112" height="40" rx="10" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
     <text class="mono" font-size="28" font-weight="700" x="668" y="422" text-anchor="middle" fill="#F2F6FF">/goal</text>
-    <text class="disp body" x="180" y="460" fill="#B6C2DA">the string, not the path</text>
+    <text class="disp body" x="180" y="460" fill="#C2CDE4">the string, not the path</text>
   </g>
 
   <!-- 4, the closing turn. Sole proof-colour moment in this asset. -->
@@ -112,7 +123,7 @@
     <rect class="d4" x="74" y="522" width="28" height="28" rx="14" fill="#C77DFF" filter="url(#g-glow-sm)"/>
     <text class="disp num"  x="128" y="544" fill="#F2F6FF">4</text>
     <text class="disp step" x="180" y="544" fill="#F2F6FF">the closing turn reruns every check</text>
-    <text class="disp body" x="180" y="584" fill="#B6C2DA">quotes <tspan class="mono" font-weight="600" fill="#F2F6FF">npm test</tspan>, says <tspan class="mono" font-weight="600" fill="#F2F6FF">ASYNC-OK</tspan></text>
+    <text class="disp body" x="180" y="584" fill="#C2CDE4">quotes <tspan class="mono" font-weight="600" fill="#F2F6FF">npm test</tspan>, says <tspan class="mono" font-weight="600" fill="#F2F6FF">ASYNC-OK</tspan></text>
     <path class="tick" d="M800 540 L814 554 L840 524" fill="none" stroke="#3DFFAB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
@@ -121,7 +132,7 @@
     <rect class="d5" x="42" y="646" width="28" height="28" fill="#8E7BFF" filter="url(#g-glow-sm)"/>
     <text class="disp num"  x="128" y="668" fill="#F2F6FF">5</text>
     <text class="disp step" x="180" y="668" fill="#F2F6FF">the brief archives itself</text>
-    <text class="mono" font-size="28" x="180" y="708" fill="#B6C2DA">.goal/done/</text>
+    <text class="mono" font-size="28" x="180" y="708" fill="#C2CDE4">.goal/done/</text>
     <rect x="780" y="636" width="72" height="72" rx="4" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
     <rect x="802" y="658" width="28" height="28" fill="#8E7BFF"/>
   </g>

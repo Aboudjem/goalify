@@ -3,9 +3,9 @@
   <desc>Four numbered steps on a dark poster. Step 1, describe the job: a goalify command with the task. Step 2, goalify writes two things: a brief (a sheet with an indigo binding edge, the file api-migration.md, the full instructions) and a condition (a violet capsule, one line). Step 3, paste the whole line into the /goal command. The condition, word for word: Do everything in ~/acme/.goal/api-migration.md and prove it - done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns. Below it, a struck-through wrong form shows the path alone, which proves nothing because the check cannot open files. Step 4, come back to proof: npm test passing, ASYNC-OK said, the brief filed into .goal/done. A run that just stopped is not proof; the quoted checks are.</desc>
   <defs>
     <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#0A0F1C"/>
-      <stop offset="60%" stop-color="#080C16"/>
-      <stop offset="100%" stop-color="#07070C"/>
+      <stop offset="0%" stop-color="#14102A"/>
+      <stop offset="60%" stop-color="#0A0F1C"/>
+      <stop offset="100%" stop-color="#080C18"/>
     </linearGradient>
 
     <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
@@ -15,11 +15,9 @@
     </radialGradient>
 
     <linearGradient id="g-brand" x1="0" y1="0" x2="1" y2="0.25" gradientUnits="objectBoundingBox">
-      <stop offset="0%"   stop-color="#8E7BFF"/>
-      <stop offset="100%" stop-color="#C77DFF"/>
-      <animateTransform attributeName="gradientTransform" type="translate"
-        values="-0.12 0; 0.12 0; -0.12 0" dur="18s" repeatCount="indefinite"/>
-    </linearGradient>
+      <stop class="v2d1" offset="0%"   stop-color="#8E7BFF"/>
+      <stop class="v2d2" offset="100%" stop-color="#C77DFF"/>
+</linearGradient>
 
     <linearGradient id="g-rule" gradientUnits="userSpaceOnUse" x1="48" y1="88" x2="852" y2="88">
       <stop offset="0%"   stop-color="#8E7BFF" stop-opacity="0.15"/>
@@ -32,6 +30,14 @@
       <feGaussianBlur stdDeviation="10" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+      <radialGradient id="v2-bloomA" cx="0.18" cy="0.22" r="0.72">
+      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="v2-bloomB" cx="0.84" cy="0.86" r="0.68">
+      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
   <style>
@@ -60,9 +66,16 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; }
     }
+      @keyframes v2-d1 { 0%,100% { stop-color:#8E7BFF; } 50% { stop-color:#C77DFF; } }
+    .v2d1 { animation: v2-d1 16s ease-in-out infinite; }
+    @keyframes v2-d2 { 0%,100% { stop-color:#C77DFF; } 50% { stop-color:#E0AEFF; } }
+    .v2d2 { animation: v2-d2 16s ease-in-out infinite; }
+    @keyframes v2-breathe { 0%,100% { opacity:0.66; } 50% { opacity:1; } }
+    .v2bloom { animation: v2-breathe 11s ease-in-out infinite; }
   </style>
 
   <rect width="900" height="1148" fill="url(#g-bg)"/>
+  <g class="v2bloom"><rect width="900" height="1148" fill="url(#v2-bloomA)"/><rect width="900" height="1148" fill="url(#v2-bloomB)"/></g>
   <ellipse class="bloom" cx="450" cy="1160" rx="620" ry="330" fill="url(#g-bloom)"/>
   <rect x="2" y="2" width="896" height="1144" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
 
@@ -78,7 +91,7 @@
     <circle cx="70" cy="48" r="2.4" fill="#F2F6FF"/>
     <text class="disp" x="104" y="64" font-size="46" font-weight="800" letter-spacing="-1.4" fill="url(#g-brand)">goalify</text>
   </g>
-  <text class="mono" font-size="24" letter-spacing="1.2" x="852" y="62" text-anchor="end" fill="#8494B0">a Claude Code skill</text>
+  <text class="mono" font-size="24" letter-spacing="1.2" x="852" y="62" text-anchor="end" fill="#93A2BE">a Claude Code skill</text>
   <line x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5"/>
   <line class="flowline" x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
 
@@ -101,7 +114,7 @@
     <text class="disp" font-size="30" font-weight="800" x="108" y="346" fill="#8E7BFF">BRIEF</text>
     <text class="disp" font-size="28" font-weight="700" letter-spacing="1.5" x="800" y="346" text-anchor="end" fill="#8E7BFF">A FILE</text>
     <text class="mono code" x="108" y="390" fill="#F2F6FF">api-migration.md</text>
-    <text class="disp body" x="800" y="390" text-anchor="end" fill="#B6C2DA">the full instructions</text>
+    <text class="disp body" x="800" y="390" text-anchor="end" fill="#C2CDE4">the full instructions</text>
 
     <rect x="64" y="430" width="788" height="110" rx="40" fill="#0E1524" stroke="#C77DFF" stroke-width="2"/>
     <text class="disp" font-size="30" font-weight="800" x="108" y="472" fill="#C77DFF">CONDITION</text>
@@ -126,7 +139,7 @@
     <text class="mono code" x="100" y="860" data-cond="1" fill="#F2F6FF">Stop after 40 turns.</text>
 
     <g data-antipattern="v1">
-      <text class="mono" font-size="28" x="64" y="944" fill="#8494B0">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
+      <text class="mono" font-size="28" x="64" y="944" fill="#93A2BE">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
       <line x1="64" y1="935" x2="652" y2="935" stroke="#FFB341" stroke-width="2.5"/>
       <text class="disp body" x="64" y="980" fill="#FFB341">the path alone proves nothing: the check can't open files.</text>
     </g>
@@ -138,6 +151,6 @@
     <text class="disp step" x="100" y="1040">Come back to proof.</text>
     <path class="tick" d="M66 1066 L80 1080 L104 1052" fill="none" stroke="#3DFFAB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     <text class="mono code" x="120" y="1078" fill="#3DFFAB">npm test ✓ · ASYNC-OK · .goal/done/</text>
-    <text class="disp body" x="64" y="1116" fill="#B6C2DA">A run that just stopped isn't proof. The quoted checks are.</text>
+    <text class="disp body" x="64" y="1116" fill="#C2CDE4">A run that just stopped isn't proof. The quoted checks are.</text>
   </g>
 </svg>

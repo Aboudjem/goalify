@@ -1,155 +1,121 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" fill="none" role="img" aria-label="goalify, autonomous run prep for Claude Code: come back to proof, not a promise. It writes the brief and the condition; the run works from the file.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" fill="none" role="img"
+     aria-label="goalify, autonomous run prep: come back to proof, not a promise">
+  <title>goalify</title>
   <defs>
-    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#F7F8FB"/>
-      <stop offset="100%" stop-color="#F7F8FB"/>
+    <linearGradient id="go-ground" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="55%" stop-color="#F7F8FB"/>
+      <stop offset="100%" stop-color="#EEF1F7"/>
     </linearGradient>
-
-    <linearGradient id="g-brand" x1="0" y1="0" x2="1" y2="0.25" gradientUnits="objectBoundingBox">
-      <stop offset="0%"   stop-color="#725BFF"/>
-      <stop offset="100%" stop-color="#A836FF"/>
-      <animateTransform attributeName="gradientTransform" type="translate"
-        values="-0.12 0; 0.12 0; -0.12 0" dur="18s" repeatCount="indefinite"/>
+    <radialGradient id="go-bloomA" cx="0.15" cy="0.13" r="0.44">
+      <stop offset="0%" stop-color="#5D4BD1" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#5D4BD1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="go-bloomB" cx="0.88" cy="0.85" r="0.50">
+      <stop offset="0%" stop-color="#8A2CD1" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#8A2CD1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="go-bloomC" cx="0.52" cy="0.04" r="0.36">
+      <stop offset="0%" stop-color="#C10045" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#C10045" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="go-wash" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#5D4BD1" stop-opacity="0.07"/>
+      <stop offset="42%"  stop-color="#8A2CD1" stop-opacity="0.043"/>
+      <stop offset="76%"  stop-color="#C10045" stop-opacity="0.016"/>
+      <stop offset="100%" stop-color="#C10045" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="go-frame"><rect width="1200" height="400"/></clipPath>
+    <linearGradient id="go-rule" gradientUnits="userSpaceOnUse" x1="500" y1="100" x2="500" y2="300">
+      <stop offset="0%"   stop-color="#5D4BD1" stop-opacity="0"/>
+      <stop offset="45%"  stop-color="#5D4BD1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#8A2CD1" stop-opacity="0"/>
     </linearGradient>
-
-    <linearGradient id="g-rule" gradientUnits="userSpaceOnUse" x1="440" y1="112" x2="440" y2="272">
-      <stop offset="0%"   stop-color="#725BFF" stop-opacity="0"/>
-      <stop offset="45%"  stop-color="#725BFF" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="#A836FF" stop-opacity="0"/>
+    <linearGradient id="go-ink" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="200" y2="200">
+      <stop class="gok1" offset="0%"   stop-color="#5D4BD1"/>
+      <stop class="gok2" offset="52%"  stop-color="#5D4BD1"/>
+      <stop class="gok3" offset="100%" stop-color="#8A2CD1"/>
     </linearGradient>
-
-    <linearGradient id="g-horizonline" gradientUnits="userSpaceOnUse" x1="60" y1="332" x2="1140" y2="332">
-      <stop offset="0%"   stop-color="#725BFF" stop-opacity="0"/>
-      <stop offset="22%"  stop-color="#725BFF" stop-opacity="0.45"/>
-      <stop offset="55%"  stop-color="#A836FF" stop-opacity="0.65"/>
-      <stop offset="82%"  stop-color="#EB0054" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#EB0054" stop-opacity="0"/>
+    <linearGradient id="go-word" x1="0" y1="0" x2="1" y2="0.25">
+      <stop class="gok1" offset="0%"   stop-color="#5D4BD1"/>
+      <stop class="gok2" offset="46%"  stop-color="#5D4BD1"/>
+      <stop class="gok3" offset="100%" stop-color="#8A2CD1"/>
     </linearGradient>
-
-    <linearGradient id="g-gridfade" gradientUnits="userSpaceOnUse" x1="0" y1="332" x2="0" y2="400">
-      <stop offset="0%"   stop-color="#725BFF" stop-opacity="0.45"/>
-      <stop offset="55%"  stop-color="#A836FF" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="#EB0054" stop-opacity="0.05"/>
-    </linearGradient>
-
-    <linearGradient id="g-pipramp" gradientUnits="userSpaceOnUse" x1="-6" y1="0" x2="94" y2="0">
-      <stop offset="0%"   stop-color="#725BFF"/>
-      <stop offset="100%" stop-color="#A836FF"/>
-    </linearGradient>
-
-    <linearGradient id="g-sheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="50%"  stop-color="#FFFFFF" stop-opacity="0.62"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
-
-    <clipPath id="g-gridclip">
-      <rect x="0" y="332" width="1200" height="68"/>
-    </clipPath>
-
-    <clipPath id="g-wordclip">
-      <text x="146" y="202" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
-            font-size="72" font-weight="800" letter-spacing="-2">goalify</text>
-    </clipPath>
   </defs>
 
   <style>
     .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4.5px; fill: #725BFF; }
-    .head    { font-size: 34px; font-weight: 700; fill: #07070C; letter-spacing: -0.5px; }
-    .sub     { font-size: 16px; font-weight: 500; fill: #1A2233; }
+    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4.5px; fill: #5D4BD1; }
+    .head    { font-size: 34px; font-weight: 700; fill: #1A2233; letter-spacing: -0.5px; }
+    .sub     { font-size: 16.5px; font-weight: 500; fill: #48546B; }
     .tag     { font-size: 11.5px; letter-spacing: 1.6px; fill: #48546B; }
-
-    @keyframes g-flow { to { stroke-dashoffset: -240; } }
-    .flowline { animation: g-flow 14s linear infinite; }
-
-    @keyframes g-dot { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-    .d1 { animation: g-dot 5s ease-in-out infinite 0s; }
-    .d2 { animation: g-dot 5s ease-in-out infinite 0.35s; }
-    .d3 { animation: g-dot 5s ease-in-out infinite 0.7s; }
-    .d4 { animation: g-dot 5s ease-in-out infinite 1.05s; }
-    .d5 { animation: g-dot 5s ease-in-out infinite 1.4s; }
-
-    @keyframes g-sheen {
-      0%   { transform: translateX(0); }
-      34%  { transform: translateX(560px); }
-      100% { transform: translateX(560px); }
-    }
-    .sheen { animation: g-sheen 7.5s linear infinite; }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; }
-    }
+    .chip    { font-size: 11.5px; letter-spacing: 1.2px; fill: #48546B; }
+    @keyframes go-breathe { 0%,100% { opacity:0.72; } 50% { opacity:1; } }
+    .gobloom { animation: go-breathe 11s ease-in-out infinite; }
+    @keyframes go-sweep { 0% { transform: translateX(-360px); } 100% { transform: translateX(1560px); } }
+    .gowash { animation: go-sweep 17s cubic-bezier(.5,0,.5,1) infinite; }
+    @keyframes go-pip { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .gop1 { animation: go-pip 5s ease-in-out infinite 0.0s; }
+    .gop2 { animation: go-pip 5s ease-in-out infinite 0.35s; }
+    .gop3 { animation: go-pip 5s ease-in-out infinite 0.7s; }
+    .gop4 { animation: go-pip 5s ease-in-out infinite 1.05s; }
+    .gop5 { animation: go-pip 5s ease-in-out infinite 1.4s; }
+    .gop6 { animation: go-pip 5s ease-in-out infinite 1.75s; }
+    @keyframes go-fly { 0% { transform: translate(56px,-56px); opacity: 0; }
+                       10% { opacity: 1; }
+                       34%,100% { transform: translate(0,0); opacity: 1; } }
+    .gopin { animation: go-fly 6s cubic-bezier(.2,.7,.3,1) infinite; }
+    /* the pulse ring is the one element whose base state is off: it is a transient, not
+       part of the logo, so the resting frame shows the target and the pin alone */
+    @keyframes go-pulse { 0%,34% { r: 26px; opacity: 0; } 40% { opacity: 0.7; }
+                         74%,100% { r: 88px; opacity: 0; } }
+    .gopulse { animation: go-pulse 6s cubic-bezier(.2,.6,.3,1) infinite; }
+    @keyframes go-ringlight { 0%,100% { opacity: 0.55; } 40%,60% { opacity: 1; } }
+    .gorl { animation: go-ringlight 6s ease-in-out infinite; }
+    @keyframes go-k1 { 0%,100% { stop-color:#5D4BD1; } 50% { stop-color:#5D4BD1; } }
+    @keyframes go-k2 { 0%,100% { stop-color:#5D4BD1; } 50% { stop-color:#8A2CD1; } }
+    @keyframes go-k3 { 0%,100% { stop-color:#8A2CD1; } 50% { stop-color:#C10045; } }
+    .gok1 { animation: go-k1 14s ease-in-out infinite; }
+    .gok2 { animation: go-k2 14s ease-in-out infinite; }
+    .gok3 { animation: go-k3 14s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
 
-  <rect width="1200" height="400" fill="url(#g-bg)"/>
-
-  <!-- perspective grid below the horizon, shipped off; flip this opacity to 1 to see it -->
-  <g id="grid" clip-path="url(#g-gridclip)" opacity="0">
-    <g stroke="url(#g-gridfade)" stroke-width="1" fill="none">
-      <path d="M600 332 L-1180 400"/><path d="M600 332 L-560 400"/><path d="M600 332 L-190 400"/>
-      <path d="M600 332 L40 400"/>   <path d="M600 332 L200 400"/>  <path d="M600 332 L320 400"/>
-      <path d="M600 332 L415 400"/>  <path d="M600 332 L490 400"/>  <path d="M600 332 L548 400"/>
-      <path d="M600 332 L600 400"/>
-      <path d="M600 332 L652 400"/>  <path d="M600 332 L710 400"/>  <path d="M600 332 L785 400"/>
-      <path d="M600 332 L880 400"/>  <path d="M600 332 L1000 400"/> <path d="M600 332 L1160 400"/>
-      <path d="M600 332 L1390 400"/> <path d="M600 332 L1760 400"/> <path d="M600 332 L2380 400"/>
-    </g>
-    <g stroke="url(#g-gridfade)" stroke-width="1" fill="none">
-      <line x1="0" y1="335"   x2="1200" y2="335"/>
-      <line x1="0" y1="339.5" x2="1200" y2="339.5"/>
-      <line x1="0" y1="345.5" x2="1200" y2="345.5"/>
-      <line x1="0" y1="353.5" x2="1200" y2="353.5"/>
-      <line x1="0" y1="364"   x2="1200" y2="364"/>
-      <line x1="0" y1="378"   x2="1200" y2="378"/>
-      <line x1="0" y1="396"   x2="1200" y2="396"/>
+  <rect width="1200" height="400" fill="url(#go-ground)"/>
+  <g class="gobloom">
+    <rect width="1200" height="400" fill="url(#go-bloomA)"/>
+    <rect width="1200" height="400" fill="url(#go-bloomB)"/>
+    <rect width="1200" height="400" fill="url(#go-bloomC)"/>
+  </g>
+  <g clip-path="url(#go-frame)">
+    <g transform="translate(0,196)">
+      <ellipse class="gowash" cx="0" cy="0" rx="430" ry="300" fill="url(#go-wash)"/>
     </g>
   </g>
-
-  <g opacity="0.95">
-    <line x1="60" y1="332" x2="1140" y2="332" stroke="url(#g-horizonline)" stroke-width="1.25"/>
-    <line class="flowline" x1="60" y1="332" x2="1140" y2="332" stroke="url(#g-horizonline)"
-          stroke-width="1.25" stroke-dasharray="3 9" opacity="0.85"/>
+  <g transform="translate(66,56) scale(0.5781)">
+  <g opacity="0.26" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
+  <g class="gorl" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
+  <circle class="gopulse" cx="128" cy="128" r="26" fill="none"
+          stroke="#8A2CD1" stroke-width="4" opacity="0"/>
+  <g class="gopin">
+    <g>
+      <line x1="196" y1="60" x2="128" y2="128" stroke="url(#go-ink)"
+            stroke-width="13" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(128,128)"><g><circle r="7" fill="#5D4BD1"/><circle r="7" fill="none" stroke="#FFFFFF" stroke-width="2.4"/></g></g>
   </g>
-
-  <!-- mark: concentric target, one pin through the centre -->
+  </g>
   <g>
-    <g fill="none" stroke="url(#g-brand)" stroke-width="3">
-      <circle cx="92" cy="182" r="34"/>
-      <circle cx="92" cy="182" r="22" stroke-width="2.6" opacity="0.82"/>
-      <circle cx="92" cy="182" r="10" stroke-width="2.4" opacity="0.66"/>
-    </g>
-    <line x1="56" y1="146" x2="116" y2="206" stroke="#A836FF" stroke-width="3.4" stroke-linecap="round"/>
-    <circle cx="52" cy="142" r="5.4" fill="#A836FF"/>
-    <circle cx="92" cy="182" r="3.8" fill="#07070C"/>
+    <text class="disp" x="76" y="286" font-size="111" font-weight="800"
+          letter-spacing="-3.9" fill="url(#go-word)">goalify</text>
   </g>
-
-  <text class="disp" x="146" y="202" font-size="72" font-weight="800" letter-spacing="-2" fill="url(#g-brand)">goalify</text>
-
-  <g clip-path="url(#g-wordclip)">
-    <g transform="skewX(-18)">
-      <rect class="sheen" x="-160" y="120" width="90" height="130" fill="url(#g-sheen)" opacity="0.8"/>
-    </g>
+  <line x1="500" y1="100" x2="500" y2="300" stroke="url(#go-rule)" stroke-width="1.5"/>
+  <g transform="translate(544,0)">
+    <text class="mono eyebrow" x="0" y="134">AUTONOMOUS RUN PREP</text>
+    <text class="disp head" x="0" y="186">Come back to proof, not a promise</text>
+    <text class="disp sub" x="0" y="222">Writes the brief and the condition; the run works from the file.</text>
+    <g transform="translate(0,265)"><g class="gop1"><circle cx="0" cy="0" r="4.5" fill="#5D4BD1"/></g><g class="gop2"><circle cx="22" cy="0" r="4.5" fill="#5D4BD1"/></g><g class="gop3"><circle cx="44" cy="0" r="4.5" fill="#5D4BD1"/></g><g class="gop4"><circle cx="66" cy="0" r="4.5" fill="#5D4BD1"/></g><g class="gop5"><circle cx="88" cy="0" r="4.5" fill="#5D4BD1"/></g><g class="gop6"><circle cx="110" cy="0" r="4.5" fill="#5D4BD1"/></g><text class="mono tag" x="146" y="4">THE BRIEF AND THE CONDITION</text></g>
   </g>
-
-  <line x1="440" y1="112" x2="440" y2="272" stroke="url(#g-rule)" stroke-width="1.5"/>
-
-  <g transform="translate(488,0)">
-    <rect x="-14" y="116" width="262" height="24" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1"/>
-    <text class="mono eyebrow" x="0" y="132">AUTONOMOUS RUN PREP</text>
-    <text class="disp head"   x="0" y="180">Come back to proof, not a promise</text>
-    <text class="disp sub"    x="0" y="212">Writes the brief and the condition; the run works from the file.</text>
-
-    <g transform="translate(0,248)">
-      <g class="d1"><circle cx="0"  cy="0" r="4.5" fill="url(#g-pipramp)"/></g>
-      <g class="d2"><circle cx="22" cy="0" r="4.5" fill="url(#g-pipramp)"/></g>
-      <g class="d3"><circle cx="44" cy="0" r="4.5" fill="url(#g-pipramp)"/></g>
-      <g class="d4"><circle cx="66" cy="0" r="4.5" fill="url(#g-pipramp)"/></g>
-      <g class="d5"><circle cx="88" cy="0" r="4.5" fill="url(#g-pipramp)"/></g>
-      <text class="mono tag" x="114" y="4">THE BRIEF AND THE CONDITION</text>
-    </g>
-  </g>
-
-  <text class="mono tag" x="60" y="318">authors, never executes  ·  one skill file  ·  runs locally</text>
+  <text class="mono tag" x="76" y="352">authors, never executes  &#183;  one skill file  &#183;  runs locally</text>
 </svg>
