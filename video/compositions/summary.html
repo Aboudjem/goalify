@@ -8,13 +8,65 @@
     }
     #pv-win {
       position: absolute;
-      left: 130px;
+      left: 900px;
       top: 64px;
-      width: 1660px;
+      width: 930px;
       height: 790px;
       overflow: hidden;
       border-radius: 30px;
       background: #07060f;
+    }
+    #sm-bub {
+      position: absolute;
+      left: 90px;
+      top: 130px;
+      width: 760px;
+      padding: 40px 44px 30px;
+      border-color: rgba(155, 107, 255, 0.45);
+    }
+    #sm-who {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font: 700 26px var(--sans);
+      color: var(--mute);
+      margin-bottom: 20px;
+    }
+    #sm-who i {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 14px var(--purple);
+    }
+    .sm-li {
+      display: flex;
+      gap: 20px;
+      align-items: baseline;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+      font: 600 42px/1.18 var(--sans);
+      letter-spacing: -0.02em;
+    }
+    .sm-li b {
+      flex: none;
+      width: 14px;
+      height: 14px;
+      margin-top: 14px;
+      border-radius: 50%;
+      background: var(--cyan);
+      transform: translateY(-6px);
+    }
+    #sm-opt {
+      position: absolute;
+      left: 1430px;
+      top: 18px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font: 650 32px var(--sans);
+      color: var(--yellow);
+      border-color: rgba(255, 210, 63, 0.4);
+      z-index: 6;
     }
     #pv-chrome {
       position: relative;
@@ -74,14 +126,14 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 1230px;
-      transform: scale(1.35);
+      width: 1000px;
+      transform: scale(0.93);
       transform-origin: 0 0;
     }
     #pv-page {
       position: relative;
-      width: 1230px;
-      padding: 0 95px;
+      width: 1000px;
+      padding: 0 44px;
       color: var(--ink);
       font: 16px/1.55 var(--sans);
       letter-spacing: -0.005em;
@@ -252,20 +304,35 @@
     @media (max-aspect-ratio: 1/1) {
       #pv-win {
         left: 40px;
-        top: 190px;
+        top: 620px;
         width: 1000px;
-        height: 900px;
+        height: 460px;
+      }
+      #sm-bub {
+        left: 40px;
+        top: 180px;
+        width: 1000px;
+        padding: 30px 40px 18px;
+      }
+      .sm-li {
+        font-size: 42px;
+        padding: 12px 0;
+      }
+      #sm-opt {
+        left: auto;
+        right: 50px;
+        top: 590px;
       }
       #pv-url {
         font-size: 19px;
       }
       #pv-scale {
-        width: 770px;
-        transform: scale(1.3);
+        width: 1000px;
+        transform: scale(1);
       }
       #pv-page {
-        width: 770px;
-        padding: 0 28px;
+        width: 1000px;
+        padding: 0 40px;
       }
       .pv-hero {
         padding-top: 34px;
@@ -284,19 +351,26 @@
       }
     }
   </style>
-  <div id="root" data-composition-id="preview" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="summary" data-width="1920" data-height="1080">
+    <div id="sm-bub" class="glass">
+      <div id="sm-who"><i></i>goalify · summary in the chat</div>
+      <div class="sm-li"><b></b>Goal: new website live</div>
+      <div class="sm-li"><b></b>Every question answered</div>
+      <div class="sm-li"><b></b>Finish line: every page loads, every link works</div>
+    </div>
+    <div id="sm-opt" class="glass">optional · every detail</div>
     <div id="pv-win" class="glass">
-      <div id="pv-chrome"><i></i><i></i><i></i><div id="pv-url">file:///Users/you/acme/.goal/v2-migration.html</div></div>
+      <div id="pv-chrome"><i></i><i></i><i></i><div id="pv-url">file:///Users/you/site/.goal/new-website.html</div></div>
       <div id="pv-view">
         <canvas id="pv-stars"></canvas>
         <div id="pv-scale">
           <div id="pv-page">
             <header class="pv-hero">
               <span class="pv-badge glass pv-rv"><i></i>Run preview · ready to launch</span>
-              <h1 class="pv-h1 pv-rv">Move acme to the v2 API <span class="grad" id="pv-grad">(tests green)</span></h1>
-              <p class="pv-lede pv-rv">Swap every <code>api/v1</code> call in <code>~/acme/src</code> for the v2 client, keep the behavior identical, and leave the <code>npm test</code> suite green.</p>
+              <h1 class="pv-h1 pv-rv">Redo the website <span class="grad" id="pv-grad">(new site live)</span></h1>
+              <p class="pv-lede pv-rv">Rebuild every page of the site in the new design, keep the old blog, and launch next month with every page loading and every link working.</p>
               <div class="pv-pills pv-rv">
-                <span class="pv-pill glass"><b>5</b> phases</span><span class="pv-pill glass"><b>4</b> checks to pass</span><span class="pv-pill glass"><b>3</b> commands quoted at the end</span><span class="pv-pill glass">turn cap <b>40</b></span><span class="pv-pill glass"><b>2</b> decisions locked</span>
+                <span class="pv-pill glass"><b>5</b> phases</span><span class="pv-pill glass"><b>4</b> checks to pass</span><span class="pv-pill glass"><b>3</b> commands quoted at the end</span><span class="pv-pill glass">turn cap <b>40</b></span><span class="pv-pill glass"><b>2</b> questions answered</span>
               </div>
             </header>
 
@@ -315,8 +389,8 @@
                   </g>
                   <g font-family="-apple-system,system-ui,sans-serif" font-size="13.5" font-weight="600" fill="#f1edff">
                     <g class="pv-node"><rect x="14" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">1</text><text x="64" y="59.5">Discover/verify</text></g>
-                    <g class="pv-node"><rect x="254" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="280" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="280" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">2</text><text x="304" y="59.5">Swap the v2 client</text></g>
-                    <g class="pv-node"><rect x="494" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="520" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="520" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="544" y="51">Migrate each</text><text x="544" y="68">module</text></g>
+                    <g class="pv-node"><rect x="254" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="280" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="280" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">2</text><text x="304" y="59.5">Plan the pages</text></g>
+                    <g class="pv-node"><rect x="494" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="520" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="520" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="544" y="51">Rebuild each</text><text x="544" y="68">page</text></g>
                     <g class="pv-node"><rect x="494" y="142" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="520" cy="183" r="13" fill="rgba(155,107,255,.22)" /><text x="520" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">4</text><text x="544" y="187.5">Verify</text></g>
                     <g class="pv-node"><rect x="254" y="142" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="280" cy="183" r="13" fill="rgba(155,107,255,.22)" /><text x="280" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">5</text><text x="304" y="179">Closeout + final</text><text x="304" y="196">report</text></g>
                     <g class="pv-node"><rect x="14" y="142" width="196" height="82" rx="20" fill="rgba(61,255,168,.08)" stroke="#3dffa8" /><circle cx="40" cy="183" r="13" fill="#3dffa833" /><text x="40" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#3dffa8">✓</text><text x="64" y="179">Proven, then</text><text x="64" y="196">archived</text></g>
@@ -332,8 +406,8 @@
                   </g>
                   <g font-family="-apple-system,system-ui,sans-serif" font-size="13.5" font-weight="600" fill="#f1edff">
                     <g class="pv-nodev"><rect x="14" y="14" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">1</text><text x="64" y="59.5">Discover/verify</text></g>
-                    <g class="pv-nodev"><rect x="14" y="126" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="167" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="171.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">2</text><text x="64" y="171.5">Swap the v2 client</text></g>
-                    <g class="pv-nodev"><rect x="14" y="238" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="279" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="283.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="64" y="283.5">Migrate each module</text></g>
+                    <g class="pv-nodev"><rect x="14" y="126" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="167" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="171.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">2</text><text x="64" y="171.5">Plan the pages</text></g>
+                    <g class="pv-nodev"><rect x="14" y="238" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="279" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="283.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="64" y="283.5">Rebuild each page</text></g>
                     <g class="pv-nodev"><rect x="14" y="350" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="391" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="395.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">4</text><text x="64" y="395.5">Verify</text></g>
                     <g class="pv-nodev"><rect x="14" y="462" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="503" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="507.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">5</text><text x="64" y="507.5">Closeout + final report</text></g>
                     <g class="pv-nodev"><rect x="14" y="574" width="300" height="82" rx="20" fill="rgba(61,255,168,.08)" stroke="#3dffa8" /><circle cx="40" cy="615" r="13" fill="#3dffa833" /><text x="40" y="619.5" text-anchor="middle" font-size="12" font-weight="700" fill="#3dffa8">✓</text><text x="64" y="619.5">Proven, then archived</text></g>
@@ -350,23 +424,21 @@
                 <div class="pv-stepno">STEP 1</div>
                 <div class="pv-line"><span class="c">/clear</span></div>
                 <div class="pv-stepno">STEP 2 · PASTE THIS WHOLE LINE</div>
-                <div class="pv-line"><span class="c">/goal Do everything in ~/acme/.goal/v2-migration.md and prove it, done when the last turn quotes npm test passing and says V2-OK. Stop after 40 turns.</span><span id="pv-btn">Copy<span id="pv-btn2">Copied ✓</span></span></div>
+                <div class="pv-line"><span class="c">/goal Do everything in ~/site/.goal/new-website.md and prove it, done when the last turn quotes the tests passing and says SITE-OK. Stop after 40 turns.</span><span id="pv-btn">Copy<span id="pv-btn2">Copied ✓</span></span></div>
               </div>
             </section>
             <div style="height: 400px"></div>
           </div>
         </div>
       </div>
-      <svg id="pv-cursor" viewBox="0 0 28 28"><path d="M5 3l16 9.5-7 1.6 4.2 8.3-3.3 1.7-4.2-8.4L5 21z" fill="#fff" stroke="#0a0818" stroke-width="1.6" stroke-linejoin="round" /></svg>
     </div>
-    <div class="cap" id="pv-cap">New in 3.0: see the whole run before it starts.</div>
   </div>
   <script>
     (function () {
       var F = window.Film;
       var P = F.portrait();
       var tl = gsap.timeline({ paused: true });
-      var SC = P ? 1.3 : 1.35;
+      var SC = P ? 1 : 0.93;
 
       // the page's own starfield, still (it twinkles on the real page; here it's a backdrop)
       var cv = document.getElementById("pv-stars");
@@ -386,57 +458,21 @@
       // measure the page once (layout is static), then scroll it with the timeline
       var page = document.getElementById("pv-page");
       var yPlan = document.getElementById("pv-plan").offsetTop - 26;
-      var yGo = document.getElementById("pv-go").offsetTop - 26;
-      var btn = document.getElementById("pv-btn");
-      var win = document.getElementById("pv-win");
 
-      tl.fromTo("#pv-win", { opacity: 0, x: P ? 0 : 340, y: P ? 120 : 0, filter: "blur(16px)" }, { opacity: 1, x: 0, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0);
-      tl.fromTo("#pv-page .pv-rv", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", stagger: 0.09 }, 0.22);
-      tl.fromTo("#pv-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 5, ease: "none" }, 0.2);
-      F.caption(tl, document.getElementById("pv-cap"), 0.45, 5.4);
+      // the short summary in Claude first
+      tl.fromTo("#sm-bub", { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0);
+      tl.fromTo("#sm-bub .sm-li", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out", stagger: 0.16 }, 0.25);
+      // then the page with every detail slides in beside it
+      tl.fromTo("#pv-win", { opacity: 0, x: P ? 0 : 300, y: P ? 120 : 0, filter: "blur(16px)" }, { opacity: 1, x: 0, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.95);
+      tl.fromTo("#pv-page .pv-rv", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out", stagger: 0.08 }, 1.1);
+      tl.fromTo("#pv-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 3, ease: "none" }, 1.0);
+      tl.fromTo("#sm-opt", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 1.5);
+      tl.fromTo(page, { y: 0 }, { y: -yPlan, duration: 0.6, ease: "power2.inOut" }, 2.35);
+      tl.fromTo(P ? "#pv-page .pv-nodev" : "#pv-page .pv-node", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.12 }, 2.75);
+      tl.fromTo("#pv-page .pv-dash path", { strokeDasharray: "6 8", strokeDashoffset: 0 }, { strokeDashoffset: -50, duration: 2, ease: "none" }, 2.2);
+      tl.to(["#sm-bub", "#pv-win", "#sm-opt"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, 3.82);
 
-      // scroll to the plan; the nodes light up in order
-      tl.fromTo(page, { y: 0 }, { y: -yPlan, duration: 0.6, ease: "power2.inOut" }, P ? 1.5 : 1.6);
-      if (P) {
-        // vertical: the six-node flow is taller than the window, so keep scrolling until the green
-        // "Proven, then archived" node is in view, and hold it there before jumping to launch
-        var flow = document.querySelector("#pv-page .pv-flow");
-        var viewH = document.getElementById("pv-view").offsetHeight / SC;
-        var yFlowEnd = flow.offsetTop + flow.offsetHeight + 24 - viewH;
-        tl.fromTo("#pv-page .pv-nodev", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.15 }, 1.9);
-        tl.to(page, { y: -Math.max(yPlan, yFlowEnd), duration: 0.55, ease: "power2.inOut" }, 2.3);
-      } else {
-        tl.fromTo("#pv-page .pv-node", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.13 }, 2.05);
-      }
-      tl.fromTo("#pv-page .pv-dash path", { strokeDasharray: "6 8", strokeDashoffset: 0 }, { strokeDashoffset: -70, duration: 3.5, ease: "none" }, 1.8);
-
-      // scroll to the launch block, then the cursor copies the line
-      tl.to(page, { y: -yGo, duration: 0.55, ease: "power2.inOut" }, P ? 3.5 : 3.25);
-      // button position inside the window, computed from layout offsets (unscaled page px * SC)
-      function offTo(el, anc) {
-        var x = 0,
-          y = 0;
-        while (el && el !== anc) {
-          x += el.offsetLeft;
-          y += el.offsetTop;
-          el = el.offsetParent;
-        }
-        return { x: x, y: y };
-      }
-      var bp = offTo(btn, page);
-      var bx = bp.x * SC + (btn.offsetWidth * SC) / 2,
-        by = 62 + (bp.y - yGo) * SC + (btn.offsetHeight * SC) / 2;
-      var W0 = win.offsetWidth,
-        H0 = win.offsetHeight;
-      tl.fromTo("#pv-cursor", { x: W0 + 40, y: H0 * 0.85, opacity: 1 }, { x: bx - 10, y: by - 6, duration: 0.5, ease: "power3.out" }, P ? 3.98 : 3.85);
-      tl.to("#pv-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 4.42);
-      tl.fromTo("#pv-btn", { scale: 1 }, { scale: 0.92, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 4.42);
-      tl.fromTo("#pv-btn2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 4.46);
-
-      // exit
-      tl.to("#pv-win", { opacity: 0, x: P ? 0 : -260, y: P ? -80 : 0, filter: "blur(14px)", duration: 0.28, ease: "power3.in" }, 5.2);
-
-      window.__timelines["preview"] = tl;
+      window.__timelines["summary"] = tl;
     })();
   </script>
 </template>

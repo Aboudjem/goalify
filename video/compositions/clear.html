@@ -1,0 +1,186 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #cl-term {
+      position: absolute;
+      left: 230px;
+      top: 120px;
+      width: 1460px;
+      height: 520px;
+      overflow: hidden;
+      background: rgba(12, 10, 26, 0.62);
+    }
+    #cl-bar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 26px;
+      border-bottom: 1px solid var(--line);
+    }
+    #cl-bar i {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ff5f57;
+      opacity: 0.85;
+    }
+    #cl-bar i:nth-child(2) {
+      background: #febc2e;
+    }
+    #cl-bar i:nth-child(3) {
+      background: #28c840;
+    }
+    #cl-bar span {
+      margin-left: 18px;
+      font: 26px var(--mono);
+      color: var(--dim);
+    }
+    #cl-body {
+      padding: 40px 52px;
+      font: 54px/80px var(--mono);
+      color: var(--ink);
+    }
+    .cl-l {
+      white-space: pre-wrap;
+      margin-bottom: 18px;
+    }
+    .cl-p {
+      color: var(--purple);
+    }
+    .cl-k {
+      color: var(--purple);
+      font-weight: 700;
+    }
+    #cl-run {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      font: 650 32px var(--sans);
+      color: var(--green);
+      background: rgba(61, 255, 168, 0.1);
+      border: 1px solid rgba(61, 255, 168, 0.45);
+    }
+    #cl-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+    #cl-row #cl-run {
+      margin-top: 0;
+    }
+    #cl-goal {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      font: 650 32px var(--sans);
+      color: var(--ink);
+      background: rgba(155, 107, 255, 0.18);
+      border: 1px solid rgba(155, 107, 255, 0.6);
+    }
+    #cl-run i {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+    }
+    #cl-away {
+      position: absolute;
+      left: 1390px;
+      top: 668px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 30px;
+      border-radius: 999px;
+      font: 650 36px var(--sans);
+      color: var(--yellow);
+      border-color: rgba(255, 210, 63, 0.45);
+      white-space: nowrap;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #cl-term {
+        left: 40px;
+        top: 220px;
+        width: 1000px;
+        height: 580px;
+      }
+      #cl-body {
+        padding: 34px 40px;
+        font-size: 46px;
+        line-height: 70px;
+      }
+      #cl-away {
+        left: auto;
+        right: 60px;
+        top: 840px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="clear" data-width="1920" data-height="1080">
+    <div id="cl-term" class="glass">
+      <div id="cl-bar"><i></i><i></i><i></i><span>your AI · new chat</span></div>
+      <div id="cl-body">
+        <div class="cl-l" id="cl-l1"><span class="cl-p">&gt; </span><span class="cl-t" data-text="/clear"></span></div>
+        <div class="cl-l" id="cl-l2"><span class="cl-p">&gt; </span><span class="cl-t cl-k" data-text="/goal"></span><span class="cl-t" data-text=" Do everything in new-website.md and prove it..."></span></div>
+        <div id="cl-row"><div id="cl-run"><i></i>goal set · working</div><div id="cl-goal"><svg width="30" height="34" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="10" stroke-linecap="round" /><path d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#3dffa8" /></svg>this line = your goal</div></div>
+      </div>
+    </div>
+    <div id="cl-away" class="glass"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" fill="#ffd23f" /></svg>You: away</div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var P = F.portrait();
+      var tl = gsap.timeline({ paused: true });
+      function typeSpans(spans, t0, dur) {
+        var parts = [],
+          total = 0;
+        spans.forEach(function (s) {
+          var txt = s.getAttribute("data-text");
+          parts.push({ el: s, txt: txt, a: total });
+          total += txt.length;
+          s.textContent = "";
+        });
+        var o = { n: 0 };
+        tl.fromTo(o, { n: 0 }, {
+          n: total,
+          duration: dur,
+          ease: "none",
+          onUpdate: function () {
+            var k = Math.round(o.n);
+            parts.forEach(function (p) {
+              p.el.textContent = p.txt.slice(0, Math.max(0, Math.min(p.txt.length, k - p.a)));
+            });
+          },
+        }, t0);
+      }
+      tl.fromTo("#cl-term", { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 0);
+      typeSpans(Array.prototype.slice.call(document.querySelectorAll("#cl-l1 .cl-t")), 0.15, 0.18);
+      tl.to("#cl-l1", { opacity: 0.38, duration: 0.2 }, 0.5);
+      tl.fromTo("#cl-l2", { opacity: 0 }, { opacity: 1, duration: 0.05 }, 0.55);
+      // pasted, not typed: the line lands in two quick chunks
+      typeSpans(Array.prototype.slice.call(document.querySelectorAll("#cl-l2 .cl-t")), 0.6, 0.35);
+      tl.fromTo("#cl-term", { borderColor: "rgba(255,255,255,0.12)" }, { borderColor: "rgba(155,107,255,0.8)", duration: 0.25, immediateRender: false }, 1.15);
+      tl.fromTo("#cl-run", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 1.2);
+      tl.fromTo("#cl-goal", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 1.4);
+      // and you leave
+      tl.fromTo("#cl-away", { opacity: 0, x: 40, scale: 0.8 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 1.85);
+      tl.to(["#cl-term", "#cl-away"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, 2.72);
+      window.__timelines["clear"] = tl;
+    })();
+  </script>
+</template>

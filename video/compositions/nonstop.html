@@ -6,250 +6,164 @@
       width: 100% !important;
       height: 100% !important;
     }
-    #ns-left {
+    #ns-wrap {
       position: absolute;
-      left: 130px;
-      top: 150px;
-      width: 820px;
+      left: 0;
+      right: 0;
+      top: 128px;
+      text-align: center;
+    }
+    #ns-on {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: max-content;
+      top: 44px;
+      padding: 10px 26px;
+      border-radius: 999px;
+      font: 600 32px var(--sans);
+      color: var(--ink);
+      z-index: 3;
+    }
+    #ns-on b {
+      font-family: var(--mono);
+      color: var(--purple);
     }
     #ns-run {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 9px 22px;
+      gap: 14px;
+      padding: 10px 26px;
       border-radius: 999px;
-      font: 600 26px var(--sans);
+      font: 600 30px var(--sans);
       color: var(--green);
     }
     #ns-run i {
-      width: 11px;
-      height: 11px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 12px var(--green);
     }
+    #ns-run em {
+      font-style: normal;
+      color: var(--dim);
+    }
     #ns-clock {
-      margin-top: 26px;
-      font: 700 188px/1 var(--sans);
+      margin-top: 24px;
+      font: 750 230px/1 var(--sans);
       letter-spacing: -0.05em;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
     #ns-clock small {
-      font-size: 0.5em;
+      font-size: 0.45em;
       letter-spacing: -0.02em;
       color: var(--mute);
-      margin: 0 18px 0 6px;
+      margin: 0 26px 0 8px;
     }
     #ns-sub {
-      margin-top: 12px;
-      font: 500 30px var(--sans);
-      color: var(--mute);
+      margin-top: 8px;
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
+      font: 500 34px var(--sans);
+      color: var(--mute);
     }
     #ns-day {
-      padding: 4px 16px;
+      padding: 4px 18px;
       border-radius: 999px;
-      font: 700 24px var(--sans);
+      font: 750 28px var(--sans);
       letter-spacing: 0.06em;
       color: #0a0818;
       background: var(--yellow);
     }
     #ns-pills {
       display: flex;
-      gap: 14px;
-      margin-top: 44px;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 40px;
     }
     .ns-pill {
-      padding: 14px 24px;
-      border-radius: 22px;
-      font: 500 26px var(--sans);
+      padding: 18px 34px;
+      border-radius: 26px;
+      font: 550 32px var(--sans);
       color: var(--mute);
     }
     .ns-pill b {
       display: block;
-      font: 700 46px/1.1 var(--sans);
-      color: var(--ink);
-      font-variant-numeric: tabular-nums;
-    }
-    #ns-zero b {
+      font: 800 64px/1.05 var(--sans);
       color: var(--green);
-    }
-    #ns-card {
-      position: absolute;
-      left: 1010px;
-      top: 120px;
-      width: 790px;
-      padding: 34px 36px;
-    }
-    .ns-eye {
-      font: 650 26px/1 var(--sans);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 12px;
-    }
-    .ns-h {
-      font: 650 38px/1.1 var(--sans);
-      letter-spacing: -0.03em;
-      margin-bottom: 22px;
-    }
-    .ns-row {
-      display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 16px;
-      padding: 16px 0;
-      border-top: 1px solid var(--line);
-    }
-    .ns-ok {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-    }
-    .ns-tick {
-      position: absolute;
-      inset: -2px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      border: 2px solid var(--green);
-      color: var(--green);
-      background: rgba(61, 255, 168, 0.12);
-      font: 700 21px var(--sans);
-    }
-    .ns-tick.cl {
-      border-color: var(--yellow);
-      color: var(--yellow);
-      background: transparent;
-    }
-    .ns-cl {
-      margin-left: 10px;
-      font: 600 20px var(--mono);
-      color: var(--yellow);
-      opacity: 0.85;
-    }
-    .ns-txt {
-      font: 500 28px/1.25 var(--sans);
-      color: var(--ink);
-    }
-    .ns-by {
-      margin-top: 8px;
-    }
-    .ns-by .cmd {
-      font-size: 20px;
     }
     @media (max-aspect-ratio: 1/1) {
-      #ns-left {
-        left: 0;
-        width: 1080px;
-        top: 190px;
-        text-align: center;
+      #ns-wrap {
+        top: 260px;
+      }
+      #ns-on {
+        top: 182px;
+        font-size: 30px;
       }
       #ns-clock {
-        font-size: 150px;
+        font-size: 190px;
+        margin-top: 40px;
+      }
+      #ns-sub {
+        flex-direction: column;
+        gap: 14px;
         margin-top: 20px;
       }
-      #ns-sub {
-        justify-content: center;
-      }
       #ns-pills {
-        justify-content: center;
-        margin-top: 30px;
+        margin-top: 50px;
       }
       .ns-pill {
-        padding: 12px 22px;
-        font-size: 24px;
-      }
-      #ns-card {
-        left: 60px;
-        top: 628px;
-        width: 960px;
-        padding: 22px 34px 18px;
-      }
-      .ns-h {
-        display: none;
-      }
-      .ns-row {
-        padding: 6px 0;
-        grid-template-columns: 40px 1fr;
-      }
-      .ns-txt {
-        font-size: 26px;
-      }
-      .ns-by {
-        margin-top: 4px;
-      }
-      #ns-sub {
-        font-size: 27px;
+        padding: 18px 30px;
       }
     }
   </style>
   <div id="root" data-composition-id="nonstop" data-width="1920" data-height="1080">
-    <div id="ns-left">
-      <div id="ns-run" class="glass"><i></i>/goal running · fresh context · example</div>
+    <div id="ns-on" class="glass">runs on <b>/goal</b> in Claude Code and Codex</div>
+    <div id="ns-wrap">
+      <div id="ns-run" class="glass"><i></i>Working alone <em>· example run</em></div>
       <div id="ns-clock"><span id="ns-h">0</span><small>h</small><span id="ns-m">00</span><small>m</small></div>
-      <div id="ns-sub"><span>elapsed, no one at the keyboard</span><span id="ns-day">DAY 2</span></div>
+      <div id="ns-sub"><span>no one at the keyboard</span><span id="ns-day">DAY 2</span></div>
       <div id="ns-pills">
-        <div class="ns-pill glass"><b id="ns-turn">1</b>turn of 40</div>
-        <div class="ns-pill glass" id="ns-zero"><b>0</b>interruptions</div>
         <div class="ns-pill glass"><b>0</b>questions asked</div>
+        <div class="ns-pill glass"><b>0</b>interruptions</div>
       </div>
     </div>
-    <div id="ns-card" class="glass">
-      <div class="ns-eye">Done when</div>
-      <div class="ns-h">The finish line, check by check</div>
-      <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt">No <span class="mono">api/v1</span> calls left in <span class="mono">src/</span>.</div><div class="ns-by"><span class="cmd">grep -rn "api/v1" src</span></div></div></div>
-      <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt">Types compile clean.</div><div class="ns-by"><span class="cmd">npx tsc --noEmit</span></div></div></div>
-      <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt"><span class="mono">npm test</span> exits 0, all passing.</div><div class="ns-by"><span class="cmd">npm test</span></div></div></div>
-      <div class="ns-row"><div class="ns-ok"><div class="ns-tick cl">✓</div></div><div><div class="ns-txt">A separate agent confirmed the API contract.</div><div class="ns-by"><span class="cmd agent">checked by a separate agent</span><span class="ns-cl">claimed</span></div></div></div>
-    </div>
-    <div class="cap" id="ns-cap">It runs for hours. Even days. Zero interruptions.</div>
   </div>
   <script>
     (function () {
       var F = window.Film;
+      var MODE = F.cut();
+      var D = MODE === "main" ? 3.3 : MODE === "short" ? 2.6 : 2.4; // slot length per cut
       var tl = gsap.timeline({ paused: true });
       var hEl = document.getElementById("ns-h"),
-        mEl = document.getElementById("ns-m"),
-        tEl = document.getElementById("ns-turn");
-
-      tl.fromTo("#ns-left", { opacity: 0, y: 24, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0);
-      tl.fromTo("#ns-card", { opacity: 0, x: 60, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0.12);
-      F.caption(tl, document.getElementById("ns-cap"), 0.35, 4.85);
-
-      // the time-lapse: 31 h 12 m of work in four seconds, accelerating
-      var clock = { m: 0 };
-      tl.fromTo(
-        clock,
-        { m: 0 },
-        {
-          m: 31 * 60 + 12,
-          duration: 3.9,
-          ease: "power2.in",
-          onUpdate: function () {
-            var m = Math.round(clock.m);
-            hEl.textContent = Math.floor(m / 60);
-            mEl.textContent = ("0" + (m % 60)).slice(-2);
-            tEl.textContent = Math.max(1, Math.round((m / (31 * 60 + 12)) * 27));
-          },
+        mEl = document.getElementById("ns-m");
+      tl.fromTo("#ns-on", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.1);
+      tl.to("#ns-on", { opacity: 0, duration: 0.2 }, D - 0.24);
+      tl.fromTo("#ns-wrap", { opacity: 0, y: 24, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0);
+      // the time-lapse: about 31 hours of work, accelerating
+      var clock = { m: 0 },
+        END = 31 * 60 + 12,
+        run = D - 0.75;
+      tl.fromTo(clock, { m: 0 }, {
+        m: END,
+        duration: run,
+        ease: "power2.in",
+        onUpdate: function () {
+          var m = Math.round(clock.m);
+          hEl.textContent = Math.floor(m / 60);
+          mEl.textContent = ("0" + (m % 60)).slice(-2);
         },
-        0.25
-      );
-      // day 2 lands when the clock passes 24 h (power2.in: t = sqrt(24/31.2) of 3.9 s)
-      var tDay = 0.25 + 3.9 * Math.sqrt((24 * 60) / (31 * 60 + 12));
-      tl.fromTo("#ns-day", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.6)" }, tDay);
-      tl.fromTo("#ns-zero", { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 0 rgba(61,255,168,0)" }, { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 40px 0 rgba(61,255,168,0.35)", duration: 0.5, ease: "power2.out" }, 1.6);
-
-      // the checks tick as the run proves each one
-      document.querySelectorAll("#ns-card .ns-tick").forEach(function (k, i) {
-        tl.fromTo(k, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.8)" }, 1.25 + i * 0.78);
-      });
-
-      tl.to(["#ns-left", "#ns-card"], { opacity: 0, scale: 0.96, filter: "blur(12px)", duration: 0.25, ease: "power3.in" }, 4.75);
+      }, 0.2);
+      var tDay = 0.2 + run * Math.sqrt((24 * 60) / END);
+      tl.fromTo("#ns-day", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.6)" }, tDay);
+      tl.fromTo(".ns-pill", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out", stagger: 0.1 }, 0.35);
+      tl.fromTo(".ns-pill", { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 0 rgba(61,255,168,0)" }, { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 44px 0 rgba(61,255,168,0.35)", duration: 0.5, immediateRender: false }, 0.9);
+      tl.to("#ns-wrap", { opacity: 0, scale: 0.96, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, D - 0.24);
       window.__timelines["nonstop"] = tl;
     })();
   </script>

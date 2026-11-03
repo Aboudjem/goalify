@@ -1,16 +1,17 @@
 // Procedural music bed for the goalify promo. No deps, seeded, reproducible, royalty-free
 // (every sample is computed here). Writes a 16-bit stereo 44.1 kHz WAV.
 //
-//   node scripts/genmusic.js --dur 37.7 --turn 4.6 --fail 1.47 --peak 29.3 --out renders/music-main.wav
-//   node scripts/genmusic.js --dur 15 --turn 4.6 --fail 1.47 --peak 8.8 --out renders/music-short.wav
+//   node scripts/genmusic.js --dur 43.95 --turn 8.4 --fail 6.5 --pulse 30.7 --peak 34.5 --out renders/music-main.wav
+//   node scripts/genmusic.js --dur 15.4 --turn 2.8 --fail -1 --pulse 8.0 --peak 10.92 --out renders/music-short.wav
 //
-// The arc follows the film:
-//   0 .. turn    "Claude said done. It wasn't."  a held B-minor pad, one bell on "Done.",
-//                a low sub drop when the test fails (--fail, ~1.47 s)
-//   turn         the goalify mark ignites: a bell arpeggio + sub hit on the pin strike (turn+0.66)
-//   turn .. peak D A Bm G in D major, soft kick from turn+2 s, intensity builds
-//   peak         VERIFIED: a bright chord, bell cascade and sub hit, then the bed settles
-//   peak .. end  plagal G -> D under the call to action, fade out
+// The arc follows the film (script v2):
+//   0 .. turn     the problem (AI keeps asking, says "Done!" when it isn't): a quiet B-minor bed,
+//                 a bell on the first caption, a low sub drop when "Done!" cracks (--fail)
+//   turn          "Meet goalify": a bell arpeggio + sub hit as the mark ignites (turn+0.66)
+//   turn .. peak  D A Bm G in D major, building; a soft kick and shaker pulse under the
+//                 time-lapse (--pulse to the verdict)
+//   peak          VERIFIED: a bright chord, bell cascade and sub hit
+//   peak .. end   warm G -> D resolve under the call to action, fade out
 const fs = require("fs");
 const path = require("path");
 
@@ -18,11 +19,12 @@ function arg(name, def) {
   const i = process.argv.indexOf("--" + name);
   return i > 0 ? process.argv[i + 1] : def;
 }
-const DUR = parseFloat(arg("dur", "37.7"));
-const TURN = parseFloat(arg("turn", "4.6"));
-const PEAK = parseFloat(arg("peak", "29.3"));
+const DUR = parseFloat(arg("dur", "43.95"));
+const TURN = parseFloat(arg("turn", "8.4"));
+const PEAK = parseFloat(arg("peak", "34.5"));
 const OUT = arg("out", "assets/music-main.wav");
-const FAIL = parseFloat(arg("fail", "1.47"));
+const FAIL = parseFloat(arg("fail", "6.5")); // < 0: no drop
+const PULSE = parseFloat(arg("pulse", "30.7")); // the soft kick runs from here to the verdict
 
 const SR = 44100;
 const N = Math.floor(SR * DUR);
@@ -187,8 +189,8 @@ function shaker(t0, amp) {
 pad(0, TURN + 0.3, [47, 50, 54], 0.075, 0.08);
 bass(0, TURN, 35, 0.12);
 bell(0.1, 78, 0.07, 0.55); // "Claude said done." lands
-drop(FAIL, 120, 42, 0.42, 0.9); // "It wasn't."
-pad(FAIL, TURN - FAIL + 0.3, [46], 0.03, 0.06); // a tense flat-6 colour under the reveal
+if (FAIL >= 0) drop(FAIL, 120, 42, 0.42, 0.9); // the "Done!" cracks
+if (FAIL >= 0) pad(FAIL, TURN - FAIL + 0.3, [46], 0.03, 0.06); // a tense flat-6 colour under the reveal
 
 // ---- 2. the turn: ignition arpeggio + strike ----
 const arp = [62, 66, 69, 74, 78];
@@ -219,7 +221,7 @@ for (let bar = 0; ; bar++) {
 
   for (let b = 0; b < 4; b++) {
     const tb = t0 + b * SPB;
-    if (tb >= TURN + 2 && tb < PEAK + 1.6) {
+    if (tb >= PULSE && tb < PEAK + 1.6) {
       if (b % 2 === 0) kick(tb, 0.36 * it);
       shaker(tb + SPB / 2, 0.05 * it);
     }

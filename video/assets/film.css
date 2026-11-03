@@ -71,22 +71,35 @@ body {
   color: transparent;
 }
 
-/* burned-in caption: one per beat, bottom of the frame */
+/* burned-in captions: generated into index.html per cut, one clip per line group */
 .cap {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 84px;
-  padding: 0 160px;
+  bottom: 64px;
   text-align: center;
-  font: 650 62px/1.12 var(--sans);
-  letter-spacing: -0.025em;
   color: #fff;
-  text-shadow:
-    0 2px 30px rgba(7, 6, 15, 0.9),
-    0 0 2px rgba(7, 6, 15, 0.8);
   overflow: visible;
   z-index: 50;
+}
+.cap .capin {
+  display: inline-block;
+  white-space: nowrap;
+  font: 680 64px/1.13 var(--sans);
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 30px rgba(7, 6, 15, 0.95), 0 0 3px rgba(7, 6, 15, 0.9);
+}
+.cap .capsub {
+  display: block;
+  margin-top: 14px;
+  font: 560 36px/1.2 var(--sans);
+  letter-spacing: -0.01em;
+  color: var(--mute);
+  text-shadow: 0 2px 20px rgba(7, 6, 15, 0.95);
+}
+.cap .capsub b {
+  font-weight: 750;
+  color: #fff;
 }
 .cap .w {
   display: inline-block;
@@ -94,10 +107,18 @@ body {
 }
 @media (max-aspect-ratio: 1/1) {
   .cap {
-    bottom: 640px;
-    padding: 0 80px;
+    bottom: auto;
+    top: 1110px;
+  }
+  .cap .capin {
     font-size: 76px;
     line-height: 1.1;
+  }
+  .cap .capsub {
+    font-size: 40px;
+  }
+  .cap.cap-sub {
+    top: 1030px;
   }
 }
 

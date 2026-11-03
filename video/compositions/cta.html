@@ -10,7 +10,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 96px;
+      top: 56px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -28,7 +28,7 @@
     #ct-panel {
       position: absolute;
       left: 330px;
-      top: 300px;
+      top: 244px;
       width: 1260px;
       padding: 34px 44px;
     }
@@ -61,7 +61,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 778px;
+      top: 636px;
       margin: 0 auto;
       width: max-content;
       display: flex;
@@ -91,14 +91,18 @@
         padding: 32px 30px;
       }
       .ct-line {
-        font-size: 31px;
+        font-size: 42px;
         line-height: 1.6;
+      }
+      /* vertical: the two install lines only, larger */
+      .ct-mk {
+        display: none !important;
       }
       .ct-lab {
         font-size: 19px;
       }
       #ct-gh {
-        top: 1000px;
+        top: 900px;
         font-size: 34px;
       }
     }
@@ -124,16 +128,15 @@
     </div>
     <div id="ct-panel" class="glass">
       <div class="ct-lab">Claude Code plugin</div>
-      <div class="ct-line"><i>$</i>claude plugin marketplace add <b>Aboudjem/10x</b></div>
+      <div class="ct-line ct-mk"><i>$</i>claude plugin marketplace add <b>Aboudjem/10x</b></div>
       <div class="ct-line"><i>$</i>claude plugin install <b>goalify@10x</b></div>
-      <div class="ct-lab b">Or as a skill</div>
+      <div class="ct-lab b">Or as a skill, in 70+ AI agents</div>
       <div class="ct-line"><i>$</i>npx skills add <b>Aboudjem/goalify</b></div>
     </div>
     <div id="ct-gh" class="glass">
       <svg width="36" height="36" viewBox="0 0 16 16" fill="#f1edff"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
       <span>github.com/Aboudjem/goalify</span>
     </div>
-    <div class="cap" id="ct-cap">Hand it a huge task. Come back to <span class="grad" id="ct-grad">proof.</span></div>
   </div>
   <script>
     (function () {
@@ -148,9 +151,8 @@
       tl.fromTo("#ct-word", { opacity: 0, filter: "blur(10px)", x: -14 }, { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.35, ease: "expo.out" }, 0.12);
       tl.fromTo("#ct-panel", { opacity: 0, y: 26, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0.28);
       tl.fromTo("#ct-panel .ct-line, #ct-panel .ct-lab", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out", stagger: 0.1 }, 0.42);
-      tl.fromTo("#ct-gh", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 0.95);
-      F.caption(tl, document.getElementById("ct-cap"), 0.55, null);
-      tl.fromTo("#ct-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 4.5, ease: "none" }, 0.6);
+      tl.fromTo("#ct-gh", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.5);
+
 
       window.__timelines["cta"] = tl;
     })();

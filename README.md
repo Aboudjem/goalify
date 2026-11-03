@@ -25,10 +25,15 @@
   <a href="https://goalify-kappa.vercel.app">Website</a> · <a href="#install">Install</a> · <a href="#how-it-works">How it works</a> · <a href="#new-in-30">New in 3.0</a> · <a href="#how-it-compares">How it compares</a> · <a href="#good-to-know">Good to know</a>
 </p>
 
-goalify does all the thinking before the run starts: it checks the job can work, reads the docs,
-finds your real test commands and asks you every question it has, once. Then Claude works in a
+goalify turns any request into a **goal**: a clear finish line your AI keeps working toward and
+can't stop before. It does all the thinking first: it checks the job can work, reads the docs,
+finds your real test commands and asks you every question it has, once. Then your AI works in a
 clean session, non-stop, for hours or even days, with zero interruptions. It stops only when the
 proof is on screen.
+
+Works best in **Claude Code** and **Codex**, whose built-in `/goal` keeps the run going until a
+separate judge sees the proof. It installs in 70+ other AI agents too, where you get the same
+preparation and finish line, and start the run yourself.
 
 ## Install
 

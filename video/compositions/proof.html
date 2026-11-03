@@ -9,95 +9,83 @@
     #pf-wash {
       position: absolute;
       inset: 0;
-      background: radial-gradient(900px 600px at 50% 40%, rgba(61, 255, 168, 0.32), transparent 70%);
+      background: radial-gradient(900px 600px at 50% 30%, rgba(61, 255, 168, 0.3), transparent 70%);
       opacity: 0;
     }
-    #pf-card {
+    #pf-top {
       position: absolute;
-      left: 210px;
-      top: 110px;
-      width: 1500px;
-      height: 690px;
-      padding: 46px 66px;
-    }
-    #pf-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      font: 600 22px var(--sans);
-    }
-    #pf-badge i {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 12px var(--green);
-    }
-    #pf-h1 {
-      margin-top: 22px;
-      font: 700 54px/1.05 var(--sans);
-      letter-spacing: -0.045em;
-    }
-    #pf-vrow {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 40px;
-      margin-top: 30px;
+      left: 0;
+      right: 0;
+      top: 96px;
+      text-align: center;
     }
     #pf-verdict {
-      position: relative;
-      flex: none;
       display: inline-flex;
       align-items: center;
-      gap: 18px;
-      padding: 18px 46px;
+      padding: 22px 64px;
       border-radius: 999px;
-      font: 800 88px/1 var(--sans);
+      font: 850 112px/1 var(--sans);
       letter-spacing: 0.03em;
       color: var(--green);
       background: rgba(61, 255, 168, 0.1);
-      border: 2px solid rgba(61, 255, 168, 0.55);
-      box-shadow: 0 0 80px -10px rgba(61, 255, 168, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 3px solid rgba(61, 255, 168, 0.6);
+      box-shadow: 0 0 90px -10px rgba(61, 255, 168, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
     #pf-word {
-      font: 700 40px/1.1 var(--sans);
+      margin-top: 22px;
+      font: 700 44px/1.1 var(--sans);
       letter-spacing: -0.03em;
     }
-    #pf-note {
-      margin-top: 8px;
-      font: 24px/1.35 var(--sans);
-      color: var(--mute);
-      max-width: 560px;
+    #pf-did {
+      position: absolute;
+      left: 460px;
+      top: 390px;
+      width: 1000px;
+      padding: 36px 48px 24px;
     }
-    #pf-rows {
-      margin-top: 34px;
-    }
-    .pf-row {
+    #pf-dh {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 13px 0;
+      gap: 18px;
+      font: 750 46px/1 var(--sans);
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    #pf-dh span {
+      margin-left: auto;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font: 600 22px var(--sans);
+      color: var(--dim);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+    }
+    .pf-li {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      height: 92px;
       border-top: 1px solid var(--line);
-      white-space: nowrap;
+      font: 650 48px/1 var(--sans);
+      letter-spacing: -0.02em;
     }
-    .pf-out {
-      font: 21px var(--mono);
-      color: var(--mute);
-      margin-left: 8px;
-    }
-    .st.skip {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--mute);
+    .pf-li b {
+      flex: none;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 800 28px var(--sans);
+      color: var(--green);
+      border: 3px solid var(--green);
+      background: rgba(61, 255, 168, 0.12);
     }
     #pf-ring {
       position: absolute;
-      visibility: visible;
-      width: 200px;
-      height: 200px;
-      margin: -100px 0 0 -100px;
+      width: 220px;
+      height: 220px;
+      margin: -110px 0 0 -110px;
       border-radius: 50%;
       border: 4px solid var(--green);
       opacity: 0;
@@ -107,70 +95,53 @@
       border-radius: 50%;
     }
     @media (max-aspect-ratio: 1/1) {
-      #pf-card {
-        left: 40px;
-        top: 190px;
-        width: 1000px;
-        height: 900px;
-        padding: 40px 44px;
-      }
-      #pf-h1 {
-        font-size: 50px;
-      }
-      #pf-vrow {
-        display: block;
-        margin-top: 28px;
+      #pf-top {
+        top: 220px;
       }
       #pf-verdict {
-        font-size: 92px;
+        font-size: 104px;
+        padding: 22px 54px;
       }
-      #pf-word {
-        margin-top: 26px;
+      #pf-did {
+        left: 50px;
+        top: 520px;
+        width: 980px;
+        padding: 34px 42px 20px;
       }
-      #pf-rows {
-        margin-top: 26px;
+      #pf-dh {
+        font-size: 46px;
       }
-      .pf-row {
-        flex-wrap: wrap;
-        gap: 10px 14px;
-      }
-      .pf-out {
-        width: 100%;
-        margin-left: 0;
-        font-size: 20px;
+      .pf-li {
+        height: 100px;
+        font-size: 50px;
       }
     }
   </style>
   <div id="root" data-composition-id="proof" data-width="1920" data-height="1080">
     <div id="pf-wash"></div>
-    <div id="pf-card" class="glass">
-      <span id="pf-badge" class="glass"><i></i>Proof receipt · /goalify verify · example</span>
-      <div id="pf-h1">Move acme to the v2 API (tests green)</div>
-      <div id="pf-vrow">
-        <span id="pf-verdict">VERIFIED</span>
-        <div id="pf-vtext">
-          <div id="pf-word"><span class="grad" id="pf-grad">Proven, not promised.</span></div>
-          <div id="pf-note">3 of 3 check commands passed when re-run just now, in this repo.</div>
-        </div>
-      </div>
-      <div id="pf-rows">
-        <div class="pf-row"><span class="st pass">PASS</span><span class="cmd">grep -rn "api/v1" src</span><span class="pf-out">(no output)</span></div>
-        <div class="pf-row"><span class="st pass">PASS</span><span class="cmd">npx tsc --noEmit</span><span class="pf-out">(no output)</span></div>
-        <div class="pf-row"><span class="st pass">PASS</span><span class="cmd">npm test</span><span class="pf-out"># pass 42 · # fail 0</span></div>
-        <div class="pf-row"><span class="st skip">CLAIMED</span><span class="cmd agent">checked by a separate agent</span></div>
-      </div>
+    <div id="pf-top">
+      <span id="pf-verdict">VERIFIED</span>
+      <div id="pf-word"><span class="grad" id="pf-grad">Proven, not promised.</span></div>
+    </div>
+    <div id="pf-did" class="glass">
+      <div id="pf-dh">Here's what I did<span>example</span></div>
+      <div class="pf-li"><b>✓</b>12 pages rebuilt</div>
+      <div class="pf-li"><b>✓</b>All links work</div>
+      <div class="pf-li"><b>✓</b>Every page loads</div>
     </div>
     <div id="pf-ring"></div>
     <div id="pf-sparks"></div>
-    <div class="cap" id="pf-cap">It ends on proof you can re-run.</div>
   </div>
   <script>
     (function () {
       var F = window.Film;
       var P = F.portrait();
+      var MODE = F.cut();
       var tl = gsap.timeline({ paused: true });
+      var T = MODE === "short" ? 0.32 : MODE === "demo" ? 0.4 : 0.5; // the slam
+      var TD = MODE === "short" ? 0.75 : MODE === "demo" ? 1.0 : 1.45; // "what I did"
+      var END = MODE === "short" ? null : MODE === "demo" ? 2.56 : 4.12;
 
-      // centre of the verdict pill in scene coordinates (layout offsets, measured once)
       function off(el) {
         var x = 0,
           y = 0,
@@ -187,7 +158,6 @@
       var ring = document.getElementById("pf-ring");
       ring.style.left = vc.x + "px";
       ring.style.top = vc.y + "px";
-
       var box = document.getElementById("pf-sparks");
       var R = F.rng(311);
       var cols = ["#3dffa8", "#ffffff", "#2ee6ff", "#3dffa8", "#ffd23f"];
@@ -204,39 +174,29 @@
         d.style.boxShadow = "0 0 " + (8 + sz * 2) + "px " + c;
         box.appendChild(d);
         var a = R() * Math.PI * 2,
-          dist = 220 + R() * 420;
+          dist = 240 + R() * 460;
         sp.push({ el: d, x: Math.cos(a) * dist, y: Math.sin(a) * dist * 0.7, dl: R() * 0.1 });
       }
 
-      tl.fromTo("#pf-card", { opacity: 0, y: 30, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0);
-      tl.fromTo(["#pf-badge", "#pf-h1"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out", stagger: 0.06 }, 0.0);
-      var capEl = document.getElementById("pf-cap");
-      if (window.FILM_CAPS && window.FILM_CAPS.proof) capEl.textContent = window.FILM_CAPS.proof;
-      F.caption(tl, capEl, 0.2, null);
-      document.querySelectorAll(".pf-row").forEach(function (r, i) {
-        tl.fromTo(r, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.08 + i * 0.12);
-        tl.fromTo(r.children[0], { scale: 0.4 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 0.12 + i * 0.12);
-      });
-
-      // THE MOMENT: the verdict slams in
-      var T = 1.2;
       tl.fromTo("#pf-verdict", { opacity: 0, scale: 2.6, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "power4.in" }, T - 0.32);
-      tl.fromTo("#pf-card", { x: 0 }, { x: 0, duration: 0.01 }, T - 0.01);
-      tl.to("#pf-card", { y: 7, duration: 0.05, ease: "power2.out" }, T);
-      tl.to("#pf-card", { y: 0, duration: 0.4, ease: "elastic.out(1, 0.4)" }, T + 0.05);
-      tl.fromTo("#pf-wash", { opacity: 0 }, { opacity: 1, duration: 0.08 }, T);
-      tl.to("#pf-wash", { opacity: 0.25, duration: 1.2, ease: "power2.out" }, T + 0.1);
-      tl.fromTo(ring, { opacity: 0.9, scale: 0.6 }, { opacity: 0, scale: P ? 4.5 : 5.5, duration: 0.85, ease: "power2.out", immediateRender: false }, T);
+      tl.fromTo("#pf-wash", { opacity: 0 }, { opacity: 1, duration: 0.08, immediateRender: false }, T);
+      tl.to("#pf-wash", { opacity: 0.22, duration: 1.2, ease: "power2.out" }, T + 0.1);
+      tl.fromTo(ring, { opacity: 0.9, scale: 0.6 }, { opacity: 0, scale: P ? 4.5 : 6, duration: 0.85, ease: "power2.out", immediateRender: false }, T);
       sp.forEach(function (s) {
         tl.fromTo(s.el, { x: 0, y: 0, opacity: 0 }, { x: s.x, y: s.y, opacity: 1, duration: 0.9, ease: "power3.out" }, T + s.dl);
         tl.to(s.el, { opacity: 0, duration: 0.4, ease: "power2.in" }, T + 0.55 + s.dl);
       });
-      tl.fromTo("#pf-vtext", { opacity: 0, x: P ? 0 : -20, y: P ? 10 : 0 }, { opacity: 1, x: 0, y: 0, duration: 0.4, ease: "expo.out" }, T + 0.22);
+      tl.fromTo("#pf-word", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, T + 0.2);
       tl.fromTo("#pf-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 3, ease: "none" }, T + 0.2);
 
-      tl.to(["#pf-card", "#pf-wash"], { opacity: 0, scale: 0.97, filter: "blur(12px)", duration: 0.24, ease: "power3.in" }, 4.26);
-      tl.to("#pf-cap", { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, 4.32);
-
+      // then: here's what it did
+      tl.fromTo("#pf-did", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, TD);
+      document.querySelectorAll("#pf-did .pf-li").forEach(function (r, i) {
+        var t = TD + 0.15 + i * (MODE === "main" ? 0.22 : 0.12);
+        tl.fromTo(r, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, t);
+        tl.fromTo(r.children[0], { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, t + 0.05);
+      });
+      if (END) tl.to(["#pf-top", "#pf-did", "#pf-wash"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, END);
       window.__timelines["proof"] = tl;
     })();
   </script>

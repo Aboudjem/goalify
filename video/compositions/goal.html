@@ -1,0 +1,294 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #gl-tag {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 150px;
+      margin: 0 auto;
+      width: max-content;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font: 600 24px var(--sans);
+      color: var(--dim);
+    }
+    .gl-card {
+      position: absolute;
+      top: 250px;
+      width: 520px;
+      height: 320px;
+      perspective: 1400px;
+    }
+    #gl-c0 {
+      left: 140px;
+    }
+    #gl-c1 {
+      left: 700px;
+    }
+    #gl-c2 {
+      left: 1260px;
+    }
+    .gl-face {
+      position: absolute;
+      inset: 0;
+      padding: 34px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+    .gl-eye {
+      font: 700 22px/1 var(--sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .gl-back .gl-eye {
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .gl-txt {
+      font: 650 46px/1.12 var(--sans);
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    .gl-back {
+      border-color: rgba(61, 255, 168, 0.5) !important;
+      background: rgba(61, 255, 168, 0.07) !important;
+    }
+    /* the one goal, up close */
+    #gl-big {
+      position: absolute;
+      left: 410px;
+      top: 70px;
+      width: 1100px;
+      height: 690px;
+      padding: 56px 64px;
+      border-color: rgba(61, 255, 168, 0.5);
+      background: rgba(61, 255, 168, 0.06);
+    }
+    /* the finish line: a track that runs toward the flag and stops short of it */
+    #gl-flag {
+      position: absolute;
+      right: 56px;
+      bottom: 50px;
+      width: 96px;
+      height: 112px;
+      overflow: visible;
+    }
+    #gl-track,
+    #gl-fill {
+      position: absolute;
+      left: 64px;
+      right: 150px;
+      bottom: 66px;
+      height: 8px;
+      border-radius: 4px;
+    }
+    #gl-track {
+      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 16px, transparent 16px 28px);
+    }
+    #gl-fill {
+      background: linear-gradient(90deg, var(--purple), var(--cyan));
+      box-shadow: 0 0 18px rgba(46, 230, 255, 0.5);
+      transform-origin: 0 50%;
+    }
+    #gl-dot {
+      position: absolute;
+      left: 52px;
+      bottom: 58px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 18px var(--cyan), 0 0 36px rgba(46, 230, 255, 0.6);
+    }
+    #gl-bt {
+      margin-top: 18px;
+      font: 750 88px/1.02 var(--sans);
+      letter-spacing: -0.045em;
+    }
+    #gl-fl {
+      margin-top: 44px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font: 700 24px/1 var(--sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+    .gl-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 26px;
+      font: 600 50px/1.1 var(--sans);
+      letter-spacing: -0.02em;
+    }
+    .gl-box {
+      flex: none;
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      border: 3px solid rgba(255, 255, 255, 0.55);
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #gl-tag {
+        top: 190px;
+      }
+      .gl-card {
+        left: 80px !important;
+        width: 920px;
+        height: 230px;
+      }
+      #gl-c0 {
+        top: 270px;
+      }
+      #gl-c1 {
+        top: 530px;
+      }
+      #gl-c2 {
+        top: 790px;
+      }
+      .gl-face {
+        gap: 12px;
+        padding: 26px 34px;
+      }
+      .gl-txt {
+        font-size: 48px;
+      }
+      #gl-big {
+        left: 50px;
+        top: 230px;
+        width: 980px;
+        height: 820px;
+        padding: 50px 50px;
+      }
+      #gl-bt {
+        font-size: 92px;
+        margin-top: 18px;
+      }
+      #gl-track,
+      #gl-fill {
+        left: 50px;
+        right: 140px;
+        bottom: 76px;
+      }
+      #gl-dot {
+        left: 38px;
+        bottom: 68px;
+      }
+      #gl-flag {
+        right: 44px;
+        bottom: 60px;
+      }
+      .gl-row {
+        font-size: 50px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="goal" data-width="1920" data-height="1080">
+    <div id="gl-tag" class="glass">example requests</div>
+    <div class="gl-card" id="gl-c0">
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Redo my website</div></div>
+      <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">New website live</div></div>
+    </div>
+    <div class="gl-card" id="gl-c1">
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Translate my app into 5 languages</div></div>
+      <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">App works in 5 languages</div></div>
+    </div>
+    <div class="gl-card" id="gl-c2">
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Clean up 300 old files</div></div>
+      <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">300 files sorted and named</div></div>
+    </div>
+
+    <div id="gl-big" class="glass">
+      <div class="gl-eye" style="color: var(--green); font-size: 26px">Goal</div>
+      <svg id="gl-flag" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="6" stroke-linecap="round" /><path id="gl-pen" d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#3dffa8" /></svg>
+      <div id="gl-bt">New website live</div>
+      <div id="gl-fl">Finish line</div>
+      <div class="gl-row"><span class="gl-box"></span>Every page loads</div>
+      <div class="gl-row"><span class="gl-box"></span>Every link works</div>
+      <div id="gl-track"></div>
+      <div id="gl-fill"></div>
+      <div id="gl-dot"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var P = F.portrait();
+      var MODE = F.cut(); // main: flips + the goal up close; short: the goal only; demo: flips only
+      var tl = gsap.timeline({ paused: true });
+      var cards = ["#gl-c0", "#gl-c1", "#gl-c2"];
+
+      function flip(sel, t) {
+        var f = document.querySelector(sel + " .gl-front"),
+          b = document.querySelector(sel + " .gl-back");
+        tl.fromTo(f, { rotationY: 0, opacity: 1 }, { rotationY: 90, duration: 0.2, ease: "power2.in" }, t);
+        tl.fromTo(b, { rotationY: -90, opacity: 0 }, { rotationY: 0, opacity: 1, duration: 0.28, ease: "back.out(1.6)", immediateRender: false }, t + 0.2);
+        tl.fromTo(sel, { scale: 1 }, { scale: 1.05, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, t + 0.38);
+      }
+      // backs start hidden
+      tl.fromTo(".gl-back", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+
+      if (MODE === "short") {
+        tl.fromTo(["#gl-tag"].concat(cards), { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+      } else {
+        tl.fromTo("#gl-tag", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.05);
+        tl.fromTo(cards, { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.1 }, 0);
+        var t0 = MODE === "demo" ? 0.4 : 0.6,
+          gap = MODE === "demo" ? 0.42 : 0.55;
+        cards.forEach(function (c, i) {
+          flip(c, t0 + i * gap);
+        });
+      }
+
+      // the goal, up close
+      var tBig = MODE === "short" ? 0 : 2.7;
+      if (MODE !== "demo") {
+        if (MODE === "main") {
+          tl.to(["#gl-c1", "#gl-c2", "#gl-tag"], { opacity: 0, filter: "blur(10px)", scale: 0.92, duration: 0.3, ease: "power3.in" }, tBig);
+          // carry the first goal card into the close-up
+          var c0 = document.getElementById("gl-c0"),
+            big = document.getElementById("gl-big");
+          var dx = big.offsetLeft + big.offsetWidth / 2 - (c0.offsetLeft + c0.offsetWidth / 2);
+          var dy = big.offsetTop + big.offsetHeight / 2 - (c0.offsetTop + c0.offsetHeight / 2);
+          tl.to("#gl-c0", { x: dx, y: dy, scale: big.offsetWidth / c0.offsetWidth, duration: 0.5, ease: "power3.inOut" }, tBig);
+          tl.to("#gl-c0", { opacity: 0, duration: 0.18 }, tBig + 0.42);
+        }
+        var tb = MODE === "short" ? 0 : tBig + 0.38;
+        tl.fromTo("#gl-big", { opacity: 0, scale: MODE === "short" ? 0.92 : 1, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, tb);
+        tl.fromTo("#gl-flag", { opacity: 0, y: 30, scale: 0.6, transformOrigin: "10% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, tb + 0.25);
+        tl.fromTo("#gl-pen", { skewY: 0, transformOrigin: "0% 50%" }, { skewY: -6, duration: 0.5, yoyo: true, repeat: 5, ease: "sine.inOut" }, tb + 0.6);
+        tl.fromTo("#gl-fl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.35);
+        tl.fromTo("#gl-big .gl-row", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.32, ease: "expo.out", stagger: 0.22 }, tb + 0.5);
+        // "can't stop until it's reached": the run heads for the flag and is not there yet
+        var trackW = document.getElementById("gl-track").offsetWidth;
+        var k = MODE === "short" ? 0.45 : 1;
+        tl.fromTo("#gl-track", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.6 * k);
+        tl.fromTo("#gl-fill", { scaleX: 0 }, { scaleX: 0.78, duration: 2.2 * k, ease: "power2.out" }, tb + 0.8 * k);
+        tl.fromTo("#gl-dot", { x: 0, opacity: 0 }, { x: trackW * 0.78, opacity: 1, duration: 2.2 * k, ease: "power2.out" }, tb + 0.8 * k);
+        tl.fromTo("#gl-dot", { scale: 1 }, { scale: 1.45, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, tb + 3.0 * k);
+        // the two finish-line boxes pulse: still empty
+        tl.fromTo("#gl-big .gl-box", { scale: 1, borderColor: "rgba(255,255,255,0.55)" }, { scale: 1.18, borderColor: "rgba(46,230,255,1)", duration: 0.22, yoyo: true, repeat: 1, ease: "power2.out", stagger: 0.18, immediateRender: false }, tb + 2.4 * k);
+      } else {
+        tl.fromTo("#gl-big", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+      }
+
+      // exit
+      var tEnd = MODE === "short" ? 1.72 : MODE === "demo" ? 2.18 : 7.5;
+      tl.to(MODE === "demo" ? cards.concat(["#gl-tag"]) : "#gl-big", { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.22, ease: "power3.in" }, tEnd);
+
+      window.__timelines["goal"] = tl;
+    })();
+  </script>
+</template>

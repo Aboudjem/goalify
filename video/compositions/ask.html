@@ -1,0 +1,340 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #ak-win {
+      position: absolute;
+      left: 330px;
+      top: 80px;
+      width: 1260px;
+      height: 700px;
+      overflow: hidden;
+      background: rgba(12, 10, 26, 0.62);
+    }
+    #ak-bar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--line);
+      font: 600 26px var(--sans);
+      color: var(--mute);
+    }
+    #ak-bar .t {
+      color: var(--ink);
+    }
+    .ak-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font: 600 22px var(--sans);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+    }
+    #ak-ex {
+      color: var(--dim);
+    }
+    #ak-clock {
+      margin-left: auto;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+    }
+    #ak-you {
+      position: relative;
+      color: var(--green);
+    }
+    #ak-you i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+    }
+    #ak-away {
+      position: absolute;
+      inset: -1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      color: var(--yellow);
+      background: #1b1630;
+      border: 1px solid rgba(255, 210, 63, 0.4);
+      white-space: nowrap;
+    }
+    #ak-body {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 76px;
+      bottom: 0;
+      overflow: hidden;
+    }
+    #ak-stack {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .ak-b {
+      max-width: 80%;
+      padding: 18px 28px;
+      border-radius: 28px;
+      font: 500 40px/1.2 var(--sans);
+      letter-spacing: -0.015em;
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--line);
+    }
+    .ak-b.me {
+      align-self: flex-end;
+      background: linear-gradient(135deg, rgba(155, 107, 255, 0.55), rgba(110, 70, 230, 0.5));
+      border-color: rgba(155, 107, 255, 0.6);
+      font-weight: 600;
+    }
+    .ak-b.q {
+      border-color: rgba(46, 230, 255, 0.35);
+    }
+    .ak-b.q b {
+      color: var(--cyan);
+      margin-right: 10px;
+    }
+    /* "Done!" that isn't */
+    #ak-done {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 90px;
+      padding: 30px 40px;
+      border-radius: 30px;
+      background: rgba(61, 255, 168, 0.08);
+      border: 1px solid rgba(61, 255, 168, 0.45);
+    }
+    #ak-dl {
+      position: relative;
+      display: inline-block;
+      font: 800 92px/1 var(--sans);
+      letter-spacing: -0.04em;
+      color: var(--green);
+    }
+    #ak-dl small {
+      font: 600 40px var(--sans);
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-left: 18px;
+    }
+    #ak-strike {
+      position: absolute;
+      left: -8px;
+      right: -8px;
+      top: 48%;
+      height: 9px;
+      border-radius: 5px;
+      background: var(--red);
+      box-shadow: 0 0 22px rgba(255, 107, 139, 0.9);
+      transform-origin: 0 50%;
+    }
+    #ak-crack {
+      position: absolute;
+      left: 0;
+      top: -20px;
+      width: 100%;
+      height: 140px;
+      overflow: visible;
+    }
+    #ak-bad {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 330px;
+    }
+    .ak-x {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      height: 74px;
+      font: 600 40px var(--sans);
+      color: var(--ink);
+    }
+    .ak-x b {
+      flex: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 800 28px var(--sans);
+      color: var(--red);
+      background: rgba(255, 107, 139, 0.14);
+      border: 2px solid rgba(255, 107, 139, 0.6);
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #ak-win {
+        left: 40px;
+        top: 180px;
+        width: 1000px;
+        height: 900px;
+      }
+      #ak-bar {
+        font-size: 24px;
+        gap: 10px;
+        padding: 0 22px;
+      }
+      .ak-chip {
+        font-size: 20px;
+        padding: 6px 12px;
+      }
+      #ak-bar .t {
+        font-size: 24px;
+      }
+      .ak-b {
+        max-width: 88%;
+        font-size: 40px;
+      }
+      #ak-stack {
+        left: 30px;
+        right: 30px;
+      }
+      #ak-done {
+        left: 34px;
+        right: 34px;
+        padding: 28px 30px;
+      }
+      #ak-dl {
+        font-size: 84px;
+      }
+      #ak-dl small {
+        display: block;
+        margin: 16px 0 0;
+        font-size: 38px;
+      }
+      #ak-bad {
+        left: 40px;
+        right: 30px;
+        top: 400px;
+      }
+      .ak-x {
+        font-size: 36px;
+        height: 84px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="ask" data-width="1920" data-height="1080">
+    <div id="ak-win" class="glass">
+      <div id="ak-bar">
+        <span class="t">AI chat</span>
+        <span class="ak-chip" id="ak-ex">example</span>
+        <span class="ak-chip" id="ak-clock">11:42 PM</span>
+        <span class="ak-chip" id="ak-you"><i></i>You: here<span id="ak-away"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" fill="#ffd23f" /></svg>You: away</span></span>
+      </div>
+      <div id="ak-body">
+        <div id="ak-stack">
+          <div class="ak-b me" id="ak-req">Redo my whole website.</div>
+          <div class="ak-b" id="ak-on">On it!</div>
+          <div class="ak-b q"><b>?</b>Which colors?</div>
+          <div class="ak-b q"><b>?</b>Keep the old pages?</div>
+          <div class="ak-b q"><b>?</b>Which font?</div>
+          <div class="ak-b q"><b>?</b>Are you there?</div>
+          <div class="ak-b q"><b>?</b>Hello?</div>
+        </div>
+        <div id="ak-done">
+          <div id="ak-dl">Done!<small>Your new website is ready.</small><div id="ak-strike"></div></div>
+          <svg id="ak-crack" viewBox="0 0 1000 140" preserveAspectRatio="none"><path id="ak-crackp" d="M0 70 L120 52 L190 88 L300 40 L380 96 L470 58 L560 92 L640 44 L730 84 L820 50 L900 90 L1000 66" fill="none" stroke="#ff6b8b" stroke-width="4" stroke-linejoin="round" /></svg>
+        </div>
+        <div id="ak-bad">
+          <div class="ak-x"><b>✕</b>4 pages still broken</div>
+          <div class="ak-x"><b>✕</b>Old links lead nowhere</div>
+          <div class="ak-x"><b>✕</b>The contact form doesn't send</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var P = F.portrait();
+      var SHORT = F.cut() === "short";
+      var tl = gsap.timeline({ paused: true });
+      var qs = document.querySelectorAll("#ak-stack .q");
+      var stack = document.getElementById("ak-stack");
+      var body = document.getElementById("ak-body");
+
+      // frame 0: the request is already sent (the thumbnail reads on its own)
+      tl.fromTo("#ak-win", { opacity: 1, scale: 1, x: 0, y: 0, filter: "blur(0px)" }, { opacity: 1, duration: 0.01 }, 0);
+      tl.fromTo("#ak-req", { opacity: 1 }, { opacity: 1, duration: 0.01 }, 0);
+      tl.fromTo("#ak-away", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+      tl.fromTo(["#ak-done", "#ak-bad"], { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+
+      var tOn = SHORT ? 0.35 : 1.0;
+      var tQ = SHORT ? 0.65 : 2.45;
+      var gapQ = SHORT ? 0.4 : 0.6;
+      tl.fromTo("#ak-on", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, tOn);
+
+      // the questions keep coming; the stack scrolls up as they pile in
+      var shift = 0;
+      qs.forEach(function (q, i) {
+        var t = tQ + i * gapQ;
+        tl.fromTo(q, { opacity: 0, y: 16, scale: 0.9, transformOrigin: "0% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, t);
+      });
+      // measure once: how far the stack overflows the window when all bubbles are in
+      var over = Math.max(0, stack.offsetHeight + 60 - body.offsetHeight);
+      if (over > 0) tl.fromTo(stack, { y: 0 }, { y: -over, duration: gapQ * 2.2, ease: "power2.inOut" }, tQ + gapQ * 2.2);
+      // the user gives up and leaves; the clock runs on
+      tl.fromTo("#ak-away", { opacity: 0 }, { opacity: 1, duration: 0.25 }, tQ + gapQ * 0.8);
+      var clk = document.getElementById("ak-clock");
+      var c = { m: 0 };
+      tl.fromTo(
+        c,
+        { m: 0 },
+        {
+          m: 153,
+          duration: gapQ * 5,
+          ease: "power1.in",
+          onUpdate: function () {
+            var tot = 11 * 60 + 42 + Math.round(c.m);
+            var h = Math.floor(tot / 60) % 24,
+              mm = ("0" + (tot % 60)).slice(-2);
+            clk.textContent = (h % 12 || 12) + ":" + mm + (h < 12 ? " AM" : " PM");
+          },
+        },
+        tQ
+      );
+
+      if (!SHORT) {
+        // "Done!" ... and it isn't
+        tl.to(stack, { opacity: 0, y: -over - 60, filter: "blur(8px)", duration: 0.28, ease: "power3.in" }, 5.55);
+        tl.fromTo("#ak-done", { opacity: 0, scale: 0.85, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.8)" }, 5.75);
+        var cp = document.getElementById("ak-crackp");
+        var L = 1100;
+        tl.fromTo(cp, { strokeDasharray: L, strokeDashoffset: L, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.22, ease: "power2.out" }, 6.5);
+        tl.fromTo("#ak-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 6.54);
+        tl.to("#ak-done", { backgroundColor: "rgba(255,107,139,0.08)", borderColor: "rgba(255,107,139,0.5)", duration: 0.2 }, 6.54);
+        tl.to("#ak-dl", { opacity: 0.55, duration: 0.25 }, 6.6);
+        var R = F.rng(7);
+        for (var i = 0; i < 6; i++) tl.to("#ak-win", { x: (R() - 0.5) * 22 * (1 - i / 6), duration: 0.035, ease: "none" }, 6.54 + i * 0.035);
+        tl.to("#ak-win", { x: 0, duration: 0.05 }, 6.77);
+        tl.fromTo("#ak-bad", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 6.75);
+        tl.fromTo("#ak-bad .ak-x", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out", stagger: 0.18 }, 6.78);
+      }
+
+      // exit: the window collapses into the point the goalify mark ignites from
+      var tx = P ? 0 : 640 - 960,
+        ty = P ? 520 - 630 : 440 - 430;
+      var tEnd = SHORT ? 2.46 : 8.06;
+      tl.to("#ak-win", { scale: 0.12, x: tx, y: ty, opacity: 0, filter: "blur(18px)", duration: 0.34, ease: "power3.in" }, tEnd);
+
+      window.__timelines["ask"] = tl;
+    })();
+  </script>
+</template>

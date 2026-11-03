@@ -48,7 +48,7 @@
       top: 560px;
       padding: 10px 22px;
       border-radius: 999px;
-      font: 650 34px var(--sans);
+      font: 650 38px var(--sans);
       color: var(--ink);
     }
     #tn-ver b {
@@ -121,9 +121,8 @@
       </svg>
       <div id="tn-sparks"></div>
       <div id="tn-word"><span>g</span><span>o</span><span>a</span><span>l</span><span>i</span><span>f</span><span>y</span></div>
-      <div id="tn-ver" class="glass"><b>3.0</b> is out</div>
+      <div id="tn-ver" class="glass">a free skill for your <b>AI agent</b></div>
     </div>
-    <div class="cap" id="tn-cap">Come back to <span class="grad" id="tn-grad">proof,</span> not a promise.</div>
   </div>
   <script>
     (function () {
@@ -187,7 +186,7 @@
           { x: s.x, y: s.y, opacity: 1, scale: 0.4, duration: 0.95, ease: "power3.out" },
           0.66 + s.dl
         );
-        tl.to(s.el, { opacity: 0, duration: 0.45, ease: "power2.in" }, 1.2 + s.dl);
+        tl.to(s.el, { opacity: 0, duration: 0.4, ease: "power2.in" }, 1.15 + s.dl);
       });
       // wordmark, letter by letter
       tl.fromTo(
@@ -196,12 +195,10 @@
         { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.22, ease: "expo.out", stagger: 0.05 },
         0.8
       );
-      tl.fromTo("#tn-ver", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 1.25);
-      F.caption(tl, document.getElementById("tn-cap"), 0.7, null);
-      tl.fromTo("#tn-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 2.0, ease: "none" }, 1.0);
+      tl.fromTo("#tn-ver", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 0.82);
+
       // exit
-      tl.to("#tn-lock", { opacity: 0, scale: 0.94, filter: "blur(10px)", duration: 0.24, ease: "power3.in" }, 2.74);
-      tl.to("#tn-cap", { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, 2.8);
+      tl.to("#tn-lock", { opacity: 0, scale: 0.94, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, 1.78);
 
       window.__timelines["turn"] = tl;
     })();
