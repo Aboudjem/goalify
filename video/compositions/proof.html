@@ -118,6 +118,7 @@
     }
   </style>
   <div id="root" data-composition-id="proof" data-width="1920" data-height="1080">
+    <div class="cam" id="pf-cam"><div class="rig" id="pf-rig">
     <div id="pf-wash"></div>
     <div id="pf-top">
       <span id="pf-verdict">VERIFIED</span>
@@ -125,12 +126,13 @@
     </div>
     <div id="pf-did" class="glass">
       <div id="pf-dh">Here's what I did<span>example</span></div>
-      <div class="pf-li"><b>✓</b>12 pages rebuilt</div>
-      <div class="pf-li"><b>✓</b>All links work</div>
-      <div class="pf-li"><b>✓</b>Every page loads</div>
+      <div class="pf-li"><b>✓</b>6 pages built</div>
+      <div class="pf-li"><b>✓</b>Menu with 24 cakes and prices</div>
+      <div class="pf-li"><b>✓</b>Online orders work</div>
     </div>
     <div id="pf-ring"></div>
     <div id="pf-sparks"></div>
+  </div></div>
   </div>
   <script>
     (function () {
@@ -138,8 +140,9 @@
       var P = F.portrait();
       var MODE = F.cut();
       var tl = gsap.timeline({ paused: true });
-      var T = MODE === "short" ? 0.32 : MODE === "demo" ? 0.4 : 0.5; // the slam
-      var TD = MODE === "short" ? 0.75 : MODE === "demo" ? 1.0 : 1.45; // "what I did"
+      window.Film.push(tl, "#pf-cam", 9, 1, 1.04);
+      var T = MODE === "short" ? 0.22 : MODE === "demo" ? 0.35 : 0.22; // the slam (it forms out of the shattered clock)
+      var TD = MODE === "short" ? 0.38 : MODE === "demo" ? 1.0 : 1.45; // "what I did"
       var END = MODE === "short" ? null : MODE === "demo" ? 2.56 : 4.08;
 
       function off(el) {
@@ -178,7 +181,7 @@
         sp.push({ el: d, x: Math.cos(a) * dist, y: Math.sin(a) * dist * 0.7, dl: R() * 0.1 });
       }
 
-      tl.fromTo("#pf-verdict", { opacity: 0, scale: 2.6, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "power4.in" }, T - 0.32);
+      tl.fromTo("#pf-verdict", { opacity: 0.25, scale: 2.4, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.in" }, T - 0.22);
       tl.fromTo("#pf-wash", { opacity: 0 }, { opacity: 1, duration: 0.08, immediateRender: false }, T);
       tl.to("#pf-wash", { opacity: 0.22, duration: 1.2, ease: "power2.out" }, T + 0.1);
       tl.fromTo(ring, { opacity: 0.9, scale: 0.6 }, { opacity: 0, scale: P ? 4.5 : 6, duration: 0.85, ease: "power2.out", immediateRender: false }, T);
@@ -186,17 +189,27 @@
         tl.fromTo(s.el, { x: 0, y: 0, opacity: 0 }, { x: s.x, y: s.y, opacity: 1, duration: 0.9, ease: "power3.out" }, T + s.dl);
         tl.to(s.el, { opacity: 0, duration: 0.4, ease: "power2.in" }, T + 0.55 + s.dl);
       });
+      // star confetti in the palette, with gravity, and a short camera punch-in
+      F.burst(tl, document.getElementById("pf-sparks"), vc.x, vc.y, T + 0.02, { n: 54, dist: 560, seed: 909, dur: 1.5, size: 16, star: true, gravity: 420, colors: ["#9b6bff", "#2ee6ff", "#ff3d9a", "#ffd23f", "#3dffa8", "#ffffff"] });
+      tl.fromTo("#pf-rig", { scale: 1 }, { scale: 1.08, duration: 0.09, ease: "power2.out", immediateRender: false }, T);
+      tl.to("#pf-rig", { scale: 1.0, duration: 0.6, ease: "elastic.out(1, 0.55)" }, T + 0.09);
       tl.fromTo("#pf-word", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, T + 0.2);
       tl.fromTo("#pf-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 3, ease: "none" }, T + 0.2);
 
       // then: here's what it did
       tl.fromTo("#pf-did", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, TD);
       document.querySelectorAll("#pf-did .pf-li").forEach(function (r, i) {
-        var t = TD + 0.15 + i * (MODE === "main" ? 0.22 : 0.12);
+        var t = TD + (MODE === "short" ? 0.08 : 0.15) + i * (MODE === "main" ? 0.22 : MODE === "short" ? 0.18 : 0.12);
         tl.fromTo(r, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, t);
         tl.fromTo(r.children[0], { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, t + 0.05);
       });
-      if (END) tl.to(["#pf-top", "#pf-did", "#pf-wash"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, END);
+      if (END && MODE === "main") {
+        // carry: the "what I did" card shrinks into the install box of the next shot
+        var did = document.getElementById("pf-did");
+        var cy = P ? 580 : 380;
+        tl.to(["#pf-top", "#pf-wash"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, END - 0.05);
+        tl.to("#pf-did", { y: cy - (did.offsetTop + did.offsetHeight / 2), scaleY: 0.32, scaleX: P ? 0.95 : 1.12, opacity: 0.2, duration: 0.3, ease: "power3.in" }, END - 0.05);
+      } else if (END) tl.to(["#pf-top", "#pf-did", "#pf-wash"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, END);
       window.__timelines["proof"] = tl;
     })();
   </script>

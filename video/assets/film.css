@@ -161,3 +161,11 @@ body {
   text-shadow: none;
   filter: drop-shadow(0 2px 18px rgba(7, 6, 15, 0.85));
 }
+
+/* every scene sits in a camera wrapper (slow push) holding a rig (shake) */
+.cam,
+.rig {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}

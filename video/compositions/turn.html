@@ -94,6 +94,7 @@
     }
   </style>
   <div id="root" data-composition-id="turn" data-width="1920" data-height="1080">
+    <div class="cam" id="tn-cam"><div class="rig" id="tn-rig">
     <div id="tn-lock">
       <div id="tn-bloom"></div>
       <svg id="tn-mark" viewBox="0 0 256 256" fill="none" aria-label="goalify mark">
@@ -123,12 +124,14 @@
       <div id="tn-word"><span>g</span><span>o</span><span>a</span><span>l</span><span>i</span><span>f</span><span>y</span></div>
       <div id="tn-ver" class="glass">a free skill for your <b>AI agent</b></div>
     </div>
+  </div></div>
   </div>
   <script>
     (function () {
       var F = window.Film;
       var P = F.portrait();
       var tl = gsap.timeline({ paused: true });
+      window.Film.push(tl, "#tn-cam", 9, 1, 1.04);
       var S = P ? 480 / 256 : 420 / 256; // svg px per unit
       var cx = P ? 540 : 640,
         cy = P ? 520 : 440;
@@ -198,7 +201,7 @@
       tl.fromTo("#tn-ver", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 0.82);
 
       // exit
-      tl.to("#tn-lock", { opacity: 0, scale: 0.94, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, 1.78);
+      tl.to("#tn-lock", { opacity: 0, scale: 0.94, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, F.cut() === "short" ? 2.28 : 1.78);
 
       window.__timelines["turn"] = tl;
     })();

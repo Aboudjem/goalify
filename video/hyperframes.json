@@ -9,5 +9,27 @@
   "media": {
     "autoProxy": true
   },
-  "authoringSkill": "hyperframes"
+  "authoringSkill": "hyperframes",
+  "registryItems": [
+    {
+      "name": "confetti",
+      "type": "hyperframes:component",
+      "target": "compositions/components/confetti.html"
+    },
+    {
+      "name": "camera-shake",
+      "type": "hyperframes:component",
+      "target": "compositions/components/camera-shake.html"
+    },
+    {
+      "name": "notification-pileup",
+      "type": "hyperframes:component",
+      "target": "compositions/components/notification-pileup.html"
+    },
+    {
+      "name": "spring-pop",
+      "type": "hyperframes:component",
+      "target": "compositions/components/spring-pop.html"
+    }
+  ]
 }

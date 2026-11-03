@@ -11,7 +11,7 @@
       left: 230px;
       top: 120px;
       width: 1460px;
-      height: 520px;
+      height: 600px;
       overflow: hidden;
       background: rgba(12, 10, 26, 0.62);
     }
@@ -100,7 +100,7 @@
     #cl-away {
       position: absolute;
       left: 1390px;
-      top: 668px;
+      top: 744px;
       display: inline-flex;
       align-items: center;
       gap: 14px;
@@ -131,21 +131,24 @@
     }
   </style>
   <div id="root" data-composition-id="clear" data-width="1920" data-height="1080">
+    <div class="cam" id="cl-cam"><div class="rig" id="cl-rig">
     <div id="cl-term" class="glass">
       <div id="cl-bar"><i></i><i></i><i></i><span>your AI · new chat</span></div>
       <div id="cl-body">
         <div class="cl-l" id="cl-l1"><span class="cl-p">&gt; </span><span class="cl-t" data-text="/clear"></span></div>
-        <div class="cl-l" id="cl-l2"><span class="cl-p">&gt; </span><span class="cl-t cl-k" data-text="/goal"></span><span class="cl-t" data-text=" Do everything in new-website.md and prove it..."></span></div>
+        <div class="cl-l" id="cl-l2"><span class="cl-p">&gt; </span><span class="cl-t cl-k" data-text="/goal"></span><span class="cl-t" data-text=" Build the bakery website in bakery-site.md and prove it..."></span></div>
         <div id="cl-row"><div id="cl-run"><i></i>goal set · working</div><div id="cl-goal"><svg width="30" height="34" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="10" stroke-linecap="round" /><path d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#3dffa8" /></svg>this line = your goal</div></div>
       </div>
     </div>
     <div id="cl-away" class="glass"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" fill="#ffd23f" /></svg>You: away</div>
+  </div></div>
   </div>
   <script>
     (function () {
       var F = window.Film;
       var P = F.portrait();
       var tl = gsap.timeline({ paused: true });
+      window.Film.push(tl, "#cl-cam", 9, 1, 1.04);
       function typeSpans(spans, t0, dur) {
         var parts = [],
           total = 0;
@@ -179,7 +182,9 @@
       tl.fromTo("#cl-goal", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 1.4);
       // and you leave
       tl.fromTo("#cl-away", { opacity: 0, x: 40, scale: 0.8 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 1.85);
-      tl.to(["#cl-term", "#cl-away"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, 2.68);
+      // exit: zoom through the /goal line into the clock of the next shot
+      tl.to("#cl-away", { opacity: 0, duration: 0.15 }, 2.5);
+      tl.to("#cl-term", { scale: 3.2, opacity: 0, filter: "blur(16px)", transformOrigin: P ? "30% 40%" : "35% 45%", duration: 0.42, ease: "power3.in" }, 2.5);
       window.__timelines["clear"] = tl;
     })();
   </script>

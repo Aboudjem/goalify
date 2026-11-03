@@ -120,6 +120,31 @@
       box-shadow: 0 0 60px -10px rgba(61, 255, 168, 0.6);
       white-space: nowrap;
     }
+    #hw-flag {
+      position: absolute;
+      left: 188px;
+      top: 210px;
+      width: 31px;
+      height: 36px;
+      z-index: 6;
+    }
+    .hw-rip {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      margin: -30px 0 0 -30px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 8;
+    }
+    #hw-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 7;
+    }
     #hw-cursor {
       position: absolute;
       left: 0;
@@ -166,6 +191,10 @@
       .hw-btns {
         margin-bottom: 22px;
       }
+      #hw-flag {
+        left: 104px;
+        top: 314px;
+      }
       #hw-stamp {
         left: 220px;
         top: 975px;
@@ -174,22 +203,26 @@
     }
   </style>
   <div id="root" data-composition-id="homework" data-width="1920" data-height="1080">
-    <div id="hw-cmd" class="glass"><b>/goalify</b> redo my website</div>
+    <div class="cam" id="hw-cam"><div class="rig" id="hw-rig">
+    <div id="hw-cmd" class="glass"><b>/goalify</b> build a website for my bakery</div>
     <div id="hw-list" class="glass">
-      <div class="hw-h">Before anything starts</div>
+      <div class="hw-h" style="padding-left: 46px">Before anything starts</div>
       <div class="hw-row"><span class="hw-ok"><i>✓</i></span>Is it doable?</div>
       <div class="hw-row"><span class="hw-ok"><i>✓</i></span>Research done</div>
       <div class="hw-row"><span class="hw-ok"><i>✓</i></span>Request made precise</div>
     </div>
     <div id="hw-q" class="glass">
       <div class="hw-h">Every question, now</div>
-      <div class="hw-qq">Keep the old blog?</div>
-      <div class="hw-btns"><span class="hw-btn" id="hw-y1">Yes<span class="on">Yes</span></span><span class="hw-btn">No</span></div>
-      <div class="hw-qq hw-q2">Launch when?</div>
-      <div class="hw-btns hw-q2"><span class="hw-btn">This week</span><span class="hw-btn" id="hw-y2">Next month<span class="on">Next month</span></span></div>
+      <div class="hw-qq">Delivery or pickup?</div>
+      <div class="hw-btns"><span class="hw-btn">Pickup</span><span class="hw-btn" id="hw-y1">Both<span class="on">Both</span></span></div>
+      <div class="hw-qq hw-q2">Show prices?</div>
+      <div class="hw-btns hw-q2"><span class="hw-btn" id="hw-y2">Yes<span class="on">Yes</span></span><span class="hw-btn">No</span></div>
     </div>
     <div id="hw-stamp">No more questions later</div>
+    <svg id="hw-flag" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="10" stroke-linecap="round" /><path d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#3dffa8" /></svg>
+    <div id="hw-fx"></div>
     <svg id="hw-cursor" viewBox="0 0 28 28"><path d="M5 3l16 9.5-7 1.6 4.2 8.3-3.3 1.7-4.2-8.4L5 21z" fill="#fff" stroke="#0a0818" stroke-width="1.6" stroke-linejoin="round" /></svg>
+  </div></div>
   </div>
   <script>
     (function () {
@@ -199,6 +232,7 @@
       var SHORT = MODE !== "main";
       var k = SHORT ? 0.32 : 1; // the short cut and the demo loop play the same beat compressed
       var tl = gsap.timeline({ paused: true });
+      window.Film.push(tl, "#hw-cam", 9, 1, 1.04);
 
       function off(el) {
         var x = 0,
@@ -216,26 +250,53 @@
         b2 = P ? b1 : off(document.getElementById("hw-y2"));
 
       tl.fromTo("#hw-cmd", { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0);
-      tl.fromTo("#hw-list", { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0.05);
+      // main: the dimmed goal card slides in and becomes this panel (something big on screen from frame 0)
+      var M0 = MODE === "main";
+      tl.fromTo(
+        "#hw-list",
+        { opacity: M0 ? 0.5 : 0, x: M0 && !P ? 240 : 0, y: M0 ? 0 : 30, scale: M0 ? 1.12 : 1, filter: M0 ? "blur(0px)" : "blur(10px)" },
+        { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" },
+        M0 ? 0 : 0.05
+      );
+      var fx = document.getElementById("hw-fx");
+      // the flag carried in from the goal card lands on the checklist (main cut); elsewhere it just pops
+      var MAIN = MODE === "main";
+      tl.fromTo("#hw-flag", { scale: MAIN ? 1.55 : 0, rotation: MAIN ? -10 : 0, opacity: MAIN ? 1 : 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.35, ease: "back.out(3)" }, MAIN ? 0 : 0.1);
+      // each check lands with a tick and a small particle pop
       document.querySelectorAll("#hw-list .hw-ok i").forEach(function (t, i) {
-        tl.fromTo(t, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(3)" }, (0.5 + i * 0.5) * k);
+        var tt = (0.5 + i * 0.5) * k;
+        tl.fromTo(t, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(3)" }, tt);
+        var o = off(t.parentNode);
+        F.burst(tl, fx, o.x, o.y, tt + 0.08, { n: 10, dist: 70, seed: 40 + i, dur: 0.55, size: 7 });
       });
+      // click ripples where the answers are tapped
+      function ripple(b, t) {
+        var d = document.createElement("div");
+        d.className = "hw-rip";
+        d.style.left = b.x + "px";
+        d.style.top = b.y + "px";
+        fx.appendChild(d);
+        tl.fromTo(d, { scale: 0.3, opacity: 0.9 }, { scale: 2.6, opacity: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, t);
+      }
       tl.fromTo("#hw-q", { opacity: 0, x: P ? 0 : 60, y: P ? 40 : 0, filter: "blur(10px)" }, { opacity: 1, x: 0, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 1.9 * k);
       tl.fromTo(".hw-btn .on", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
       // the cursor answers both questions
       tl.fromTo("#hw-cursor", { x: P ? 1100 : 1960, y: P ? 1300 : 900, opacity: 1 }, { x: b1.x - 8, y: b1.y - 6, duration: 0.45 * Math.max(k, 0.6), ease: "power3.out" }, 2.2 * k);
       tl.to("#hw-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1 }, 2.72 * k);
       tl.to("#hw-y1 .on", { opacity: 1, duration: 0.1 }, 2.75 * k);
+      ripple(b1, 2.75 * k);
       tl.to("#hw-cursor", { x: b2.x - 8, y: b2.y - 6, duration: 0.4 * Math.max(k, 0.6), ease: "power3.inOut" }, 3.0 * k);
       tl.to("#hw-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1 }, 3.45 * k);
       tl.to("#hw-y2 .on", { opacity: 1, duration: 0.1 }, 3.48 * k);
+      if (!P) ripple(b2, 3.48 * k);
       tl.to("#hw-cursor", { opacity: 0, duration: 0.25 }, 3.8 * k);
       // the stamp
       tl.fromTo("#hw-stamp", { opacity: 0, scale: 2.2, rotation: -14 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.3, ease: "power4.in" }, 4.0 * k);
-      tl.fromTo("#hw-q", { y: 0 }, { y: 6, duration: 0.05, yoyo: true, repeat: 1, immediateRender: false }, 4.0 * k + 0.3);
+      // the slam shakes the camera
+      F.shake(tl, "#hw-rig", 4.0 * k + 0.3, 0.32, 1.8);
 
-      var tEnd = MODE === "short" ? 1.53 : MODE === "demo" ? 1.98 : 5.22;
-      tl.to(["#hw-cmd", "#hw-list", "#hw-q", "#hw-stamp"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, tEnd);
+      var tEnd = MODE === "short" ? 1.63 : MODE === "demo" ? 1.98 : 5.22;
+      tl.to(["#hw-cmd", "#hw-list", "#hw-q", "#hw-stamp", "#hw-flag"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, tEnd);
       window.__timelines["homework"] = tl;
     })();
   </script>

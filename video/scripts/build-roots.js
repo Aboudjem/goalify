@@ -41,40 +41,40 @@ const MAIN = [
 // after its caption and is checked as its own caption (0.35 s per word from when it appears).
 // <br class="pb"> breaks only in 9:16 (a line too long for a phone-width frame).
 const MAIN_CAPS = [
-  [0.15, 2.3, "You give AI a big job."],
-  [2.4, 5.6, "It stops to ask you stuff.<br>Again and again."],
-  [5.7, 8.2, 'Or it says "Done!"...<br>and it isn\'t.'],
-  [8.55, 10.2, "Meet goalify."],
-  [10.4, 12.9, "It turns any request<br>into a goal."],
+  [0.15, 2.3, "You give AI a <span class='grad'>big job.</span>"],
+  [2.4, 5.6, "It stops to ask you stuff.<br>Again and <span class='grad'>again.</span>"],
+  [5.7, 8.2, 'Or it says "Done!"...<br>and it <span class="grad">isn\'t.</span>'],
+  [8.55, 10.2, 'Meet <span class="grad">goalify.</span>'],
+  [10.4, 12.9, 'It turns any request<br>into a <span class="grad">goal.</span>'],
   // honesty (release verifier): a run also ends at the turn limit, so never "can't stop"
-  [13.0, 19.3, 'A goal is a clear finish line.<br>The AI keeps going until it\'s proven, <br class="pb">or hits your limit.', null, { maxWords: 11, tall: true }],
-  [19.4, 21.2, "First, it does the homework."],
-  [21.25, 24.78, "It checks it's doable, researches,<br>and asks every question now."],
-  [24.85, 28.72, "You get a short summary,<br>and a page with every detail."],
-  [28.8, 31.62, "Clear the chat. Paste one line.<br>Walk away."],
-  [31.7, 34.87, "Your AI works alone. Hours.<br>Even days. Zero interruptions."],
-  [34.95, 39.17, "Then it checks everything, proves it,<br>and tells you what it did."],
-  [39.25, 44.8, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>', "<b>Free.</b> Works best in Claude Code and Codex.<br>Installs in 70+ AI agents."],
+  [13.0, 19.3, 'A goal is a clear <span class="grad">finish line.</span><br>The AI keeps going until it\'s proven, <br class="pb">or hits your limit.', null, { maxWords: 11, tall: true }],
+  [19.4, 21.2, 'First, it does the <span class="grad">homework.</span>'],
+  [21.25, 24.78, "It checks it's doable, researches,<br>and asks <span class='grad'>every question</span> now."],
+  [24.85, 28.72, 'You get a short <span class="grad">summary,</span><br>and a page with every detail.'],
+  [28.8, 31.62, 'Clear the chat. Paste one line.<br><span class="grad">Walk away.</span>'],
+  [31.7, 34.87, 'Your AI works alone. Hours.<br>Even days. <span class="grad">Zero interruptions.</span>'],
+  [34.95, 39.17, 'Then it checks everything, <span class="grad">proves it,</span><br>and tells you what it did.'],
+  [39.25, 44.8, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>'],
 ];
 
-// The 15 s cut cannot hold every line at 0.35 s a word and still end on the brand promise, so
-// (owner-approved review v3) it reads at 0.28 s a word, still under 3.6 words a second.
+// The 15 s cut reads at the same 0.35 s a word as the main cut. To fit 15.5 s it keeps five
+// lines: "And it proves it's done." is dropped and the brand promise plays over VERIFIED and the
+// end card ("Come back to proof" lands on the proof).
 const SHORT = [
-  ["ask", 2.8],
-  ["turn", 1.5],
-  ["homework", 1.75],
-  ["goal", 1.95],
-  ["nonstop", 2.6],
-  ["proof", 1.85],
-  ["cta", 2.95],
+  ["ask", 2.4],
+  ["turn", 2.5],
+  ["homework", 1.85],
+  ["goal", 2.05],
+  ["nonstop", 2.3],
+  ["proof", 1.35],
+  ["cta", 3.0],
 ];
 const SHORT_CAPS = [
-  [0.1, 2.75, "You give AI a big job.<br>It keeps stopping."],
-  [2.9, 4.25, "Meet goalify."],
-  [4.35, 7.95, "It asks everything first.<br>Then turns your request into a goal."],
-  [8.05, 10.55, "Your AI works alone for hours.<br>Zero interruptions."],
-  [10.65, 12.4, "And it proves it's done."],
-  [12.5, 15.4, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>', "<b>Free.</b> Non-stop runs in Claude Code and Codex."],
+  [0.1, 3.25, 'You give AI a big job.<br>It keeps <span class="grad">stopping.</span>'],
+  [3.3, 4.9, 'Meet <span class="grad">goalify.</span>'],
+  [4.95, 8.85, 'It asks everything first.<br>Then turns your request into a <span class="grad">goal.</span>'],
+  [8.88, 11.68, 'Your AI works alone for hours.<br><span class="grad">Zero interruptions.</span>'],
+  [11.72, 15.45, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>'],
 ];
 
 const DEMO = [
@@ -84,10 +84,10 @@ const DEMO = [
   ["proof", 2.8],
 ];
 const DEMO_CAPS = [
-  [0.1, 2.3, "Any request becomes a goal."],
-  [2.45, 4.5, "Every question asked first."],
-  [4.65, 6.75, "Then it works alone."],
-  [6.9, 9.8, "And proves it's done."],
+  [0.1, 2.3, 'Any request becomes a <span class="grad">goal.</span>'],
+  [2.45, 4.5, '<span class="grad">Every question</span> asked first.'],
+  [4.65, 6.75, 'Then it works <span class="grad">alone.</span>'],
+  [6.9, 9.8, 'And <span class="grad">proves</span> it\'s done.'],
 ];
 const SUB_DELAY = 0.9;
 
@@ -121,11 +121,8 @@ const CUTS = [
     h: 1080,
     seq: SHORT,
     caps: SHORT_CAPS,
-    perWord: 0.28,
-    minCap: 1.3,
-    subDelay: 0.55,
     music: "assets/music-short.mp3",
-    shots: [3.15, 12.9],
+    shots: [2.75, 13.0],
     warp: ["nonstop"],
   },
   {
@@ -215,6 +212,7 @@ if (!c) {
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <link rel="stylesheet" href="assets/film.css" />
     <script src="assets/film.js"></script>
+    <script src="assets/camera-shake.js"></script>
     <script>
       window.FILM_CUT = ${JSON.stringify(c.name === "vertical" ? "main" : c.name)};
       window.FILM_SUB_DELAY = ${c.subDelay || SUB_DELAY};

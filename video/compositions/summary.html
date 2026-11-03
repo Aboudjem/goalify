@@ -352,23 +352,24 @@
     }
   </style>
   <div id="root" data-composition-id="summary" data-width="1920" data-height="1080">
+    <div class="cam" id="sm-cam"><div class="rig" id="sm-rig">
     <div id="sm-bub" class="glass">
       <div id="sm-who"><i></i>goalify · summary in the chat</div>
-      <div class="sm-li"><b></b>Goal: new website live</div>
+      <div class="sm-li"><b></b>Goal: bakery website live</div>
       <div class="sm-li"><b></b>Every question answered</div>
-      <div class="sm-li"><b></b>Finish line: every page loads, every link works</div>
+      <div class="sm-li"><b></b>Finish line: menu, photos, orders all work</div>
     </div>
     <div id="sm-opt" class="glass">optional · every detail</div>
     <div id="pv-win" class="glass">
-      <div id="pv-chrome"><i></i><i></i><i></i><div id="pv-url">file:///Users/you/site/.goal/new-website.html</div></div>
+      <div id="pv-chrome"><i></i><i></i><i></i><div id="pv-url">file:///Users/you/bakery/.goal/bakery-site.html</div></div>
       <div id="pv-view">
         <canvas id="pv-stars"></canvas>
         <div id="pv-scale">
           <div id="pv-page">
             <header class="pv-hero">
               <span class="pv-badge glass pv-rv"><i></i>Run preview · ready to launch</span>
-              <h1 class="pv-h1 pv-rv">Redo the website <span class="grad" id="pv-grad">(new site live)</span></h1>
-              <p class="pv-lede pv-rv">Rebuild every page of the site in the new design, keep the old blog, and launch next month with every page loading and every link working.</p>
+              <h1 class="pv-h1 pv-rv">Bakery website <span class="grad" id="pv-grad">(live, orders working)</span></h1>
+              <p class="pv-lede pv-rv">Build a 6-page site for the bakery: the menu with prices, photos of the cakes, and pickup or delivery orders that really go through.</p>
               <div class="pv-pills pv-rv">
                 <span class="pv-pill glass"><b>5</b> phases</span><span class="pv-pill glass"><b>4</b> checks to pass</span><span class="pv-pill glass"><b>3</b> commands quoted at the end</span><span class="pv-pill glass">turn cap <b>40</b></span><span class="pv-pill glass"><b>2</b> questions answered</span>
               </div>
@@ -424,7 +425,7 @@
                 <div class="pv-stepno">STEP 1</div>
                 <div class="pv-line"><span class="c">/clear</span></div>
                 <div class="pv-stepno">STEP 2 · PASTE THIS WHOLE LINE</div>
-                <div class="pv-line"><span class="c">/goal Do everything in ~/site/.goal/new-website.md and prove it, done when the last turn quotes the tests passing and says SITE-OK. Stop after 40 turns.</span><span id="pv-btn">Copy<span id="pv-btn2">Copied ✓</span></span></div>
+                <div class="pv-line"><span class="c">/goal Build the bakery website in ~/bakery/.goal/bakery-site.md and prove it, done when the last turn quotes the checks passing and says BAKERY-OK. Stop after 40 turns.</span><span id="pv-btn">Copy<span id="pv-btn2">Copied ✓</span></span></div>
               </div>
             </section>
             <div style="height: 400px"></div>
@@ -432,12 +433,14 @@
         </div>
       </div>
     </div>
+  </div></div>
   </div>
   <script>
     (function () {
       var F = window.Film;
       var P = F.portrait();
       var tl = gsap.timeline({ paused: true });
+      window.Film.push(tl, "#sm-cam", 9, 1, 1.04);
       var SC = P ? 1 : 0.93;
 
       // the page's own starfield, still (it twinkles on the real page; here it's a backdrop)

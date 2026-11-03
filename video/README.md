@@ -8,12 +8,18 @@ Remotion teaser.
 | --- | --- |
 | `goalify-promo.mp4` | main cut, 1920x1080, 44.8 s, music |
 | `goalify-promo-vertical.mp4` | same story re-laid out for 1080x1920 (not a crop) |
-| `goalify-promo-15s.mp4` | 15.4 s cut, ends on "Hand your AI a huge task. Come back to proof." |
-| `goalify-demo.mp4` / `.gif` | muted 9.8 s README loop (request to goal, questions first, works alone, proof) |
-| `goalify-promo-poster.png` | 1920x1080 poster (VERIFIED + "Here's what I did") |
+| `goalify-promo-15s.mp4` | 15.45 s cut, ends on "Hand your AI a huge task. Come back to proof." |
+| `goalify-demo.mp4` / `.gif` | muted 9.8 s README loop (request to goal, questions first, works alone, proof); GIF 600 px |
+| `goalify-promo-poster.png` | 1920x1080 poster (VERIFIED + the bakery "Here's what I did") |
 
-The story and every caption follow `../.goal/video-script-v2.md` (plain words, generic examples,
-"your AI" in the hook, the non-stop run labelled as `/goal` in Claude Code and Codex).
+The story and every caption follow `../.goal/video-script-v2.md` including its Round 3: one
+everyday example (a bakery website) runs through the whole film, the end card is one install line
+(`npx skills add Aboudjem/goalify` under "Install in one line", then "Free. Also works in Codex."), and the motion is kinetic:
+spring-in captions with a glowing key word, a camera push on every scene, match cuts and carries
+between scenes (chat drops into the ignition, the flag flies into the checklist, the `/goal` line
+zooms into the clock, the clock shatters into VERIFIED, the result card shrinks into the install box),
+particle pops, a stamp slam with shake, a day and night time-lapse, and VERIFIED with a shockwave,
+star confetti and a punch-in.
 
 ## Layout
 
@@ -30,7 +36,10 @@ compositions/clear.html       9: /clear, paste one line, "You: away"
 compositions/nonstop.html     10: the time-lapse clock, 0 questions, 0 interruptions
 compositions/proof.html       11: VERIFIED + "Here's what I did"
 compositions/cta.html         12: install lines + github.com/Aboudjem/goalify
-assets/film.css, film.js      shared tokens, glass, caption style and seek-safe helpers
+assets/film.css, film.js      shared tokens, glass, captions, and seek-safe helpers (cap, push, burst, shake)
+assets/camera-shake.js        the registry camera-shake helper, vendored (loaded by every cut)
+compositions/components/      registry components installed as reference source (confetti, camera-shake,
+                              notification-pileup, spring-pop); not mounted
 assets/music-*.mp3            generated music beds
 scripts/build-roots.js        the cut table AND the caption script: writes index.html + captions.html
 scripts/genmusic.js           seeded procedural music (no deps, royalty-free)
@@ -44,8 +53,7 @@ want, and `render-all.sh` puts the main cut back at the end. Scenes read `window
 a compressed version in the 15 s cut and the demo loop.
 
 The script also checks every caption before it writes anything: at least 0.35 s on screen per word
-(a smaller sub line is timed from when it appears; the 15 s cut reads at 0.28 s a word, approved
-in review), at most 7 words a line, no em dash, nothing past the end of the cut. It refuses to build
+(a smaller sub line is timed from when it appears; every cut, the 15 s one included, reads at 0.35 s a word), at most 7 words a line, no em dash, nothing past the end of the cut. It refuses to build
 a cut that breaks a rule. The film's last caption holds sharp to the final frame.
 
 The vertical cut is a real relayout: each scene carries `@media (max-aspect-ratio: 1/1)` rules and
@@ -83,7 +91,7 @@ node scripts/build-roots.js main
 ```
 
 Raw renders land in `renders/` (git-ignored). The final files are re-encoded with FFmpeg: H.264
-CRF 22, yuv420p, AAC 160k normalised to about -15 LUFS / -1.5 dBTP, `+faststart`.
+CRF 24, yuv420p, AAC 160k normalised to about -15 LUFS / -1.5 dBTP, `+faststart`.
 
 ## Music
 
