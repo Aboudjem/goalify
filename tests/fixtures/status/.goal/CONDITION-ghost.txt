@@ -1,0 +1,1 @@
+Do everything in /Users/example/app/.goal/ghost-20260901.md and prove it, done when the last turn quotes make test passing and says GHOST-OK. Stop after 10 turns.

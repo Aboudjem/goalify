@@ -1,0 +1,1 @@
+Do everything in /Users/example/app/.goal/gamma-20261001.md and prove it, done when the last turn quotes make test passing and says GAMMA-OK. Stop after 20 turns.

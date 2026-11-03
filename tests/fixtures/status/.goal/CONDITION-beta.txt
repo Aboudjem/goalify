@@ -1,0 +1,1 @@
+Do everything in /Users/example/app/.goal/beta-20261102.md and prove it, done when the last turn quotes make test passing and says BETA-OK. Stop after 20 turns.

@@ -1,0 +1,1 @@
+Do everything in /Users/example/app/.goal/alpha-20261101.md and prove it, done when the last turn quotes make test passing and says ALPHA-OK. Stop after 30 turns.

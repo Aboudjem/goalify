@@ -1,0 +1,16 @@
+brief  state             ticks  age
+alpha  OPEN              3/7    5h
+beta   BLOCKED           1/4    3d
+gamma  DONE              5/5    3d
+ghost  ORPHAN-CONDITION  -      3d
+
+alpha (open), resume with:
+  /clear
+  /goal Do everything in /Users/example/app/.goal/alpha-20261101.md and prove it, done when the last turn quotes make test passing and says ALPHA-OK. Stop after 30 turns.
+
+beta (blocked), resume with:
+  /clear
+  /goal Do everything in /Users/example/app/.goal/beta-20261102.md and prove it, done when the last turn quotes make test passing and says BETA-OK. Stop after 20 turns.
+  blockers: BLOCKERS-20261102.md
+
+Read-only: status never runs /goal and never edits a file.

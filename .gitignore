@@ -4,6 +4,7 @@
 # commit them (they hold absolute paths and project-specific context). Keep this repo
 # generic.
 .goal/
+!tests/fixtures/*/.goal/
 *-goal.md
 goal-*.md
 
