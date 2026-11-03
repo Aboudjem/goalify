@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>goalify: hand your AI a huge task, come back to proof</title>
-<meta name="description" content="goalify turns any request into a goal, asks every question up front, then your AI works non-stop in a clean session for hours or even days and stops only when the proof is on screen. Free, for Claude Code, Codex and 70+ AI agents.">
+<meta name="description" content="goalify turns any request into a goal, asks every question up front, then your AI works non-stop in a clean session for hours or even days and is done when the proof is on screen. Free, for Claude Code, Codex and 70+ AI agents.">
 <link rel="canonical" href="https://goalify-kappa.vercel.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -146,7 +146,7 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
 <header class="hero">
   <a class="badge glass rv" href="#new"><i></i>goalify 3.0 is out: run preview, proof receipts, status</a>
   <h1 class="rv">Hand your AI a job that takes days.<br><span class="grad">Come back to proof.</span></h1>
-  <p class="sub rv">goalify turns any request into a goal: a clear finish line. It asks every question before the run starts. Then your AI works non-stop in a clean session, for hours or even days, and only stops when the proof is on screen. Not a promise. Proof.</p>
+  <p class="sub rv">goalify turns any request into a goal: a clear finish line. It asks every question before the run starts. Then your AI works non-stop in a clean session, for hours or even days, and keeps going until the proof is on screen, or until the turn limit you set. Not a promise. Proof.</p>
   <p class="cap rv">Works best in Claude Code and Codex, where <code>/goal</code> keeps the run going. Installs in 70+ AI agents.</p>
 
   <div class="install glass rv" id="install">
@@ -203,7 +203,7 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
   <div class="band glass">
     <div class="eyebrow">Why it can run for days</div>
     <h2>Zero interruptions, because there's <span class="grad">nothing left to ask.</span></h2>
-    <p class="lede">The research, your decisions and the finish line are all locked in before you hit <code>/clear</code>. After that, the run works, checks, fixes and repeats. A separate evaluator reads the transcript after every turn and lets it stop only when the proof is there, or when it hits the turn cap you set.</p>
+    <p class="lede">The research, your decisions and the finish line are all locked in before you hit <code>/clear</code>. After that, the run works, checks, fixes and repeats. In Claude Code, a separate evaluator reads the transcript after every turn and lets it stop only when the proof is there, or when it hits the turn cap you set.</p>
     <div class="clock">
       <div class="glass"><b class="grad">0</b><span>questions mid-run</span></div>
       <div class="glass"><b>hours → days</b><span>of uninterrupted work</span></div>
@@ -237,7 +237,7 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
       <tbody>
         <tr><td>goalify</td><td>A skill that prepares a <code>/goal</code> run: brief, condition, preview, receipt.</td><td>Runs nothing itself. Uses Claude Code's built-in <code>/goal</code>, so there is no loop script to install.</td></tr>
         <tr><td>supergoal</td><td>A Claude Code plugin that scouts, asks, plans phases and hands <code>/goal</code> one command, with a final audit against the plan.</td><td>The closest neighbor. goalify writes one self-contained brief plus a linted condition, shows a preview page before the run, and writes a proof receipt after it.</td></tr>
-        <tr><td>Ralph loops</td><td>A loop that feeds the same prompt to the agent again and again.</td><td>Usually stops on a word the worker prints or an iteration cap. With <code>/goal</code>, a separate evaluator reads the transcript every turn.</td></tr>
+        <tr><td>Ralph loops</td><td>A loop that feeds the same prompt to the agent again and again.</td><td>Usually stops on a word the worker prints or an iteration cap. With Claude Code's <code>/goal</code>, a separate evaluator reads the transcript every turn.</td></tr>
         <tr><td>Spec Kit</td><td>GitHub's spec-driven toolkit: specify, plan, tasks, implement.</td><td>Great for writing the spec. goalify is about the long unattended run and proving it finished.</td></tr>
       </tbody>
     </table>

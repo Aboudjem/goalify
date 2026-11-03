@@ -25,10 +25,17 @@
   <a href="https://goalify-kappa.vercel.app">Sitio web</a> · <a href="#instalación">Instalación</a> · <a href="#cómo-funciona">Cómo funciona</a> · <a href="#novedades-de-la-30">Novedades de la 3.0</a> · <a href="#cómo-se-compara">Cómo se compara</a> · <a href="#conviene-saber">Conviene saber</a>
 </p>
 
-goalify hace todo el trabajo de pensar antes de que empiece la ejecución: comprueba que el trabajo
-es viable, lee la documentación, encuentra tus comandos de test reales y te hace todas sus
-preguntas, una sola vez. Después Claude trabaja en una sesión limpia, sin parar, durante horas o
-incluso días, sin una sola interrupción. Solo se detiene cuando la prueba está en pantalla.
+goalify convierte cualquier petición en un **objetivo**: una meta clara hacia la que tu IA sigue
+trabajando hasta que queda demostrada, o hasta que llega al límite de turnos que fijaste. Primero
+hace todo el trabajo de pensar: comprueba que el trabajo es viable, lee la documentación, encuentra
+tus comandos de test reales y te hace todas sus preguntas, una sola vez. Después tu IA trabaja en
+una sesión limpia, sin parar, durante horas o incluso días, sin una sola interrupción. Está hecho
+cuando la prueba está en pantalla, no cuando ella lo dice.
+
+Funciona mejor en **Claude Code** y **Codex**, que tienen un `/goal` integrado que mantiene la
+ejecución en marcha. En Claude Code, un evaluador aparte comprueba la prueba después de cada turno;
+Codex audita por su cuenta su progreso frente a la misma meta. También se instala en más de 70 otros
+agentes de IA, donde obtienes la misma preparación y la misma meta, y lanzas tú la ejecución.
 
 ## Instalación
 
@@ -74,8 +81,8 @@ nada que preguntar a la ejecución.
    decisiones, las rutas exactas, el orden del trabajo. La **condición** es una línea para `/goal`
    que dice cómo es la prueba. Se abre una **página de vista previa** para que veas antes todo el plan.
 4. **`/clear`, pega y márchate.** La ejecución empieza de cero, con todo su contexto libre para tu
-   trabajo. Un evaluador aparte lee la transcripción después de cada turno y solo la deja parar
-   cuando la prueba está ahí, o en el tope de turnos que fijaste.
+   trabajo. En Claude Code, un evaluador aparte lee la transcripción después de cada turno y solo la
+   deja parar cuando la prueba está ahí, o en el tope de turnos que fijaste.
 5. **Compruébalo después.** `/goalify verify` repite las comprobaciones del informe y escribe un
    recibo.
 
@@ -144,7 +151,7 @@ Diferencias claras, comprobadas con el README de cada proyecto en noviembre de 2
 | Herramienta | Qué es | En qué se diferencia de goalify |
 |:--|:--|:--|
 | [supergoal](https://github.com/robzilla1738/supergoal) | Un plugin de Claude Code que explora, pregunta, planifica fases y le pasa un comando a `/goal`, con una auditoría final contra el plan | El vecino más cercano. goalify escribe un único informe autosuficiente y una condición pasada por lint, muestra una página de vista previa antes de la ejecución y escribe un recibo de prueba después |
-| Bucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) y similares) | Un bucle que le da al agente el mismo prompt una y otra vez | Suele parar con una palabra que imprime el trabajador o con un tope de iteraciones. Con `/goal`, un evaluador aparte lee la transcripción en cada turno |
+| Bucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) y similares) | Un bucle que le da al agente el mismo prompt una y otra vez | Suele parar con una palabra que imprime el trabajador o con un tope de iteraciones. Con el `/goal` de Claude Code, un evaluador aparte lee la transcripción en cada turno |
 | [Spec Kit](https://github.com/github/spec-kit) | El kit de GitHub guiado por especificaciones: especificar, planificar, tareas, implementar | Genial para escribir la especificación. goalify se ocupa de la ejecución larga sin supervisión y de probar que terminó |
 
 ## Funciona en tu editor

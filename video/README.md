@@ -6,7 +6,7 @@ Remotion teaser.
 
 | Output (in `../assets/`) | What |
 | --- | --- |
-| `goalify-promo.mp4` | main cut, 1920x1080, 44 s, music |
+| `goalify-promo.mp4` | main cut, 1920x1080, 44.8 s, music |
 | `goalify-promo-vertical.mp4` | same story re-laid out for 1080x1920 (not a crop) |
 | `goalify-promo-15s.mp4` | 15.4 s cut, ends on "Hand your AI a huge task. Come back to proof." |
 | `goalify-demo.mp4` / `.gif` | muted 9.8 s README loop (request to goal, questions first, works alone, proof) |

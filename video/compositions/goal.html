@@ -169,7 +169,7 @@
         left: 50px;
         top: 230px;
         width: 980px;
-        height: 820px;
+        height: 770px;
         padding: 50px 50px;
       }
       #gl-bt {
@@ -271,7 +271,7 @@
         tl.fromTo("#gl-pen", { skewY: 0, transformOrigin: "0% 50%" }, { skewY: -6, duration: 0.5, yoyo: true, repeat: 5, ease: "sine.inOut" }, tb + 0.6);
         tl.fromTo("#gl-fl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.35);
         tl.fromTo("#gl-big .gl-row", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.32, ease: "expo.out", stagger: 0.22 }, tb + 0.5);
-        // "can't stop until it's reached": the run heads for the flag and is not there yet
+        // "keeps going until it's proven": the run heads for the flag and is not there yet
         var trackW = document.getElementById("gl-track").offsetWidth;
         var k = MODE === "short" ? 0.45 : 1;
         tl.fromTo("#gl-track", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.6 * k);
@@ -285,7 +285,7 @@
       }
 
       // exit
-      var tEnd = MODE === "short" ? 1.72 : MODE === "demo" ? 2.18 : 7.5;
+      var tEnd = MODE === "short" ? 1.72 : MODE === "demo" ? 2.18 : 8.8;
       tl.to(MODE === "demo" ? cards.concat(["#gl-tag"]) : "#gl-big", { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.22, ease: "power3.in" }, tEnd);
 
       window.__timelines["goal"] = tl;

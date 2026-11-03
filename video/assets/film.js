@@ -24,7 +24,7 @@
           html += /^\s+$/.test(p) ? " " : '<span class="w">' + p + "</span>";
         });
       } else if (n.nodeName === "BR") {
-        html += "<br>";
+        html += n.outerHTML;
       } else {
         html += '<span class="w">' + n.outerHTML + "</span>";
       }

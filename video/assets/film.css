@@ -101,6 +101,10 @@ body {
   font-weight: 750;
   color: #fff;
 }
+/* a phone-only line break (see build-roots.js) */
+.cap br.pb {
+  display: none;
+}
 .cap .w {
   display: inline-block;
   white-space: pre;
@@ -119,6 +123,12 @@ body {
   }
   .cap.cap-sub {
     top: 1030px;
+  }
+  .cap.cap-tall {
+    top: 1035px;
+  }
+  .cap br.pb {
+    display: inline;
   }
 }
 

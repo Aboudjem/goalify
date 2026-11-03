@@ -25,14 +25,15 @@
   <a href="https://goalify-kappa.vercel.app">Website</a> · <a href="#install">Install</a> · <a href="#how-it-works">How it works</a> · <a href="#new-in-30">New in 3.0</a> · <a href="#how-it-compares">How it compares</a> · <a href="#good-to-know">Good to know</a>
 </p>
 
-goalify turns any request into a **goal**: a clear finish line your AI keeps working toward and
-can't stop before. It does all the thinking first: it checks the job can work, reads the docs,
+goalify turns any request into a **goal**: a clear finish line your AI keeps working toward
+until it's proven, or until it hits the turn limit you set. It does all the thinking first: it checks the job can work, reads the docs,
 finds your real test commands and asks you every question it has, once. Then your AI works in a
-clean session, non-stop, for hours or even days, with zero interruptions. It stops only when the
-proof is on screen.
+clean session, non-stop, for hours or even days, with zero interruptions. It's done when the
+proof is on screen, not when it says so.
 
-Works best in **Claude Code** and **Codex**, whose built-in `/goal` keeps the run going until a
-separate judge sees the proof. It installs in 70+ other AI agents too, where you get the same
+Works best in **Claude Code** and **Codex**, which both have a built-in `/goal` that keeps the run
+going. In Claude Code, a separate evaluator checks the proof after every turn; Codex audits its own
+progress against the same finish line. It installs in 70+ other AI agents too, where you get the same
 preparation and finish line, and start the run yourself.
 
 ## Install
@@ -78,7 +79,7 @@ run nothing to ask about.
    decisions, exact paths, the order of work. The **condition** is one line for `/goal` that says
    what proof looks like. A **preview page** opens so you can see the whole plan first.
 4. **`/clear`, paste, walk away.** The run starts fresh, with all its context free for your job.
-   A separate evaluator reads the transcript after every turn and lets it stop only when the
+   In Claude Code, a separate evaluator reads the transcript after every turn and lets it stop only when the
    proof is there, or at the turn cap you set.
 5. **Check it later.** `/goalify verify` re-runs the brief's checks and writes a receipt.
 
@@ -142,7 +143,7 @@ Plain differences, checked against each project's README in November 2026.
 | Tool                                                                            | What it is                                                                                                              | How it differs from goalify                                                                                                                                     |
 | :------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [supergoal](https://github.com/robzilla1738/supergoal)                          | A Claude Code plugin that scouts, asks, plans phases and hands `/goal` one command, with a final audit against the plan | The closest neighbor. goalify writes one self-contained brief plus a linted condition, shows a preview page before the run, and writes a proof receipt after it |
-| Ralph loops ([snarktank/ralph](https://github.com/snarktank/ralph) and friends) | A loop that feeds the same prompt to the agent again and again                                                          | Usually stops on a word the worker prints or an iteration cap. With `/goal`, a separate evaluator reads the transcript every turn                               |
+| Ralph loops ([snarktank/ralph](https://github.com/snarktank/ralph) and friends) | A loop that feeds the same prompt to the agent again and again                                                          | Usually stops on a word the worker prints or an iteration cap. With Claude Code's `/goal`, a separate evaluator reads the transcript every turn                               |
 | [Spec Kit](https://github.com/github/spec-kit)                                  | GitHub's spec-driven toolkit: specify, plan, tasks, implement                                                           | Great for writing the spec. goalify is about the long unattended run and proving it finished                                                                    |
 
 ## Works in your editor

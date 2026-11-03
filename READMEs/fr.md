@@ -25,10 +25,18 @@
   <a href="https://goalify-kappa.vercel.app">Site web</a> · <a href="#installation">Installation</a> · <a href="#comment-ça-marche">Comment ça marche</a> · <a href="#nouveautés-de-la-30">Nouveautés de la 3.0</a> · <a href="#comparaison">Comparaison</a> · <a href="#bon-à-savoir">Bon à savoir</a>
 </p>
 
-goalify fait toute la réflexion avant le début de l'exécution : il vérifie que le travail est faisable,
-lit la doc, trouve vos vraies commandes de test et vous pose toutes ses questions, une seule fois.
-Ensuite Claude travaille dans une session propre, sans s'arrêter, pendant des heures voire des jours,
-sans la moindre interruption. Il ne s'arrête que lorsque la preuve est à l'écran.
+goalify transforme n'importe quelle demande en **objectif** : une ligne d'arrivée claire vers laquelle
+votre IA continue de travailler jusqu'à ce que ce soit prouvé, ou jusqu'à la limite de tours que vous
+avez fixée. Il fait d'abord toute la réflexion : il vérifie que le travail est faisable, lit la doc,
+trouve vos vraies commandes de test et vous pose toutes ses questions, une seule fois. Ensuite votre
+IA travaille dans une session propre, sans s'arrêter, pendant des heures voire des jours, sans la
+moindre interruption. C'est terminé quand la preuve est à l'écran, pas quand elle le dit.
+
+Fonctionne au mieux dans **Claude Code** et **Codex**, qui ont tous deux un `/goal` intégré qui
+maintient l'exécution en route. Dans Claude Code, un évaluateur distinct vérifie la preuve après
+chaque tour ; Codex audite lui-même sa progression au regard de la même ligne d'arrivée. goalify
+s'installe aussi dans plus de 70 autres agents IA, où vous obtenez la même préparation et la même
+ligne d'arrivée, et lancez l'exécution vous-même.
 
 ## Installation
 
@@ -75,8 +83,8 @@ goalify, c'est de ne rien laisser à demander à l'exécution.
    pour `/goal` qui dit à quoi ressemble la preuve. Une **page d'aperçu** s'ouvre pour que vous
    voyiez d'abord tout le plan.
 4. **`/clear`, collez, partez.** L'exécution démarre à neuf, avec tout son contexte libre pour votre
-   travail. Un évaluateur distinct lit la transcription après chaque tour et ne la laisse s'arrêter
-   que lorsque la preuve est là, ou au plafond de tours que vous avez fixé.
+   travail. Dans Claude Code, un évaluateur distinct lit la transcription après chaque tour et ne la
+   laisse s'arrêter que lorsque la preuve est là, ou au plafond de tours que vous avez fixé.
 5. **Vérifiez plus tard.** `/goalify verify` rejoue les vérifications du brief et écrit un reçu.
 
 La ligne à coller ressemble à ceci. Elle se replie à l'écran, alors prenez-la en entier :
@@ -146,7 +154,7 @@ Des différences simples, vérifiées dans le README de chaque projet en novembr
 | Outil | Ce que c'est | En quoi il diffère de goalify |
 |:--|:--|:--|
 | [supergoal](https://github.com/robzilla1738/supergoal) | Un plugin Claude Code qui fait une reconnaissance, pose des questions, planifie des phases et passe une commande à `/goal`, avec un audit final au regard du plan | Le voisin le plus proche. goalify écrit un seul brief autonome et une condition passée au lint, affiche une page d'aperçu avant l'exécution et écrit un reçu de preuve après |
-| Boucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) et consorts) | Une boucle qui renvoie le même prompt à l'agent encore et encore | S'arrête d'ordinaire sur un mot que le travailleur affiche ou sur un plafond d'itérations. Avec `/goal`, un évaluateur distinct lit la transcription à chaque tour |
+| Boucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) et consorts) | Une boucle qui renvoie le même prompt à l'agent encore et encore | S'arrête d'ordinaire sur un mot que le travailleur affiche ou sur un plafond d'itérations. Avec le `/goal` de Claude Code, un évaluateur distinct lit la transcription à chaque tour |
 | [Spec Kit](https://github.com/github/spec-kit) | La boîte à outils de GitHub pilotée par la spec : spécifier, planifier, tâches, implémenter | Très bien pour écrire la spec. goalify s'occupe de la longue exécution sans surveillance et de la preuve qu'elle est finie |
 
 ## Fonctionne dans votre éditeur

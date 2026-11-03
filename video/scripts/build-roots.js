@@ -28,31 +28,33 @@ const SCENES = {
 
 const MAIN = [
   ["ask", 8.4],
-  ["turn", 2.0],
-  ["goal", 7.75],
-  ["homework", 5.55],
-  ["summary", 4.05],
-  ["clear", 2.95],
-  ["nonstop", 3.3],
-  ["proof", 4.35],
+  ["turn", 1.9],
+  ["goal", 9.05],
+  ["homework", 5.45],
+  ["summary", 3.95],
+  ["clear", 2.9],
+  ["nonstop", 3.25],
+  ["proof", 4.3],
   ["cta", 5.6],
 ];
-// [start, end, html, sub?] in seconds on the cut's clock. A sub line appears SUB_DELAY s after
-// its caption and is checked as its own caption (0.35 s per word from when it appears).
+// [start, end, html, sub?, opts?] in seconds on the cut's clock. A sub line appears SUB_DELAY s
+// after its caption and is checked as its own caption (0.35 s per word from when it appears).
+// <br class="pb"> breaks only in 9:16 (a line too long for a phone-width frame).
 const MAIN_CAPS = [
   [0.15, 2.3, "You give AI a big job."],
   [2.4, 5.6, "It stops to ask you stuff.<br>Again and again."],
   [5.7, 8.2, 'Or it says "Done!"...<br>and it isn\'t.'],
-  [8.7, 10.35, "Meet goalify."],
-  [10.5, 13.0, "It turns any request<br>into a goal."],
-  [13.1, 18.05, "A goal is a clear finish line.<br>The AI can't stop until it's reached."],
-  [18.25, 20.05, "First, it does the homework."],
-  [20.12, 23.65, "It checks it's doable, researches,<br>and asks every question now."],
-  [23.8, 27.7, "You get a short summary,<br>and a page with every detail."],
-  [27.8, 30.65, "Clear the chat. Paste one line.<br>Walk away."],
-  [30.75, 33.95, "Your AI works alone. Hours.<br>Even days. Zero interruptions."],
-  [34.05, 38.3, "Then it checks everything, proves it,<br>and tells you what it did."],
-  [38.45, 43.95, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>', "<b>Free.</b> Works best in Claude Code and Codex.<br>Installs in 70+ AI agents."],
+  [8.55, 10.2, "Meet goalify."],
+  [10.4, 12.9, "It turns any request<br>into a goal."],
+  // honesty (release verifier): a run also ends at the turn limit, so never "can't stop"
+  [13.0, 19.3, 'A goal is a clear finish line.<br>The AI keeps going until it\'s proven, <br class="pb">or hits your limit.', null, { maxWords: 11, tall: true }],
+  [19.4, 21.2, "First, it does the homework."],
+  [21.25, 24.78, "It checks it's doable, researches,<br>and asks every question now."],
+  [24.85, 28.72, "You get a short summary,<br>and a page with every detail."],
+  [28.8, 31.62, "Clear the chat. Paste one line.<br>Walk away."],
+  [31.7, 34.87, "Your AI works alone. Hours.<br>Even days. Zero interruptions."],
+  [34.95, 39.17, "Then it checks everything, proves it,<br>and tells you what it did."],
+  [39.25, 44.8, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>', "<b>Free.</b> Works best in Claude Code and Codex.<br>Installs in 70+ AI agents."],
 ];
 
 // The 15 s cut cannot hold every line at 0.35 s a word and still end on the brand promise, so
@@ -98,7 +100,7 @@ const CUTS = [
     seq: MAIN,
     caps: MAIN_CAPS,
     music: "assets/music-main.mp3",
-    shots: [8.75, 22.9, 38.9],
+    shots: [8.75, 24.0, 39.6],
     warp: ["nonstop"],
   },
   {
@@ -109,7 +111,7 @@ const CUTS = [
     seq: MAIN,
     caps: MAIN_CAPS,
     music: "assets/music-main.mp3",
-    shots: [8.75, 22.9, 38.9],
+    shots: [8.75, 24.0, 39.6],
     warp: ["nonstop"],
   },
   {
@@ -171,7 +173,7 @@ if (!c) {
   const PW = c.perWord || 0.35, MIN = c.minCap || 1.6, SD = c.subDelay || SUB_DELAY;
   const EM_DASH = String.fromCharCode(0x2014);
   const count = (h) => plain(h).split(/\s+/).filter(Boolean).length;
-  c.caps.forEach(([s, e, html, sub], i) => {
+  c.caps.forEach(([s, e, html, sub, opts], i) => {
     const text = plain(html) + (sub ? " " + plain(sub) : "");
     const words = count(html);
     if (e - s < Math.max(MIN, PW * words) - 1e-6)
@@ -180,7 +182,8 @@ if (!c) {
       problems.push(`caption ${i + 1} sub line on screen ${r2(e - s - SD)} s < ${r2(PW * count(sub))} s`);
     // about 7 words a line (the smaller sub line may run to 8)
     html.split("<br>").forEach((line) => {
-      if (count(line) > 7) problems.push(`caption ${i + 1} line over 7 words: ${plain(line)}`);
+      const max = (opts && opts.maxWords) || 7;
+      if (count(line) > max) problems.push(`caption ${i + 1} line over ${max} words: ${plain(line)}`);
     });
     (sub ? sub.split("<br>") : []).forEach((line) => {
       if (count(line) > 8) problems.push(`caption ${i + 1} sub line over 8 words: ${plain(line)}`);
@@ -194,8 +197,8 @@ if (!c) {
   }
   const caps = c.caps
     .map(
-      ([s, e, html, sub], i) =>
-        `    <div id="cap-${i + 1}" class="clip" data-start="${s}" data-duration="${r2(e - s)}" data-track-index="31"><div class="cap${sub ? " cap-sub" : ""}"><span class="capin">${html}</span>${sub ? `<span class="capsub">${sub}</span>` : ""}</div></div>`,
+      ([s, e, html, sub, opts], i) =>
+        `    <div id="cap-${i + 1}" class="clip" data-start="${s}" data-duration="${r2(e - s)}" data-track-index="31"><div class="cap${sub ? " cap-sub" : ""}${opts && opts.tall ? " cap-tall" : ""}"><span class="capin">${html}</span>${sub ? `<span class="capsub">${sub}</span>` : ""}</div></div>`,
     )
     .join("\n");
 

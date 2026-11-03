@@ -138,7 +138,7 @@
     (function () {
       var F = window.Film;
       var MODE = F.cut();
-      var D = MODE === "main" ? 3.3 : MODE === "short" ? 2.6 : 2.4; // slot length per cut
+      var D = MODE === "main" ? 3.25 : MODE === "short" ? 2.6 : 2.4; // slot length per cut
       var tl = gsap.timeline({ paused: true });
       var hEl = document.getElementById("ns-h"),
         mEl = document.getElementById("ns-m");
