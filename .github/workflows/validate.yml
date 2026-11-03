@@ -130,6 +130,12 @@ jobs:
         shell: bash
         run: python3 tests/test_condition_lint.py
 
+      # (b4) EVERY SUITE AT ONCE: check_skill, manifests, condition lint, goal_state, the run
+      #      preview and brief lint, verify, check detection, status and doctor. One PASS line each.
+      - name: All suites (run_all.py)
+        shell: bash
+        run: python3 tests/run_all.py
+
       # (c) NO-SECRETS CHECK (all tracked files)
       - name: No secrets
         shell: bash

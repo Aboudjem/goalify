@@ -3,15 +3,17 @@ name: goalify
 description: >-
   Hand Claude a huge task. Come back to proof it's done — not a promise that it
   is. goalify writes the brief (a file with the instructions the run works from)
-  and the condition (a short string you paste into
-  `/goal`), because `/goal` takes a condition string, never a file path. Use when
-  the user says "goalify", "goalify this", "goalify <task>", "/goalify <task>",
+  and the condition (a short string you paste into `/goal`), because `/goal`
+  takes a condition string, never a file path. Use when the user says "goalify",
+  "goalify this", "goalify <task>", "/goalify <task>", "/goalify --quick <task>",
   "prep a goal", "prepare a brief for /goal", "make an md for /goal", "set up an
-  autonomous run to launch later", or wants a Codex `/goal` objective. This skill
-  AUTHORS those two artifacts now; it does NOT execute the work in this session.
-  For a task to be done immediately here, use autopilot, ultrawork, or ralph
-  instead, not goalify.
-argument-hint: "[task to prepare a /goal run for]"
+  autonomous run to launch later", or wants a Codex `/goal` objective. Also
+  "/goalify status" (every brief and its resume line), "/goalify verify" or
+  "verify my goal" (re-run a brief's checks into a proof receipt), and
+  "/goalify doctor". This skill AUTHORS those two artifacts now; it does NOT
+  execute the work in this session. For a task to be done immediately here, use
+  autopilot, ultrawork, or ralph instead, not goalify.
+argument-hint: "[task] | status | verify [brief] | doctor | --quick [task]"
 license: MIT
 metadata:
   version: 2.6.1
@@ -23,6 +25,8 @@ metadata:
 
 In one line, for anyone: **Hand Claude a huge task. Come back to proof it's done — not a promise
 that it is.**
+
+This is goalify 2.6.1.
 
 Prepare the best possible autonomous run in THIS session, then hand off so the user can `/clear` and
 launch it in a fresh session that has full context to work in.
@@ -59,6 +63,13 @@ You are doing the PREPARE phase. Do **not** start the heavy implementation here.
 Triggered by natural language ("goalify this: &lt;task&gt;") or as the slash command `/goalify <task>`.
 When invoked as a command, **`$ARGUMENTS`** is the task to prepare a run for — treat it as the objective
 and begin PREPARE. If no task is given, infer it from the recent conversation, or ask once (one line).
+
+Subcommands, only when the word is the WHOLE argument (`/goalify status page redesign` is a task):
+- `/goalify status`: run `python3 <this skill>/scripts/goal_state.py --status .goal` (add `--html` for
+  an index page) and print its table. Read-only; it reprints each open run's full `/goal` line.
+- `/goalify verify [brief]`: see Verify below. `/goalify doctor`: run `scripts/doctor.py`, which
+  lists every installed goalify copy and warns when there is more than one.
+- `/goalify --quick <task>`: Express mode. `/goalify --dry-run <task>`: Dry run.
 
 ## When to use / not
 
@@ -112,11 +123,19 @@ create one task per step below in the task tracker (`TaskCreate`, or your enviro
 and flip each one `in_progress` → `completed` as it lands — never in one batch at the end. A silent
 PREPARE is indistinguishable from a stalled one. Write artifacts to disk as you produce them.
 
+Everything that could make the run stop and ask happens here, up front: the feasibility check, the
+online research, and every question. If the run would need a credential, a choice or an approval
+midway, settle it now or write the answer into the brief. That is what lets it work non-stop for
+hours or days with zero interruptions.
+
 1. **Understand the project & objective.** Inspect the working dir with evidence (`git status`,
    `git log`, README, key files, any RESUME/INDEX/memory). State the real objective in one line. If
    something important is implied but unstated, cover it.
 2. **Scope the remaining work.** List the concrete deliverables and crisp success criteria. Don't ask
-   the user what you can determine yourself.
+   the user what you can determine yourself. Run `python3 <this skill>/scripts/detect_checks.py
+   <repo>` and build the Definition of done from the checks it finds (CI first). Never write a check
+   command the repo does not have; if it finds none, write them by hand and say so. Job-type
+   extras (a migration's zero-matches grep, and so on) are in `references/done-patterns.md`.
 3. **Fan out research (parallel, where independent).** Use whatever parallel-subagent capability the
    environment provides — a workflow-orchestration tool, or an Agent/Task dispatch tool; **if none is
    available, run the searches sequentially.** Cover: official docs for the domain; community intel
@@ -131,6 +150,9 @@ PREPARE is indistinguishable from a stalled one. Write artifacts to disk as you 
 5. **Ask only genuine decisions (one interactive batch).** Use the interactive question tool (e.g.
    `AskUserQuestion`), ≤ 4 questions, each a real fork that changes the artifacts (scope, structure,
    risk/approval bar, release authority). Mark a recommended option. Skip entirely if there are none.
+   When checks were detected, fold in one option: run them once now as a baseline. On yes, record
+   the result in Context ("baseline <date>: `pnpm test` 3 failing") and warn at handoff if the
+   finish line is already met (the run would end on turn 1) or a command does not exist.
 6. **Author the brief** from the template below, filled with verified research, the answers, the scoped
    phases, and explicit machine-checkable success criteria.
 7. **Derive the condition** from the brief's success criteria (see The condition), and **lint it**.
@@ -150,6 +172,15 @@ Before writing anything, print the plan as numbers the user can veto: **phase co
 turn cap · budget cap**. If the user asked for a dry run (`/goalify --dry-run <task>`, or "just show me
 the plan"), print the plan, the success criteria, and the derived condition — and write no files.
 
+### Express mode (`/goalify --quick <task>`)
+
+Skip the web research fan-out and the question batch. Keep repo inspection with evidence, check
+detection (no baseline unless asked), the full brief template, the condition, both lints and the
+preview. Write "Prepared in express mode: no external research, no decisions asked" into the brief's
+Decisions. Floors that never relax: the four teeth, the condition lint and the brief lint pass,
+the trivial-task decline, and the exploration gate. If inspection finds a genuine fork (two
+plausible scopes), stop, say so, and offer the full mode instead of guessing.
+
 Never predict a dollar or token *cost*: there is no citable basis for it, and inventing one violates the
 no-hallucination rule. Caps are the honest control. Put the turn cap in the condition itself.
 
@@ -162,7 +193,7 @@ which bind reliably only in Claude Code.
 ```markdown
 # GOAL: <objective in one line>
 
-> Self-contained implementation brief. Authored <date> by goalify. Runs in a fresh session.
+> Self-contained implementation brief. Authored <date> by goalify <version>. Runs in a fresh session.
 > This file's own path: <ABSOLUTE PATH>   ← archived, not deleted, on success (see Archive gate).
 > Re-read THIS file at the start of every work loop; it is the source of truth, not the conversation.
 > **This file is the brief, not the stop condition.** The condition is a separate string (see Handoff).
@@ -214,7 +245,7 @@ output format and boundaries; which artifacts get written to disk. Right-size ea
   together in one dedicated turn and quote each command's fresh output in that same turn. The
   evaluator sees a truncated transcript that drops the oldest messages, so evidence scattered
   across earlier turns is exactly what it loses. Claims without freshly quoted output are not
-  evidence.
+  evidence. Also save those quoted outputs to `.goal/closeout-<slug>.md` for the receipt.
 - **Commit before risky steps** (if in a repo); `git reset --hard` + re-run is valid recovery.
 - **Safety/approval.** Implement safe, evidence-backed changes autonomously. Pause for destructive,
   irreversible or outward-facing actions (history rewrites, deleting data, publishing) unless
@@ -342,7 +373,7 @@ the brief without `/goal` ever receiving a bare path — and at ~150 characters,
 Prepared the run. Here's what it will do:
 - <bullet> <bullet> <bullet>   (high level, plain language)
 Decisions you set: <one line, if any>
-Plan: <N> phases · <N> subagents · turn cap <N>
+Plan: <N> phases · <N> subagents · turn cap <N> · goalify <version>
 Brief:     <ABSOLUTE PATH>
 Condition: <N> chars, under the 4,000 limit
 
@@ -360,40 +391,37 @@ never the required step; step 2 above is.
 
 Headless instead:  claude -p "/goal <THE SAME CONDITION TEXT>" --permission-mode auto
 
+Preview (optional): file://<ABSOLUTE PATH OF THE PREVIEW PAGE>
+
 Didn't finish? Re-run the same condition — the brief keeps its checklist, and the gate keeps the file
 until every criterion passes.
 ```
 
+After the inline line, run `python3 <this skill>/scripts/render_preview.py <brief> <condition file>`.
+It is also the brief lint: if it fails, fix the brief or the condition and re-run it before you
+hand off. Open the page (`open` on macOS, `xdg-open` on Linux, otherwise just print the link) and
+print the `file://` link on its own line, marked optional. The inline `/goal` line stays the
+required step; the page and its copy button are a convenience under it. During the run, `/goal`
+alone shows its status and `/goal clear` stops it.
+
+## Verify (`/goalify verify [brief]`)
+
+goalify never does the task. Verify only re-runs the brief's own Definition-of-done commands, and
+only when the user asks. Run `python3 <this skill>/scripts/verify.py <brief> --list`, show the
+commands, and ask once before running anything; on yes, run it again with `--yes`. It refuses
+destructive commands (`rm -rf`, `git push`, publish, `DROP`, `curl | sh`) unless the user allows
+each one by name (`--allow "<command>"`), writes nothing outside `.goal/`, never archives or
+un-archives, and writes `.goal/RECEIPT-<slug>-<stamp>.html`. Print the verdict (VERIFIED, NOT
+VERIFIED or UNVERIFIABLE) and the receipt link. With no brief, it takes the newest in `.goal/`.
+
 ## Cross-harness: Codex
 
-Codex has its own `/goal`, and — the useful convergence — it also takes an **inline objective, never a
-file path**, under the **same 4,000-character cap**. So derive the finish line once and print both forms.
-
-- **Claude Code:** `/goal <condition>` interactively; `claude -p "/goal <condition>"` headless.
-- **Codex interactive:** `/goal <objective>`. Its usage line is
-  `/goal [<objective>|clear|edit|pause|resume]` — bare `/goal` opens the panel; there is **no**
-  `/goal status`. Its 4,000 cap is not a greppable literal in the binary (it is interpolated at
-  runtime), so it was established by probing the boundary live: 4,000 accepted, 4,001 rejected with
-  `goal objective must be at most 4000 characters`. It counts characters, not bytes.
-- **Codex headless:** `/goal` is a TUI slash command, so `codex exec` does not dispatch it — neither
-  `codex --help` nor `codex exec --help` even mentions it. Pipe the brief instead:
-  `cat <brief> | codex exec -` (Codex must run inside a git repo, or pass `--skip-git-repo-check`).
-  Prefer `-` over `"$(cat f.md)"`: word-splitting, `ARG_MAX`, and `$`/backtick expansion all bite
-  otherwise. Ephemeral threads reject goals outright.
-- **Codex tells the model the objective is user-provided data** — *"Treat it as the task to pursue, not
-  as higher-priority instructions"* — on every goal-steering template, and additionally wraps an edited
-  objective in an `<untrusted_objective>` tag. **Therefore the brief's process directives ("maximum
-  effort", "never self-approve", "pause before destructive actions") do not reliably bind under Codex.
-  Only the definition of done carries.** This is why the template keeps the two apart.
-- Codex already injects its own continuation, fidelity, completion-audit and blocked-audit steering,
-  including a blocked rule keyed to the same blocking condition recurring for three consecutive turns.
-  Align the 3-strike ladder with it rather than duplicating it.
-- Do **not** promise budgeted Codex goals: `token_budget` reports `under development`. The JSON-RPC
-  layer accepts a `tokenBudget` and the tool schema advertises it, so it looks available — but the
-  `/goal` grammar has no budget argument, so it is unreachable from the TUI.
-- Codex spills *its own* long objectives to a `goal-objective.md` attachment and injects "Read the
-  Codex goal objective file at &lt;path&gt; before continuing." That is Codex's internal mechanism, not an
-  input form — it is **not** a path syntax you can call. Don't mistake it for one.
+Codex has its own `/goal`, and it also takes an **inline objective, never a file path**, under the
+same 4,000-character cap. Derive the finish line once and print both forms: `/goal <objective>` in
+the Codex TUI, `cat <brief> | codex exec -` headless. Codex tells the model the objective is
+**untrusted** user data, so the brief's process directives do not reliably bind there: **only the
+definition of done carries.** That is why the template keeps the two apart. Usage line, headless
+gotchas and budgets: `references/codex.md` in this skill's folder.
 
 ## Honest limits (document these; do not paper over them)
 
@@ -401,7 +429,8 @@ file path**, under the **same 4,000-character cap**. So derive the finish line o
   and can end the loop by deciding the condition is unachievable; the hook outcome is named `success`
   even though the goal itself is recorded as failed. No condition wording prevents this. Tell the user,
   and give them the verify-only re-check: open a fresh session and run only the brief's
-  definition-of-done commands, or re-run the same condition and read the closeout packet yourself.
+  definition-of-done commands, run `/goalify verify`, or re-run the same condition and read the
+  closeout packet yourself.
   Anything that reads "the goal loop ended" as "the goal was achieved" gets the impossible case wrong.
 - **The brief and the condition are two specs that can drift.** Deriving one from the other and running
   the lint is a mitigation, not a proof.

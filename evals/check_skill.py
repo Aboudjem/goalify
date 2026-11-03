@@ -335,6 +335,66 @@ def main():
     for clause, ok in v26_clauses.items():
         checks.append((f"v2.6: {clause}", ok, ""))
 
+    # --- v3.0: preview, verify, status, express, detection, version, split rule ---
+    skill_dir = os.path.dirname(os.path.abspath(path))
+    v3_clauses = {
+        "the handoff still prints the inline /goal line AND names the preview as optional":
+            "/goal <the entire condition text" in low and "preview (optional)" in low
+            and "the inline /goal line stays the required step" in low,
+        "the preview renderer doubles as the brief lint and must pass before handoff":
+            "render_preview.py" in low and "brief lint" in low and "re-run it before you hand off" in low,
+        "the preview is opened with open / xdg-open, else the link is printed":
+            "open on macos" in low and "xdg-open on linux" in low,
+        "description triggers verify, status and doctor":
+            all(w in dlow for w in ("goalify verify", "goalify status", "goalify doctor")),
+        "verify runs only the brief's DoD commands and asks first":
+            "verify only re-runs the brief's own definition-of-done commands" in low
+            and "ask once before running anything" in low,
+        "verify refuses destructive commands unless allowed by name":
+            "refuses destructive commands" in low and "--allow" in low,
+        "verify writes nothing outside .goal/ and never archives":
+            "writes nothing outside .goal/" in low and "never archives or un-archives" in low,
+        "verify names all three verdicts":
+            all(v in low for v in ("verified,", "not verified", "unverifiable")),
+        "status is dispatched only when it is the whole argument":
+            "whole argument" in low and "goalify status page redesign" in low,
+        "status reprints the full /goal line and is read-only":
+            "goal_state.py --status" in low and "read-only" in low and "full /goal line" in low,
+        "express mode names every floor that never relaxes":
+            "express mode" in low and all(f in low for f in (
+                "four teeth", "condition lint and the brief lint pass", "trivial-task decline",
+                "exploration gate", "offer the full mode")),
+        "express mode records itself in the brief's Decisions":
+            "prepared in express mode" in low,
+        "PREPARE runs check detection and never invents a check command":
+            "detect_checks.py" in low and "never write a check command the repo does not have" in low,
+        "the baseline is one option inside the existing question batch":
+            "baseline" in low and "already met" in low and "does not exist" in low,
+        "everything that could interrupt the run is front-loaded":
+            "feasibility check" in low and "online research" in low
+            and "zero interruptions" in low,
+        "the body carries a version line":
+            re.search(r"this is goalify \d+\.\d+\.\d+", low) is not None,
+        "the brief template header and the Plan line name the goalify version":
+            "authored <date> by goalify <version>" in low and "goalify <version>" in low,
+        "the Codex details moved to references/codex.md, and the file exists":
+            "references/codex.md" in low
+            and os.path.exists(os.path.join(skill_dir, "references", "codex.md")),
+        "done-patterns reference exists and is pointed to":
+            "references/done-patterns.md" in low
+            and os.path.exists(os.path.join(skill_dir, "references", "done-patterns.md")),
+        "every v3 script the body names exists":
+            all(os.path.exists(os.path.join(skill_dir, "scripts", n)) for n in (
+                "goal_state.py", "render_preview.py", "verify.py", "detect_checks.py",
+                "doctor.py", "condition_lint.py")),
+        "the split rule backs Scenario 3: one brief and one condition per sub-project":
+            "one brief and one condition per sub-project" in low,
+        "the closeout quotes are saved for the receipt":
+            "closeout-<slug>.md" in low,
+    }
+    for clause, ok in v3_clauses.items():
+        checks.append((f"v3: {clause}", bool(ok), ""))
+
     # --- Gated, low-freedom end-of-run gate: archive since v2.0.0 (claim 4) ---
     checks.append(("end-of-run gate is a LOW-FREEDOM gated block",
                    "low freedom" in low and "pre-condition" in low and "do not modify" in low, ""))

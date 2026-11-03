@@ -1,0 +1,1 @@
+Do everything in /Users/example/widget-api/.goal/cb-to-async-2026-05-29.md and prove it — done when the last turn quotes npm test passing and says WIDGET_ASYNC_EVIDENCE. Stop after 40 turns.

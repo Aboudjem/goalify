@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>goalify: hand Claude a huge task, come back to proof</title>
+<meta name="description" content="goalify asks every question up front, then Claude works non-stop in a clean session for hours or even days, and stops only when the proof is on screen. A free Claude Code skill.">
+<link rel="canonical" href="https://goalify-kappa.vercel.app/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="goalify">
+<meta property="og:title" content="goalify: hand Claude a huge task, come back to proof">
+<meta property="og:description" content="Every question up front. Then Claude works non-stop for hours or days, with zero interruptions, and finishes on proof, not a promise.">
+<meta property="og:url" content="https://goalify-kappa.vercel.app/">
+<meta property="og:image" content="https://goalify-kappa.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:video" content="https://goalify-kappa.vercel.app/media/goalify-promo.mp4">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="goalify: hand Claude a huge task, come back to proof">
+<meta name="twitter:description" content="Every question up front. Then Claude works non-stop for hours or days and finishes on proof, not a promise.">
+<meta name="twitter:image" content="https://goalify-kappa.vercel.app/og.png">
+<style>
+:root{--bg:#07060f;--ink:#f1edff;--mute:#a59cc9;--dim:#8a82b6;--line:rgba(255,255,255,.10);
+--glass:rgba(255,255,255,.045);--glass-hi:rgba(255,255,255,.18);
+--purple:#9b6bff;--cyan:#2ee6ff;--pink:#ff3d9a;--yellow:#ffd23f;--green:#3dffa8;--red:#ff6b8b}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 700px at 80% -10%,#2a1563 0%,transparent 60%),radial-gradient(900px 600px at -10% 20%,#0b3a52 0%,transparent 55%),var(--bg);
+color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+letter-spacing:-.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.88em}
+p code,li code,td code{background:rgba(255,255,255,.07);padding:1px 6px;border-radius:6px}
+a{color:var(--cyan)}
+#sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 20px 80px}
+section{margin-top:120px}
+.eyebrow{font:600 12px/1 -apple-system,"SF Pro Text",system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;opacity:.9}
+h2{font-size:clamp(28px,4.4vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:650;margin-bottom:14px}
+.lede{color:var(--mute);max-width:660px;font-size:clamp(16px,1.8vw,19px)}
+.grad{background:linear-gradient(90deg,var(--purple),var(--pink),var(--yellow),var(--cyan),var(--purple));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:drift 10s linear infinite}
+@keyframes drift{to{background-position:300% 0}}
+.glass{background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%);
+box-shadow:inset 0 1px 0 var(--glass-hi),0 10px 40px -20px rgba(0,0,0,.6);border-radius:24px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.static .rv{opacity:1;transform:none;transition:none}
+nav{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:22px 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.navlinks{display:flex;gap:6px}
+.navlinks a{color:var(--mute);text-decoration:none;font-size:14px;padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+.navlinks a:hover{color:var(--ink);background:rgba(255,255,255,.06)}
+.hero{padding-top:56px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border-radius:999px;font:600 13px -apple-system,system-ui,sans-serif;margin-bottom:28px;color:var(--ink);text-decoration:none}
+.badge i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.hero h1{font-size:clamp(40px,7.2vw,86px);line-height:1;letter-spacing:-.05em;font-weight:700;max-width:960px;margin:0 auto}
+.hero .sub{font-size:clamp(17px,2.1vw,21px);color:var(--mute);margin:26px auto 0;max-width:680px}
+.install{max-width:720px;margin:38px auto 0;padding:18px;display:grid;gap:10px;text-align:left}
+.line{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:rgba(10,8,24,.55);border:1px solid rgba(155,107,255,.32)}
+.line .p{color:var(--dim);font:13px ui-monospace,Menlo,monospace;flex:none}
+.line code{flex:1;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.btn{flex:none;border:0;cursor:pointer;font:600 13px -apple-system,system-ui,sans-serif;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.92);color:#0a0818;transition:transform .15s,background .15s}
+.btn:hover{background:#fff}.btn:active{transform:scale(.95)}
+.or{font-size:13px;color:var(--dim);text-align:center}
+.video{margin:64px auto 0;max-width:1000px;padding:10px;border-radius:30px}
+.video video{display:block;width:100%;height:auto;border-radius:22px;background:#0b0918;aspect-ratio:16/9}
+.cap{color:var(--dim);font-size:13px;text-align:center;margin-top:12px}
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.versus>div{padding:26px}
+.versus h3{font:600 12px ui-monospace,Menlo,monospace;letter-spacing:.14em;margin-bottom:14px}
+.versus .b h3{color:#ff8fb0}.versus .a h3{color:var(--green)}
+.versus li{list-style:none;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.08);display:flex;gap:12px;font-size:16px}
+.versus li:last-child{border:0}
+.versus .b li:before{content:"✕";color:#ff8fb0;flex:none}
+.versus .a li:before{content:"✓";color:var(--green);flex:none}
+.versus .a{background:linear-gradient(160deg,rgba(155,107,255,.10),rgba(46,230,255,.05))}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.step{padding:22px}
+.step .t{font:600 11px ui-monospace,Menlo,monospace;color:var(--yellow);letter-spacing:.1em}
+.step h3{margin:8px 0 6px;font-size:19px;font-weight:650;letter-spacing:-.02em}
+.step p{color:var(--mute);font-size:15px}
+.band{padding:40px;position:relative;overflow:hidden;border-radius:30px;background:linear-gradient(135deg,rgba(155,107,255,.12),rgba(46,230,255,.06))}
+.band:before{content:"";position:absolute;inset:-2px;background:conic-gradient(from var(--a,0deg),transparent 0 70%,var(--cyan),var(--pink),transparent 90%);animation:spin 6s linear infinite;z-index:0;opacity:.22;filter:blur(20px)}
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spin{to{--a:360deg}}
+.band>*{position:relative;z-index:1}
+.clock{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px}
+.clock div{padding:16px 20px;border-radius:18px;min-width:150px}
+.clock b{display:block;font:700 30px/1 -apple-system,system-ui,sans-serif;letter-spacing:-.03em}
+.clock span{color:var(--mute);font-size:14px}
+.runbar{margin-top:26px;height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
+.runbar span{position:absolute;inset:0;width:30%;background:linear-gradient(90deg,var(--purple),var(--cyan),var(--green));border-radius:99px;animation:run 6s ease-in-out infinite}
+@keyframes run{0%{width:4%}80%,100%{width:100%}}
+.runlbl{display:flex;justify-content:space-between;gap:10px;font:12px ui-monospace,Menlo,monospace;color:var(--dim);margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:30px;align-items:start}
+.card{padding:24px;transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -28px var(--c,var(--purple))}
+.card .ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);margin-bottom:14px;font-size:19px}
+.card h3{font-size:19px;font-weight:650;letter-spacing:-.02em;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15px}
+.card .cmd{display:inline-block;margin-top:12px;font:12.5px ui-monospace,Menlo,monospace;padding:4px 10px;border-radius:9px;background:rgba(255,255,255,.06);color:var(--c)}
+.tag{display:inline-block;font:600 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:3px 8px;border-radius:6px;background:rgba(255,61,154,.14);color:var(--pink);margin-left:8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;color:var(--dim);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:14px 16px}
+td{padding:14px 16px;border-top:1px solid var(--line);vertical-align:top;color:var(--mute)}
+td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+.scroll-x{overflow-x:auto;padding:6px}
+.faq{margin-top:26px;display:grid;gap:12px}
+.faq details{padding:18px 22px}
+.faq summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";color:var(--cyan);font-weight:400;font-size:22px;line-height:1}
+.faq details[open] summary:after{content:"–"}
+.faq p{color:var(--mute);margin-top:10px;font-size:15.5px}
+.cta{text-align:center;padding:56px 24px;border-radius:32px}
+.cta .install{margin-top:28px}
+footer{margin-top:110px;text-align:center;color:var(--dim);font-size:14px}
+footer a.gh{display:inline-flex;gap:8px;align-items:center;color:var(--ink);text-decoration:none;padding:10px 18px;border-radius:999px;margin-top:12px;transition:border-color .2s,box-shadow .2s}
+footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){section{margin-top:84px}.versus,.steps{grid-template-columns:1fr}.band{padding:24px}.navlinks a.hide{display:none}.line .p{display:none}.line code{font-size:13px}}
+@media (prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<nav>
+  <a class="brand" href="#top" aria-label="goalify home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#9b6bff"/><stop offset="1" stop-color="#2ee6ff"/></linearGradient></defs><circle cx="16" cy="16" r="13" fill="none" stroke="url(#lg)" stroke-width="2.4"/><circle cx="16" cy="16" r="7" fill="none" stroke="url(#lg)" stroke-width="2.4" opacity=".7"/><path d="M12.4 16.2l2.6 2.6 5-5.4" fill="none" stroke="#3dffa8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    goalify
+  </a>
+  <div class="navlinks">
+    <a class="hide" href="#how">How it works</a>
+    <a class="hide" href="#new">What's new</a>
+    <a href="https://github.com/Aboudjem/goalify">GitHub</a>
+  </div>
+</nav>
+
+<main id="top">
+
+<header class="hero">
+  <a class="badge glass rv" href="#new"><i></i>goalify 3.0 is out: run preview, proof receipts, status</a>
+  <h1 class="rv">Hand Claude a job that takes days.<br><span class="grad">Come back to proof.</span></h1>
+  <p class="sub rv">goalify asks every question before the run starts. Then Claude works non-stop in a clean session, for hours or even days, and only stops when the proof is on screen. Not a promise. Proof.</p>
+
+  <div class="install glass rv" id="install">
+    <div class="line"><span class="p">1</span><code id="i1">claude plugin marketplace add Aboudjem/10x</code><button class="btn" type="button" data-copy="i1">Copy</button></div>
+    <div class="line"><span class="p">2</span><code id="i2">claude plugin install goalify@10x</code><button class="btn" type="button" data-copy="i2">Copy</button></div>
+    <div class="or">or, for any agent that reads skills</div>
+    <div class="line"><span class="p">$</span><code id="i3">npx skills add Aboudjem/goalify</code><button class="btn" type="button" data-copy="i3">Copy</button></div>
+  </div>
+
+  <div class="video glass rv">
+    <video controls muted playsinline preload="metadata" poster="media/goalify-promo-poster.png">
+      <source src="media/goalify-promo.mp4" type="video/mp4">
+      Your browser can't play this video. <a href="media/goalify-promo.mp4">Download it</a>.
+    </video>
+  </div>
+  <p class="cap rv">36 seconds. Sound optional.</p>
+</header>
+
+<section class="rv">
+  <div class="eyebrow">The problem</div>
+  <h2>Claude said done. <span class="grad">It wasn't.</span></h2>
+  <p class="lede">Long jobs fail in two boring ways. The agent stops every hour to ask you something, or it says "all done" while a test is still red. goalify fixes both before the run even starts.</p>
+  <div class="versus">
+    <div class="glass b"><h3>WITHOUT GOALIFY</h3><ul>
+      <li><span>It stops at 3am to ask which database you meant</span></li>
+      <li><span>The plan lives in a chat that <code>/clear</code> wipes</span></li>
+      <li><span>It invents an <code>npm test</code> your repo doesn't have</span></li>
+      <li><span>"Done!" means it said so</span></li>
+      <li><span>You find the gaps the next morning</span></li>
+    </ul></div>
+    <div class="glass a"><h3>WITH GOALIFY</h3><ul>
+      <li><span>Every question is asked once, up front</span></li>
+      <li><span>The plan is a file the fresh session re-reads every loop</span></li>
+      <li><span>Checks come from your repo and your CI</span></li>
+      <li><span>"Done" means the last turn quoted the passing output</span></li>
+      <li><span>One command re-runs the checks and hands you a receipt</span></li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="rv" id="how">
+  <div class="eyebrow">How it works</div>
+  <h2>All the thinking first. Then it just works.</h2>
+  <p class="lede">goalify only prepares. Claude Code's own <code>/goal</code> does the running. goalify makes sure nothing is left for the run to ask about.</p>
+  <div class="steps">
+    <div class="step glass"><div class="t">STEP 1</div><h3>Homework</h3><p>Can this even work? It reads the docs, checks the repo and finds your real test commands.</p></div>
+    <div class="step glass"><div class="t">STEP 2</div><h3>Questions, once</h3><p>A few real choices, asked in one batch. That's the last time it bugs you.</p></div>
+    <div class="step glass"><div class="t">STEP 3</div><h3>Brief + condition</h3><p>A brief the run works from, and one short line for <code>/goal</code> that says what proof looks like.</p></div>
+    <div class="step glass"><div class="t">STEP 4</div><h3>/clear, paste, walk away</h3><p>A fresh session spends all of its context on your job, not on your chat history.</p></div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="band glass">
+    <div class="eyebrow">Why it can run for days</div>
+    <h2>Zero interruptions, because there's <span class="grad">nothing left to ask.</span></h2>
+    <p class="lede">The research, your decisions and the finish line are all locked in before you hit <code>/clear</code>. After that, the run works, checks, fixes and repeats. A separate evaluator reads the transcript after every turn and lets it stop only when the proof is there, or when it hits the turn cap you set.</p>
+    <div class="clock">
+      <div class="glass"><b class="grad">0</b><span>questions mid-run</span></div>
+      <div class="glass"><b>hours → days</b><span>of uninterrupted work</span></div>
+      <div class="glass"><b style="color:var(--green)">quoted</b><span>proof in the last turn</span></div>
+    </div>
+    <div class="runbar"><span></span></div>
+    <div class="runlbl"><span>/goal started</span><span>tests ✓ · build ✓ · proven</span></div>
+  </div>
+</section>
+
+<section class="rv" id="new">
+  <div class="eyebrow">New in 3.0</div>
+  <h2>See it before it runs. Check it after.</h2>
+  <div class="grid">
+    <div class="card glass" style="--c:var(--pink)"><div class="ic">◎</div><h3>Run preview <span class="tag">NEW</span></h3><p>A one-page view of the run: phases as a flow, the checks that prove it's done, the caps and your decisions, with a copy button for the <code>/goal</code> line. It also lints the brief and refuses to render a broken one.</p><span class="cmd">opens after every /goalify</span></div>
+    <div class="card glass" style="--c:var(--green)"><div class="ic">✓</div><h3>Proof receipt <span class="tag">NEW</span></h3><p>Re-runs the brief's own checks, shows you the commands first, asks once, and writes a receipt: VERIFIED, NOT VERIFIED or UNVERIFIABLE. It can contradict a run that claimed it was done.</p><span class="cmd">/goalify verify</span></div>
+    <div class="card glass" style="--c:var(--cyan)"><div class="ic">⌕</div><h3>Real checks, found for you <span class="tag">NEW</span></h3><p>Reads your package.json, pyproject, Cargo, go.mod, Makefile and CI. It skips npm's "no test specified" stub, so the finish line never names a command that can't pass.</p><span class="cmd">part of every /goalify</span></div>
+    <div class="card glass" style="--c:var(--yellow)"><div class="ic">≡</div><h3>Status <span class="tag">NEW</span></h3><p>Every brief in <code>.goal/</code>: open, blocked or done, with ticks, and the full <code>/goal</code> line to resume each open one. Read-only.</p><span class="cmd">/goalify status</span></div>
+    <div class="card glass" style="--c:var(--purple)"><div class="ic">»</div><h3>Express mode <span class="tag">NEW</span></h3><p>For medium tasks: no web research and no questions, but the same brief, the same four checks on the condition, and the same lint. It stops instead of guessing when the scope forks.</p><span class="cmd">/goalify --quick &lt;task&gt;</span></div>
+    <div class="card glass" style="--c:var(--red)"><div class="ic">+</div><h3>Doctor <span class="tag">NEW</span></h3><p>Lists every goalify copy installed on your machine and warns when an old one is loaded next to the new one.</p><span class="cmd">/goalify doctor</span></div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="eyebrow">How it compares</div>
+  <h2>Where goalify fits</h2>
+  <p class="lede">Different tools, different jobs. These are the honest differences, not a scoreboard.</p>
+  <div class="glass scroll-x" style="margin-top:28px">
+    <table>
+      <thead><tr><th>Tool</th><th>What it is</th><th>How it differs from goalify</th></tr></thead>
+      <tbody>
+        <tr><td>goalify</td><td>A skill that prepares a <code>/goal</code> run: brief, condition, preview, receipt.</td><td>Runs nothing itself. Uses Claude Code's built-in <code>/goal</code>, so there is no loop script to install.</td></tr>
+        <tr><td>supergoal</td><td>A Claude Code plugin that scouts, asks, plans phases and hands <code>/goal</code> one command, with a final audit against the plan.</td><td>The closest neighbor. goalify writes one self-contained brief plus a linted condition, shows a preview page before the run, and writes a proof receipt after it.</td></tr>
+        <tr><td>Ralph loops</td><td>A loop that feeds the same prompt to the agent again and again.</td><td>Usually stops on a word the worker prints or an iteration cap. With <code>/goal</code>, a separate evaluator reads the transcript every turn.</td></tr>
+        <tr><td>Spec Kit</td><td>GitHub's spec-driven toolkit: specify, plan, tasks, implement.</td><td>Great for writing the spec. goalify is about the long unattended run and proving it finished.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="eyebrow">Questions</div>
+  <h2>Good to know</h2>
+  <div class="faq">
+    <details class="glass"><summary>Does goalify do the task?</summary><p>No. goalify never does the task. It writes the brief and the condition, and it only runs your checks when you ask (<code>/goalify verify</code>). The work happens in the fresh session you start with <code>/goal</code>.</p></details>
+    <details class="glass"><summary>Why can't I just hand /goal my plan file?</summary><p>Because <code>/goal</code> takes a condition string, not a file path. The evaluator behind it has no tools and can't open files, so a path would just be a sentence it can never check. goalify puts the brief's path inside a real condition instead.</p></details>
+    <details class="glass"><summary>Is a stopped run proof that it's done?</summary><p>No, and goalify says so. The evaluator can also end a run by deciding the goal can't be reached. Run <code>/goalify verify</code> on the brief to re-run its checks and get a receipt.</p></details>
+    <details class="glass"><summary>What does it cost?</summary><p>goalify is free and MIT licensed. It never guesses a dollar or token figure for your run. The turn cap in the condition is the control you get.</p></details>
+    <details class="glass"><summary>Does it phone home?</summary><p>No. No server, no runtime dependency, no network call. The scripts are plain Python standard library and the preview page makes no outside requests.</p></details>
+    <details class="glass"><summary>Does it work with Codex?</summary><p>Yes. Codex has its own <code>/goal</code> that also takes an inline objective, so goalify prints the Codex form too. Codex treats the objective as data, so the finish line carries over but the process rules in the brief may not.</p></details>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="cta glass">
+    <div class="eyebrow">Two lines</div>
+    <h2>Hand Claude a huge task.<br><span class="grad">Come back to proof.</span></h2>
+    <div class="install">
+      <div class="line"><span class="p">1</span><code id="c1">claude plugin marketplace add Aboudjem/10x</code><button class="btn" type="button" data-copy="c1">Copy</button></div>
+      <div class="line"><span class="p">2</span><code id="c2">claude plugin install goalify@10x</code><button class="btn" type="button" data-copy="c2">Copy</button></div>
+    </div>
+    <p class="cap">Then type <code>/goalify</code> and describe the job. Needs Claude Code 2.1.139 or newer.</p>
+  </div>
+</section>
+
+<footer class="rv">
+  <p>goalify is free and open source (MIT). Part of the <a href="https://github.com/Aboudjem/10x">10x</a> plugin collection.</p>
+  <a class="gh glass" href="https://github.com/Aboudjem/goalify"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Star Aboudjem/goalify on GitHub</a>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  if(location.hash==='#static')document.documentElement.classList.add('static');
+  var c=document.getElementById('sky'),x=c.getContext('2d'),W,H,D=Math.min(window.devicePixelRatio||1,2),stars=[],shots=[],still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tints=['255,255,255','200,220,255','190,170,255','255,220,240','255,240,200'];
+  function size(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0);
+    stars=[];var n=Math.round(W*H/5200);
+    for(var i=0;i<n;i++){var z=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,z:z,r:z<.9?.35+z*.7:1+Math.random()*.8,
+      b:.25+Math.random()*.55,ph:Math.random()*6.28,sp:.4+Math.random()*1.4,t:tints[Math.random()*tints.length|0],flare:z>.97});}
+    if(still)frame(0);}
+  function star(s,a){x.fillStyle='rgba('+s.t+','+a+')';x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);x.fill();
+    if(s.r>1){var g=x.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);g.addColorStop(0,'rgba('+s.t+','+a*.35+')');g.addColorStop(1,'rgba('+s.t+',0)');x.fillStyle=g;x.beginPath();x.arc(s.x,s.y,s.r*5,0,6.283);x.fill();}
+    if(s.flare){x.strokeStyle='rgba('+s.t+','+a*.45+')';x.lineWidth=.6;var L=s.r*7*a;x.beginPath();x.moveTo(s.x-L,s.y);x.lineTo(s.x+L,s.y);x.moveTo(s.x,s.y-L);x.lineTo(s.x,s.y+L);x.stroke();}}
+  var last=0,next=3000;
+  function frame(t){x.clearRect(0,0,W,H);var dt=Math.min(t-last,50);last=t;
+    for(var i=0;i<stars.length;i++){var s=stars[i];
+      s.y-=s.z*s.z*.012*dt;s.x+=s.z*s.z*.004*dt;if(s.y<-4){s.y=H+4;s.x=Math.random()*W}if(s.x>W+4)s.x=-4;
+      var a=s.b*(.55+.45*Math.sin(t*.001*s.sp+s.ph));star(s,a);}
+    next-=dt;if(!still&&next<0){next=5000+Math.random()*7000;var ang=.35+Math.random()*.25;shots.push({x:Math.random()*W*.7,y:Math.random()*H*.35,vx:Math.cos(ang)*.9,vy:Math.sin(ang)*.9,life:0,max:900});}
+    for(var j=shots.length-1;j>=0;j--){var h=shots[j];h.life+=dt;h.x+=h.vx*dt;h.y+=h.vy*dt;var k=h.life/h.max,al=Math.sin(Math.PI*Math.min(k,1));
+      var tx=h.x-h.vx*140,ty=h.y-h.vy*140,g=x.createLinearGradient(h.x,h.y,tx,ty);g.addColorStop(0,'rgba(255,255,255,'+al+')');g.addColorStop(.3,'rgba(46,230,255,'+al*.5+')');g.addColorStop(1,'rgba(155,107,255,0)');
+      x.strokeStyle=g;x.lineWidth=1.4;x.lineCap='round';x.beginPath();x.moveTo(h.x,h.y);x.lineTo(tx,ty);x.stroke();if(k>=1)shots.splice(j,1);}
+    if(!still)requestAnimationFrame(frame);}
+  size();addEventListener('resize',size);
+  if(!still)requestAnimationFrame(function(t){last=t;frame(t)});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});}else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')})}
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var t=document.getElementById(b.getAttribute('data-copy')).textContent,lbl=b.textContent;
+    function ok(){b.textContent='Copied';document.getElementById('live').textContent='Copied to the clipboard';setTimeout(function(){b.textContent=lbl},1600)}
+    function fb(){var a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();ok()}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,fb)}else fb();});});
+})();
+</script>
+</body>
+</html>

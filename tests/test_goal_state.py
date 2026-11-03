@@ -3,8 +3,8 @@
 Tests for skills/goalify/scripts/goal_state.py, the parser every v3 helper reads briefs through.
 
 Pins: section parsing, Definition-of-done items and the commands pulled out of them, checklist
-ticks, the completion stamp, the sibling CONDITION file, BLOCKERS files, and the `--status`
-table (golden output, byte-identical resume lines, read-only).
+ticks, the completion stamp, and JSON mode. The `--status` table has its own suite,
+tests/test_status.py.
 
 Standard library only. Run: python3 tests/test_goal_state.py
 Exit 0 = all pass, 1 = at least one failed.
@@ -73,64 +73,6 @@ wrong = [k for k, v in cases.items() if goal_state.looks_like_command(k) != v]
 check("looks_like_command separates commands from values and paths", not wrong, f"{wrong}")
 check("placeholders in a command are flagged",
       goal_state.PLACEHOLDER_RE.search("curl -s <landing URL>") is not None)
-
-# --- Status: golden table on a fixture .goal/ ---
-tmp = tempfile.mkdtemp(prefix="goalify-status-")
-try:
-    gdir = os.path.join(tmp, ".goal")
-    shutil.copytree(os.path.join(FIX, "status", ".goal"), gdir)
-    for dirpath, _, names in os.walk(gdir):
-        for n in names:
-            os.utime(os.path.join(dirpath, n), (NOW - 3 * 86400, NOW - 3 * 86400))
-    os.utime(os.path.join(gdir, "alpha-20261101.md"), (NOW - 5 * 3600, NOW - 5 * 3600))
-
-    rows = goal_state.collect_status(gdir, NOW)
-    states = {r["slug"]: r["state"] for r in rows}
-    check("status: alpha is OPEN, beta BLOCKED, gamma DONE, ghost ORPHAN-CONDITION",
-          states == {"alpha": "OPEN", "beta": "BLOCKED", "gamma": "DONE",
-                     "ghost": "ORPHAN-CONDITION"}, f"{states}")
-    alpha = next(r for r in rows if r["slug"] == "alpha")
-    check("status: alpha ticks are 3/7", alpha["ticks"] == [3, 7], f"{alpha['ticks']}")
-    gamma = next(r for r in rows if r["slug"] == "gamma")
-    check("status: the archived brief's completion stamp is read",
-          (gamma["stamp"] or "").startswith("2026-10-02"), f"{gamma['stamp']}")
-
-    before = {os.path.join(d, n): os.stat(os.path.join(d, n)).st_mtime_ns
-              for d, _, ns in os.walk(gdir) for n in ns}
-    cmd = [sys.executable, os.path.join(SCRIPTS, "goal_state.py"), "--status", gdir,
-           "--now", str(NOW)]
-    out1 = subprocess.run(cmd, capture_output=True, text=True)
-    out2 = subprocess.run(cmd, capture_output=True, text=True)
-    after = {os.path.join(d, n): os.stat(os.path.join(d, n)).st_mtime_ns
-             for d, _, ns in os.walk(gdir) for n in ns}
-    check("status: exits 0", out1.returncode == 0, out1.stderr[-200:])
-    check("status: running it twice changes no file (same set, same mtimes)", before == after)
-    check("status: output is stable across runs", out1.stdout == out2.stdout)
-    golden = open(os.path.join(FIX, "status", "expected.txt"), encoding="utf-8").read()
-    check("status: output matches tests/fixtures/status/expected.txt", out1.stdout == golden,
-          "\n" + out1.stdout)
-
-    for slug in ("alpha", "beta"):
-        cond = open(os.path.join(gdir, f"CONDITION-{slug}.txt"), encoding="utf-8").read().strip()
-        line = f"  /goal {cond}"
-        check(f"status: {slug}'s resume line equals its CONDITION file byte for byte",
-              line in out1.stdout.split("\n"))
-        lint = subprocess.run([sys.executable, LINT, cond], capture_output=True, text=True)
-        check(f"status: {slug}'s reprinted condition passes condition_lint.py",
-              lint.returncode == 0, lint.stdout[-200:])
-    check("status: never prints a bare path as a resume step",
-          "resume ~/" not in out1.stdout and "/goal /" not in out1.stdout)
-    check("status: DONE and ORPHAN rows get no resume line",
-          "gamma (done)" not in out1.stdout and "ghost (" not in out1.stdout)
-
-    empty = os.path.join(tmp, "empty")
-    os.makedirs(empty)
-    e = subprocess.run([sys.executable, os.path.join(SCRIPTS, "goal_state.py"), "--status", empty],
-                       capture_output=True, text=True)
-    check("status: an empty folder says so and exits 0",
-          e.returncode == 0 and "No briefs found" in e.stdout, e.stdout)
-finally:
-    shutil.rmtree(tmp, ignore_errors=True)
 
 # --- JSON dump mode ---
 j = subprocess.run([sys.executable, os.path.join(SCRIPTS, "goal_state.py"),
