@@ -68,6 +68,9 @@ and begin PREPARE. If no task is given, infer it from the recent conversation, o
 - **Declarative-vs-exploration gate.** A `/goal` run needs a definable end state and a way to test it.
   If the request is open-ended exploration ("poke around and see what's interesting"), do NOT produce a
   run — say so and offer to explore interactively instead. A vague spec produces a meh autonomous run.
+- **Several big, independent sub-projects?** One fresh session will not hold them all. Author one
+  brief and one condition per sub-project, each self-contained, and say the order to run them in,
+  each after its own `/clear`.
 
 ## How `/goal` actually works (verify before you contradict this)
 

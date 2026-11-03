@@ -121,6 +121,15 @@ rc, failed, out = run(
 check("the over-a-glance NOTE is advisory and does not fail the lint",
       rc == 0 and "NOTE:" in out, f"exit={rc}")
 
+# --- The history-expansion NOTE is advisory too ---
+rc, failed, out = run("Do everything in ~/a/.goal/b.md, done when the last turn quotes npm test "
+                      "passing and says DONE!now. Stop after 30 turns.")
+check("a ! followed by a word prints a history-expansion NOTE without failing the lint",
+      rc == 0 and not failed and "history expansion" in out, f"exit={rc} failed={sorted(failed)}")
+rc, failed, out = run(CANONICAL)
+check("the canonical condition prints no history-expansion NOTE",
+      rc == 0 and "history expansion" not in out, f"exit={rc}")
+
 # --- Every worked condition in the gallery must lint clean ---
 GALLERY = os.path.join(ROOT, "examples", "conditions.md")
 FENCE_RE = re.compile(r"^\s{0,3}(`{3,}|~{3,})(.*)$")

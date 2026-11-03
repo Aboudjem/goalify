@@ -57,9 +57,10 @@ and (3) migrate the data warehouse — these are independent and each is large."
 
 **GREEN (with skill) — must hold:**
 1. Recognizes the work won't fit one fresh session.
-2. Proposes the split structure: a shared **STANDARDS** MD + **one MD per sub-project** + a final
-   **ALIGN** MD (run last), per the one-vs-several flowchart.
-3. Each brief is still self-contained and absolute-path'd, with its own derived condition.
+2. Splits it per the "Several big, independent sub-projects?" rule in SKILL.md: **one brief and one
+   condition per sub-project**, and says the order to run them in, each after its own `/clear`.
+3. Each brief is still self-contained and absolute-path'd, with its own derived condition that names
+   that brief's path (never a combined condition covering all three).
 
 ---
 

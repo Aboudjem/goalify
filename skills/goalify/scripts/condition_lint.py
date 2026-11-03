@@ -14,7 +14,8 @@ Usage:
     python3 skills/goalify/scripts/condition_lint.py "<condition>"
     echo "<condition>" | python3 skills/goalify/scripts/condition_lint.py
 
-Prints one line per rule, then a NOTE line if the condition is longer than a glance.
+Prints one line per rule, then a NOTE line if the condition is longer than a glance, and a NOTE
+if a "!" followed by a word could trigger shell history expansion in the headless line.
 Exit 0 = every rule passed, 1 = at least one failed, 2 = no condition was supplied.
 
 What it CANNOT check, and why the checklist in SKILL.md still needs a reader: whether the
@@ -43,6 +44,10 @@ BARE_DOLLAR_RE = re.compile(r"(?<!\\)\$")
 # double quote ends the string early.
 SHELL_QUOTE_RE = re.compile(r'[`"]')
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
+# In an interactive zsh or bash, "!" followed by a word inside double quotes can trigger
+# history expansion when the headless line is pasted. Rare (most sentinels look like X-OK),
+# so it is a NOTE, never a failure.
+HISTORY_BANG_RE = re.compile(r"!(?=[A-Za-z0-9_])")
 
 
 def _strip_wrapping_quotes(text):
@@ -133,6 +138,11 @@ def main(argv):
         print(f"NOTE: {len(cond):,} characters. A condition reads best in one breath, around "
               f"{GLANCE}. Every clause past the four teeth is one more thing to score as unmet. "
               "This note does not fail the lint.")
+
+    if HISTORY_BANG_RE.search(cond):
+        print('NOTE: "!" followed by a word can trigger history expansion in an interactive '
+              'zsh or bash when the headless claude -p "/goal ..." line is pasted. Reword it or '
+              "put a space after the !. This note does not fail the lint.")
 
     failed = [r for r, ok, _ in results if not ok]
     print("-" * 60)
