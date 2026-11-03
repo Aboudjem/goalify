@@ -79,7 +79,7 @@
         return w;
       }
       // rotation angle: slow drift + integrated warp speed (fixed 1/60 s steps: deterministic)
-      var BASE = 0.0022,
+      var BASE = cfg.calm ? 0 : 0.0022,
         FAST = 0.2;
       function angAt(t) {
         var a = BASE * t,
@@ -103,7 +103,8 @@
           var sx = PX + Math.cos(a0) * s.rad,
             sy = PY + Math.sin(a0) * s.rad;
           if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
-          var tw = s.b * (0.55 + 0.45 * Math.sin(t * s.sp + s.ph));
+          // calm (README loop): a still sky outside the time-lapse, so the GIF stays small
+          var tw = cfg.calm ? s.b * 0.8 : s.b * (0.55 + 0.45 * Math.sin(t * s.sp + s.ph));
           if (w > 0.02) {
             // star trail: three arc segments fading toward the tail
             var tr = trail * par;
@@ -202,7 +203,7 @@
         },
         0
       );
-      tl.fromTo("#sky-neb", { x: 0, y: 0 }, { x: -60, y: 30, duration: cfg.dur, ease: "none" }, 0);
+      tl.fromTo("#sky-neb", { x: 0, y: 0 }, { x: cfg.calm ? 0 : -60, y: cfg.calm ? 0 : 30, duration: cfg.dur, ease: "none" }, 0);
       draw(0);
       window.__timelines["sky"] = tl;
     })();

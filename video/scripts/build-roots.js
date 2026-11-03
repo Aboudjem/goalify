@@ -26,70 +26,65 @@ const SCENES = {
   cta: "compositions/cta.html", // 12: install
 };
 
+// Round 4 (owner): very simple English (A2), at least 0.6 s on screen per word and 2.5 s per
+// caption (3.5 s in the README loop), word reveals finished within 0.6 s.
+// Round 4b: the goal definition is back (merged into the request-to-goal caption) and the
+// time-lapse line is shorter. At 0.6 s a word the main cut cannot hold every script line in 45 s,
+// so "Or it says Done! But it is not done." and "You see the full plan." are left out; the plan page
+// still plays, under "It checks that the plan can work."
 const MAIN = [
-  ["ask", 8.4],
-  ["turn", 1.9],
-  ["goal", 9.05],
-  ["homework", 5.45],
-  ["summary", 3.95],
-  ["clear", 2.9],
-  ["nonstop", 3.25],
-  ["proof", 4.3],
-  ["cta", 5.6],
+  ["ask", 8.0],
+  ["turn", 2.55],
+  ["goal", 8.4],
+  ["homework", 4.85],
+  ["summary", 3.05],
+  ["clear", 3.65],
+  ["nonstop", 4.25],
+  ["proof", 4.25],
+  ["cta", 5.4],
 ];
 // [start, end, html, sub?, opts?] in seconds on the cut's clock. A sub line appears SUB_DELAY s
-// after its caption and is checked as its own caption (0.35 s per word from when it appears).
-// <br class="pb"> breaks only in 9:16 (a line too long for a phone-width frame).
+// after its caption and is checked as its own caption from when it appears.
 const MAIN_CAPS = [
-  [0.15, 2.3, "You give AI a <span class='grad'>big job.</span>"],
-  [2.4, 5.6, "It stops to ask you stuff.<br>Again and <span class='grad'>again.</span>"],
-  [5.7, 8.2, 'Or it says "Done!"...<br>and it <span class="grad">isn\'t.</span>'],
-  [8.55, 10.2, 'Meet <span class="grad">goalify.</span>'],
-  [10.4, 12.9, 'It turns any request<br>into a <span class="grad">goal.</span>'],
-  // honesty (release verifier): a run also ends at the turn limit, so never "can't stop"
-  [13.0, 19.3, 'A goal is a clear <span class="grad">finish line.</span><br>The AI keeps going until it\'s proven, <br class="pb">or hits your limit.', null, { maxWords: 11, tall: true }],
-  [19.4, 21.2, 'First, it does the <span class="grad">homework.</span>'],
-  [21.25, 24.78, "It checks it's doable, researches,<br>and asks <span class='grad'>every question</span> now."],
-  [24.85, 28.72, 'You get a short <span class="grad">summary,</span><br>and a page with every detail.'],
-  [28.8, 31.62, 'Clear the chat. Paste one line.<br><span class="grad">Walk away.</span>'],
-  [31.7, 34.87, 'Your AI works alone. Hours.<br>Even days. <span class="grad">Zero interruptions.</span>'],
-  [34.95, 39.17, 'Then it checks everything, <span class="grad">proves it,</span><br>and tells you what it did.'],
-  [39.25, 44.8, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>'],
+  [0.1, 4.9, 'You ask AI<br>to do a <span class="grad">big job.</span>'],
+  [4.95, 7.95, 'It keeps asking you <span class="grad">questions.</span>'],
+  [8, 10.5, 'Meet <span class="grad">goalify.</span>'],
+  [10.55, 18.95, 'It turns your request into a goal.<br>A goal is a clear <span class="grad">finish line.</span>', null, { tall: true }],
+  [19, 26.8, 'First, it asks <span class="grad">all its questions.</span><br>It checks that the plan can work.'],
+  [26.85, 30.45, 'Clear the chat. <span class="grad">Paste one line.</span>'],
+  [30.5, 34.7, 'Then the AI works <span class="grad">alone,</span> for hours.'],
+  [34.75, 38.95, 'At the end, it shows you <span class="grad">proof.</span>'],
+  [39, 44.4, 'Give your AI a big job.<br>Get <span class="grad">proof</span> back.', "Free. Works in Claude Code and Codex."],
 ];
 
-// The 15 s cut reads at the same 0.35 s a word as the main cut. To fit 15.5 s it keeps five
-// lines: "And it proves it's done." is dropped and the brand promise plays over VERIFIED and the
-// end card ("Come back to proof" lands on the proof).
 const SHORT = [
-  ["ask", 2.4],
-  ["turn", 2.5],
-  ["homework", 1.85],
-  ["goal", 2.05],
-  ["nonstop", 2.3],
-  ["proof", 1.35],
-  ["cta", 3.0],
+  ["ask", 3.1],
+  ["turn", 1.5],
+  ["homework", 1.6],
+  ["nonstop", 3.0],
+  ["proof", 1.8],
+  ["cta", 4.4],
 ];
 const SHORT_CAPS = [
-  [0.1, 3.25, 'You give AI a big job.<br>It keeps <span class="grad">stopping.</span>'],
-  [3.3, 4.9, 'Meet <span class="grad">goalify.</span>'],
-  [4.95, 8.85, 'It asks everything first.<br>Then turns your request into a <span class="grad">goal.</span>'],
-  [8.88, 11.68, 'Your AI works alone for hours.<br><span class="grad">Zero interruptions.</span>'],
-  [11.72, 15.45, 'Hand your AI a huge task.<br>Come back to <span class="grad">proof.</span>'],
+  [0.1, 3.1, 'AI keeps asking you <span class="grad">questions.</span>'],
+  [3.15, 6.15, '<span class="grad">goalify</span> asks them all first.'],
+  [6.2, 9.2, 'Then the AI works <span class="grad">alone.</span>'],
+  [9.25, 15.4, 'At the end, it shows you <span class="grad">proof.</span>'],
 ];
 
 const DEMO = [
-  ["goal", 2.4],
-  ["homework", 2.2],
-  ["nonstop", 2.4],
-  ["proof", 2.8],
+  ["goal", 4.5],
+  ["homework", 4.5],
+  ["nonstop", 4.3],
+  ["proof", 4.7],
 ];
 const DEMO_CAPS = [
-  [0.1, 2.3, 'Any request becomes a <span class="grad">goal.</span>'],
-  [2.45, 4.5, '<span class="grad">Every question</span> asked first.'],
-  [4.65, 6.75, 'Then it works <span class="grad">alone.</span>'],
-  [6.9, 9.8, 'And <span class="grad">proves</span> it\'s done.'],
+  [0.15, 4.45, 'Your request becomes a <span class="grad">goal.</span>'],
+  [4.55, 8.95, '<span class="grad">All questions</span> come first.'],
+  [9.05, 13.25, 'Then the AI works <span class="grad">alone.</span>'],
+  [13.35, 18.0, 'At the end, you get <span class="grad">proof.</span>'],
 ];
-const SUB_DELAY = 0.9;
+const SUB_DELAY = 1.1;
 
 const CUTS = [
   {
@@ -100,7 +95,7 @@ const CUTS = [
     seq: MAIN,
     caps: MAIN_CAPS,
     music: "assets/music-main.mp3",
-    shots: [8.75, 24.0, 39.6],
+    shots: [8.4, 20.6, 39.3],
     warp: ["nonstop"],
   },
   {
@@ -111,7 +106,7 @@ const CUTS = [
     seq: MAIN,
     caps: MAIN_CAPS,
     music: "assets/music-main.mp3",
-    shots: [8.75, 24.0, 39.6],
+    shots: [8.4, 20.6, 39.3],
     warp: ["nonstop"],
   },
   {
@@ -122,7 +117,7 @@ const CUTS = [
     seq: SHORT,
     caps: SHORT_CAPS,
     music: "assets/music-short.mp3",
-    shots: [2.75, 13.0],
+    shots: [3.45, 11.3],
     warp: ["nonstop"],
   },
   {
@@ -132,9 +127,11 @@ const CUTS = [
     h: 1080,
     seq: DEMO,
     caps: DEMO_CAPS,
+    minCap: 3.5,
+    calmSky: true,
     music: null,
-    shots: [7.2],
-    warp: ["nonstop"],
+    shots: [8.0],
+    warp: [],
   },
 ];
 
@@ -167,7 +164,7 @@ if (!c) {
 
   // caption checks: reading time, line length, no em dash
   const problems = [];
-  const PW = c.perWord || 0.35, MIN = c.minCap || 1.6, SD = c.subDelay || SUB_DELAY;
+  const PW = c.perWord || 0.6, MIN = c.minCap || 2.5, SD = c.subDelay || SUB_DELAY;
   const EM_DASH = String.fromCharCode(0x2014);
   const count = (h) => plain(h).split(/\s+/).filter(Boolean).length;
   c.caps.forEach(([s, e, html, sub, opts], i) => {
@@ -216,7 +213,7 @@ if (!c) {
     <script>
       window.FILM_CUT = ${JSON.stringify(c.name === "vertical" ? "main" : c.name)};
       window.FILM_SUB_DELAY = ${c.subDelay || SUB_DELAY};
-      window.FILM_SKY = ${JSON.stringify({ dur: D, shots: c.shots, warp })};
+      window.FILM_SKY = ${JSON.stringify({ dur: D, shots: c.shots, warp, calm: !!c.calmSky })};
     </script>
     <style>
       html,

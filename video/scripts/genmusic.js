@@ -1,8 +1,8 @@
 // Procedural music bed for the goalify promo. No deps, seeded, reproducible, royalty-free
 // (every sample is computed here). Writes a 16-bit stereo 44.1 kHz WAV.
 //
-//   node scripts/genmusic.js --dur 44.8 --turn 8.4 --fail 6.5 --pulse 31.65 --peak 35.12 --out renders/music-main.wav
-//   node scripts/genmusic.js --dur 15.45 --turn 2.4 --fail -1 --pulse 8.8 --peak 11.32 --out renders/music-short.wav
+//   node scripts/genmusic.js --dur 44.4 --turn 8.0 --fail -1 --pulse 30.5 --peak 34.97 --out renders/music-main.wav
+//   node scripts/genmusic.js --dur 15.4 --turn 3.1 --fail -1 --pulse 6.2 --peak 9.42 --out renders/music-short.wav
 //
 // The arc follows the film (script v2):
 //   0 .. turn     the problem (AI keeps asking, says "Done!" when it isn't): a quiet B-minor bed,

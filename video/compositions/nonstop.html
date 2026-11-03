@@ -196,7 +196,7 @@
     (function () {
       var F = window.Film;
       var MODE = F.cut();
-      var D = MODE === "main" ? 3.25 : MODE === "short" ? 2.3 : 2.4; // slot length per cut
+      var D = MODE === "main" ? 4.25 : MODE === "short" ? 3.0 : 4.3; // slot length per cut
       var tl = gsap.timeline({ paused: true });
       window.Film.push(tl, "#ns-cam", 9, 1, 1.04);
       var hEl = document.getElementById("ns-h"),
@@ -233,6 +233,8 @@
         },
       }, 0.2);
       tl.fromTo("#ns-streak", { x: 0 }, { x: 2900, duration: 0.9, ease: "power1.inOut" }, 0.7);
+      // README loop: keep the sky still (no tint sweep, sun or streak) so the GIF stays small
+      if (window.FILM_SKY && window.FILM_SKY.calm) gsap.set(["#ns-tint", "#ns-arc", "#ns-streak"], { display: "none" });
       var tDay = 0.2 + run * Math.sqrt((24 * 60) / END);
       tl.fromTo("#ns-day", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.6)" }, tDay);
       tl.fromTo(".ns-pill", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out", stagger: 0.1 }, 0.35);

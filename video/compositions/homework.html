@@ -71,8 +71,11 @@
       left: 1000px;
       top: 170px;
       width: 780px;
-      height: 420px;
+      height: 270px;
       padding: 40px 44px;
+    }
+    .hw-q2 {
+      display: none !important;
     }
     #hw-q .hw-h {
       color: var(--pink);
@@ -108,8 +111,8 @@
     }
     #hw-stamp {
       position: absolute;
-      left: 1040px;
-      top: 628px;
+      left: 1060px;
+      top: 500px;
       padding: 18px 34px;
       border-radius: 22px;
       border: 5px solid var(--green);
@@ -230,7 +233,7 @@
       var P = F.portrait();
       var MODE = F.cut();
       var SHORT = MODE !== "main";
-      var k = SHORT ? 0.32 : 1; // the short cut and the demo loop play the same beat compressed
+      var k = MODE === "short" ? 0.3 : MODE === "demo" ? 0.8 : 0.85; // one beat, timed to each cut (round 4: calmer)
       var tl = gsap.timeline({ paused: true });
       window.Film.push(tl, "#hw-cam", 9, 1, 1.04);
 
@@ -285,17 +288,13 @@
       tl.to("#hw-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1 }, 2.72 * k);
       tl.to("#hw-y1 .on", { opacity: 1, duration: 0.1 }, 2.75 * k);
       ripple(b1, 2.75 * k);
-      tl.to("#hw-cursor", { x: b2.x - 8, y: b2.y - 6, duration: 0.4 * Math.max(k, 0.6), ease: "power3.inOut" }, 3.0 * k);
-      tl.to("#hw-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1 }, 3.45 * k);
-      tl.to("#hw-y2 .on", { opacity: 1, duration: 0.1 }, 3.48 * k);
-      if (!P) ripple(b2, 3.48 * k);
       tl.to("#hw-cursor", { opacity: 0, duration: 0.25 }, 3.8 * k);
       // the stamp
       tl.fromTo("#hw-stamp", { opacity: 0, scale: 2.2, rotation: -14 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.3, ease: "power4.in" }, 4.0 * k);
       // the slam shakes the camera
-      F.shake(tl, "#hw-rig", 4.0 * k + 0.3, 0.32, 1.8);
+      F.shake(tl, "#hw-rig", 4.0 * k + 0.3, 0.3, 0.9);
 
-      var tEnd = MODE === "short" ? 1.63 : MODE === "demo" ? 1.98 : 5.22;
+      var tEnd = MODE === "short" ? 1.42 : MODE === "demo" ? 4.27 : 4.62;
       tl.to(["#hw-cmd", "#hw-list", "#hw-q", "#hw-stamp", "#hw-flag"], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power3.in" }, tEnd);
       window.__timelines["homework"] = tl;
     })();

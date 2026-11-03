@@ -6,10 +6,10 @@ Remotion teaser.
 
 | Output (in `../assets/`) | What |
 | --- | --- |
-| `goalify-promo.mp4` | main cut, 1920x1080, 44.8 s, music |
+| `goalify-promo.mp4` | main cut, 1920x1080, 44.4 s, music |
 | `goalify-promo-vertical.mp4` | same story re-laid out for 1080x1920 (not a crop) |
-| `goalify-promo-15s.mp4` | 15.45 s cut, ends on "Hand your AI a huge task. Come back to proof." |
-| `goalify-demo.mp4` / `.gif` | muted 9.8 s README loop (request to goal, questions first, works alone, proof); GIF 600 px |
+| `goalify-promo-15s.mp4` | 15.4 s cut: four simple lines, then the end card |
+| `goalify-demo.mp4` / `.gif` | muted 18 s README loop, 4 slow captions (GIF 640 px, 10 fps, calm sky) |
 | `goalify-promo-poster.png` | 1920x1080 poster (VERIFIED + the bakery "Here's what I did") |
 
 The story and every caption follow `../.goal/video-script-v2.md` including its Round 3: one
@@ -52,9 +52,11 @@ project, so the script rewrites `index.html` (and the generated caption track) f
 want, and `render-all.sh` puts the main cut back at the end. Scenes read `window.FILM_CUT` to play
 a compressed version in the 15 s cut and the demo loop.
 
-The script also checks every caption before it writes anything: at least 0.35 s on screen per word
-(a smaller sub line is timed from when it appears; every cut, the 15 s one included, reads at 0.35 s a word), at most 7 words a line, no em dash, nothing past the end of the cut. It refuses to build
-a cut that breaks a rule. The film's last caption holds sharp to the final frame.
+The script also checks every caption before it writes anything (Round 4 rules: very simple
+English, at least 0.6 s on screen per word and at least 2.5 s per caption, 3.5 s in the README
+loop; a sub line is timed from when it appears; at most 7 words a line; no em dash; nothing past
+the end of the cut). It refuses to build a cut that breaks a rule. Each line is fully revealed
+within 0.6 s, and the film's last caption holds sharp to the final frame.
 
 The vertical cut is a real relayout: each scene carries `@media (max-aspect-ratio: 1/1)` rules and
 checks `Film.portrait()` in its timeline. Captions are fitted to the frame width at build time

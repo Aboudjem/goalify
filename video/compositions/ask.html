@@ -266,15 +266,6 @@
           <div class="ak-b q"><b>?</b>Are you there?</div>
           <div class="ak-b q"><b>?</b>Hello?</div>
         </div>
-        <div id="ak-done">
-          <div id="ak-dl">Done!<small>Your bakery website is ready.</small><div id="ak-strike"></div></div>
-          <svg id="ak-crack" viewBox="0 0 1000 140" preserveAspectRatio="none"><path id="ak-crackp" d="M0 70 L120 52 L190 88 L300 40 L380 96 L470 58 L560 92 L640 44 L730 84 L820 50 L900 90 L1000 66" fill="none" stroke="#ff6b8b" stroke-width="4" stroke-linejoin="round" /></svg>
-        </div>
-        <div id="ak-bad">
-          <div class="ak-x"><b>✕</b>The menu page is empty</div>
-          <div class="ak-x"><b>✕</b>Photos don't load</div>
-          <div class="ak-x"><b>✕</b>The order button does nothing</div>
-        </div>
       </div>
     </div>
   </div></div>
@@ -294,11 +285,10 @@
       tl.fromTo("#ak-win", { opacity: 1, scale: 1, x: 0, y: 0, filter: "blur(0px)" }, { opacity: 1, duration: 0.01 }, 0);
       tl.fromTo("#ak-req", { opacity: 1 }, { opacity: 1, duration: 0.01 }, 0);
       tl.fromTo("#ak-away", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
-      tl.fromTo(["#ak-done", "#ak-bad"], { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
 
-      var tOn = SHORT ? 0.3 : 1.0;
-      var tQ = SHORT ? 0.55 : 2.45;
-      var gapQ = SHORT ? 0.24 : 0.5;
+      var tOn = SHORT ? 0.3 : 1.4;
+      var tQ = SHORT ? 0.6 : 3.4;
+      var gapQ = SHORT ? 0.36 : 0.62;
       tl.fromTo("#ak-on", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, tOn);
 
       // the questions keep coming; the stack scrolls up as they pile in
@@ -327,7 +317,7 @@
       // the pile shakes harder as it grows
       var RS = F.rng(21);
       for (var j = 0; j < 10; j++) {
-        var amp = 2 + j * 1.2;
+        var amp = 1 + j * 0.5;
         tl.to("#ak-win", { x: (RS() - 0.5) * amp * 2, y: (RS() - 0.5) * amp, duration: 0.05, ease: "none" }, tQ + gapQ * 2 + j * (gapQ * 0.35));
       }
       tl.to("#ak-win", { x: 0, y: 0, duration: 0.08 }, tQ + gapQ * 2 + 10 * gapQ * 0.35);
@@ -352,25 +342,8 @@
         tQ
       );
 
-      if (!SHORT) {
-        // "Done!" ... and it isn't
-        tl.to(stack, { opacity: 0, y: -over - 60, filter: "blur(8px)", duration: 0.28, ease: "power3.in" }, 5.55);
-        tl.fromTo("#ak-done", { opacity: 0, scale: 0.85, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.8)" }, 5.75);
-        var cp = document.getElementById("ak-crackp");
-        var L = 1100;
-        tl.fromTo(cp, { strokeDasharray: L, strokeDashoffset: L, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.22, ease: "power2.out" }, 6.5);
-        tl.fromTo("#ak-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 6.54);
-        tl.to("#ak-done", { backgroundColor: "rgba(255,107,139,0.08)", borderColor: "rgba(255,107,139,0.5)", duration: 0.2 }, 6.54);
-        tl.to("#ak-dl", { opacity: 0.55, duration: 0.25 }, 6.6);
-        var R = F.rng(7);
-        for (var i = 0; i < 6; i++) tl.to("#ak-win", { x: (R() - 0.5) * 22 * (1 - i / 6), duration: 0.035, ease: "none" }, 6.54 + i * 0.035);
-        tl.to("#ak-win", { x: 0, duration: 0.05 }, 6.77);
-        tl.fromTo("#ak-bad", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 6.75);
-        tl.fromTo("#ak-bad .ak-x", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out", stagger: 0.18 }, 6.78);
-      }
-
       // exit: everything freezes, then drops out of frame as goalify ignites behind it
-      var tEnd = SHORT ? 2.12 : 8.12;
+      var tEnd = SHORT ? 2.75 : 7.7;
       tl.to("#ak-win", { y: P ? 1500 : 1000, rotation: P ? 5 : 7, duration: 0.42, ease: "power3.in" }, tEnd);
       tl.to("#ak-win", { opacity: 0, duration: 0.16 }, tEnd + 0.26);
 

@@ -6,7 +6,7 @@
     "lint": "npx --yes hyperframes@0.9.8 lint",
     "check": "npx --yes hyperframes@0.9.8 check",
     "cut": "node scripts/build-roots.js",
-    "music": "node scripts/genmusic.js --dur 44.8 --turn 8.4 --fail 6.5 --pulse 31.65 --peak 35.12 --out renders/music-main.wav && ffmpeg -y -loglevel error -i renders/music-main.wav -c:a libmp3lame -b:a 192k assets/music-main.mp3 && node scripts/genmusic.js --dur 15.45 --turn 2.4 --fail -1 --pulse 8.8 --peak 11.32 --out renders/music-short.wav && ffmpeg -y -loglevel error -i renders/music-short.wav -c:a libmp3lame -b:a 192k assets/music-short.mp3",
+    "music": "node scripts/genmusic.js --dur 44.4 --turn 8.0 --fail -1 --pulse 30.5 --peak 34.97 --out renders/music-main.wav && ffmpeg -y -loglevel error -i renders/music-main.wav -c:a libmp3lame -b:a 192k assets/music-main.mp3 && node scripts/genmusic.js --dur 15.4 --turn 3.1 --fail -1 --pulse 6.2 --peak 9.42 --out renders/music-short.wav && ffmpeg -y -loglevel error -i renders/music-short.wav -c:a libmp3lame -b:a 192k assets/music-short.mp3",
     "render:all": "bash scripts/render-all.sh"
   }
 }

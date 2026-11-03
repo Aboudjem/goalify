@@ -149,7 +149,12 @@
       var tl = gsap.timeline({ paused: true });
       F.push(tl, "#ct-cam", 9, 1, 1.03);
       // the 15 s cut says it in one line, in the caption, so the card keeps only the install
-      if (F.cut() === "short") document.getElementById("ct-free-t").textContent = "For Claude Code and Codex.";
+      // main: the caption's sub line says it, so the card keeps only the install; 15 s: the card says it
+      if (F.cut() === "short") document.getElementById("ct-free-t").textContent = "Works in Claude Code and Codex.";
+      else {
+        document.getElementById("ct-free").style.display = "none";
+        document.getElementById("ct-gh").style.top = (F.portrait() ? 690 : 490) + "px";
+      }
 
       document.querySelectorAll(".ct-ring").forEach(function (c, k) {
         var len = 2 * Math.PI * [26, 50, 74][k];

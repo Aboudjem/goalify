@@ -95,11 +95,12 @@
     var inner = el.querySelector(".capin");
     var sub = el.querySelector(".capsub");
     var ws = words(inner);
-    var gap = Math.min(0.09, 0.6 / Math.max(1, ws.length));
+    // the whole line is readable within 0.6 s: 0.3 s per word, the last word starts by 0.3 s
+    var gap = Math.min(0.06, 0.3 / Math.max(1, ws.length - 1));
     tl.fromTo(
       ws,
-      { opacity: 0, y: 26, scale: 0.72, filter: "blur(6px)" },
-      { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.38, ease: "back.out(2.1)", stagger: gap },
+      { opacity: 0, y: 14, scale: 0.88, filter: "blur(4px)" },
+      { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "back.out(1.4)", stagger: gap },
       start
     );
     if (sub) tl.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, start + (window.FILM_SUB_DELAY || 0.9));
@@ -110,7 +111,7 @@
       g.forEach(function (x) {
         kw.push(x.closest(".w") || x);
       });
-      var tk = start + gap * ws.length + 0.2;
+      var tk = start + 0.65;
       tl.fromTo(kw, { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tk);
       tl.fromTo(g, { filter: "drop-shadow(0 0 0px rgba(155,107,255,0))" }, { filter: "drop-shadow(0 0 18px rgba(155,107,255,0.85))", duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, tk);
     }
