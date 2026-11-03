@@ -4,13 +4,13 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is."
+    "description": "Give your AI a big job. goalify asks all the questions first. Then the AI works alone, for hours, and shows you proof at the end."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "Hand Claude a huge task. Come back to proof it's done, not a promise that it is.",
+      "description": "Give your AI a big job. goalify asks all the questions first. Then the AI works alone, for hours, and shows you proof at the end.",
       "version": "3.0.0"
     }
   ]
