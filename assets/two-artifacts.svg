@@ -1,153 +1,181 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 770" fill="none" role="img" aria-label="goalify: one command writes two things, a brief the worker opens and a condition the evaluator reads.">
-  <title>goalify: one command writes two things, a brief the worker opens and a condition the evaluator reads</title>
-  <desc>A two-lane diagram. One goalify command forks into two lanes. The upper lane carries the BRIEF: a sheet of paper with a folded corner and an indigo binding edge, named api-migration.md, which flows to the WORKER, a panel with a window and the sheet open inside it, because the worker opens the file. The lower lane carries the CONDITION: a violet capsule, one line you paste whole, which flows through a neutral goal chip to the EVALUATOR, a flat panel with no window and a struck-out folder, because it reads only the words you paste and cannot open files. Between the lanes, one fact: the condition carries the brief's path. At the bottom, a struck-through near-miss shows that words about the path are not the path.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" fill="none" role="img" aria-label="goalify writes two artifacts: a brief file and a condition string">
+  <title>goalify writes two artifacts: a brief file and a condition string</title>
+  <desc>A two-lane diagram. The left lane shows the brief: a long-form markdown file with full instructions. The right lane shows the condition: one self-contained line of text that the goal command uses to evaluate the run. A struck-through counter-example at the bottom shows that passing only a path after goal is the wrong form, because the evaluator cannot read files at runtime.</desc>
   <defs>
-    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#14102A"/>
-      <stop offset="60%" stop-color="#0A0F1C"/>
-      <stop offset="100%" stop-color="#080C18"/>
+    <linearGradient id="ta-bg" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%"   stop-color="#0d0b1a"/>
+      <stop offset="100%" stop-color="#07060f"/>
     </linearGradient>
-
-    <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
-      <stop offset="0%"  stop-color="#C77DFF" stop-opacity="0.18"/>
-      <stop offset="42%" stop-color="#7C3AED" stop-opacity="0.09"/>
-      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    <radialGradient id="ta-gA" cx="0.15" cy="0.20" r="0.65">
+      <stop offset="0%"   stop-color="#9b6bff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#9b6bff" stop-opacity="0"/>
     </radialGradient>
-
-    <linearGradient id="g-rule" gradientUnits="userSpaceOnUse" x1="40" y1="86" x2="860" y2="86">
-      <stop offset="0%"   stop-color="#8E7BFF" stop-opacity="0.15"/>
-      <stop offset="26%"  stop-color="#8E7BFF" stop-opacity="0.75"/>
-      <stop offset="66%"  stop-color="#C77DFF" stop-opacity="0.75"/>
-      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0.15"/>
+    <radialGradient id="ta-gB" cx="0.88" cy="0.78" r="0.55">
+      <stop offset="0%"   stop-color="#ff3d9a" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#ff3d9a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ta-brand" x1="0" y1="0" x2="1" y2="0">
+      <stop class="ta-d1" offset="0%"   stop-color="#9b6bff"/>
+      <stop class="ta-d2" offset="100%" stop-color="#2ee6ff"/>
     </linearGradient>
-
-    <filter id="g-glow-sm" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="3.2" result="b"/>
+    <filter id="ta-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-      <radialGradient id="v2-bloomA" cx="0.18" cy="0.22" r="0.72">
-      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="v2-bloomB" cx="0.84" cy="0.86" r="0.68">
-      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.11"/>
-      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
   <style>
-    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-    .lbl  { font-size: 30px; font-weight: 800; }
-    .cap  { font-size: 28px; font-weight: 700; letter-spacing: 1.5px; }
-    .body { font-size: 28px; font-weight: 500; }
+    .ta  { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    .tam { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace; }
 
-    @keyframes g-breathe { 0%,100% { opacity: 0.55; } 50% { opacity: 0.95; } }
-    .bloom { animation: g-breathe 9s ease-in-out infinite; }
+    @keyframes ta-d1 { 0%,100% { stop-color:#9b6bff; } 50% { stop-color:#2ee6ff; } }
+    @keyframes ta-d2 { 0%,100% { stop-color:#2ee6ff; } 50% { stop-color:#ff3d9a; } }
+    .ta-d1 { animation: ta-d1 16s ease-in-out infinite; }
+    .ta-d2 { animation: ta-d2 16s ease-in-out infinite 2s; }
 
-    @keyframes g-flow { to { stroke-dashoffset: -240; } }
-    .flowline { animation: g-flow 14s linear infinite; }
+    @keyframes ta-bloom { 0%,100% { opacity:.65; } 50% { opacity:1; } }
+    .ta-bloom { animation: ta-bloom 11s ease-in-out infinite; }
 
-    @keyframes g-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    .row-1 { animation: g-rise 0.6s ease-out 0.3s both; }
-    .row-2 { animation: g-rise 0.6s ease-out 0.8s both; }
-    .row-3 { animation: g-rise 0.6s ease-out 1.3s both; }
-    .row-4 { animation: g-rise 0.6s ease-out 1.8s both; }
+    @keyframes ta-rise { from { transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .ta-r1 { animation: ta-rise 0.6s ease-out 0.3s both; }
+    .ta-r2 { animation: ta-rise 0.6s ease-out 0.7s both; }
+    .ta-r3 { animation: ta-rise 0.6s ease-out 1.1s both; }
 
-    @keyframes g-pip { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
-    .d1 { animation: g-pip 5s ease-in-out infinite 0s; }
-    .d2 { animation: g-pip 5s ease-in-out infinite 0.35s; }
+    @keyframes ta-tw { 0%,100% { opacity:.08; } 50% { opacity:.45; } }
+    .ta-t1 { animation: ta-tw 7s ease-in-out infinite 0s; }
+    .ta-t2 { animation: ta-tw 9s ease-in-out infinite 4s; }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; }
-    }
-      @keyframes v2-breathe { 0%,100% { opacity:0.66; } 50% { opacity:1; } }
-    .v2bloom { animation: v2-breathe 11s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
 
-  <rect width="900" height="770" fill="url(#g-bg)"/>
-  <g class="v2bloom"><rect width="900" height="770" fill="url(#v2-bloomA)"/><rect width="900" height="770" fill="url(#v2-bloomB)"/></g>
-  <ellipse class="bloom" cx="450" cy="782" rx="600" ry="240" fill="url(#g-bloom)"/>
-  <rect x="2" y="2" width="896" height="766" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
-
-  <!-- Z0 header -->
-  <text class="disp" font-size="40" font-weight="700" x="40" y="56" fill="#F2F6FF">One command. Two things.</text>
-  <text class="mono" font-size="22" letter-spacing="2.5" x="860" y="56" text-anchor="end" fill="#93A2BE">TWO READERS</text>
-  <line x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5"/>
-  <line class="flowline" x1="40" y1="86" x2="860" y2="86" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
-
-  <!-- Z1 origin: the one command both things come out of; two lanes fork from it -->
-  <g class="row-1">
-    <rect x="40" y="300" width="196" height="64" rx="6" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <text class="mono" font-size="30" font-weight="700" x="138" y="342" text-anchor="middle" fill="#C77DFF">/goalify</text>
-    <text class="disp body" x="40" y="392" fill="#C2CDE4">writes both</text>
-    <path d="M236 332 C 280 332, 286 232, 292 232" fill="none" stroke="#8E7BFF" stroke-width="4"/>
-    <path d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
-    <path class="flowline" d="M236 332 C 280 332, 286 534, 292 534" fill="none" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8" opacity="0.8"/>
+  <rect width="900" height="640" fill="url(#ta-bg)"/>
+  <g class="ta-bloom">
+    <rect width="900" height="640" fill="url(#ta-gA)"/>
+    <rect width="900" height="640" fill="url(#ta-gB)"/>
   </g>
+  <rect x="1.5" y="1.5" width="897" height="637" rx="24"
+        fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+  <rect x="2" y="2" width="896" height="1.5" rx="0.75"
+        fill="#ffffff" fill-opacity="0.15"/>
 
-  <!-- Z2 upper lane, the BRIEF: a sheet, folded corner, binding edge -->
-  <g class="row-2">
-    <path d="M292 140 H596 L620 164 V324 H292 Z" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <path d="M596 140 L620 164 H596 Z" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
-    <rect class="d1" x="292" y="140" width="8" height="184" fill="#8E7BFF" filter="url(#g-glow-sm)"/>
-    <text class="disp lbl" x="326" y="186" fill="#8E7BFF">BRIEF</text>
-    <text class="disp cap" x="600" y="186" text-anchor="end" fill="#8E7BFF">A FILE</text>
-    <text class="mono" font-size="28" x="326" y="230" fill="#F2F6FF">api-migration.md</text>
-    <line x1="326" y1="258" x2="560" y2="258" stroke="#1E2A42" stroke-width="2"/>
-    <line x1="326" y1="278" x2="520" y2="278" stroke="#1E2A42" stroke-width="2"/>
-    <line x1="326" y1="298" x2="548" y2="298" stroke="#1E2A42" stroke-width="2"/>
+  <!-- Stars -->
+  <circle class="ta-t1" cx="820" cy="60"  r="1.0" fill="#ffffff"/>
+  <circle class="ta-t2" cx="58"  cy="580" r="0.9" fill="#ffffff"/>
 
-    <line x1="620" y1="232" x2="648" y2="232" stroke="#8E7BFF" stroke-width="4"/>
-    <path d="M648 225 L660 232 L648 239 Z" fill="#8E7BFF"/>
-
-    <!-- Z2b the WORKER: it gets a window, with the sheet open inside -->
-    <rect x="664" y="140" width="196" height="190" rx="10" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <path d="M688 176 H716 L724 184 V222 H688 Z" fill="none" stroke="#8E7BFF" stroke-width="2"/>
-    <path d="M694 192 H714 M694 200 H710 M694 208 H714" stroke="#8E7BFF" stroke-width="1.5" opacity="0.6"/>
-    <text class="disp lbl" x="688" y="266" fill="#F2F6FF">WORKER</text>
-    <text class="disp body" x="688" y="300" fill="#C2CDE4">opens it</text>
-  </g>
-
-  <!-- Z3 the one cross-lane fact -->
-  <line x1="292" y1="344" x2="860" y2="344" stroke="#1E2A42" stroke-width="1.5"/>
-  <line x1="330" y1="306" x2="330" y2="340" stroke="#8E7BFF" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.55"/>
-  <text class="disp body" x="292" y="376" fill="#C2CDE4">The condition carries the brief's path.</text>
-
-  <!-- Z4 the /goal chip: a command, outside both plates, tied to the label below -->
-  <g class="row-3">
-    <rect x="292" y="404" width="112" height="44" rx="10" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
-    <text class="mono" font-size="28" font-weight="700" x="348" y="434" text-anchor="middle" fill="#F2F6FF">/goal</text>
-    <text class="disp body" x="420" y="434" fill="#C2CDE4">it takes the string, not the file</text>
-    <line x1="348" y1="448" x2="348" y2="454" stroke="#C77DFF" stroke-width="2.5"/>
-    <path d="M342 452 L348 460 L354 452 Z" fill="#C77DFF"/>
-
-    <!-- Z5 lower lane, the CONDITION: a capsule, one line -->
-    <rect x="292" y="464" width="328" height="148" rx="36" fill="#0E1524" stroke="#C77DFF" stroke-width="2"/>
-    <text class="disp" font-size="26" font-weight="800" x="326" y="510" fill="#C77DFF">CONDITION</text>
-    <text class="disp" font-size="22" font-weight="700" letter-spacing="1.5" x="600" y="509" text-anchor="end" fill="#C77DFF">STRING</text>
-    <text class="mono" font-size="26" x="326" y="552" fill="#F2F6FF">Do everything in…</text>
-    <text class="disp body" x="326" y="590" fill="#C2CDE4">you paste it whole</text>
-
-    <line x1="620" y1="538" x2="648" y2="538" stroke="#C77DFF" stroke-width="4" stroke-dasharray="12 8"/>
-    <path d="M648 531 L660 538 L648 545 Z" fill="#C77DFF"/>
-
-    <!-- Z5b the EVALUATOR: no window, no file, the absence is the argument -->
-    <rect x="664" y="464" width="196" height="180" rx="4" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <path d="M688 496 H700 L704 490 H724 V524 H688 Z" fill="none" stroke="#5C6A85" stroke-width="1.5"/>
-    <path d="M694 500 L718 518 M718 500 L694 518" stroke="#FFB341" stroke-width="3" stroke-linecap="round"/>
-    <text class="disp" font-size="27" font-weight="800" x="688" y="560" fill="#F2F6FF">EVALUATOR</text>
-    <text class="disp body" x="688" y="592" fill="#C2CDE4">words only</text>
-    <text class="disp body" x="688" y="622" fill="#C2CDE4">no files</text>
-  </g>
-
-  <!-- Z6 the words-only near-miss, struck, static, never an object -->
-  <g class="row-4">
-    <line x1="40" y1="656" x2="860" y2="656" stroke="#1E2A42" stroke-width="1.5"/>
-    <g data-antipattern="v1">
-      <text class="mono" font-size="28" x="40" y="700" fill="#93A2BE">/goal the brief's path</text>
-      <line x1="40" y1="691" x2="410" y2="691" stroke="#FFB341" stroke-width="2.5"/>
-      <text class="disp body" x="40" y="736" fill="#FFB341">words about the path are not the path.</text>
+  <!-- Masthead -->
+  <g class="ta-r1" filter="url(#ta-glow)">
+    <g fill="none" stroke="url(#ta-brand)" stroke-width="2.2">
+      <circle cx="70" cy="48" r="16"/>
+      <circle cx="70" cy="48" r="9"  stroke-width="1.7" opacity="0.80"/>
+      <circle cx="70" cy="48" r="3"  stroke-width="1.5" opacity="0.62"/>
     </g>
+    <line x1="52" y1="30" x2="82" y2="60" stroke="#2ee6ff" stroke-width="2.0" stroke-linecap="round"/>
+    <circle cx="49" cy="27" r="2.5" fill="#2ee6ff"/>
+    <circle cx="70" cy="48" r="2.0" fill="#3dffa8"/>
+    <text class="ta" x="100" y="58" font-size="36" font-weight="800"
+          letter-spacing="-1.1" fill="url(#ta-brand)">two artifacts</text>
+  </g>
+
+  <!-- TWO LANE CARDS -->
+
+  <!-- Lane A: BRIEF (purple, left) -->
+  <g class="ta-r2">
+    <rect x="40" y="84" width="390" height="340" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#9b6bff" stroke-opacity="0.35" stroke-width="1.5"/>
+    <rect x="41" y="85" width="388" height="1.5" rx="0.75"
+          fill="#9b6bff" fill-opacity="0.30"/>
+    <rect x="40" y="84" width="7" height="340" rx="3.5" fill="#9b6bff"/>
+
+    <text class="ta" font-size="30" font-weight="800" x="68" y="124"
+          fill="#9b6bff">BRIEF</text>
+    <rect x="272" y="98" width="72" height="32" rx="16"
+          fill="#9b6bff" fill-opacity="0.20"
+          stroke="#9b6bff" stroke-opacity="0.45" stroke-width="1"/>
+    <text class="ta" font-size="18" font-weight="700" x="308" y="119"
+          text-anchor="middle" fill="#9b6bff">FILE</text>
+    <text class="ta" font-size="22" font-weight="500" x="68" y="154"
+          fill="#a59cc9">api-migration.md</text>
+
+    <!-- Doc lines -->
+    <text class="tam" font-size="16" x="68" y="192" fill="#f1edff">## Goal</text>
+    <text class="tam" font-size="16" x="68" y="214" fill="#8877b0">Migrate all REST endpoints to</text>
+    <text class="tam" font-size="16" x="68" y="234" fill="#8877b0">OpenAPI 3.1 with Zod schemas.</text>
+    <text class="tam" font-size="16" x="68" y="268" fill="#f1edff">## Acceptance</text>
+    <text class="tam" font-size="16" x="68" y="288" fill="#8877b0">- npm test green, 0 skips</text>
+    <text class="tam" font-size="16" x="68" y="308" fill="#8877b0">- /health returns 200</text>
+    <text class="tam" font-size="16" x="68" y="328" fill="#8877b0">- no any[] in src/</text>
+    <text class="tam" font-size="16" x="68" y="362" fill="#f1edff">## Context</text>
+    <text class="tam" font-size="16" x="68" y="382" fill="#8877b0">Express 4, Node 22, Prisma 5.x</text>
+    <text class="tam" font-size="16" x="68" y="406" fill="#a59cc9">... (full instructions)</text>
+  </g>
+
+  <!-- Lane B: CONDITION (pink, right) -->
+  <g class="ta-r2">
+    <rect x="470" y="84" width="390" height="340" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ff3d9a" stroke-opacity="0.35" stroke-width="1.5"/>
+    <rect x="471" y="85" width="388" height="1.5" rx="0.75"
+          fill="#ff3d9a" fill-opacity="0.30"/>
+    <rect x="470" y="84" width="7" height="340" rx="3.5" fill="#ff3d9a"/>
+
+    <text class="ta" font-size="30" font-weight="800" x="498" y="124"
+          fill="#ff3d9a">CONDITION</text>
+    <rect x="772" y="98" width="72" height="32" rx="16"
+          fill="#ff3d9a" fill-opacity="0.20"
+          stroke="#ff3d9a" stroke-opacity="0.45" stroke-width="1"/>
+    <text class="ta" font-size="18" font-weight="700" x="808" y="119"
+          text-anchor="middle" fill="#ff3d9a">LINE</text>
+
+    <!-- Condition chip -->
+    <rect x="498" y="148" width="346" height="130" rx="16"
+          fill="#ff3d9a" fill-opacity="0.08"
+          stroke="#ff3d9a" stroke-opacity="0.30" stroke-width="1.5"/>
+    <text class="tam" font-size="15" x="514" y="176" fill="#f1edff">Do everything in</text>
+    <text class="tam" font-size="15" x="514" y="198" fill="#f1edff">~/acme/.goal/api-migration.md</text>
+    <text class="tam" font-size="15" x="514" y="220" fill="#f1edff">and prove it, done when the last</text>
+    <text class="tam" font-size="15" x="514" y="242" fill="#f1edff">turn quotes npm test passing and</text>
+    <text class="tam" font-size="15" x="514" y="264" fill="#f1edff">says ASYNC-OK. Stop after 40 turns.</text>
+
+    <text class="ta" font-size="20" font-weight="500" x="498" y="328"
+          fill="#a59cc9">Paste this whole string into</text>
+    <rect x="498" y="336" width="84" height="34" rx="12"
+          fill="#ffffff" fill-opacity="0.10"
+          stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+    <text class="tam" font-size="20" font-weight="700" x="540" y="359"
+          text-anchor="middle" fill="#f1edff">/goal</text>
+    <text class="ta" font-size="20" font-weight="500" x="592" y="358"
+          fill="#a59cc9">after /clear.</text>
+  </g>
+
+  <!-- Arrow joining the two lanes -->
+  <line x1="450" y1="254" x2="466" y2="254"
+        stroke="url(#ta-brand)" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="466,249 474,254 466,259" fill="url(#ta-brand)"/>
+
+  <!-- Counter-example (WRONG): struck-out path form -->
+  <g class="ta-r3">
+    <rect x="40" y="444" width="820" height="168" rx="20"
+          fill="#ffffff" fill-opacity="0.03"
+          stroke="#ffd23f" stroke-opacity="0.30" stroke-width="1.5"/>
+    <rect x="41" y="445" width="818" height="1.5" rx="0.75"
+          fill="#ffd23f" fill-opacity="0.20"/>
+
+    <rect x="40" y="444" width="7" height="168" rx="3.5" fill="#ffd23f"/>
+
+    <rect x="56" y="452" width="114" height="26" rx="13"
+          fill="#ffd23f" fill-opacity="0.18"
+          stroke="#ffd23f" stroke-opacity="0.50" stroke-width="1"/>
+    <text class="ta" font-size="15" font-weight="700" x="113" y="470"
+          text-anchor="middle" fill="#ffd23f" letter-spacing="0.5">WRONG FORM</text>
+
+    <!-- struck-out antipattern -->
+    <g data-antipattern="v1">
+      <text class="tam" font-size="24" x="68" y="516" fill="#8a82b6">/goal the brief's path</text><!-- v1-antipattern -->
+      <line x1="68" y1="508" x2="332" y2="508" stroke="#ffd23f" stroke-width="2.5"/>
+      <text class="ta" font-size="22" x="68" y="558" fill="#ffd23f">words about the path are not the path.</text>
+    </g>
+
+    <text class="ta" font-size="20" x="68" y="594" fill="#6a638a">Pass the full condition string, not a file path. The evaluator cannot open files.</text>
   </g>
 </svg>

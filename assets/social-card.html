@@ -2,87 +2,321 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>goalify — social card (1280×640)</title>
+<meta name="viewport" content="width=1280">
+<title>goalify social card</title>
 <style>
-  :root{
-    --paper:#F6F1E8; --sheet:#FFFCF7; --ink:#263536; --ink-2:#4C5654;
-    --brief-ink:#1B5A78; --brief-tint:#DCEBF4; --cond-ink:#7A5200; --cond-tint:#F7E9C6;
-    --proof-ink:#265C43; --rule:#96896E; --grain:#EDE5D6;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:    #07060f;
+    --bg2:   #0d0b1a;
+    --purp:  #9b6bff;
+    --cyan:  #2ee6ff;
+    --pink:  #ff3d9a;
+    --yell:  #ffd23f;
+    --grn:   #3dffa8;
+    --ink:   #f1edff;
+    --sub:   #a59cc9;
+    --dim:   #4a4468;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:1280px;height:640px;overflow:hidden}
-  body{
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+
+  html, body {
+    width: 1280px;
+    height: 640px;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 80px;
+    /* Glass border */
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+  }
+
+  /* Subtle ambient glows */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
     background:
-      radial-gradient(60% 60% at 16% 4%, rgba(255,255,255,.55) 0%, transparent 70%),
-      radial-gradient(circle at 1px 1px, var(--grain) 0.8px, transparent 0) 0 0/6px 6px,
-      var(--paper);
-    color:var(--ink); position:relative; display:flex;
+      radial-gradient(ellipse 60% 60% at 10% 15%, rgba(155,107,255,0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 55% at 90% 88%, rgba(46,230,255,0.10) 0%, transparent 70%);
+    pointer-events: none;
   }
-  .serif{font-family:ui-serif,Georgia,"Times New Roman",serif}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-  .left{width:740px;padding:64px;display:flex;flex-direction:column;position:relative}
-  .eyebrow{font-size:22px;font-weight:700;letter-spacing:3px;color:var(--ink-2)}
-  h1{font-size:96px;font-weight:700;letter-spacing:-2px;color:var(--ink);margin-top:12px}
-  .story{margin-top:26px;font-size:34px;font-weight:500;line-height:1.34;color:var(--ink)}
-  .legend{margin-top:36px;display:flex;flex-direction:column;gap:16px;font-size:24px;color:var(--ink-2)}
-  .legend .row{display:flex;align-items:center;gap:16px}
-  .swatch{width:22px;height:22px;flex:none}
-  .swatch.a{background:var(--brief-ink)}
-  .swatch.b{background:var(--cond-ink);border-radius:11px}
-  .legend .a-name{color:var(--brief-ink);font-weight:700}
-  .legend .b-name{color:var(--cond-ink);font-weight:700}
-  .footer{position:absolute;left:64px;bottom:48px;font-size:21px;color:var(--ink-2)}
-  .right{width:540px;padding:52px 56px 0 0;position:relative}
-  .sheet{position:relative;background:var(--sheet);border:2px solid var(--rule);padding:20px 24px 22px 36px}
-  .sheet::before{content:"";position:absolute;left:0;top:0;bottom:0;width:12px;background:var(--brief-ink)}
-  .sheet::after{content:"";position:absolute;right:0;top:0;border-style:solid;
-    border-width:0 28px 28px 0;border-color:var(--paper) var(--paper) var(--grain) transparent}
-  .sheet .head{display:flex;justify-content:space-between;align-items:baseline}
-  .sheet .label{font-size:26px;font-weight:800;color:var(--brief-ink)}
-  .sheet .kind{font-size:22px;font-weight:700;letter-spacing:1.5px;color:var(--brief-ink);margin-right:34px}
-  .sheet .file{margin-top:8px;font-size:26px;color:var(--ink)}
-  .sheet .ruled{margin-top:12px;height:2px;background:var(--rule);opacity:.55}
-  .sheet .ruled.short{width:70%;margin-top:10px}
-  .goalrow{margin-top:24px;display:flex;align-items:center;gap:20px}
-  .goal-chip{background:var(--ink);color:var(--sheet);border-radius:12px;
-    padding:8px 22px;font-size:26px;font-weight:700}
-  .goalrow .cap{font-size:22px;color:var(--ink-2)}
-  .plate{margin-top:20px;background:var(--cond-tint);border:3px solid var(--cond-ink);
-    border-radius:46px;padding:22px 34px}
-  .plate .label{font-size:24px;font-weight:700;letter-spacing:2px;color:var(--cond-ink)}
-  .cond{margin-top:12px;font-size:24px;line-height:1.45;color:var(--ink);overflow-wrap:break-word}
-  .proof{margin-top:26px;display:flex;align-items:center;gap:14px;font-size:24px;color:var(--proof-ink);font-weight:600}
-  .proof svg{flex:none}
+
+  /* Top highlight */
+  body::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px;
+    height: 1.5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+  }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .star-1 { width: 2px; height: 2px; top: 78px;  right: 160px; opacity: 0.45; }
+  .star-2 { width: 2px; height: 2px; top: 520px; right: 80px;  opacity: 0.35; }
+  .star-3 { width: 2px; height: 2px; top: 200px; left: 600px;  opacity: 0.28; }
+
+  /* Cross-flare star */
+  .flare {
+    position: absolute;
+    top: 64px; right: 200px;
+    width: 14px; height: 14px;
+  }
+  .flare::before, .flare::after {
+    content: '';
+    position: absolute;
+    background: var(--cyan);
+    border-radius: 2px;
+    opacity: 0.55;
+  }
+  .flare::before { width: 1.5px; height: 14px; left: 6.25px; top: 0; }
+  .flare::after  { width: 14px; height: 1.5px; top: 6.25px; left: 0; }
+
+  /* Mark */
+  .mark {
+    position: absolute;
+    top: 48px;
+    left: 80px;
+  }
+
+  /* Main layout: left block + divider + right block */
+  .layout {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Left: wordmark + tagline */
+  .left {
+    flex: 0 0 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 60px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .logo-svg {
+    flex-shrink: 0;
+  }
+
+  .wordmark {
+    font-size: 96px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    background: linear-gradient(95deg, var(--purp) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--sub);
+    line-height: 1.4;
+    max-width: 360px;
+  }
+
+  .tagline strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* Divider */
+  .divider {
+    flex-shrink: 0;
+    width: 1.5px;
+    height: 340px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(155,107,255,0.50) 20%,
+      rgba(46,230,255,0.50) 80%,
+      transparent 100%
+    );
+    margin: 0 60px;
+  }
+
+  /* Right: code panel */
+  .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 100px;
+    padding: 6px 20px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .pill.purp {
+    background: rgba(155,107,255,0.18);
+    border: 1px solid rgba(155,107,255,0.45);
+    color: var(--purp);
+  }
+  .pill.pink {
+    background: rgba(255,61,154,0.18);
+    border: 1px solid rgba(255,61,154,0.45);
+    color: var(--pink);
+  }
+
+  .code-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px;
+    padding: 20px 24px;
+    position: relative;
+  }
+  .code-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.16);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .code-block pre {
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .code-block .cmd  { color: var(--purp); }
+  .code-block .sep  { color: var(--dim); }
+  .code-block .ok   { color: var(--grn); }
+  .code-block .lite { color: var(--sub); }
+
+  .badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--grn);
+    background: rgba(61,255,168,0.10);
+    border: 1px solid rgba(61,255,168,0.30);
+    border-radius: 100px;
+    padding: 4px 14px;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--grn);
+    display: inline-block;
+  }
+
+  /* Bottom: version label */
+  .version {
+    position: absolute;
+    bottom: 32px;
+    right: 80px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dim);
+    letter-spacing: 0.5px;
+  }
 </style>
 </head>
 <body>
-  <div class="left">
-    <div class="eyebrow">A CLAUDE CODE SKILL</div>
-    <h1 class="serif">goalify</h1>
-    <div class="story">Hand Claude a huge task.<br>Come back to proof it's done —<br>not a promise that it is.</div>
-    <div class="legend">
-      <div class="row"><span class="swatch a"></span><span><span class="a-name">the BRIEF</span> — a file the run works from</span></div>
-      <div class="row"><span class="swatch b"></span><span><span class="b-name">the CONDITION</span> — one line you paste</span></div>
+  <div class="star star-1"></div>
+  <div class="star star-2"></div>
+  <div class="star star-3"></div>
+  <div class="flare"></div>
+
+  <div class="layout">
+    <!-- Left -->
+    <div class="left">
+      <div class="logo-row">
+        <!-- Inline mark SVG -->
+        <svg class="logo-svg" width="72" height="72" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="128" cy="128" r="100" stroke="url(#sc-lg)" stroke-width="8"/>
+          <circle cx="128" cy="128" r="62"  stroke="url(#sc-lg)" stroke-width="7" opacity="0.82"/>
+          <circle cx="128" cy="128" r="26"  stroke="url(#sc-lg)" stroke-width="6" opacity="0.64"/>
+          <line x1="46" y1="46" x2="172" y2="172" stroke="#2ee6ff" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="40" cy="40" r="12" fill="#2ee6ff"/>
+          <circle cx="128" cy="128" r="9" fill="#3dffa8"/>
+          <defs>
+            <linearGradient id="sc-lg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#9b6bff"/>
+              <stop offset="100%" stop-color="#2ee6ff"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="wordmark">goalify</div>
+      </div>
+      <p class="tagline">writes the <strong>brief</strong> and the <strong>condition.</strong><br>You paste one line. Claude runs.</p>
+      <div class="badges">
+        <span class="badge"><span class="dot"></span>no interruptions</span>
+        <span class="badge"><span class="dot"></span>verified proof</span>
+      </div>
     </div>
-    <div class="footer mono">github.com/Aboudjem/goalify</div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Right: code steps -->
+    <div class="right">
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <span class="pill purp">BRIEF</span>
+        <span class="pill pink">CONDITION</span>
+      </div>
+      <div class="code-block">
+        <pre><span class="cmd">/goalify</span> migrate our API to OpenAPI 3.1
+<span class="lite">↓  writes api-migration.md + condition string</span>
+
+<span class="cmd">/clear</span>
+<span class="cmd">/goal</span>  Do everything in ~/acme/.goal/api-migration.md
+       and prove it – done when npm test passes
+       and the last turn says ASYNC-OK. Stop at 40.</pre>
+      </div>
+      <div class="code-block">
+        <pre><span class="ok">npm test  PASS  47 passed</span>
+<span class="ok">ASYNC-OK</span>
+<span class="sep">.goal/done/api-migration.receipt</span></pre>
+      </div>
+    </div>
   </div>
-  <div class="right">
-    <div class="sheet">
-      <div class="head"><span class="label">BRIEF</span><span class="kind">A FILE</span></div>
-      <div class="file mono">api-migration.md</div>
-      <div class="ruled"></div>
-      <div class="ruled short"></div>
-    </div>
-    <div class="goalrow"><div class="goal-chip mono">/goal</div><div class="cap">paste the whole string</div></div>
-    <div class="plate">
-      <div class="label">CONDITION</div>
-      <div class="cond mono">Do everything in ~/acme/.goal/api-migration.md … quotes npm test … says ASYNC-OK. Stop after 40 turns.</div>
-    </div>
-    <div class="proof">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M4 14l6 6L22 6" stroke="#265C43" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      done, checked, filed
-    </div>
-  </div>
+
+  <div class="version">v3.0 · a Claude Code skill</div>
 </body>
 </html>

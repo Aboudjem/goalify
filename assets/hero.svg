@@ -1,156 +1,225 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1148" fill="none" role="img" aria-label="goalify in four steps: describe the job, get a brief and a condition, paste the condition into the goal command, come back to proof.">
-  <title>goalify in four steps: describe the job, get a brief and a condition, paste the condition into the goal command, come back to proof.</title>
-  <desc>Four numbered steps on a dark poster. Step 1, describe the job: a goalify command with the task. Step 2, goalify writes two things: a brief (a sheet with an indigo binding edge, the file api-migration.md, the full instructions) and a condition (a violet capsule, one line). Step 3, paste the whole line into the /goal command. The condition, word for word: Do everything in ~/acme/.goal/api-migration.md and prove it - done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns. Below it, a struck-through wrong form shows the path alone, which proves nothing because the check cannot open files. Step 4, come back to proof: npm test passing, ASYNC-OK said, the brief filed into .goal/done. A run that just stopped is not proof; the quoted checks are.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1160" fill="none" role="img" aria-label="goalify in four steps: describe the job, brief and condition come back, paste the condition into the goal command, come back to proof.">
+  <title>goalify in four steps: describe the job, brief and condition come back, paste condition into goal, come back to proof.</title>
+  <desc>Four numbered steps on a dark poster. Step 1: describe the job with the goalify command. Step 2: goalify writes two things, a brief file and a condition string. Step 3: paste the whole condition string into the goal command. A struck-through counter-example shows the wrong form: a bare path after goal, which the evaluator cannot open. Step 4: come back to proof, npm test passing and the sentinel present.</desc>
   <defs>
-    <linearGradient id="g-bg" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0%" stop-color="#14102A"/>
-      <stop offset="60%" stop-color="#0A0F1C"/>
-      <stop offset="100%" stop-color="#080C18"/>
+    <linearGradient id="v3-bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#0d0b1a"/>
+      <stop offset="58%" stop-color="#07060f"/>
+      <stop offset="100%" stop-color="#060510"/>
     </linearGradient>
-
-    <radialGradient id="g-bloom" cx="0.5" cy="1" r="0.72">
-      <stop offset="0%"  stop-color="#C77DFF" stop-opacity="0.20"/>
-      <stop offset="42%" stop-color="#7C3AED" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    <radialGradient id="v3-ba" cx="0.18" cy="0.18" r="0.70">
+      <stop offset="0%" stop-color="#9b6bff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#9b6bff" stop-opacity="0"/>
     </radialGradient>
-
-    <linearGradient id="g-brand" x1="0" y1="0" x2="1" y2="0.25" gradientUnits="objectBoundingBox">
-      <stop class="v2d1" offset="0%"   stop-color="#8E7BFF"/>
-      <stop class="v2d2" offset="100%" stop-color="#C77DFF"/>
-</linearGradient>
-
-    <linearGradient id="g-rule" gradientUnits="userSpaceOnUse" x1="48" y1="88" x2="852" y2="88">
-      <stop offset="0%"   stop-color="#8E7BFF" stop-opacity="0.15"/>
-      <stop offset="26%"  stop-color="#8E7BFF" stop-opacity="0.75"/>
-      <stop offset="66%"  stop-color="#C77DFF" stop-opacity="0.75"/>
-      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0.15"/>
+    <radialGradient id="v3-bb" cx="0.84" cy="0.86" r="0.66">
+      <stop offset="0%" stop-color="#2ee6ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2ee6ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="v3-brand" x1="0" y1="0" x2="1" y2="0.25">
+      <stop class="v3d1" offset="0%"   stop-color="#9b6bff"/>
+      <stop class="v3d2" offset="100%" stop-color="#2ee6ff"/>
     </linearGradient>
-
-    <filter id="g-glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="10" result="b"/>
+    <linearGradient id="v3-rule" gradientUnits="userSpaceOnUse" x1="48" y1="88" x2="852" y2="88">
+      <stop offset="0%"   stop-color="#9b6bff" stop-opacity="0.12"/>
+      <stop offset="26%"  stop-color="#9b6bff" stop-opacity="0.70"/>
+      <stop offset="66%"  stop-color="#2ee6ff" stop-opacity="0.70"/>
+      <stop offset="100%" stop-color="#2ee6ff" stop-opacity="0.12"/>
+    </linearGradient>
+    <filter id="v3-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-      <radialGradient id="v2-bloomA" cx="0.18" cy="0.22" r="0.72">
-      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="v2-bloomB" cx="0.84" cy="0.86" r="0.68">
-      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.11"/>
-      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
-    </radialGradient>
+    <filter id="v3-glow-sm" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
   <style>
-    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-    .num  { font-size: 44px; font-weight: 800; fill: #8E7BFF; }
-    .step { font-size: 32px; font-weight: 700; fill: #F2F6FF; }
-    .body { font-size: 28px; font-weight: 500; }
-    .code { font-size: 28px; }
+    .v3d { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    .v3m { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace; }
+    .v3-num  { font-size:42px; font-weight:800; fill:#9b6bff; }
+    .v3-step { font-size:30px; font-weight:700; fill:#f1edff; }
+    .v3-body { font-size:26px; font-weight:500; }
+    .v3-code { font-size:26px; }
 
-    @keyframes g-breathe { 0%,100% { opacity: 0.55; } 50% { opacity: 0.95; } }
-    .bloom { animation: g-breathe 9s ease-in-out infinite; }
+    @keyframes v3d1 { 0%,100% { stop-color:#9b6bff; } 50% { stop-color:#2ee6ff; } }
+    @keyframes v3d2 { 0%,100% { stop-color:#2ee6ff; } 50% { stop-color:#ff3d9a; } }
+    .v3d1 { animation: v3d1 16s ease-in-out infinite; }
+    .v3d2 { animation: v3d2 16s ease-in-out infinite 2s; }
 
-    @keyframes g-flow { to { stroke-dashoffset: -240; } }
-    .flowline { animation: g-flow 14s linear infinite; }
+    @keyframes v3-breathe { 0%,100% { opacity:.60; } 50% { opacity:1; } }
+    .v3-bloom { animation: v3-breathe 10s ease-in-out infinite; }
 
-    @keyframes g-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    .row-1 { animation: g-rise 0.6s ease-out 0.3s both; }
-    .row-2 { animation: g-rise 0.6s ease-out 0.8s both; }
-    .row-3 { animation: g-rise 0.6s ease-out 1.3s both; }
-    .row-4 { animation: g-rise 0.6s ease-out 1.8s both; }
+    @keyframes v3-flow { to { stroke-dashoffset: -240; } }
+    .v3-flow { animation: v3-flow 14s linear infinite; }
 
-    @keyframes g-tick { 0%,100% { opacity: 1; } 50% { opacity: 0.72; } }
-    .tick { animation: g-tick 10s ease-in-out infinite; }
+    @keyframes v3-rise { from { transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .r1 { animation: v3-rise 0.6s ease-out 0.3s both; }
+    .r2 { animation: v3-rise 0.6s ease-out 0.8s both; }
+    .r3 { animation: v3-rise 0.6s ease-out 1.3s both; }
+    .r4 { animation: v3-rise 0.6s ease-out 1.8s both; }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; }
-    }
-      @keyframes v2-d1 { 0%,100% { stop-color:#8E7BFF; } 50% { stop-color:#C77DFF; } }
-    .v2d1 { animation: v2-d1 16s ease-in-out infinite; }
-    @keyframes v2-d2 { 0%,100% { stop-color:#C77DFF; } 50% { stop-color:#E0AEFF; } }
-    .v2d2 { animation: v2-d2 16s ease-in-out infinite; }
-    @keyframes v2-breathe { 0%,100% { opacity:0.66; } 50% { opacity:1; } }
-    .v2bloom { animation: v2-breathe 11s ease-in-out infinite; }
+    @keyframes v3-tick { 0%,100% { opacity:1; } 50% { opacity:.72; } }
+    .v3-tick { animation: v3-tick 10s ease-in-out infinite; }
+
+    @keyframes v3-tw { 0%,100% { opacity:.10; } 50% { opacity:.50; } }
+    .vt1 { animation: v3-tw 7s ease-in-out infinite 0s; }
+    .vt2 { animation: v3-tw 9s ease-in-out infinite 2s; }
+    .vt3 { animation: v3-tw 6s ease-in-out infinite 4s; }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
 
-  <rect width="900" height="1148" fill="url(#g-bg)"/>
-  <g class="v2bloom"><rect width="900" height="1148" fill="url(#v2-bloomA)"/><rect width="900" height="1148" fill="url(#v2-bloomB)"/></g>
-  <ellipse class="bloom" cx="450" cy="1160" rx="620" ry="330" fill="url(#g-bloom)"/>
-  <rect x="2" y="2" width="896" height="1144" rx="24" fill="none" stroke="#1E2A42" stroke-width="1.5"/>
+  <rect width="900" height="1160" fill="url(#v3-bg)"/>
+  <g class="v3-bloom">
+    <rect width="900" height="1160" fill="url(#v3-ba)"/>
+    <rect width="900" height="1160" fill="url(#v3-bb)"/>
+  </g>
+  <rect x="1.5" y="1.5" width="897" height="1157" rx="24" fill="none"
+        stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+  <rect x="2" y="2" width="896" height="1.5" rx="0.75"
+        fill="#ffffff" fill-opacity="0.15"/>
 
-  <!-- masthead: the mark, the wordmark, and what this is -->
-  <g filter="url(#g-glow)">
-    <g fill="none" stroke="url(#g-brand)" stroke-width="2.4">
-      <circle cx="70" cy="48" r="20"/>
-      <circle cx="70" cy="48" r="13" stroke-width="2" opacity="0.82"/>
-      <circle cx="70" cy="48" r="6" stroke-width="1.8" opacity="0.66"/>
+  <!-- Dim stars -->
+  <circle class="vt1" cx="64"  cy="140" r="0.9" fill="#ffffff"/>
+  <circle class="vt2" cx="820" cy="200" r="1.0" fill="#ffffff"/>
+  <circle class="vt3" cx="840" cy="900" r="0.9" fill="#ffffff"/>
+  <circle class="vt1" cx="52"  cy="800" r="0.8" fill="#ffffff"/>
+  <circle class="vt2" cx="860" cy="550" r="1.1" fill="#ffffff"/>
+
+  <!-- Masthead: mark + wordmark -->
+  <g filter="url(#v3-glow)">
+    <g fill="none" stroke="url(#v3-brand)" stroke-width="2.2">
+      <circle cx="70" cy="48" r="19"/>
+      <circle cx="70" cy="48" r="12" stroke-width="1.8" opacity="0.80"/>
+      <circle cx="70" cy="48" r="5"  stroke-width="1.6" opacity="0.62"/>
     </g>
-    <line x1="49" y1="27" x2="85" y2="63" stroke="#C77DFF" stroke-width="2.4" stroke-linecap="round"/>
-    <circle cx="46" cy="24" r="3.4" fill="#C77DFF"/>
-    <circle cx="70" cy="48" r="2.4" fill="#F2F6FF"/>
-    <text class="disp" x="104" y="64" font-size="46" font-weight="800" letter-spacing="-1.4" fill="url(#g-brand)">goalify</text>
+    <line x1="49" y1="27" x2="84" y2="62" stroke="#2ee6ff" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="46" cy="24" r="3" fill="#2ee6ff"/>
+    <circle cx="70" cy="48" r="2.2" fill="#3dffa8"/>
+    <text class="v3d" x="104" y="64" font-size="44" font-weight="800"
+          letter-spacing="-1.3" fill="url(#v3-brand)">goalify</text>
   </g>
-  <text class="mono" font-size="24" letter-spacing="1.2" x="852" y="62" text-anchor="end" fill="#93A2BE">a Claude Code skill</text>
-  <line x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5"/>
-  <line class="flowline" x1="48" y1="88" x2="852" y2="88" stroke="url(#g-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.8"/>
+  <text class="v3m" font-size="22" letter-spacing="1.2" x="852" y="62"
+        text-anchor="end" fill="#8a82b6">a Claude Code skill</text>
+  <line x1="48" y1="88" x2="852" y2="88" stroke="url(#v3-rule)" stroke-width="1.5"/>
+  <line class="v3-flow" x1="48" y1="88" x2="852" y2="88"
+        stroke="url(#v3-rule)" stroke-width="1.5" stroke-dasharray="3 9" opacity="0.70"/>
 
-  <!-- 1, describe the job -->
-  <g class="row-1">
-    <text class="disp num"  x="48"  y="152">1</text>
-    <text class="disp step" x="100" y="152">Describe the job.</text>
-    <rect x="100" y="174" width="460" height="48" rx="10" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <text class="mono code" x="124" y="207" fill="#C77DFF">/goalify migrate our API</text>
-  </g>
+  <!-- STEP 1 -->
+  <g class="r1">
+    <!-- Glass card -->
+    <rect x="40" y="104" width="820" height="144" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <rect x="41" y="105" width="818" height="1.5" rx="0.75"
+          fill="#ffffff" fill-opacity="0.18"/>
 
-  <!-- 2, two things come back -->
-  <g class="row-2">
-    <text class="disp num"  x="48"  y="282">2</text>
-    <text class="disp step" x="100" y="282">goalify writes two things.</text>
-
-    <path d="M64 304 H812 L852 344 V414 H64 Z" fill="#0E1524" stroke="#1E2A42" stroke-width="1.5"/>
-    <path d="M812 304 L852 344 H812 Z" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
-    <rect x="64" y="304" width="10" height="110" fill="#8E7BFF"/>
-    <text class="disp" font-size="30" font-weight="800" x="108" y="346" fill="#8E7BFF">BRIEF</text>
-    <text class="disp" font-size="28" font-weight="700" letter-spacing="1.5" x="800" y="346" text-anchor="end" fill="#8E7BFF">A FILE</text>
-    <text class="mono code" x="108" y="390" fill="#F2F6FF">api-migration.md</text>
-    <text class="disp body" x="800" y="390" text-anchor="end" fill="#C2CDE4">the full instructions</text>
-
-    <rect x="64" y="430" width="788" height="110" rx="40" fill="#0E1524" stroke="#C77DFF" stroke-width="2"/>
-    <text class="disp" font-size="30" font-weight="800" x="108" y="472" fill="#C77DFF">CONDITION</text>
-    <text class="disp" font-size="28" font-weight="700" letter-spacing="1.5" x="800" y="472" text-anchor="end" fill="#C77DFF">ONE LINE</text>
-    <text class="mono code" x="108" y="516" fill="#F2F6FF">Do everything in … Stop after 40 turns.</text>
+    <text class="v3d v3-num"  x="72"  y="158">1</text>
+    <text class="v3d v3-step" x="124" y="158">Describe the job.</text>
+    <rect x="124" y="174" width="450" height="46" rx="12"
+          fill="#ffffff" fill-opacity="0.06"
+          stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+    <rect x="125" y="175" width="448" height="1" rx="0.5"
+          fill="#ffffff" fill-opacity="0.16"/>
+    <text class="v3m v3-code" x="148" y="206" fill="#9b6bff">/goalify migrate our API</text>
   </g>
 
-  <!-- 3, the hand-off -->
-  <g class="row-3">
-    <text class="disp num"  x="48"  y="608">3</text>
-    <text class="disp step" x="100" y="608">Paste the whole line into</text>
-    <rect x="486" y="576" width="112" height="44" rx="10" fill="#141C2E" stroke="#1E2A42" stroke-width="1.5"/>
-    <text class="mono" font-size="28" font-weight="700" x="542" y="606" text-anchor="middle" fill="#F2F6FF">/goal</text>
+  <!-- STEP 2 -->
+  <g class="r2">
+    <!-- Glass card -->
+    <rect x="40" y="264" width="820" height="284" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <rect x="41" y="265" width="818" height="1.5" rx="0.75"
+          fill="#ffffff" fill-opacity="0.18"/>
 
-    <rect x="64" y="632" width="788" height="266" rx="44" fill="#0E1524" stroke="#C77DFF" stroke-width="2"/>
-    <text class="disp" font-size="28" font-weight="700" x="100" y="676" fill="#C77DFF">CONDITION</text>
-    <text class="disp" font-size="28" font-weight="700" letter-spacing="1.5" x="816" y="676" text-anchor="end" fill="#C77DFF">149 CHARACTERS</text>
-    <text class="mono code" x="100" y="716" data-cond="1" fill="#F2F6FF">Do everything in</text>
-    <text class="mono code" x="100" y="752" data-cond="1" fill="#F2F6FF">~/acme/.goal/api-migration.md</text>
-    <text class="mono code" x="100" y="788" data-cond="1" fill="#F2F6FF">and prove it - done when the last turn</text>
-    <text class="mono code" x="100" y="824" data-cond="1" fill="#F2F6FF">quotes npm test passing and says ASYNC-OK.</text>
-    <text class="mono code" x="100" y="860" data-cond="1" fill="#F2F6FF">Stop after 40 turns.</text>
+    <text class="v3d v3-num"  x="72"  y="318">2</text>
+    <text class="v3d v3-step" x="124" y="318">goalify writes two things.</text>
 
+    <!-- Brief sub-card -->
+    <rect x="72" y="334" width="756" height="96" rx="16"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <rect x="73" y="335" width="754" height="1" rx="0.5"
+          fill="#ffffff" fill-opacity="0.20"/>
+    <rect x="72" y="334" width="7"   height="96" rx="3.5" fill="#9b6bff"/>
+    <text class="v3d" font-size="28" font-weight="800" x="98" y="376"
+          fill="#9b6bff">BRIEF</text>
+    <text class="v3d" font-size="26" font-weight="700" letter-spacing="1.5"
+          x="808" y="376" text-anchor="end" fill="#9b6bff">A FILE</text>
+    <text class="v3m v3-code" x="98" y="416" fill="#f1edff">api-migration.md</text>
+    <text class="v3d v3-body" x="808" y="416" text-anchor="end"
+          fill="#a59cc9">the full instructions</text>
+
+    <!-- Condition sub-card -->
+    <rect x="72" y="444" width="756" height="92" rx="36"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#9b6bff" stroke-opacity="0.50" stroke-width="1.5"/>
+    <text class="v3d" font-size="28" font-weight="800" x="110" y="484"
+          fill="#9b6bff">CONDITION</text>
+    <text class="v3d" font-size="26" font-weight="700" letter-spacing="1.5"
+          x="808" y="484" text-anchor="end" fill="#9b6bff">ONE LINE</text>
+    <text class="v3m v3-code" x="110" y="524" fill="#f1edff">Do everything in ... Stop after 40 turns.</text>
+  </g>
+
+  <!-- STEP 3 -->
+  <g class="r3">
+    <!-- Glass card -->
+    <rect x="40" y="564" width="820" height="438" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <rect x="41" y="565" width="818" height="1.5" rx="0.75"
+          fill="#ffffff" fill-opacity="0.18"/>
+
+    <text class="v3d v3-step" x="124" y="630">Paste the whole line into</text>
+    <text class="v3d v3-num"  x="72"  y="630">3</text>
+    <rect x="598" y="598" width="108" height="42" rx="12"
+          fill="#ffffff" fill-opacity="0.08"
+          stroke="#ffffff" stroke-opacity="0.14" stroke-width="1"/>
+    <text class="v3m" font-size="26" font-weight="700" x="652" y="627"
+          text-anchor="middle" fill="#f1edff">/goal</text>
+
+    <!-- Full condition box -->
+    <rect x="72" y="648" width="756" height="238" rx="28"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#9b6bff" stroke-opacity="0.45" stroke-width="1.5"/>
+    <rect x="73" y="649" width="754" height="1" rx="0.5"
+          fill="#ffffff" fill-opacity="0.18"/>
+    <text class="v3d" font-size="26" font-weight="700" x="104" y="688"
+          fill="#9b6bff">CONDITION</text>
+    <text class="v3d" font-size="24" font-weight="700" letter-spacing="1.5"
+          x="808" y="688" text-anchor="end" fill="#9b6bff">149 CHARACTERS</text>
+    <text class="v3m v3-code" x="104" y="724" data-cond="1" fill="#f1edff">Do everything in</text>
+    <text class="v3m v3-code" x="104" y="758" data-cond="1" fill="#f1edff">~/acme/.goal/api-migration.md</text>
+    <text class="v3m v3-code" x="104" y="792" data-cond="1" fill="#f1edff">and prove it - done when the last turn</text>
+    <text class="v3m v3-code" x="104" y="826" data-cond="1" fill="#f1edff">quotes npm test passing and says ASYNC-OK.</text>
+    <text class="v3m v3-code" x="104" y="860" data-cond="1" fill="#f1edff">Stop after 40 turns.</text>
+
+    <!-- Counter-example: struck path form (WRONG) -->
     <g data-antipattern="v1">
-      <text class="mono" font-size="28" x="64" y="944" fill="#93A2BE">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
-      <line x1="64" y1="935" x2="652" y2="935" stroke="#FFB341" stroke-width="2.5"/>
-      <text class="disp body" x="64" y="980" fill="#FFB341">the path alone proves nothing: the check can't open files.</text>
+      <text class="v3m" font-size="26" x="72" y="934" fill="#8a82b6">/goal ~/acme/.goal/api-migration.md</text><!-- v1-antipattern -->
+      <line x1="72" y1="924" x2="658" y2="924" stroke="#ffd23f" stroke-width="2.5"/>
+      <text class="v3d v3-body" x="72" y="972" fill="#ffd23f">the path alone proves nothing: the check cannot open files.</text>
     </g>
   </g>
 
-  <!-- 4, proof -->
-  <g class="row-4">
-    <text class="disp num"  x="48"  y="1040">4</text>
-    <text class="disp step" x="100" y="1040">Come back to proof.</text>
-    <path class="tick" d="M66 1066 L80 1080 L104 1052" fill="none" stroke="#3DFFAB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="mono code" x="120" y="1078" fill="#3DFFAB">npm test ✓ · ASYNC-OK · .goal/done/</text>
-    <text class="disp body" x="64" y="1116" fill="#C2CDE4">A run that just stopped isn't proof. The quoted checks are.</text>
+  <!-- STEP 4 -->
+  <g class="r4">
+    <!-- Glass card -->
+    <rect x="40" y="1018" width="820" height="124" rx="24"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <rect x="41" y="1019" width="818" height="1.5" rx="0.75"
+          fill="#ffffff" fill-opacity="0.18"/>
+
+    <text class="v3d v3-num"  x="72"  y="1072">4</text>
+    <text class="v3d v3-step" x="124" y="1072">Come back to proof.</text>
+    <path class="v3-tick" d="M78 1096 L90 1110 L114 1082"
+          fill="none" stroke="#3dffa8" stroke-width="4"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="v3m v3-code" x="130" y="1108" fill="#3dffa8">npm test passing  &#183;  ASYNC-OK  &#183;  .goal/done/</text>
+    <text class="v3d v3-body" x="72"  y="1128" fill="#a59cc9">A run that just stopped is not proof. The quoted checks are.</text>
   </g>
 </svg>

@@ -1,70 +1,101 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" role="img"
-     aria-label="goalify: a pin flies into the centre of the target and the rings pulse once">
+     aria-label="goalify logo mark light: concentric rings with a pin arriving at centre">
   <title>goalify</title>
-  <desc>Animated light-mode logo mark. The whole mark is drawn as a muted track; one bright
-  element travels over it, so no frame is an incomplete logo and the reduced-motion resting frame
-  is the finished mark.</desc>
+  <desc>Animated light logo mark. Concentric rings pulse; a pin flies in and settles at the centre with a green check.</desc>
   <defs>
-    <linearGradient id="go-plate" x1="0" y1="0" x2="0.4" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="58%" stop-color="#F7F8FB"/>
-      <stop offset="100%" stop-color="#EEF1F7"/>
+    <linearGradient id="gml-plate" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="58%" stop-color="#f7f5ff"/>
+      <stop offset="100%" stop-color="#ede9ff"/>
     </linearGradient>
-    <radialGradient id="go-bloomA" cx="0.24" cy="0.24" r="0.68">
-      <stop offset="0%" stop-color="#5D4BD1" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#5D4BD1" stop-opacity="0"/>
+    <radialGradient id="gml-ba" cx="0.22" cy="0.22" r="0.72">
+      <stop offset="0%" stop-color="#7b47e8" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#7b47e8" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="go-bloomB" cx="0.80" cy="0.82" r="0.64">
-      <stop offset="0%" stop-color="#8A2CD1" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#8A2CD1" stop-opacity="0"/>
+    <radialGradient id="gml-bb" cx="0.82" cy="0.82" r="0.64">
+      <stop offset="0%" stop-color="#00c4e0" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c4e0" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="go-ink" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="200" y2="200">
-      <stop class="gok1" offset="0%"   stop-color="#5D4BD1"/>
-      <stop class="gok2" offset="52%"  stop-color="#5D4BD1"/>
-      <stop class="gok3" offset="100%" stop-color="#8A2CD1"/>
+    <linearGradient id="gml-ink" gradientUnits="userSpaceOnUse" x1="54" y1="54" x2="202" y2="202">
+      <stop class="gml1" offset="0%"   stop-color="#7b47e8"/>
+      <stop class="gml2" offset="52%"  stop-color="#5470d4"/>
+      <stop class="gml3" offset="100%" stop-color="#00c4e0"/>
     </linearGradient>
+    <filter id="gml-glow" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gml-glow-sm" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
   <style>
-    @keyframes go-breathe { 0%,100% { opacity:0.72; } 50% { opacity:1; } }
-    .gobloom { animation: go-breathe 9s ease-in-out infinite; }
-    @keyframes go-fly { 0% { transform: translate(56px,-56px); opacity: 0; }
-                       10% { opacity: 1; }
-                       34%,100% { transform: translate(0,0); opacity: 1; } }
-    .gopin { animation: go-fly 6s cubic-bezier(.2,.7,.3,1) infinite; }
-    /* the pulse ring is the one element whose base state is off: it is a transient, not
-       part of the logo, so the resting frame shows the target and the pin alone */
-    @keyframes go-pulse { 0%,34% { r: 26px; opacity: 0; } 40% { opacity: 0.7; }
-                         74%,100% { r: 88px; opacity: 0; } }
-    .gopulse { animation: go-pulse 6s cubic-bezier(.2,.6,.3,1) infinite; }
-    @keyframes go-ringlight { 0%,100% { opacity: 0.55; } 40%,60% { opacity: 1; } }
-    .gorl { animation: go-ringlight 6s ease-in-out infinite; }
-    @keyframes go-k1 { 0%,100% { stop-color:#5D4BD1; } 50% { stop-color:#5D4BD1; } }
-    @keyframes go-k2 { 0%,100% { stop-color:#5D4BD1; } 50% { stop-color:#8A2CD1; } }
-    @keyframes go-k3 { 0%,100% { stop-color:#8A2CD1; } 50% { stop-color:#C10045; } }
-    .gok1 { animation: go-k1 14s ease-in-out infinite; }
-    .gok2 { animation: go-k2 14s ease-in-out infinite; }
-    .gok3 { animation: go-k3 14s ease-in-out infinite; }
+    @keyframes gml1 { 0%,100% { stop-color:#7b47e8; } 50% { stop-color:#9b6bff; } }
+    @keyframes gml2 { 0%,100% { stop-color:#5470d4; } 50% { stop-color:#7b47e8; } }
+    @keyframes gml3 { 0%,100% { stop-color:#00c4e0; } 50% { stop-color:#5470d4; } }
+    .gml1 { animation: gml1 14s ease-in-out infinite; }
+    .gml2 { animation: gml2 14s ease-in-out infinite 1.5s; }
+    .gml3 { animation: gml3 14s ease-in-out infinite 3s; }
+
+    @keyframes gml-breathe { 0%,100% { opacity:.70; } 50% { opacity:1; } }
+    .gml-bloom { animation: gml-breathe 9s ease-in-out infinite; }
+
+    @keyframes gml-ring { 0%,100% { opacity:.55; } 40%,60% { opacity:1; } }
+    .gml-ring-lit { animation: gml-ring 6s ease-in-out infinite; }
+
+    @keyframes gml-fly {
+      0% { transform: translate(54px,-54px); opacity:0; }
+      10% { opacity:1; }
+      35%,100% { transform: translate(0,0); opacity:1; }
+    }
+    .gml-pin { animation: gml-fly 6s cubic-bezier(.18,.72,.28,1) infinite; }
+
+    @keyframes gml-pulse {
+      0%,35% { r: 26px; opacity:0; }
+      42% { opacity:.5; }
+      75%,100% { r: 82px; opacity:0; }
+    }
+    .gml-pulse { animation: gml-pulse 6s cubic-bezier(.2,.6,.3,1) infinite; }
+
+    @keyframes gml-check { 0%,30% { opacity:0; } 45%,100% { opacity:1; } }
+    .gml-check { animation: gml-check 6s ease-in-out infinite; }
+
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
 
-  <rect width="256" height="256" rx="56" fill="url(#go-plate)"/>
-  <g class="gobloom">
-    <rect width="256" height="256" rx="56" fill="url(#go-bloomA)"/>
-    <rect width="256" height="256" rx="56" fill="url(#go-bloomB)"/>
+  <rect width="256" height="256" rx="56" fill="url(#gml-plate)"/>
+  <g class="gml-bloom">
+    <rect width="256" height="256" rx="56" fill="url(#gml-ba)"/>
+    <rect width="256" height="256" rx="56" fill="url(#gml-bb)"/>
   </g>
-  <rect x="0.9" y="0.9" width="254.2" height="254.2" rx="55.2" fill="none"
-        stroke="#D8DEE9" stroke-width="1.8"/>
+  <rect x="1" y="1" width="254" height="254" rx="55.2" fill="none"
+        stroke="#9b6bff" stroke-opacity="0.20" stroke-width="1.5"/>
 
-  <g opacity="0.26" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
-  <g class="gorl" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
-  <circle class="gopulse" cx="128" cy="128" r="26" fill="none"
-          stroke="#8A2CD1" stroke-width="4" opacity="0"/>
-  <g class="gopin">
-    <g>
-      <line x1="196" y1="60" x2="128" y2="128" stroke="url(#go-ink)"
-            stroke-width="13" stroke-linecap="round"/>
+  <g fill="none" stroke="url(#gml-ink)" stroke-width="8" opacity="0.24">
+    <circle cx="128" cy="128" r="26"/>
+    <circle cx="128" cy="128" r="50"/>
+    <circle cx="128" cy="128" r="74"/>
+  </g>
+  <g class="gml-ring-lit" fill="none" stroke="url(#gml-ink)" stroke-width="8" filter="url(#gml-glow)">
+    <circle cx="128" cy="128" r="26"/>
+    <circle cx="128" cy="128" r="50"/>
+    <circle cx="128" cy="128" r="74"/>
+  </g>
+  <circle class="gml-pulse" cx="128" cy="128" r="26" fill="none"
+          stroke="#7b47e8" stroke-width="3" opacity="0"/>
+
+  <g class="gml-pin">
+    <g filter="url(#gml-glow)">
+      <line x1="196" y1="60" x2="128" y2="128"
+            stroke="url(#gml-ink)" stroke-width="12" stroke-linecap="round"/>
     </g>
-    <g transform="translate(128,128)"><g><circle r="7" fill="#5D4BD1"/><circle r="7" fill="none" stroke="#FFFFFF" stroke-width="2.4"/></g></g>
+    <g transform="translate(128,128)" filter="url(#gml-glow-sm)">
+      <circle r="11" fill="#f7f5ff"/>
+      <path class="gml-check" d="M-5 1.5 L-0.5 6 L8 -4.5"
+            stroke="#00a86b" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
   </g>
 </svg>

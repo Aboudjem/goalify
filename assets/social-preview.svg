@@ -1,133 +1,232 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" fill="none" role="img"
-     aria-label="goalify: Come back to proof, not a promise">
-  <title>goalify</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" fill="none" role="img" aria-label="goalify v3 social preview: writes the brief and condition, you paste one line and Claude runs">
+  <title>goalify: writes the brief and the condition. You paste one line. Claude runs.</title>
+  <desc>Dark glass social card for goalify. Left side: animated logo mark and wordmark in purple to cyan gradient with tagline. Right side: two code blocks showing the /goalify command, the /goal paste, and proof output with ASYNC-OK and npm tests passing.</desc>
   <defs>
-    <linearGradient id="go-ground" x1="0" y1="0" x2="0.4" y2="1">
-      <stop offset="0%" stop-color="#14102A"/>
-      <stop offset="55%" stop-color="#0A0F1C"/>
-      <stop offset="100%" stop-color="#080C18"/>
+    <linearGradient id="sp-bg" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%"   stop-color="#0d0b1a"/>
+      <stop offset="55%"  stop-color="#07060f"/>
+      <stop offset="100%" stop-color="#060510"/>
     </linearGradient>
-    <radialGradient id="go-bloomA" cx="0.15" cy="0.13" r="0.44">
-      <stop offset="0%" stop-color="#8E7BFF" stop-opacity="0.26"/>
-      <stop offset="100%" stop-color="#8E7BFF" stop-opacity="0"/>
+    <radialGradient id="sp-gA" cx="0.10" cy="0.15" r="0.65">
+      <stop offset="0%"   stop-color="#9b6bff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#9b6bff" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="go-bloomB" cx="0.88" cy="0.85" r="0.50">
-      <stop offset="0%" stop-color="#C77DFF" stop-opacity="0.26"/>
-      <stop offset="100%" stop-color="#C77DFF" stop-opacity="0"/>
+    <radialGradient id="sp-gB" cx="0.92" cy="0.88" r="0.58">
+      <stop offset="0%"   stop-color="#2ee6ff" stop-opacity="0.11"/>
+      <stop offset="100%" stop-color="#2ee6ff" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="go-bloomC" cx="0.52" cy="0.04" r="0.36">
-      <stop offset="0%" stop-color="#FF4D8D" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#FF4D8D" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="go-wash" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%"   stop-color="#B4A6FF" stop-opacity="0.20"/>
-      <stop offset="42%"  stop-color="#C77DFF" stop-opacity="0.124"/>
-      <stop offset="76%"  stop-color="#FF4D8D" stop-opacity="0.046"/>
-      <stop offset="100%" stop-color="#FF4D8D" stop-opacity="0"/>
-    </radialGradient>
-    <clipPath id="go-frame"><rect width="1280" height="640"/></clipPath>
-    <linearGradient id="go-ink" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="200" y2="200">
-      <stop class="gok1" offset="0%"   stop-color="#8E7BFF"/>
-      <stop class="gok2" offset="52%"  stop-color="#A78CFF"/>
-      <stop class="gok3" offset="100%" stop-color="#C77DFF"/>
+    <linearGradient id="sp-brand" x1="0" y1="0" x2="1" y2="0.2">
+      <stop class="sp-s1" offset="0%"   stop-color="#9b6bff"/>
+      <stop class="sp-s2" offset="100%" stop-color="#2ee6ff"/>
     </linearGradient>
-    <filter id="go-glow" x="-45%" y="-45%" width="190%" height="190%">
-      <feGaussianBlur stdDeviation="6.5" result="b"/>
+    <linearGradient id="sp-mark" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="256" y2="256">
+      <stop offset="0%"   stop-color="#9b6bff"/>
+      <stop offset="100%" stop-color="#2ee6ff"/>
+    </linearGradient>
+    <linearGradient id="sp-divider" gradientUnits="userSpaceOnUse" x1="640" y1="80" x2="640" y2="560">
+      <stop offset="0%"   stop-color="#9b6bff" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#9b6bff" stop-opacity="0.55"/>
+      <stop offset="80%"  stop-color="#2ee6ff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#2ee6ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="sp-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="go-glow-sm" x="-150%" y="-150%" width="400%" height="400%">
-      <feGaussianBlur stdDeviation="3.6" result="b"/>
+    <filter id="sp-glow-sm" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <linearGradient id="go-word" x1="0" y1="0" x2="1" y2="0.25">
-      <stop class="gok1" offset="0%"   stop-color="#8E7BFF"/>
-      <stop class="gok2" offset="46%"  stop-color="#A78CFF"/>
-      <stop class="gok3" offset="100%" stop-color="#C77DFF"/>
-    </linearGradient>
-    <linearGradient id="go-sheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.62"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
-    <clipPath id="go-wordclip">
-      <text x="96" y="358" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
-            font-size="122" font-weight="800" letter-spacing="-4.3">goalify</text>
+    <clipPath id="sp-clip">
+      <rect width="1280" height="640" rx="24"/>
     </clipPath>
   </defs>
 
   <style>
-    .disp { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4.5px; fill: #B4A6FF; }
-    .head    { font-size: 38px; font-weight: 700; fill: #F2F6FF; letter-spacing: -0.5px; }
-    .sub     { font-size: 20px; font-weight: 500; fill: #C2CDE4; }
-    .tag     { font-size: 15px; letter-spacing: 1.6px; fill: #93A2BE; }
-    .chip    { font-size: 11.5px; letter-spacing: 1.2px; fill: #C2CDE4; }
-    .chipbig { font-size: 17px; letter-spacing: 1px; fill: #C2CDE4; }
-    .tagsm { font-size: 12.5px; letter-spacing: 1.6px; fill: #93A2BE; }
-    .eyebrow { font-size: 17px; letter-spacing: 5px; }
-    @keyframes go-breathe { 0%,100% { opacity:0.62; } 50% { opacity:1; } }
-    .gobloom { animation: go-breathe 11s ease-in-out infinite; }
-    @keyframes go-sweep { 0% { transform: translateX(-360px); } 100% { transform: translateX(1640px); } }
-    .gowash { animation: go-sweep 19s cubic-bezier(.5,0,.5,1) infinite; }
-    @keyframes go-sheen { 0% { transform: translateX(0); } 15%,100% { transform: translateX(561px); } }
-    .gosheen { animation: go-sheen 8.5s cubic-bezier(.4,0,.3,1) infinite; }
-    @keyframes go-fly { 0% { transform: translate(56px,-56px); opacity: 0; }
-                       10% { opacity: 1; }
-                       34%,100% { transform: translate(0,0); opacity: 1; } }
-    .gopin { animation: go-fly 6s cubic-bezier(.2,.7,.3,1) infinite; }
-    /* the pulse ring is the one element whose base state is off: it is a transient, not
-       part of the logo, so the resting frame shows the target and the pin alone */
-    @keyframes go-pulse { 0%,34% { r: 26px; opacity: 0; } 40% { opacity: 0.7; }
-                         74%,100% { r: 88px; opacity: 0; } }
-    .gopulse { animation: go-pulse 6s cubic-bezier(.2,.6,.3,1) infinite; }
-    @keyframes go-ringlight { 0%,100% { opacity: 0.55; } 40%,60% { opacity: 1; } }
-    .gorl { animation: go-ringlight 6s ease-in-out infinite; }
-    @keyframes go-k1 { 0%,100% { stop-color:#8E7BFF; } 50% { stop-color:#A78CFF; } }
-    @keyframes go-k2 { 0%,100% { stop-color:#A78CFF; } 50% { stop-color:#C77DFF; } }
-    @keyframes go-k3 { 0%,100% { stop-color:#C77DFF; } 50% { stop-color:#E0AEFF; } }
-    .gok1 { animation: go-k1 14s ease-in-out infinite; }
-    .gok2 { animation: go-k2 14s ease-in-out infinite; }
-    .gok3 { animation: go-k3 14s ease-in-out infinite; }
+    .sp  { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    .spm { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace; }
+
+    @keyframes sp-s1 { 0%,100% { stop-color:#9b6bff; } 50% { stop-color:#2ee6ff; } }
+    @keyframes sp-s2 { 0%,100% { stop-color:#2ee6ff; } 50% { stop-color:#ff3d9a; } }
+    .sp-s1 { animation: sp-s1 16s ease-in-out infinite; }
+    .sp-s2 { animation: sp-s2 16s ease-in-out infinite 2s; }
+
+    @keyframes sp-bloom { 0%,100% { opacity:.65; } 50% { opacity:1; } }
+    .sp-bloom { animation: sp-bloom 12s ease-in-out infinite; }
+
+    @keyframes sp-rise { from { transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .sp-r1 { animation: sp-rise 0.6s ease-out 0.3s both; }
+    .sp-r2 { animation: sp-rise 0.6s ease-out 0.8s both; }
+    .sp-r3 { animation: sp-rise 0.6s ease-out 1.3s both; }
+
+    @keyframes sp-rings { 0%,100% { opacity:.75; } 50% { opacity:1; } }
+    .sp-rings { animation: sp-rings 9s ease-in-out infinite; }
+
+    @keyframes sp-tick { 0%,100% { opacity:1; } 50% { opacity:.72; } }
+    .sp-tick { animation: sp-tick 8s ease-in-out infinite; }
+
+    @keyframes sp-tw { 0%,100% { opacity:.08; } 50% { opacity:.50; } }
+    .sp-t1 { animation: sp-tw 7s ease-in-out infinite 0.5s; }
+    .sp-t2 { animation: sp-tw 9s ease-in-out infinite 3s; }
+    .sp-t3 { animation: sp-tw 8s ease-in-out infinite 5s; }
+
+    /* Cross-flare star twinkle */
+    @keyframes sp-flare { 0%,100% { opacity:.35; transform:scale(1); }
+                          50%      { opacity:.70; transform:scale(1.4); } }
+    .sp-flare { animation: sp-flare 9s ease-in-out infinite 1s; transform-origin: 1100px 72px; }
+
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
 
-  <rect width="1280" height="640" fill="url(#go-ground)"/>
-  <g class="gobloom">
-    <rect width="1280" height="640" fill="url(#go-bloomA)"/>
-    <rect width="1280" height="640" fill="url(#go-bloomB)"/>
-    <rect width="1280" height="640" fill="url(#go-bloomC)"/>
-  </g>
-  <g clip-path="url(#go-frame)">
-    <g transform="translate(0,320)">
-      <ellipse class="gowash" cx="0" cy="0" rx="520" ry="380" fill="url(#go-wash)"/>
+  <g clip-path="url(#sp-clip)">
+    <!-- Background -->
+    <rect width="1280" height="640" fill="url(#sp-bg)"/>
+    <g class="sp-bloom">
+      <rect width="1280" height="640" fill="url(#sp-gA)"/>
+      <rect width="1280" height="640" fill="url(#sp-gB)"/>
     </g>
-  </g>
-  <g transform="translate(872,126) scale(1.2188)">
-  <g opacity="0.32" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
-  <g class="gorl" filter="url(#go-glow)" fill="none" stroke="url(#go-ink)" stroke-width="9"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="50"/><circle cx="128" cy="128" r="74"/></g>
-  <circle class="gopulse" cx="128" cy="128" r="26" fill="none"
-          stroke="#C77DFF" stroke-width="4" opacity="0"/>
-  <g class="gopin">
-    <g filter="url(#go-glow)">
-      <line x1="196" y1="60" x2="128" y2="128" stroke="url(#go-ink)"
-            stroke-width="13" stroke-linecap="round"/>
+
+    <!-- Border + top highlight -->
+    <rect x="1.5" y="1.5" width="1277" height="637" rx="23"
+          fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <rect x="2" y="2" width="1276" height="1.5" rx="0.75"
+          fill="#ffffff" fill-opacity="0.16"/>
+
+    <!-- Stars -->
+    <circle class="sp-t1" cx="1180" cy="60"  r="1.2" fill="#ffffff"/>
+    <circle class="sp-t2" cx="60"   cy="570" r="1.0" fill="#ffffff"/>
+    <circle class="sp-t3" cx="900"  cy="580" r="1.0" fill="#ffffff"/>
+
+    <!-- Cross-flare -->
+    <g class="sp-flare">
+      <line x1="1100" y1="62" x2="1100" y2="82"
+            stroke="#2ee6ff" stroke-width="1.5" stroke-linecap="round" opacity="0.60"/>
+      <line x1="1090" y1="72" x2="1110" y2="72"
+            stroke="#2ee6ff" stroke-width="1.5" stroke-linecap="round" opacity="0.60"/>
     </g>
-    <g transform="translate(128,128)"><g filter="url(#go-glow-sm)"><circle r="7" fill="#FFFFFF"/></g></g>
-  </g>
-  </g>
-  <g filter="url(#go-glow)">
-    <text class="disp" x="96" y="358" font-size="122" font-weight="800"
-          letter-spacing="-4.3" fill="url(#go-word)">goalify</text>
-  </g>
-  <g clip-path="url(#go-wordclip)">
-    <g transform="skewX(-18)">
-      <rect class="gosheen" x="-38" y="236" width="56"
-            height="165" fill="url(#go-sheen)" opacity="0.45"/>
+
+    <!-- Vertical divider at x=640 -->
+    <line x1="640" y1="80" x2="640" y2="560"
+          stroke="url(#sp-divider)" stroke-width="1.5"/>
+
+    <!-- ═══════════════ LEFT SIDE ═══════════════ -->
+    <g class="sp-r1">
+      <!-- Animated mark -->
+      <g class="sp-rings" filter="url(#sp-glow)" transform="translate(80,220) scale(0.58)">
+        <circle cx="128" cy="128" r="100" stroke="url(#sp-mark)" stroke-width="8"/>
+        <circle cx="128" cy="128" r="62"  stroke="url(#sp-mark)" stroke-width="7" opacity="0.82"/>
+        <circle cx="128" cy="128" r="26"  stroke="url(#sp-mark)" stroke-width="6" opacity="0.64"/>
+        <line x1="46"  y1="46"  x2="172" y2="172"
+              stroke="#2ee6ff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="40"  cy="40"  r="12" fill="#2ee6ff"/>
+        <circle cx="128" cy="128" r="9"  fill="#3dffa8"/>
+      </g>
+
+      <!-- Wordmark -->
+      <g filter="url(#sp-glow)">
+        <text class="sp" x="170" y="270" font-size="114" font-weight="800"
+              letter-spacing="-3.5" fill="url(#sp-brand)">goalify</text>
+      </g>
     </g>
+
+    <!-- Tagline -->
+    <g class="sp-r2">
+      <text class="sp" x="80" y="340" font-size="32" font-weight="500"
+            fill="#a59cc9">writes the</text>
+      <rect x="254" y="312" width="124" height="40" rx="20"
+            fill="#9b6bff" fill-opacity="0.20"
+            stroke="#9b6bff" stroke-opacity="0.50" stroke-width="1.5"/>
+      <text class="sp" x="316" y="340" font-size="30" font-weight="800"
+            text-anchor="middle" fill="#9b6bff">brief</text>
+      <text class="sp" x="388" y="340" font-size="32" font-weight="500"
+            fill="#a59cc9">and the</text>
+      <rect x="518" y="312" width="96" height="40" rx="20"
+            fill="#ff3d9a" fill-opacity="0.18"
+            stroke="#ff3d9a" stroke-opacity="0.50" stroke-width="1.5"/>
+      <text class="sp" x="566" y="340" font-size="30" font-weight="800"
+            text-anchor="middle" fill="#ff3d9a">cond.</text>
+
+      <text class="sp" x="80" y="390" font-size="32" font-weight="500"
+            fill="#a59cc9">You paste one line. Claude runs.</text>
+    </g>
+
+    <!-- Proof badges -->
+    <g class="sp-r3">
+      <rect x="80" y="420" width="210" height="44" rx="22"
+            fill="#3dffa8" fill-opacity="0.12"
+            stroke="#3dffa8" stroke-opacity="0.40" stroke-width="1.5"/>
+      <circle cx="108" cy="442" r="6" fill="#3dffa8"/>
+      <text class="sp" x="124" y="448" font-size="22" font-weight="700"
+            fill="#3dffa8">no interruptions</text>
+
+      <rect x="304" y="420" width="188" height="44" rx="22"
+            fill="#3dffa8" fill-opacity="0.12"
+            stroke="#3dffa8" stroke-opacity="0.40" stroke-width="1.5"/>
+      <circle cx="332" cy="442" r="6" fill="#3dffa8"/>
+      <text class="sp" x="348" y="448" font-size="22" font-weight="700"
+            fill="#3dffa8">verified proof</text>
+    </g>
+
+    <!-- ═══════════════ RIGHT SIDE ═══════════════ -->
+    <g class="sp-r2">
+      <!-- Code block 1: the commands -->
+      <rect x="672" y="72" width="572" height="280" rx="20"
+            fill="#ffffff" fill-opacity="0.04"
+            stroke="#ffffff" stroke-opacity="0.09" stroke-width="1"/>
+      <rect x="673" y="73" width="570" height="1.5" rx="0.75"
+            fill="#ffffff" fill-opacity="0.18"/>
+      <!-- Terminal chrome -->
+      <rect x="672" y="72" width="572" height="40" rx="20"
+            fill="#0f0e1a"/>
+      <rect x="672" y="92" width="572" height="20" fill="#0f0e1a"/>
+      <circle cx="698" cy="92" r="6" fill="#ff3d9a" fill-opacity="0.55"/>
+      <circle cx="718" cy="92" r="6" fill="#ffd23f" fill-opacity="0.50"/>
+      <circle cx="738" cy="92" r="6" fill="#3dffa8" fill-opacity="0.50"/>
+
+      <text class="spm" font-size="22" x="694" y="140" fill="#9b6bff">/goalify migrate our API to OpenAPI 3.1</text>
+      <text class="spm" font-size="20" x="694" y="170" fill="#4a4468">↓  api-migration.md + condition string</text>
+      <line x1="694" y1="186" x2="1228" y2="186" stroke="#2a2540" stroke-width="1"/>
+      <text class="spm" font-size="22" x="694" y="218" fill="#9b6bff">/clear</text>
+      <text class="spm" font-size="22" x="694" y="250" fill="#9b6bff">/goal  <tspan fill="#f1edff">Do everything in ~/acme/.goal/</tspan></text>
+      <text class="spm" font-size="22" x="694" y="278" fill="#f1edff">       api-migration.md and prove it.</text>
+      <text class="spm" font-size="22" x="694" y="306" fill="#6a638a">       Stop after 40 turns.</text>
+      <text class="spm" font-size="20" x="694" y="336" fill="#4a4468">paste the whole condition, then walk away</text>
+    </g>
+
+    <!-- Code block 2: proof output -->
+    <g class="sp-r3">
+      <rect x="672" y="376" width="572" height="188" rx="20"
+            fill="#ffffff" fill-opacity="0.04"
+            stroke="#3dffa8" stroke-opacity="0.25" stroke-width="1.5"/>
+      <rect x="673" y="377" width="570" height="1.5" rx="0.75"
+            fill="#3dffa8" fill-opacity="0.28"/>
+      <!-- Terminal chrome -->
+      <rect x="672" y="376" width="572" height="40" rx="20"
+            fill="#0a1510"/>
+      <rect x="672" y="396" width="572" height="20" fill="#0a1510"/>
+      <circle cx="698" cy="396" r="6" fill="#ff3d9a" fill-opacity="0.55"/>
+      <circle cx="718" cy="396" r="6" fill="#ffd23f" fill-opacity="0.50"/>
+      <circle cx="738" cy="396" r="6" fill="#3dffa8" fill-opacity="0.70"/>
+
+      <text class="spm" font-size="22" x="694" y="436" fill="#3dffa8">npm test  PASS  47 passed</text>
+      <text class="spm" font-size="22" x="694" y="466" fill="#3dffa8">ASYNC-OK</text>
+      <text class="spm" font-size="22" x="694" y="496" fill="#4a4468">.goal/done/api-migration.receipt</text>
+
+      <!-- VERIFIED badge -->
+      <g class="sp-tick" filter="url(#sp-glow-sm)">
+        <rect x="694" y="510" width="160" height="36" rx="18"
+              fill="#3dffa8" fill-opacity="0.16"
+              stroke="#3dffa8" stroke-opacity="0.55" stroke-width="1.5"/>
+        <path d="M714 524 L720 532 L736 514"
+              fill="none" stroke="#3dffa8" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="sp" font-size="20" font-weight="800" x="746" y="533"
+              fill="#3dffa8">VERIFIED</text>
+      </g>
+    </g>
+
+    <!-- Version footer -->
+    <text class="sp" font-size="20" font-weight="600" x="1254" y="618"
+          text-anchor="end" fill="#2a2540">v3.0 · a Claude Code skill</text>
   </g>
-  <text class="mono eyebrow" x="96" y="258">AUTONOMOUS RUN PREP</text>
-  <text class="disp head" x="96" y="416">Come back to proof, not a promise</text>
-  <text class="disp sub" x="96" y="458">Writes the brief and the condition; the run works from the file.</text>
-  <text class="mono tag" x="96" y="604">github.com/Aboudjem/goalify</text>
 </svg>

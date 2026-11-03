@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" fill="none" role="img" aria-label="goalify 3.0 loop: run preview before, non-stop run during, verified proof receipt after">
+  <title>goalify 3.0 loop: run preview, non-stop run, verified proof receipt</title>
+  <desc>Three horizontal panels. The first panel is labelled before and shows the run preview output, a page showing the phases, the checks and the condition before the run starts. The middle panel is labelled during and shows a non-stop autonomous run over hours or days with zero interruptions. The third panel is labelled after and shows the proof receipt: a terminal block with npm test passing, ASYNC-OK, and a green VERIFIED badge.</desc>
+  <defs>
+    <linearGradient id="par-bg" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0%"   stop-color="#0d0b1a"/>
+      <stop offset="100%" stop-color="#07060f"/>
+    </linearGradient>
+    <radialGradient id="par-gA" cx="0.12" cy="0.15" r="0.6">
+      <stop offset="0%"   stop-color="#9b6bff" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#9b6bff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="par-gB" cx="0.90" cy="0.88" r="0.55">
+      <stop offset="0%"   stop-color="#3dffa8" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#3dffa8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="par-brand" x1="0" y1="0" x2="1" y2="0">
+      <stop class="par-c1" offset="0%"   stop-color="#9b6bff"/>
+      <stop class="par-c2" offset="100%" stop-color="#2ee6ff"/>
+    </linearGradient>
+    <filter id="par-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="par-glow-sm" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    .par  { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    .parm { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace; }
+
+    @keyframes par-c1 { 0%,100% { stop-color:#9b6bff; } 50% { stop-color:#2ee6ff; } }
+    @keyframes par-c2 { 0%,100% { stop-color:#2ee6ff; } 50% { stop-color:#3dffa8; } }
+    .par-c1 { animation: par-c1 14s ease-in-out infinite; }
+    .par-c2 { animation: par-c2 14s ease-in-out infinite 2s; }
+
+    @keyframes par-bloom { 0%,100% { opacity:.65; } 50% { opacity:1; } }
+    .par-bloom { animation: par-bloom 11s ease-in-out infinite; }
+
+    @keyframes par-rise { from { transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .pr1 { animation: par-rise 0.5s ease-out 0.3s both; }
+    .pr2 { animation: par-rise 0.5s ease-out 0.7s both; }
+    .pr3 { animation: par-rise 0.5s ease-out 1.1s both; }
+
+    @keyframes par-pulse { 0%,100% { opacity:.40; } 50% { opacity:1; } }
+    .par-pulse1 { animation: par-pulse  2.0s ease-in-out infinite 0.0s; }
+    .par-pulse2 { animation: par-pulse  2.0s ease-in-out infinite 0.6s; }
+    .par-pulse3 { animation: par-pulse  2.0s ease-in-out infinite 1.2s; }
+
+    @keyframes par-tick { 0%,100% { opacity:1; } 50% { opacity:.75; } }
+    .par-tick { animation: par-tick 8s ease-in-out infinite; }
+
+    @keyframes par-tw { 0%,100% { opacity:.08; } 50% { opacity:.45; } }
+    .par-st1 { animation: par-tw 7s ease-in-out infinite 0s; }
+    .par-st2 { animation: par-tw 9s ease-in-out infinite 3s; }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+
+  <rect width="900" height="440" fill="url(#par-bg)"/>
+  <g class="par-bloom">
+    <rect width="900" height="440" fill="url(#par-gA)"/>
+    <rect width="900" height="440" fill="url(#par-gB)"/>
+  </g>
+  <rect x="1.5" y="1.5" width="897" height="437" rx="24"
+        fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+  <rect x="2" y="2" width="896" height="1.5" rx="0.75"
+        fill="#ffffff" fill-opacity="0.15"/>
+
+  <!-- Stars -->
+  <circle class="par-st1" cx="836" cy="60"  r="1.0" fill="#ffffff"/>
+  <circle class="par-st2" cx="60"  cy="380" r="0.9" fill="#ffffff"/>
+
+  <!-- Masthead -->
+  <g filter="url(#par-glow)">
+    <g fill="none" stroke="url(#par-brand)" stroke-width="2">
+      <circle cx="56" cy="40" r="14"/>
+      <circle cx="56" cy="40" r="8"  stroke-width="1.7" opacity="0.80"/>
+      <circle cx="56" cy="40" r="3"  stroke-width="1.4" opacity="0.62"/>
+    </g>
+    <line x1="40" y1="24" x2="66" y2="50" stroke="#2ee6ff" stroke-width="1.9" stroke-linecap="round"/>
+    <circle cx="37" cy="21" r="2.2" fill="#2ee6ff"/>
+    <circle cx="56" cy="40" r="1.8" fill="#3dffa8"/>
+    <text class="par" x="82" y="50" font-size="30" font-weight="800"
+          letter-spacing="-1.0" fill="url(#par-brand)">goalify 3.0 loop</text>
+  </g>
+
+  <!-- ─── Panel 1: BEFORE (preview) ─── -->
+  <g class="pr1">
+    <!-- Label -->
+    <text class="par" font-size="16" font-weight="700" x="123" y="94"
+          text-anchor="middle" fill="#6a638a" letter-spacing="1.2">BEFORE</text>
+    <!-- Card -->
+    <rect x="40" y="102" width="246" height="306" rx="20"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#9b6bff" stroke-opacity="0.28" stroke-width="1.5"/>
+    <rect x="41" y="103" width="244" height="1.5" rx="0.75"
+          fill="#9b6bff" fill-opacity="0.28"/>
+    <!-- Terminal chrome -->
+    <rect x="40" y="102" width="246" height="36" rx="20"
+          fill="#1c1828"/>
+    <rect x="40" y="120" width="246" height="18" fill="#1c1828"/>
+    <circle cx="62"  cy="120" r="5" fill="#ff3d9a" fill-opacity="0.60"/>
+    <circle cx="80"  cy="120" r="5" fill="#ffd23f" fill-opacity="0.50"/>
+    <circle cx="98"  cy="120" r="5" fill="#3dffa8" fill-opacity="0.50"/>
+    <!-- terminal content -->
+    <text class="parm" font-size="14" x="58" y="162" fill="#6a638a">$</text>
+    <text class="parm" font-size="14" x="72" y="162" fill="#9b6bff">/goalify migrate our API</text>
+    <text class="parm" font-size="14" x="58" y="186" fill="#f1edff">BRIEF</text>
+    <text class="parm" font-size="12" x="58" y="206" fill="#8877b0">api-migration.md</text>
+    <text class="parm" font-size="12" x="58" y="226" fill="#8877b0">Goal: async/await, tests green</text>
+    <text class="parm" font-size="12" x="58" y="248" fill="#8877b0">Done when: npm test passes</text>
+    <line x1="58" y1="262" x2="268" y2="262" stroke="#2a2540" stroke-width="1"/>
+    <text class="parm" font-size="14" x="58" y="284" fill="#f1edff">CONDITION</text>
+    <text class="parm" font-size="12" x="58" y="304" fill="#ff3d9a">149 chars</text>
+    <text class="parm" font-size="12" x="58" y="322" fill="#8877b0">turn cap: 40</text>
+    <text class="parm" font-size="12" x="58" y="342" fill="#8877b0">preview page: opened</text>
+    <line x1="58" y1="358" x2="268" y2="358" stroke="#2a2540" stroke-width="1"/>
+    <text class="parm" font-size="12" x="58" y="380" fill="#ffd23f">ready to run</text>
+    <text class="parm" font-size="12" x="58" y="398" fill="#4a4468">paste condition after /clear</text>
+  </g>
+
+  <!-- Arrow A→B -->
+  <g class="pr2">
+    <line x1="308" y1="256" x2="336" y2="256"
+          stroke="url(#par-brand)" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="334,251 342,256 334,261" fill="url(#par-brand)"/>
+  </g>
+
+  <!-- ─── Panel 2: DURING (running) ─── -->
+  <g class="pr2">
+    <text class="par" font-size="16" font-weight="700" x="449" y="94"
+          text-anchor="middle" fill="#6a638a" letter-spacing="1.2">DURING</text>
+    <rect x="327" y="102" width="246" height="306" rx="20"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#2ee6ff" stroke-opacity="0.25" stroke-width="1.5"/>
+    <rect x="328" y="103" width="244" height="1.5" rx="0.75"
+          fill="#2ee6ff" fill-opacity="0.25"/>
+    <!-- Terminal chrome -->
+    <rect x="327" y="102" width="246" height="36" rx="20"
+          fill="#0d1b26"/>
+    <rect x="327" y="120" width="246" height="18" fill="#0d1b26"/>
+    <circle cx="349" cy="120" r="5" fill="#ff3d9a" fill-opacity="0.60"/>
+    <circle cx="367" cy="120" r="5" fill="#ffd23f" fill-opacity="0.50"/>
+    <circle cx="385" cy="120" r="5" fill="#3dffa8" fill-opacity="0.50"/>
+    <!-- running content -->
+    <text class="parm" font-size="14" x="345" y="162" fill="#2ee6ff">Claude running...</text>
+    <text class="parm" font-size="12" x="345" y="186" fill="#8877b0">turn 1 / 40</text>
+    <text class="parm" font-size="12" x="345" y="206" fill="#8877b0">Reading the brief</text>
+    <text class="parm" font-size="12" x="345" y="226" fill="#8877b0">Migrating the data layer</text>
+    <text class="parm" font-size="12" x="345" y="248" fill="#8877b0">turn 11 / 40</text>
+    <text class="parm" font-size="12" x="345" y="268" fill="#8877b0">Updating route handlers</text>
+    <text class="parm" font-size="12" x="345" y="288" fill="#8877b0">Running tests...</text>
+    <text class="parm" font-size="12" x="345" y="308" fill="#8877b0">turn 22 / 40</text>
+    <text class="parm" font-size="12" x="345" y="328" fill="#8877b0">Fixing 3 type errors</text>
+    <text class="parm" font-size="12" x="345" y="348" fill="#8877b0">turn 28 / 40</text>
+    <text class="parm" font-size="12" x="345" y="368" fill="#8877b0">Final npm test run...</text>
+    <!-- Pulse dots = live -->
+    <g filter="url(#par-glow-sm)">
+      <circle class="par-pulse1" cx="345" cy="400" r="5" fill="#2ee6ff"/>
+      <circle class="par-pulse2" cx="361" cy="400" r="5" fill="#2ee6ff"/>
+      <circle class="par-pulse3" cx="377" cy="400" r="5" fill="#2ee6ff"/>
+    </g>
+    <text class="par" font-size="16" font-weight="600" x="395" y="406"
+          fill="#2ee6ff">zero interruptions</text>
+  </g>
+
+  <!-- Arrow B→C -->
+  <g class="pr3">
+    <line x1="594" y1="256" x2="622" y2="256"
+          stroke="url(#par-brand)" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="620,251 628,256 620,261" fill="url(#par-brand)"/>
+  </g>
+
+  <!-- ─── Panel 3: AFTER (proof receipt) ─── -->
+  <g class="pr3">
+    <text class="par" font-size="16" font-weight="700" x="737" y="94"
+          text-anchor="middle" fill="#6a638a" letter-spacing="1.2">AFTER</text>
+    <rect x="614" y="102" width="246" height="306" rx="20"
+          fill="#ffffff" fill-opacity="0.04"
+          stroke="#3dffa8" stroke-opacity="0.35" stroke-width="1.5"/>
+    <rect x="615" y="103" width="244" height="1.5" rx="0.75"
+          fill="#3dffa8" fill-opacity="0.35"/>
+    <!-- Terminal chrome -->
+    <rect x="614" y="102" width="246" height="36" rx="20"
+          fill="#0a1a10"/>
+    <rect x="614" y="120" width="246" height="18" fill="#0a1a10"/>
+    <circle cx="636" cy="120" r="5" fill="#ff3d9a" fill-opacity="0.60"/>
+    <circle cx="654" cy="120" r="5" fill="#ffd23f" fill-opacity="0.50"/>
+    <circle cx="672" cy="120" r="5" fill="#3dffa8" fill-opacity="0.70"/>
+    <!-- proof content -->
+    <text class="parm" font-size="14" x="632" y="162" fill="#3dffa8">run complete</text>
+    <text class="parm" font-size="12" x="632" y="186" fill="#8877b0">turn 29 / 40</text>
+    <text class="parm" font-size="12" x="632" y="208" fill="#f1edff">npm test</text>
+    <text class="parm" font-size="12" x="632" y="228" fill="#3dffa8">  PASS  src/routes.test.ts</text>
+    <text class="parm" font-size="12" x="632" y="248" fill="#3dffa8">  PASS  src/schemas.test.ts</text>
+    <text class="parm" font-size="12" x="632" y="268" fill="#3dffa8">Tests: all passing</text>
+    <line x1="632" y1="282" x2="842" y2="282" stroke="#1a3320" stroke-width="1"/>
+    <text class="parm" font-size="14" x="632" y="304" fill="#3dffa8">ASYNC-OK</text>
+    <text class="parm" font-size="12" x="632" y="328" fill="#8877b0">/goalify verify</text>
+    <text class="parm" font-size="12" x="632" y="350" fill="#8877b0">  RECEIPT-api-migration.html</text>
+    <line x1="632" y1="366" x2="842" y2="366" stroke="#1a3320" stroke-width="1"/>
+    <!-- VERIFIED badge -->
+    <rect x="632" y="376" width="200" height="22" rx="11"
+          fill="#3dffa8" fill-opacity="0.18"
+          stroke="#3dffa8" stroke-opacity="0.55" stroke-width="1.5"/>
+    <g class="par-tick" filter="url(#par-glow-sm)">
+      <path d="M648 383 L654 390 L668 374"
+            fill="none" stroke="#3dffa8" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <text class="par" font-size="14" font-weight="800" x="680" y="391"
+            fill="#3dffa8">VERIFIED</text>
+    </g>
+  </g>
+</svg>
