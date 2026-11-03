@@ -413,6 +413,7 @@ destructive commands (`rm -rf`, `git push`, publish, `DROP`, `curl | sh`) unless
 each one by name (`--allow "<command>"`), writes nothing outside `.goal/`, never archives or
 un-archives, and writes `.goal/RECEIPT-<slug>-<stamp>.html`. Print the verdict (VERIFIED, NOT
 VERIFIED or UNVERIFIABLE) and the receipt link. With no brief, it takes the newest in `.goal/`.
+A check written "verified by `<command>` printing nothing" passes on empty output (grep exits 1).
 
 ## Cross-harness: Codex
 

@@ -110,6 +110,8 @@ once, runs them in your repo, and writes `.goal/RECEIPT-<slug>-<stamp>.html` wit
 VERIFIED, NOT VERIFIED or UNVERIFIABLE. It refuses destructive commands such as `rm -rf` or
 `git push` unless you allow each one by name, it writes nothing outside `.goal/`, and it never moves
 the brief. A receipt can say NOT VERIFIED for a brief that was archived as done; the fresh run wins.
+A check written as "verified by `grep ...` printing nothing" passes when the command prints
+nothing, since grep exits 1 when it finds no match.
 
 **How do I see all my runs?**
 `/goalify status` prints one row per brief in `.goal/`: open, blocked, done, or a condition file

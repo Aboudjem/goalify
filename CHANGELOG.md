@@ -57,6 +57,10 @@ every question up front so the run can go for hours or days without stopping to 
 
 ### Fixed
 
+- `/goalify verify` passes a check written as "verified by `grep ...` printing nothing" when the
+  command prints nothing (grep exits 1 on no match), instead of scoring it as a failure. Found by
+  the release verification; it landed on `main` right after the v3.0.0 tag. Two more destructive
+  shapes (`find ... -delete`, deleting a git branch) are refused too.
 - Eval Scenario 3 expected a split flowchart that no longer existed. SKILL.md has the split rule
   back (one brief and one condition per big independent sub-project) and the scenario matches it.
 

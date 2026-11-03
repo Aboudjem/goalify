@@ -57,6 +57,11 @@ SINGLE_WORD_COMMANDS = {
 _FIRST_TOKEN_RE = re.compile(r"^(?:\.{0,2}/|~/)?[a-z0-9_][a-zA-Z0-9_.+/-]*$")
 _ENV_ASSIGN_RE = re.compile(r"^[A-Z_][A-Z0-9_]*=\S*$")
 PLACEHOLDER_RE = re.compile(r"<[^<>]+>")
+# "verified by `grep ...` printing nothing": the check passes when the command prints nothing.
+EXPECT_EMPTY_RE = re.compile(
+    r"\b(?:print(?:s|ing)?|return(?:s|ing)?|output(?:s|ting)?|show(?:s|ing)?)\s+nothing\b"
+    r"|\bno output\b|\bempty output\b|\bzero (?:matches|hits|results|lines)\b|\bno matches\b",
+    re.IGNORECASE)
 SEPARATE_AGENT_RE = re.compile(r"\bseparate\b.{0,40}\b(?:agent|verifier|reviewer)\b",
                                re.IGNORECASE | re.DOTALL)
 
@@ -274,6 +279,7 @@ def parse_brief(path):
             "checked": item["checked"],
             "commands": cmds,
             "placeholders": [c for c in cmds if PLACEHOLDER_RE.search(c)],
+            "expect_empty": bool(EXPECT_EMPTY_RE.search(item["text"])),
             "kind": kind,
         })
     checklist = parse_items(find_section(sections, "Progress checklist"))

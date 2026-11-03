@@ -17,7 +17,10 @@ Usage:
 
 With no brief, the newest brief in ./.goal/ or ./.goal/done/ is used.
 
-Writes .goal/RECEIPT-<slug>-<stamp>.html and logs to .goal/verify-<slug>/<n>.log.
+Writes .goal/RECEIPT-<slug>-<stamp>.html and logs to .goal/verify-<slug>/<n>.log, in the
+folder that holds the brief (goalify keeps briefs in .goal/, or .goal/done/ once archived).
+A check written as "verified by `<command>` printing nothing" passes when the command prints
+nothing and exits 0 or 1 (grep exits 1 when it finds no match).
 Exit 0 = VERIFIED, 1 = NOT VERIFIED, 3 = UNVERIFIABLE, 2 = usage error or the user said no.
 """
 import os
@@ -45,6 +48,8 @@ DESTRUCTIVE = [
     (re.compile(r"\bmkfs\b|\bdd\s+if="), "mkfs / dd"),
     (re.compile(r"\bkubectl\s+delete\b"), "kubectl delete"),
     (re.compile(r"\bgh\s+release\s+delete\b|\bgh\s+repo\s+delete\b"), "gh delete"),
+    (re.compile(r"\bfind\b.*\s-delete\b|\bfind\b.*-exec\s+rm\b"), "find -delete"),
+    (re.compile(r"\bgit\s+branch\s+-D\b|\bgit\s+push\b.*--delete\b"), "git branch delete"),
 ]
 TAIL_LINES = 20
 
@@ -80,7 +85,8 @@ def plan(brief, allowed):
                                          'allow it by name with --allow "<command>"')
             else:
                 action, why = "run", ""
-            steps.append({"item": i, "cmd": cmd, "action": action, "why": why})
+            steps.append({"item": i, "cmd": cmd, "action": action, "why": why,
+                          "expect_empty": item.get("expect_empty", False)})
     return steps
 
 
@@ -108,12 +114,20 @@ def run_steps(steps, cwd, log_dir, timeout):
             p = subprocess.run(s["cmd"], shell=True, executable="/bin/bash", cwd=cwd,
                                capture_output=True, text=True, timeout=timeout)
             code, out = p.returncode, (p.stdout or "") + (p.stderr or "")
+            stdout_empty = not (p.stdout or "").strip()
         except subprocess.TimeoutExpired as e:
             code = 124
+            stdout_empty = False
             out = ((e.stdout or b"").decode(errors="replace") if isinstance(e.stdout, bytes)
                    else (e.stdout or "")) + f"\n[timed out after {timeout}s]"
         with open(log, "w", encoding="utf-8") as f:
             f.write(f"$ {s['cmd']}\n{out}\n[exit {code}]\n")
+        # A "prints nothing" check (grep for leftovers) passes on empty output. grep exits 1
+        # when it finds nothing, so 0 or 1 with empty stdout is a pass; 2+ is a real error.
+        if s.get("expect_empty"):
+            s["ok"] = stdout_empty and code in (0, 1)
+        else:
+            s["ok"] = code == 0
         s.update(code=code, tail="\n".join(out.rstrip().split("\n")[-TAIL_LINES:]),
                  log=log, secs=round(time.time() - t0, 1))
     return steps
@@ -123,7 +137,7 @@ def verdict_of(steps):
     runnable = [s for s in steps if s["action"] == "run"]
     if not runnable:
         return "UNVERIFIABLE"
-    if all(s.get("code") == 0 for s in runnable) and len(runnable) == len(steps):
+    if all(s.get("ok") for s in runnable) and len(runnable) == len(steps):
         return "VERIFIED"
     return "NOT VERIFIED"
 
@@ -138,7 +152,7 @@ def closeout_quotes(brief):
 
 def receipt_html(brief, steps, verdict, when):
     esc, inline, clip = rp.esc, rp.inline, rp.clip
-    passed = sum(1 for s in steps if s["action"] == "run" and s.get("code") == 0)
+    passed = sum(1 for s in steps if s["action"] == "run" and s.get("ok"))
     cls = {"VERIFIED": "ok", "NOT VERIFIED": "no", "UNVERIFIABLE": "un"}[verdict]
     word = {"VERIFIED": "Proven, not promised.", "NOT VERIFIED": "Not proven yet.",
             "UNVERIFIABLE": "Nothing here can be checked by a command."}[verdict]
@@ -169,8 +183,12 @@ def receipt_html(brief, steps, verdict, when):
         parts = []
         for s in mine:
             if s["action"] == "run":
-                st = "pass" if s.get("code") == 0 else "fail"
-                lab = "PASS" if st == "pass" else f"FAIL · exit {s.get('code')}"
+                st = "pass" if s.get("ok") else "fail"
+                if s.get("expect_empty"):
+                    lab = ("PASS · printed nothing" if st == "pass"
+                           else f"FAIL · expected no output, exit {s.get('code')}")
+                else:
+                    lab = "PASS" if st == "pass" else f"FAIL · exit {s.get('code')}"
                 parts.append(f'<div class="cmds"><span class="st {st}">{esc(lab)}</span>'
                              f'<span class="cmd">{esc(s["cmd"])}</span></div>'
                              f'<pre class="out">{esc(s.get("tail") or "(no output)")}</pre>')
@@ -179,7 +197,7 @@ def receipt_html(brief, steps, verdict, when):
                 parts.append(f'<div class="cmds"><span class="st skip">{lab}</span>'
                              f'<span class="cmd">{esc(s["cmd"])}</span></div>'
                              f'<p class="note">{esc(s["why"])}</p>')
-        ok_all = all(s["action"] == "run" and s.get("code") == 0 for s in mine)
+        ok_all = all(s["action"] == "run" and s.get("ok") for s in mine)
         mark = ('<span class="ok" aria-hidden="true">✓</span>' if ok_all else
                 '<span class="ok" aria-hidden="true" style="border-color:var(--red);color:var(--red)">✕</span>')
         rows.append(f'<div class="check glass">{mark}<div>'
@@ -266,11 +284,12 @@ def main(argv):
     gdir = goal_state.goal_dir_of(brief["path"])
     out = rp.write_page(os.path.join(gdir, f"RECEIPT-{brief['slug']}-{stamp}.html"),
                         receipt_html(brief, steps, verdict, when))
-    passed = sum(1 for s in steps if s["action"] == "run" and s.get("code") == 0)
+    passed = sum(1 for s in steps if s["action"] == "run" and s.get("ok"))
     print(f"{passed}/{len(steps)} checks passed")
     for n, s in enumerate(steps, 1):
         if s["action"] == "run":
-            print(f"  {n}. {'PASS' if s.get('code') == 0 else 'FAIL'} (exit {s.get('code')}) {s['cmd']}")
+            print(f"  {n}. {'PASS' if s.get('ok') else 'FAIL'} (exit {s.get('code')}"
+                  f"{', expects no output' if s.get('expect_empty') else ''}) {s['cmd']}")
     print(f"VERDICT: {verdict}")
     print("Receipt: file://" + out)
     return {"VERIFIED": 0, "NOT VERIFIED": 1, "UNVERIFIABLE": 3}[verdict]

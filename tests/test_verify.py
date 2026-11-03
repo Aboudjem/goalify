@@ -204,6 +204,39 @@ try:
           "<script>alert" not in xpage and "<img src=x" not in xpage
           and "&lt;img src=x onerror=alert(2)&gt;" in xpage)
 
+    # --- "printing nothing" checks: grep for leftovers passes when it finds none ---
+    proj, bp = setup(tmp, "empty-ok", brief("No leftovers", [
+        'No v1 calls remain, verified by `grep -rn "api/v1" src` printing nothing.']))
+    os.makedirs(os.path.join(proj, "src"))
+    open(os.path.join(proj, "src", "a.js"), "w").write("call('api/v2')\n")
+    p = run([bp, "--yes"])
+    check("prints-nothing: grep with no match (exit 1, empty) is a PASS and VERIFIED",
+          p.returncode == 0 and "VERDICT: VERIFIED" in p.stdout and "expects no output" in p.stdout,
+          p.stdout)
+    rec = glob.glob(os.path.join(proj, ".goal", "RECEIPT-x-*.html"))
+    check("prints-nothing: the receipt says it printed nothing",
+          bool(rec) and "PASS · printed nothing" in open(rec[0], encoding="utf-8").read())
+    open(os.path.join(proj, "src", "b.js"), "w").write("call('api/v1')\n")
+    p = run([bp, "--yes"])
+    check("prints-nothing: a leftover match (output) is a FAIL, NOT VERIFIED",
+          p.returncode == 1 and "NOT VERIFIED" in p.stdout, p.stdout)
+    proj, bp = setup(tmp, "empty-err", brief("Broken grep", [
+        'Clean, verified by `grep -rn "api/v1" missing-dir` printing nothing.']))
+    p = run([bp, "--yes"])
+    check("prints-nothing: a grep error (exit 2) is a FAIL, not a pass",
+          p.returncode == 1 and "NOT VERIFIED" in p.stdout, p.stdout)
+    proj, bp = setup(tmp, "plain-exit1", brief("Plain", ["It runs, verified by `false`."]))
+    p = run([bp, "--yes"])
+    check("a plain check with exit 1 and no 'printing nothing' wording still FAILs",
+          p.returncode == 1, p.stdout)
+
+    # --- more destructive shapes are refused ---
+    proj, bp = setup(tmp, "find", brief("Find", ["Cleaned, verified by `find . -name x -delete`."]))
+    p = run([bp, "--yes"])
+    check("destructive: find -delete is refused (nothing left to run: UNVERIFIABLE)",
+          "REFUSED" in p.stdout and p.returncode == 3,
+          p.stdout)
+
     # --- default brief: the newest in ./.goal ---
     proj, bp = setup(tmp, "dflt", brief("Default", ["Ok, verified by `true`."]))
     p = run(["--yes"], cwd=proj)
