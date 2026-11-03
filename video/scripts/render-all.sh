@@ -32,5 +32,5 @@ ffmpeg -v error -y -i renders/demo.mp4 -i renders/pal.png \
   -loop 0 "$A/goalify-demo.gif"
 
 # poster: the VERIFIED moment
-ffmpeg -v error -y -ss 31.8 -i renders/main.mp4 -frames:v 1 "$A/goalify-promo-poster.png"
+ffmpeg -v error -y -ss 31.0 -i renders/main.mp4 -frames:v 1 "$A/goalify-promo-poster.png"
 ls -la "$A"/goalify-promo* "$A"/goalify-demo*

@@ -396,12 +396,22 @@
       F.caption(tl, document.getElementById("pv-cap"), 0.45, 5.4);
 
       // scroll to the plan; the nodes light up in order
-      tl.fromTo(page, { y: 0 }, { y: -yPlan, duration: 0.6, ease: "power2.inOut" }, 1.6);
-      tl.fromTo(P ? "#pv-page .pv-nodev" : "#pv-page .pv-node", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.13 }, 2.05);
+      tl.fromTo(page, { y: 0 }, { y: -yPlan, duration: 0.6, ease: "power2.inOut" }, P ? 1.5 : 1.6);
+      if (P) {
+        // vertical: the six-node flow is taller than the window, so keep scrolling until the green
+        // "Proven, then archived" node is in view, and hold it there before jumping to launch
+        var flow = document.querySelector("#pv-page .pv-flow");
+        var viewH = document.getElementById("pv-view").offsetHeight / SC;
+        var yFlowEnd = flow.offsetTop + flow.offsetHeight + 24 - viewH;
+        tl.fromTo("#pv-page .pv-nodev", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.15 }, 1.9);
+        tl.to(page, { y: -Math.max(yPlan, yFlowEnd), duration: 0.55, ease: "power2.inOut" }, 2.3);
+      } else {
+        tl.fromTo("#pv-page .pv-node", { opacity: 0.15 }, { opacity: 1, duration: 0.2, ease: "power2.out", stagger: 0.13 }, 2.05);
+      }
       tl.fromTo("#pv-page .pv-dash path", { strokeDasharray: "6 8", strokeDashoffset: 0 }, { strokeDashoffset: -70, duration: 3.5, ease: "none" }, 1.8);
 
       // scroll to the launch block, then the cursor copies the line
-      tl.to(page, { y: -yGo, duration: 0.6, ease: "power2.inOut" }, P ? 3.35 : 3.25);
+      tl.to(page, { y: -yGo, duration: 0.55, ease: "power2.inOut" }, P ? 3.5 : 3.25);
       // button position inside the window, computed from layout offsets (unscaled page px * SC)
       function offTo(el, anc) {
         var x = 0,
@@ -418,7 +428,7 @@
         by = 62 + (bp.y - yGo) * SC + (btn.offsetHeight * SC) / 2;
       var W0 = win.offsetWidth,
         H0 = win.offsetHeight;
-      tl.fromTo("#pv-cursor", { x: W0 + 40, y: H0 * 0.85, opacity: 1 }, { x: bx - 10, y: by - 6, duration: 0.55, ease: "power3.out" }, 3.85);
+      tl.fromTo("#pv-cursor", { x: W0 + 40, y: H0 * 0.85, opacity: 1 }, { x: bx - 10, y: by - 6, duration: 0.5, ease: "power3.out" }, P ? 3.98 : 3.85);
       tl.to("#pv-cursor", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 4.42);
       tl.fromTo("#pv-btn", { scale: 1 }, { scale: 0.92, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 4.42);
       tl.fromTo("#pv-btn2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 4.46);

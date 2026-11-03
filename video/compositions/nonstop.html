@@ -121,6 +121,17 @@
       background: rgba(61, 255, 168, 0.12);
       font: 700 21px var(--sans);
     }
+    .ns-tick.cl {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: transparent;
+    }
+    .ns-cl {
+      margin-left: 10px;
+      font: 600 20px var(--mono);
+      color: var(--yellow);
+      opacity: 0.85;
+    }
     .ns-txt {
       font: 500 28px/1.25 var(--sans);
       color: var(--ink);
@@ -139,7 +150,8 @@
         text-align: center;
       }
       #ns-clock {
-        font-size: 170px;
+        font-size: 150px;
+        margin-top: 20px;
       }
       #ns-sub {
         justify-content: center;
@@ -154,21 +166,31 @@
       }
       #ns-card {
         left: 60px;
-        top: 580px;
+        top: 628px;
         width: 960px;
-        padding: 28px 34px;
+        padding: 22px 34px 18px;
       }
       .ns-h {
         display: none;
       }
       .ns-row {
-        padding: 11px 0;
+        padding: 6px 0;
+        grid-template-columns: 40px 1fr;
+      }
+      .ns-txt {
+        font-size: 26px;
+      }
+      .ns-by {
+        margin-top: 4px;
+      }
+      #ns-sub {
+        font-size: 27px;
       }
     }
   </style>
   <div id="root" data-composition-id="nonstop" data-width="1920" data-height="1080">
     <div id="ns-left">
-      <div id="ns-run" class="glass"><i></i>/goal running · fresh context</div>
+      <div id="ns-run" class="glass"><i></i>/goal running · fresh context · example</div>
       <div id="ns-clock"><span id="ns-h">0</span><small>h</small><span id="ns-m">00</span><small>m</small></div>
       <div id="ns-sub"><span>elapsed, no one at the keyboard</span><span id="ns-day">DAY 2</span></div>
       <div id="ns-pills">
@@ -183,7 +205,7 @@
       <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt">No <span class="mono">api/v1</span> calls left in <span class="mono">src/</span>.</div><div class="ns-by"><span class="cmd">grep -rn "api/v1" src</span></div></div></div>
       <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt">Types compile clean.</div><div class="ns-by"><span class="cmd">npx tsc --noEmit</span></div></div></div>
       <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt"><span class="mono">npm test</span> exits 0, all passing.</div><div class="ns-by"><span class="cmd">npm test</span></div></div></div>
-      <div class="ns-row"><div class="ns-ok"><div class="ns-tick">✓</div></div><div><div class="ns-txt">A separate agent confirmed the API contract.</div><div class="ns-by"><span class="cmd agent">checked by a separate agent</span></div></div></div>
+      <div class="ns-row"><div class="ns-ok"><div class="ns-tick cl">✓</div></div><div><div class="ns-txt">A separate agent confirmed the API contract.</div><div class="ns-by"><span class="cmd agent">checked by a separate agent</span><span class="ns-cl">claimed</span></div></div></div>
     </div>
     <div class="cap" id="ns-cap">It runs for hours. Even days. Zero interruptions.</div>
   </div>

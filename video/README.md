@@ -6,9 +6,9 @@ Remotion teaser.
 
 | Output (in `../assets/`)     | What                                                         |
 | ---------------------------- | ------------------------------------------------------------ |
-| `goalify-promo.mp4`          | main cut, 1920x1080, 38.5 s, music                           |
+| `goalify-promo.mp4`          | main cut, 1920x1080, 37.7 s, music                           |
 | `goalify-promo-vertical.mp4` | same story re-laid out for 1080x1920 (not a crop)            |
-| `goalify-promo-15s.mp4`      | 15.4 s cut: hook, problem, turn, proof, call to action       |
+| `goalify-promo-15s.mp4`      | 15.0 s cut: hook, problem, turn, proof, call to action       |
 | `goalify-demo.mp4` / `.gif`  | muted 13.1 s README loop (condition, preview page, verified) |
 | `goalify-promo-poster.png`   | 1920x1080 poster (the VERIFIED moment)                       |
 

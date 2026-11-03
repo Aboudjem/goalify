@@ -1,12 +1,12 @@
 // Procedural music bed for the goalify promo. No deps, seeded, reproducible, royalty-free
 // (every sample is computed here). Writes a 16-bit stereo 44.1 kHz WAV.
 //
-//   node scripts/genmusic.js --dur 38.5 --turn 5.4 --peak 30.1 --out assets/music-main.wav
-//   node scripts/genmusic.js --dur 15.4 --turn 5.4 --peak 9.6  --out assets/music-short.wav
+//   node scripts/genmusic.js --dur 37.7 --turn 4.6 --fail 1.47 --peak 29.3 --out renders/music-main.wav
+//   node scripts/genmusic.js --dur 15 --turn 4.6 --fail 1.47 --peak 8.8 --out renders/music-short.wav
 //
 // The arc follows the film:
 //   0 .. turn    "Claude said done. It wasn't."  a held B-minor pad, one bell on "Done.",
-//                a low sub drop when the test fails (~2.97 s)
+//                a low sub drop when the test fails (--fail, ~1.47 s)
 //   turn         the goalify mark ignites: a bell arpeggio + sub hit on the pin strike (turn+0.66)
 //   turn .. peak D A Bm G in D major, soft kick from turn+2 s, intensity builds
 //   peak         VERIFIED: a bright chord, bell cascade and sub hit, then the bed settles
@@ -18,11 +18,11 @@ function arg(name, def) {
   const i = process.argv.indexOf("--" + name);
   return i > 0 ? process.argv[i + 1] : def;
 }
-const DUR = parseFloat(arg("dur", "38.5"));
-const TURN = parseFloat(arg("turn", "5.4"));
-const PEAK = parseFloat(arg("peak", "30.1"));
+const DUR = parseFloat(arg("dur", "37.7"));
+const TURN = parseFloat(arg("turn", "4.6"));
+const PEAK = parseFloat(arg("peak", "29.3"));
 const OUT = arg("out", "assets/music-main.wav");
-const FAIL = parseFloat(arg("fail", "2.97"));
+const FAIL = parseFloat(arg("fail", "1.47"));
 
 const SR = 44100;
 const N = Math.floor(SR * DUR);
@@ -186,7 +186,7 @@ function shaker(t0, amp) {
 // ---- 1. the cold open: Bm pad, a bell on "Done.", a drop on the failing test ----
 pad(0, TURN + 0.3, [47, 50, 54], 0.075, 0.08);
 bass(0, TURN, 35, 0.12);
-bell(0.32, 78, 0.07, 0.55); // "Done." lands
+bell(0.1, 78, 0.07, 0.55); // "Claude said done." lands
 drop(FAIL, 120, 42, 0.42, 0.9); // "It wasn't."
 pad(FAIL, TURN - FAIL + 0.3, [46], 0.03, 0.06); // a tense flat-6 colour under the reveal
 

@@ -21,7 +21,7 @@ const SCENES = {
 };
 
 const MAIN = [
-  ["open", 5.4],
+  ["open", 4.6],
   ["turn", 3.0],
   ["brief", 6.0],
   ["condition", 4.0],
@@ -31,10 +31,10 @@ const MAIN = [
   ["cta", 5.1],
 ];
 const SHORT = [
-  ["open", 5.4],
+  ["open", 4.6],
   ["turn", 3.0],
-  ["proof", 3.6],
-  ["cta", 3.4],
+  ["proof", 3.8],
+  ["cta", 3.6],
 ];
 const DEMO = [
   ["condition", 4.0],
@@ -50,7 +50,7 @@ const CUTS = [
     h: 1080,
     seq: MAIN,
     music: "assets/music-main.mp3",
-    shots: [5.75, 20.2, 34.1],
+    shots: [4.95, 19.4, 33.3],
     warp: ["nonstop"],
   },
   {
@@ -60,7 +60,7 @@ const CUTS = [
     h: 1920,
     seq: MAIN,
     music: "assets/music-main.mp3",
-    shots: [5.75, 20.2, 34.1],
+    shots: [4.95, 19.4, 33.3],
     warp: ["nonstop"],
   },
   {
@@ -70,8 +70,10 @@ const CUTS = [
     h: 1080,
     seq: SHORT,
     music: "assets/music-short.mp3",
-    shots: [5.75, 12.4],
+    shots: [4.95, 11.9],
     warp: [],
+    // the 15 s cut skips the non-stop beat, so its proof line has to set it up
+    caps: { proof: "It works for hours. Then it hands you proof." },
   },
   {
     name: "demo",
@@ -120,6 +122,7 @@ if (!c) {
     <script src="assets/film.js"></script>
     <script>
       window.FILM_SKY = ${JSON.stringify({ dur: D, shots: c.shots, warp })};
+      window.FILM_CAPS = ${JSON.stringify(c.caps || {})};
     </script>
     <style>
       html,
