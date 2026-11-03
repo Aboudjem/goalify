@@ -1,0 +1,192 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #op-term {
+      position: absolute;
+      left: 320px;
+      top: 96px;
+      width: 1280px;
+      height: 660px;
+      overflow: hidden;
+      background: rgba(12, 10, 26, 0.62);
+    }
+    #op-bar {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 26px;
+      border-bottom: 1px solid var(--line);
+    }
+    #op-bar i {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ff5f57;
+      opacity: 0.85;
+    }
+    #op-bar i:nth-child(2) {
+      background: #febc2e;
+    }
+    #op-bar i:nth-child(3) {
+      background: #28c840;
+    }
+    #op-title {
+      margin-left: 18px;
+      font: 22px var(--mono);
+      color: var(--dim);
+    }
+    #op-body {
+      padding: 34px 46px;
+      font: 32px/56px var(--mono);
+      color: var(--ink);
+    }
+    .op-l {
+      position: relative;
+      height: 56px;
+      white-space: pre;
+    }
+    .op-p {
+      color: var(--purple);
+    }
+    .op-g {
+      color: var(--green);
+      font-weight: 700;
+    }
+    .op-dim {
+      color: var(--mute);
+    }
+    .op-red {
+      color: var(--red);
+      font-weight: 700;
+    }
+    .op-chip {
+      display: inline-block;
+      margin-left: 22px;
+      padding: 0 14px;
+      border-radius: 999px;
+      font: 650 25px/40px var(--mono);
+      vertical-align: 4px;
+      color: var(--red);
+      background: rgba(255, 107, 139, 0.13);
+      border: 1px solid rgba(255, 107, 139, 0.4);
+    }
+    #op-strike {
+      position: absolute;
+      left: 40px;
+      top: 27px;
+      width: 620px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--red);
+      box-shadow: 0 0 14px rgba(255, 107, 139, 0.8);
+      transform-origin: 0 50%;
+    }
+    #op-cap2 {
+      color: var(--red);
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #op-term {
+        left: 50px;
+        top: 230px;
+        width: 980px;
+        height: 760px;
+      }
+      #op-body {
+        padding: 30px 36px;
+        font-size: 31px;
+        line-height: 58px;
+      }
+      .op-l {
+        height: 58px;
+      }
+      .op-chip {
+        margin-left: 14px;
+        font-size: 21px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="open" data-width="1920" data-height="1080">
+    <div id="op-term" class="glass">
+      <div id="op-bar"><i></i><i></i><i></i><span id="op-title">claude · ~/acme</span></div>
+      <div id="op-body">
+        <div class="op-l"><span class="op-p">&gt; </span>migrate every file to the v2 API</div>
+        <div class="op-l" id="op-done"><span class="op-g" id="op-dot">● </span><span class="op-g" id="op-d1">Done.</span><span id="op-d2"> All files migrated to v2.</span><div id="op-strike"></div></div>
+        <div class="op-l"></div>
+        <div class="op-l" id="op-l4"><span class="op-dim">$ </span><span id="op-l4t">npm test</span></div>
+        <div class="op-l op-red" id="op-l5">✗ 3 failing</div>
+        <div class="op-l" id="op-l6"><span class="op-dim">$ </span><span id="op-l6t">grep -rl "api/v1" src</span></div>
+        <div class="op-l op-f">src/orders.js<span class="op-chip">still v1</span></div>
+        <div class="op-l op-f">src/billing.js<span class="op-chip">still v1</span></div>
+        <div class="op-l op-f">src/users.js<span class="op-chip">still v1</span></div>
+      </div>
+    </div>
+    <div class="cap" id="op-cap1">Claude said done.</div>
+    <div class="cap" id="op-cap2">It wasn't.</div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var tl = gsap.timeline({ paused: true });
+
+      // HOOK: the prompt is on screen at frame 0; Claude answers "Done."
+      var P = F.portrait();
+      tl.fromTo(
+        "#op-term",
+        { opacity: 1, scale: P ? 1.0 : 1.22, filter: "blur(0px)", transformOrigin: "50% 0%" },
+        { opacity: 1, scale: P ? 1.0 : 1.22, duration: 0.01 },
+        0
+      );
+      tl.fromTo("#op-dot", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 0.22);
+      F.type(tl, document.getElementById("op-d1"), 0.3, 0.16);
+      F.type(tl, document.getElementById("op-d2"), 0.48, 0.5);
+      F.caption(tl, document.getElementById("op-cap1"), 0.4, 2.62);
+      // punch-in on the claim
+      tl.to("#op-term", { scale: P ? 1.06 : 1.29, duration: 0.55, ease: "expo.out" }, 1.25);
+      // camera pulls back to show the evidence
+      tl.to("#op-term", { scale: 1, duration: 0.45, ease: "power2.inOut" }, 2.55);
+
+      // PROBLEM: the proof says otherwise
+      tl.fromTo("#op-l4", { opacity: 0 }, { opacity: 1, duration: 0.05 }, 2.62);
+      F.type(tl, document.getElementById("op-l4t"), 2.64, 0.22);
+      tl.fromTo("#op-l5", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.18, ease: "expo.out" }, 2.95);
+      tl.fromTo("#op-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.24, ease: "power3.out" }, 2.97);
+      tl.to(["#op-d1", "#op-d2", "#op-dot"], { opacity: 0.4, duration: 0.2 }, 3.0);
+      // a short, seeded shake on the impact
+      var R = F.rng(9);
+      for (var i = 0; i < 6; i++) {
+        tl.to("#op-term", { x: (R() - 0.5) * 18 * (1 - i / 6), duration: 0.035, ease: "none" }, 2.97 + i * 0.035);
+      }
+      tl.to("#op-term", { x: 0, duration: 0.05 }, 3.2);
+      F.caption(tl, document.getElementById("op-cap2"), 3.0, 5.05);
+      tl.fromTo("#op-l6", { opacity: 0 }, { opacity: 1, duration: 0.05 }, 3.3);
+      F.type(tl, document.getElementById("op-l6t"), 3.32, 0.32);
+      tl.fromTo(
+        ".op-f",
+        { opacity: 0, x: -14 },
+        { opacity: 1, x: 0, duration: 0.2, ease: "expo.out", stagger: 0.14 },
+        3.72
+      );
+      tl.fromTo(
+        ".op-chip",
+        { scale: 0.6, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.14 },
+        3.8
+      );
+
+      // EXIT: the terminal collapses into a point (the next scene ignites from it)
+      tl.to(
+        "#op-term",
+        { scale: 0.16, y: P ? 309 : 291, opacity: 0, filter: "blur(18px)", duration: 0.36, ease: "power3.in" },
+        5.04
+      );
+
+      window.__timelines["open"] = tl;
+    })();
+  </script>
+</template>

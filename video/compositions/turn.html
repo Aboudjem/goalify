@@ -1,0 +1,209 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #tn-lock {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 860px;
+    }
+    #tn-mark {
+      position: absolute;
+      left: 430px;
+      top: 230px;
+      width: 420px;
+      height: 420px;
+      overflow: visible;
+    }
+    #tn-bloom {
+      position: absolute;
+      left: 340px;
+      top: 140px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(199, 125, 255, 0.55), rgba(155, 107, 255, 0.18) 45%, transparent 75%);
+    }
+    #tn-word {
+      position: absolute;
+      left: 900px;
+      top: 330px;
+      font: 700 196px/1 var(--sans);
+      letter-spacing: -0.055em;
+      color: #fff;
+      white-space: nowrap;
+    }
+    #tn-word span {
+      display: inline-block;
+    }
+    #tn-ver {
+      position: absolute;
+      left: 912px;
+      top: 560px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font: 650 34px var(--sans);
+      color: var(--ink);
+    }
+    #tn-ver b {
+      color: var(--yellow);
+    }
+    .tn-spark {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      margin: -3.5px 0 0 -3.5px;
+      border-radius: 50%;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #tn-lock {
+        height: 1300px;
+      }
+      #tn-mark {
+        left: 300px;
+        top: 360px;
+        width: 480px;
+        height: 480px;
+      }
+      #tn-bloom {
+        left: 200px;
+        top: 260px;
+        width: 680px;
+        height: 680px;
+      }
+      #tn-word {
+        left: 0;
+        right: 0;
+        top: 900px;
+        text-align: center;
+        font-size: 190px;
+      }
+      #tn-ver {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: max-content;
+        top: 250px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="turn" data-width="1920" data-height="1080">
+    <div id="tn-lock">
+      <div id="tn-bloom"></div>
+      <svg id="tn-mark" viewBox="0 0 256 256" fill="none" aria-label="goalify mark">
+        <defs>
+          <linearGradient id="tn-ink" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="200" y2="200">
+            <stop offset="0" stop-color="#8E7BFF" />
+            <stop offset="0.52" stop-color="#A78CFF" />
+            <stop offset="1" stop-color="#C77DFF" />
+          </linearGradient>
+          <filter id="tn-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#tn-glow)" stroke="url(#tn-ink)" stroke-width="9" stroke-linecap="round">
+          <circle class="tn-ring" cx="128" cy="128" r="26" transform="rotate(-90 128 128)" />
+          <circle class="tn-ring" cx="128" cy="128" r="50" transform="rotate(-90 128 128)" />
+          <circle class="tn-ring" cx="128" cy="128" r="74" transform="rotate(-90 128 128)" />
+        </g>
+        <circle id="tn-pulse" cx="128" cy="128" r="26" stroke="#C77DFF" stroke-width="3" opacity="0" />
+        <g id="tn-pin" filter="url(#tn-glow)">
+          <line x1="196" y1="60" x2="128" y2="128" stroke="url(#tn-ink)" stroke-width="13" stroke-linecap="round" />
+        </g>
+        <circle id="tn-core" cx="128" cy="128" r="7" fill="#fff" filter="url(#tn-glow)" />
+      </svg>
+      <div id="tn-sparks"></div>
+      <div id="tn-word"><span>g</span><span>o</span><span>a</span><span>l</span><span>i</span><span>f</span><span>y</span></div>
+      <div id="tn-ver" class="glass"><b>3.0</b> is out</div>
+    </div>
+    <div class="cap" id="tn-cap">Come back to <span class="grad" id="tn-grad">proof,</span> not a promise.</div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var P = F.portrait();
+      var tl = gsap.timeline({ paused: true });
+      var S = P ? 480 / 256 : 420 / 256; // svg px per unit
+      var cx = P ? 540 : 640,
+        cy = P ? 600 : 440;
+
+      // spark particles (decorative, built once)
+      var box = document.getElementById("tn-sparks");
+      var R = F.rng(4242);
+      var cols = ["#ffffff", "#2ee6ff", "#c77dff", "#ff3d9a", "#ffd23f", "#9b6bff"];
+      var sparks = [];
+      for (var i = 0; i < 44; i++) {
+        var d = document.createElement("div");
+        d.className = "tn-spark";
+        var c = cols[(R() * cols.length) | 0];
+        var sz = 3 + R() * 6;
+        d.style.width = d.style.height = sz + "px";
+        d.style.background = c;
+        d.style.boxShadow = "0 0 " + (8 + sz * 2) + "px " + c;
+        d.style.left = cx + "px";
+        d.style.top = cy + "px";
+        box.appendChild(d);
+        var a = R() * Math.PI * 2,
+          dist = 170 + R() * (P ? 360 : 460);
+        sparks.push({ el: d, x: Math.cos(a) * dist, y: Math.sin(a) * dist, dl: R() * 0.12 });
+      }
+
+      tl.fromTo("#tn-lock", { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 1, duration: 0.01 }, 0);
+      // ignition: the collapsed terminal becomes a point of light
+      tl.fromTo("#tn-core", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 0);
+      tl.fromTo("#tn-bloom", { opacity: 0, scale: 0.3 }, { opacity: 0.55, scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      document.querySelectorAll(".tn-ring").forEach(function (c, k) {
+        var len = 2 * Math.PI * [26, 50, 74][k];
+        tl.fromTo(
+          c,
+          { strokeDasharray: len, strokeDashoffset: len, opacity: 0.2 },
+          { strokeDashoffset: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+          0.06 + k * 0.12
+        );
+      });
+      // the pin flies in and strikes the centre
+      tl.fromTo("#tn-pin", { x: 90, y: -90, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.3, ease: "power4.in" }, 0.36);
+      tl.fromTo(
+        "#tn-pulse",
+        { attr: { r: 26 }, opacity: 0.9 },
+        { attr: { r: 128 }, opacity: 0, duration: 0.8, ease: "power2.out", immediateRender: false },
+        0.66
+      );
+      tl.fromTo("#tn-bloom", { opacity: 0.55 }, { opacity: 1, duration: 0.08, immediateRender: false }, 0.66);
+      tl.to("#tn-bloom", { opacity: 0.42, duration: 0.9, ease: "power2.out" }, 0.74);
+      tl.fromTo("#tn-mark", { scale: 1 }, { scale: 1.06, duration: 0.08, ease: "power2.out" }, 0.66);
+      tl.to("#tn-mark", { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 0.74);
+      sparks.forEach(function (s) {
+        tl.fromTo(
+          s.el,
+          { x: 0, y: 0, opacity: 0, scale: 1 },
+          { x: s.x, y: s.y, opacity: 1, scale: 0.4, duration: 0.95, ease: "power3.out" },
+          0.66 + s.dl
+        );
+        tl.to(s.el, { opacity: 0, duration: 0.45, ease: "power2.in" }, 1.2 + s.dl);
+      });
+      // wordmark, letter by letter
+      tl.fromTo(
+        "#tn-word span",
+        { opacity: 0, filter: "blur(10px)", y: 10 },
+        { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.22, ease: "expo.out", stagger: 0.05 },
+        0.8
+      );
+      tl.fromTo("#tn-ver", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 1.25);
+      F.caption(tl, document.getElementById("tn-cap"), 0.7, null);
+      tl.fromTo("#tn-grad", { backgroundPosition: "0% 0" }, { backgroundPosition: "100% 0", duration: 2.0, ease: "none" }, 1.0);
+      // exit
+      tl.to("#tn-lock", { opacity: 0, scale: 0.94, filter: "blur(10px)", duration: 0.24, ease: "power3.in" }, 2.74);
+      tl.to("#tn-cap", { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, 2.8);
+
+      window.__timelines["turn"] = tl;
+    })();
+  </script>
+</template>

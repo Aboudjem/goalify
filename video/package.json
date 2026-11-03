@@ -1,22 +1,12 @@
 {
-  "name": "goalify-teaser",
-  "version": "1.0.0",
-  "description": "Remotion source for the goalify Twitter/X teaser",
-  "license": "MIT",
+  "name": "goalify-promo",
   "private": true,
-  "dependencies": {
-    "@remotion/cli": "4.0.477",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "remotion": "4.0.477"
-  },
-  "devDependencies": {
-    "@types/react": "19.2.7",
-    "typescript": "5.9.3"
-  },
   "scripts": {
-    "dev": "remotion studio",
-    "render": "remotion render GoalifyTeaser",
-    "build": "remotion bundle"
+    "dev": "npx --yes hyperframes@0.9.8 preview",
+    "lint": "npx --yes hyperframes@0.9.8 lint",
+    "check": "npx --yes hyperframes@0.9.8 check",
+    "cut": "node scripts/build-roots.js",
+    "music": "node scripts/genmusic.js --dur 38.5 --turn 5.4 --peak 30.1 --out renders/music-main.wav && ffmpeg -y -loglevel error -i renders/music-main.wav -c:a libmp3lame -b:a 192k assets/music-main.mp3 && node scripts/genmusic.js --dur 15.4 --turn 5.4 --peak 9.6 --out renders/music-short.wav && ffmpeg -y -loglevel error -i renders/music-short.wav -c:a libmp3lame -b:a 192k assets/music-short.mp3",
+    "render:all": "bash scripts/render-all.sh"
   }
 }

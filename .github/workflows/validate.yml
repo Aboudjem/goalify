@@ -280,55 +280,32 @@ jobs:
           print(f"PASS: all {checked} relative markdown link(s) resolve")
           PY
 
-  # The teaser source used to be invisible to CI. No commit ever actually shipped a
-  # broken tree, but the v2.0.0 recut came one `git commit -a` away from it: a new
-  # component was untracked while another file imported it, and nothing here looked
-  # at video/. This job typechecks it so that near miss cannot become a real one.
+  # The promo video source (HyperFrames) is linted and checked here without rendering.
   video:
-    name: Typecheck teaser source
+    name: Validate promo video source (HyperFrames)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: video
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: video/package-lock.json
-
-      - name: Install (video)
-        working-directory: video
-        run: npm ci
-
-      - name: Typecheck (video)
-        working-directory: video
-        run: npx tsc --noEmit
-
-      # Every source file the composition imports must be tracked by git. `git commit -a`
-      # stages tracked modifications and deletions but not new untracked files, so without
-      # this gate a green build can still produce a HEAD whose imports do not resolve.
-      - name: Every imported source file is tracked by git
-        shell: bash
+          node-version: "22"
+      - name: FFmpeg (HyperFrames probes the music files)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - name: index.html is the main cut (generated from scripts/build-roots.js)
         run: |
-          set -euo pipefail
-          fail=0
-          while IFS= read -r src; do
-            [ -f "$src" ] || continue
-            while IFS= read -r spec; do
-              [ -z "$spec" ] && continue
-              case "$spec" in ./*|../*) ;; *) continue ;; esac
-              base="$(dirname "$src")/$spec"
-              found=0
-              for cand in "$base" "$base.ts" "$base.tsx" "$base.css" "$base/index.ts" "$base/index.tsx"; do
-                resolved="$(python3 -c "import os,sys;print(os.path.normpath(sys.argv[1]))" "$cand")"
-                if git ls-files --error-unmatch "$resolved" >/dev/null 2>&1; then found=1; break; fi
-              done
-              if [ "$found" -eq 0 ]; then
-                echo "FAIL: $src imports '$spec' which is not tracked by git"; fail=1
-              fi
-            done < <(grep -Eo "from \"[^\"]+\"|import \"[^\"]+\"" "$src" | sed -E 's/.*"(.*)"/\1/')
-          done < <(git ls-files 'video/src/*.ts' 'video/src/*.tsx')
-          [ "$fail" -eq 0 ] && echo "PASS: every relative import in video/src is tracked by git"
-          exit $fail
+          node scripts/build-roots.js main
+          git diff --exit-code -- index.html
+      - name: Lint (static)
+        run: npx -y hyperframes@0.9.8 lint
+        env:
+          HYPERFRAMES_SKIP_SKILLS: "1"
+      - name: Chrome for the browser pass
+        run: npx -y hyperframes@0.9.8 browser ensure
+      - name: Check (runtime, layout, motion, contrast; no render)
+        run: npx -y hyperframes@0.9.8 check --timeout 60s
+        env:
+          HYPERFRAMES_SKIP_SKILLS: "1"

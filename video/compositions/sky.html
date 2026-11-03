@@ -1,0 +1,210 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    #sky-neb {
+      position: absolute;
+      inset: -10%;
+      background:
+        radial-gradient(1100px 700px at 82% 0%, rgba(58, 28, 140, 0.75) 0%, transparent 62%),
+        radial-gradient(900px 640px at 0% 34%, rgba(11, 58, 82, 0.85) 0%, transparent 58%),
+        radial-gradient(700px 520px at 60% 108%, rgba(120, 30, 90, 0.35) 0%, transparent 60%);
+    }
+    #sky-c {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <div id="root" data-composition-id="sky" data-width="1920" data-height="1080" data-layout-ignore>
+    <div id="sky-neb"></div>
+    <canvas id="sky-c"></canvas>
+  </div>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="sky"]');
+      var cv = document.getElementById("sky-c");
+      var W = root.offsetWidth || 1920,
+        H = root.offsetHeight || 1080;
+      cv.width = W;
+      cv.height = H;
+      var x = cv.getContext("2d");
+      var cfg = window.FILM_SKY || { dur: 40, shots: [6.3], warp: [] };
+      var R = window.Film.rng(20261103);
+      var tints = ["255,255,255", "205,222,255", "196,176,255", "255,222,240", "255,240,205"];
+
+      // stars: three depth layers, the nearest ~3.5% get flares. Placed in polar coords around a
+      // pole below the frame so the time-lapse can wheel the whole sky (star trails).
+      var PX = W * 0.5,
+        PY = H * 1.35;
+      var r0 = PY - H * 1.12,
+        r1 = Math.sqrt((W * 0.62) * (W * 0.62) + PY * PY) + 40;
+      var stars = [];
+      var n = Math.round((Math.PI / 2) * (r1 * r1 - r0 * r0) / 2300);
+      for (var i = 0; i < n; i++) {
+        var z = R();
+        var big = z > 0.965;
+        stars.push({
+          rad: Math.sqrt(r0 * r0 + R() * (r1 * r1 - r0 * r0)),
+          ang: -Math.PI * R(),
+          z: z,
+          r: big ? 1.15 + R() * 0.9 : z < 0.6 ? 0.35 + z * 0.55 : 0.6 + z * 0.75,
+          b: big ? 0.75 + R() * 0.25 : 0.22 + R() * 0.6,
+          ph: R() * 6.283,
+          sp: 0.6 + R() * 2.2,
+          t: tints[(R() * tints.length) | 0],
+          flare: big,
+        });
+      }
+
+      function smooth(e0, e1, v) {
+        var k = Math.min(1, Math.max(0, (v - e0) / (e1 - e0)));
+        return k * k * (3 - 2 * k);
+      }
+      // warp level 0..1 at time t
+      function warpAt(t) {
+        var w = 0;
+        for (var j = 0; j < cfg.warp.length; j += 2) {
+          var a = cfg.warp[j],
+            b = cfg.warp[j + 1];
+          w = Math.max(w, smooth(a, a + 0.9, t) * (1 - smooth(b - 0.8, b, t)));
+        }
+        return w;
+      }
+      // rotation angle: slow drift + integrated warp speed (fixed 1/60 s steps: deterministic)
+      var BASE = 0.0022,
+        FAST = 0.2;
+      function angAt(t) {
+        var a = BASE * t,
+          steps = Math.floor(t * 60);
+        for (var k = 0; k < steps; k++) a += (FAST * warpAt(k / 60)) / 60;
+        a += FAST * warpAt(t) * (t - steps / 60);
+        return a;
+      }
+
+      function draw(t) {
+        x.clearRect(0, 0, W, H);
+        var A = angAt(t),
+          w = warpAt(t);
+        var trail = w * 0.32; // radians of trail
+        x.lineCap = "round";
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          var par = 0.55 + s.z * 0.45; // depth parallax
+          var a0 = s.ang + A * par;
+          a0 = ((((a0 + Math.PI) % Math.PI) + Math.PI) % Math.PI) - Math.PI;
+          var sx = PX + Math.cos(a0) * s.rad,
+            sy = PY + Math.sin(a0) * s.rad;
+          if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
+          var tw = s.b * (0.55 + 0.45 * Math.sin(t * s.sp + s.ph));
+          if (w > 0.02) {
+            // star trail: three arc segments fading toward the tail
+            var tr = trail * par;
+            for (var g = 0; g < 3; g++) {
+              x.strokeStyle = "rgba(" + s.t + "," + tw * w * (0.55 - g * 0.17) + ")";
+              x.lineWidth = s.r * (1.4 - g * 0.3);
+              x.beginPath();
+              x.arc(PX, PY, s.rad, a0 - (tr * (g + 1)) / 3, a0 - (tr * g) / 3);
+              x.stroke();
+            }
+          }
+          x.fillStyle = "rgba(" + s.t + "," + tw + ")";
+          x.beginPath();
+          x.arc(sx, sy, s.r, 0, 6.283);
+          x.fill();
+          if (s.r > 1) {
+            var gr = x.createRadialGradient(sx, sy, 0, sx, sy, s.r * 6);
+            gr.addColorStop(0, "rgba(" + s.t + "," + tw * 0.38 + ")");
+            gr.addColorStop(1, "rgba(" + s.t + ",0)");
+            x.fillStyle = gr;
+            x.beginPath();
+            x.arc(sx, sy, s.r * 6, 0, 6.283);
+            x.fill();
+          }
+          if (s.flare) {
+            var L = s.r * (7 + 5 * tw);
+            var fg = x.createLinearGradient(sx - L, sy, sx + L, sy);
+            fg.addColorStop(0, "rgba(" + s.t + ",0)");
+            fg.addColorStop(0.5, "rgba(" + s.t + "," + tw * 0.7 + ")");
+            fg.addColorStop(1, "rgba(" + s.t + ",0)");
+            x.strokeStyle = fg;
+            x.lineWidth = 0.8;
+            x.beginPath();
+            x.moveTo(sx - L, sy);
+            x.lineTo(sx + L, sy);
+            x.stroke();
+            var fv = x.createLinearGradient(sx, sy - L, sx, sy + L);
+            fv.addColorStop(0, "rgba(" + s.t + ",0)");
+            fv.addColorStop(0.5, "rgba(" + s.t + "," + tw * 0.7 + ")");
+            fv.addColorStop(1, "rgba(" + s.t + ",0)");
+            x.strokeStyle = fv;
+            x.beginPath();
+            x.moveTo(sx, sy - L);
+            x.lineTo(sx, sy + L);
+            x.stroke();
+          }
+        }
+        // shooting stars: 0.95 s each, gradient tail white -> cyan -> purple
+        for (var q = 0; q < cfg.shots.length; q++) {
+          var t0 = cfg.shots[q],
+            life = t - t0,
+            max = 0.95;
+          if (life < 0 || life > max) continue;
+          var SR = window.Film.rng(777 + q * 31);
+          var ang = 0.32 + SR() * 0.28,
+            spd = (W / 1920) * 1500;
+          var hx = W * (0.08 + SR() * 0.55) + Math.cos(ang) * spd * life,
+            hy = H * (0.05 + SR() * 0.25) + Math.sin(ang) * spd * life;
+          var k = life / max,
+            al = Math.sin(Math.PI * k);
+          var len = 260 * (W / 1920);
+          var tx = hx - Math.cos(ang) * len,
+            ty = hy - Math.sin(ang) * len;
+          var sg = x.createLinearGradient(hx, hy, tx, ty);
+          sg.addColorStop(0, "rgba(255,255,255," + al + ")");
+          sg.addColorStop(0.25, "rgba(46,230,255," + al * 0.55 + ")");
+          sg.addColorStop(1, "rgba(155,107,255,0)");
+          x.strokeStyle = sg;
+          x.lineWidth = 2.2;
+          x.beginPath();
+          x.moveTo(hx, hy);
+          x.lineTo(tx, ty);
+          x.stroke();
+          var hg = x.createRadialGradient(hx, hy, 0, hx, hy, 10);
+          hg.addColorStop(0, "rgba(255,255,255," + al + ")");
+          hg.addColorStop(1, "rgba(255,255,255,0)");
+          x.fillStyle = hg;
+          x.beginPath();
+          x.arc(hx, hy, 10, 0, 6.283);
+          x.fill();
+        }
+      }
+
+      var tl = gsap.timeline({ paused: true });
+      var clock = { t: 0 };
+      tl.fromTo(
+        clock,
+        { t: 0 },
+        {
+          t: cfg.dur,
+          duration: cfg.dur,
+          ease: "none",
+          onUpdate: function () {
+            draw(clock.t);
+          },
+        },
+        0
+      );
+      tl.fromTo("#sky-neb", { x: 0, y: 0 }, { x: -60, y: 30, duration: cfg.dur, ease: "none" }, 0);
+      draw(0);
+      window.__timelines["sky"] = tl;
+    })();
+  </script>
+</template>
