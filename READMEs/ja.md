@@ -2,14 +2,15 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../assets/hero-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="../assets/hero-light.svg">
-    <img src="../assets/hero-dark.svg" alt="goalify: 自律実行の下ごしらえ。戻ってきたときに待っているのは約束ではなく証拠。" width="100%">
+    <img src="../assets/hero-dark.svg" alt="goalify: 大きな仕事を Claude に渡し、戻ってきたら証拠が待っている。" width="100%">
   </picture>
 </p>
 
 <p align="center">
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="検証"></a>
-  <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=8E7BFF" alt="MIT ライセンス"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=8E7BFF" alt="GitHub スター"></a>
+  <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="MIT ライセンス"></a>
+  <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="最新リリース"></a>
+  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="GitHub スター"></a>
 </p>
 
 <p align="center">
@@ -21,22 +22,10 @@
 </p>
 
 <p align="center">
-  <a href="#何をするか">何をするか</a> · <a href="#インストール">インストール</a> · <a href="#使い方">使い方</a> · <a href="#得られるもの">得られるもの</a> · <a href="#お使いのエディタで動く">お使いのエディタで動く</a> · <a href="#知っておくこと">知っておくこと</a>
+  <a href="https://goalify-kappa.vercel.app">Web サイト</a> · <a href="#インストール">インストール</a> · <a href="#しくみ">しくみ</a> · <a href="#30-の新機能">3.0 の新機能</a> · <a href="#ほかとの違い">ほかとの違い</a> · <a href="#知っておくこと">知っておくこと</a>
 </p>
 
-```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
-```
-
-## 何をするか
-
-そばに座って見ていられないほど大きな仕事があります。ひとつの名前を数百のファイルにわたって変える。古いプロジェクトを、その土台となるコードの新しいバージョンへ載せ替える。散らかったプロジェクトを通しで見て、ある一種類の問題だけを片づける。Claude がまだあなたの文脈を持っているうちに、あなたは仕事を説明します。goalify は、その実行が何をしなければならないか、そして完了とはどういう状態かを書き留めます。そして貼り付ける一行を渡してきます。
-
-- **ブリーフ**はファイルです。あなたの決定、正確なパス、作業の順序など、実行に必要なものがすべて入っています。
-- **条件**は `/goal` に貼り付ける一行です。`/goal` は Claude Code に組み込まれた停止判定で、セッションを走らせ続け、毎ターンその一行に照らして判定します。
-
-建築現場を思い浮かべてください。ブリーフは施工者が見ながら作業する図面です。条件は検査者が承認に使うチェックリストで、その検査者は図面を読まず、現場にも来ません。施工者が示した証拠だけを見て判断します。
+goalify は、実行が始まる前に考える作業をすべて済ませます。仕事が成り立つかを確かめ、ドキュメントを読み、本物のテストコマンドを見つけ、聞きたいことを一度にまとめて全部尋ねます。そのあと Claude はまっさらなセッションで、何時間も、ときには何日も、一度も止まらずに働きます。止まるのは、証拠が画面に出たときだけです。
 
 ## インストール
 
@@ -45,11 +34,93 @@ claude plugin marketplace add Aboudjem/10x
 claude plugin install goalify@10x
 ```
 
-ほかのエージェントなら、一行で済みます。
+スキルを読めるほかのエージェントなら、一行で済みます。
 
 ```bash
 npx skills add Aboudjem/goalify
 ```
+
+そのあと `/goalify` と打って、仕事を説明してください。Claude Code 2.1.139 以降が必要です。`/goal` が入ったのはそのリリースです。
+
+<p align="center">
+  <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="ループで動く goalify。ブリーフと条件、実行プレビュー、そして緑の VERIFIED レシート。" width="88%"></a>
+  <br><sub><a href="../assets/goalify-promo.mp4">フル動画を見る</a> · <a href="../assets/goalify-promo-vertical.mp4">縦型</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒版</a></sub>
+</p>
+
+## goalify なしと、goalify あり
+
+| goalify なし | goalify あり |
+|:--|:--|
+| 午前 3 時に止まって、どのデータベースのことか聞いてくる | 質問はすべて、実行の前に一度だけ |
+| 計画は `/clear` で消えるチャットの中にある | 計画はファイルで、新しいセッションがループのたびに読み直す |
+| リポジトリにない `npm test` をでっち上げる | 検査はあなたのリポジトリと CI から取る |
+| 「終わった！」は、本人がそう言っただけ | 終わったとは、最後のターンが通った出力を引用したこと |
+| 抜け漏れは翌朝に見つかる | `/goalify verify` が検査をやり直し、レシートを渡す |
+
+## しくみ
+
+goalify がするのは下ごしらえだけです。走らせるのは Claude Code 自身の `/goal` です。goalify の仕事は、実行が聞くことを何も残さないことです。
+
+1. **下調べ。** これは成り立つか。goalify はプロジェクト、ドキュメント、CI を読み、仕事が終わったことを本当に証明できるコマンドを見つけます。
+2. **質問は一度だけ。** 本当に選ぶべき数点を一括で尋ねます。尋ねるのはこれが最後です。
+3. **二つの成果物。** **ブリーフ**はファイルで、あなたの決定、正確なパス、作業の順序など、実行に必要なものがすべて入っています。**条件**は `/goal` に渡す一行で、証拠がどんな形かを示します。**プレビューページ**が開くので、先に計画の全体を見られます。
+4. **`/clear`、貼り付け、あとは離れる。** 実行はまっさらな状態で始まり、文脈はすべてあなたの仕事のために空いています。別の評価者がターンごとにトランスクリプトを読み、証拠がそろったとき、または設定したターン上限に達したときだけ止めることを許します。
+5. **あとで確かめる。** `/goalify verify` がブリーフの検査をやり直し、レシートを書きます。
+
+貼り付ける一行はこんな形です。画面上では折り返されるので、全部つかんでください。
+
+```text
+/goal Do everything in ~/acme/.goal/api-migration.md and prove it, done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
+```
+
+ブリーフのパスはその一文の中に同乗しています。`/goal` の背後にいる評価者はツールを持たず、ファイルを開けないからです。評価者が読むのは、貼り付けた一行と実行のトランスクリプトだけで、ブリーフは見えません。`/goal` にパスだけを渡してもエラーにはならず、何も証明されません。だからこそ、いちばんやりがちな失敗です。
+
+```text v1-antipattern
+/goal ~/acme/.goal/api-migration.md
+```
+
+<p align="center">
+  <img src="../assets/hero.svg" alt="4 ステップ: 仕事を説明する、ブリーフと条件を受け取る、条件を貼り付ける、証拠が待っている。" width="72%">
+</p>
+
+### なぜ何日も走れるのか
+
+長い実行は、たいてい二通りで終わります。あなたに何かを聞くために止まるか、まだ壊れているのに「終わった」と言うかです。goalify は一つ目を、最初にすべて尋ねて答えをブリーフに書き込むことで防ぎます。二つ目は条件で防ぎます。最後のターンはすべての検査をやり直し、出力を引用し、`ASYNC-OK` のような作り物の語を印字しなければなりません。作業を飛ばした実行は、あからさまに嘘をつくしかなくなります。ターン上限が近づくと、実行はきれいに締めくくり、残りを報告します。早く止まった場合でも、ブリーフにはチェックリストが残り、同じ一行を貼り直せば再開できます。
+
+## 3.0 の新機能
+
+<p align="center">
+  <img src="../assets/preview-and-receipt.svg" alt="3.0 のループ。事前の実行プレビュー、止まらない実行、そして VERIFIED と書かれた証拠のレシート。" width="88%">
+</p>
+
+- **実行プレビュー。** `/goalify` のたびに、実行の一枚ページがブラウザで開きます。流れとして見えるフェーズ、各検査とそれを証明するコマンド、上限、あなたの決定、そして `/goal` の一行をコピーするボタン。ブリーフの lint もかけ、壊れたブリーフは表示を拒否します。チャットに出る `/goal` の一行が、いまも本当の引き渡しです。ページはおまけです。
+- **証拠のレシート。** `/goalify verify` はブリーフの検査コマンドを見せ、一度だけ確認し、実行して、レシートを書きます。**VERIFIED**、**NOT VERIFIED**、**UNVERIFIABLE** のいずれかです。終わったと言い張った実行を、覆すこともあります。破壊的なコマンドは、一つずつ名前を挙げて許可しない限り実行しません。
+- **本物の検査を、自動で見つける。** goalify は `package.json`、`pyproject.toml`、`Cargo.toml`、`go.mod`、Makefile、CI のワークフローを読み、npm の「no test specified」という雛形は飛ばします。だから、通るはずのないコマンドがゴールに載ることはありません。基準値として一度走らせることもできます。
+- **ステータス。** `/goalify status` は `.goal/` にあるすべてのブリーフ（進行中、ブロック、完了、そのチェック状況つき）を一覧にし、進行中のものそれぞれについて、再開用の `/goal` の一行を丸ごと出し直します。
+- **エクスプレスモード。** `/goalify --quick <task>` は、中規模の仕事で Web 調査と質問を省き、安全のための下限はすべて保ち、スコープが分かれるときは推測せずに止まります。
+- **Doctor。** `/goalify doctor` は、マシン上のすべての goalify のコピーを一覧にし、古いものが新しいものと並んで読み込まれていると警告します。
+- **より安全なヘッドレス用の一行。** 条件にバッククォートや二重引用符を含められなくなったので、貼り付けたときに `claude -p "/goal ..."` の一行がシェルでコマンドを実行してしまうことはありません。修正してくれた [@Hug0x0](https://github.com/Hug0x0) に感謝します。
+
+## ほかとの違い
+
+わかりやすい違いだけを挙げます。2026 年 11 月に各プロジェクトの README で確認しました。
+
+| ツール | 何か | goalify との違い |
+|:--|:--|:--|
+| [supergoal](https://github.com/robzilla1738/supergoal) | 下見をして、質問し、フェーズを計画し、`/goal` に一つのコマンドを渡す Claude Code プラグイン。最後に計画と照らす監査がある | いちばん近い存在。goalify は自己完結した一つのブリーフと lint 済みの条件を書き、実行の前にプレビューページを見せ、実行のあとに証拠のレシートを書きます |
+| Ralph ループ（[snarktank/ralph](https://github.com/snarktank/ralph) など） | 同じプロンプトをエージェントに何度も与え続けるループ | たいていは、作業側が印字した語か反復回数の上限で止まります。`/goal` では、別の評価者がターンごとにトランスクリプトを読みます |
+| [Spec Kit](https://github.com/github/spec-kit) | GitHub の仕様駆動ツールキット。仕様、計画、タスク、実装 | 仕様を書くのに最適。goalify が受け持つのは、無人の長い実行と、それが終わったことの証明です |
+
+## お使いのエディタで動く
+
+| エージェント | 一行インストール |
+|:--|:--|
+| Claude Code | `claude plugin install goalify@10x` |
+| 70 以上のエージェントのいずれか | `npx skills add Aboudjem/goalify` |
+| Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
+| そのほかすべて | [docs/editors.md](../docs/editors.md) にあるエージェントのコードと配置先 |
+
+`/clear` と `/goal` は Claude Code のコマンドです。ほかの環境では、`/clear` の代わりに新しいセッションを始め、そこへ条件を常設の目標として渡してください。Codex には独自の `/goal` があり、[Codex で動かす](../docs/codex.md)に何が引き継がれるかを書いてあります。
 
 <details>
 <summary>手動でコピーして入れる</summary>
@@ -59,84 +130,30 @@ git clone https://github.com/Aboudjem/goalify
 cp -R goalify/skills/goalify ~/.claude/skills/
 ```
 
-実行時にリポジトリのほかの部分は一切必要ありません。Claude Code 2.1.139 以降を使ってください。`/goal` が入ったのはそのリリースだからです。残りは[クイックスタート](../docs/quickstart.md)にあります。
+実行時にリポジトリのほかの部分は一切必要ありません。残りは[クイックスタート](../docs/quickstart.md)にあります。以前のコピーが残っているかもしれないときは、`/goalify doctor` を実行して、読み込まれているのが一つだけか確かめてください。
+
 </details>
-
-## 使い方
-
-**1. 仕事を説明する。** Claude Code で `/goalify` に続けてタスクを書きます。goalify はプロジェクトを読み、本当に決めるべき数点だけを尋ね、ブリーフを書いて条件を表示します。
-
-```text
-/goalify migrate our API to async/await
-    Brief:     ~/acme/.goal/api-migration.md
-    Condition: 149 chars, under the 4,000 limit
-```
-
-**2. チャットを消す。** `/clear` で会話が消えるので、実行はまっさらな状態から、集中力を保ったまま始まります。
-
-**3. 条件を貼り付ける。** 一行まるごとです。画面上では折り返されるので、全部つかんでください。
-
-```text
-/goal Do everything in ~/acme/.goal/api-migration.md and prove it - done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
-```
-
-ブリーフのパスはその一行の中に同乗しています。`/goal` の背後にいる評価者はツールを持たず、ファイルを開けないからです。評価者が読むのは、貼り付けた一行と、実行の切り詰められたトランスクリプトだけで、ブリーフそのものは見えません。パスだけを渡してもエラーにはならず、何も証明されません。だからこそ、いちばんやりがちな失敗です。
-
-```text v1-antipattern
-/goal ~/acme/.goal/api-migration.md
-```
-
-貼り付ける前に一行が心配なら、
-`python3 skills/goalify/scripts/condition_lint.py "<your condition>"` が六つの機械的なルールに照らして確認し、通らなかったものを挙げます。判断が要るところはあなたに残ります。
-
-<p align="center">
-  <img src="../assets/hero.svg" alt="4 ステップ: 仕事を説明する、ブリーフと条件を受け取る、条件を貼り付ける、証拠が待っている。" width="72%">
-</p>
-
-## 得られるもの
-
-- **渡すのは一行だけ。** チャットを消し、一行貼り付け、あとは離れる。
-- **文脈がリセットを越える。** ブリーフがあなたの決定を新しいセッションへ運びます。
-- **進捗はひと目でわかる。** 実行はブリーフの中のチェックリストを進めながら消し込みます。
-- **約束ではなく証拠。** 最後のターンは、検査が通った出力を引用し、上の `ASYNC-OK` のような作り物の語を印字しなければなりません。作業を飛ばした実行は、あからさまに嘘をつくしかなくなります。
-- **上限でもきれいに終わる。** ターン上限が近づくと、実行は新しい作業を始めるのをやめ、途中のものを仕上げるか戻し、最終報告で早く止まったと伝えます。
-- **止まっても進捗は残る。** ブリーフはチェックリストごとその場に残ります。同じ一行を貼り直せば再開でき、やり直しにはなりません。
-- **成功したときだけ片づける。** 締めのターンで全部の検査を再実行し、出力を引用し、ブリーフを `.goal/done/` へ移します。どのファイルブラウザでも見える移動です。
-
-## お使いのエディタで動く
-
-`npx skills add` を通じて、Claude Code、Cursor、Codex、Copilot、Gemini CLI、ほか 70 以上のエージェントで動きます。スキルはただの Markdown なので、特定のモデルに縛られる部分はどこにもありません。
-
-| エージェント | 一行インストール |
-|:--|:--|
-| Claude Code | `claude plugin install goalify@10x` |
-| 70 以上のエージェントのいずれか | `npx skills add Aboudjem/goalify` |
-| Cursor、Codex、Copilot、Gemini CLI、OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
-| そのほかすべて | [docs/editors.md](../docs/editors.md) にあるエージェントのコードと配置先 |
-
-`/clear` と `/goal` は Claude Code のコマンドです。ほかの環境では、`/clear` の代わりに新しいセッションを始め、そこへ条件を常設の目標として渡してください。Codex には独自の `/goal` があり、[Codex で動かす](../docs/codex.md)に何が引き継がれ何が引き継がれないかを書いてあります。
 
 ## 知っておくこと
 
 > [!IMPORTANT]
-> 実行が止まったことは、終わった証拠ではありません。評価者は自分で判断し、ゴールに届かないと結論して実行を終わらせることもあります。緑の結果を信じる前に、締めの証拠、つまり最後の返信で引用された検査の出力と `.goal/done/` へ移されたブリーフを読み直すか、自分で検査を走らせ直してください。
+> 実行が止まったことは、終わった証拠ではありません。評価者は自分で判断し、ゴールに届かないと結論して実行を終わらせることもあります。緑の結果を信じる前に、ブリーフに対して `/goalify verify` を走らせるか、自分で検査をやり直してください。
 
-- **goalify は書くだけで、実行はしません。** このセッションで二つの成果物を書いて止まります。実行を始めるのはあなたです。
-- **裏で動くものはありません。** Markdown のスキルが一つ。サーバーなし、入れる依存なし、それ自身のネットワーク通信もなし。
+- **goalify は仕事そのものはしません。** ブリーフと条件を書くだけで、検査を走らせるのは頼まれたときだけです。
+- **外へ送るものはありません。** サーバーなし、実行時の依存なし、ネットワーク通信なし。補助スクリプトは標準ライブラリだけの素の Python で、プレビューページも外部へのリクエストを一切出しません。
+- **コストの当て推量はしません。** goalify はドル額もトークン数も予測しません。ターン上限があなたの手綱です。
 - **約束しないことのすべて**は[正直な限界](../docs/limits.md)に書いてあります。
 
 ## もっと知る
 
-- [クイックスタート](../docs/quickstart.md)、最初の実行を最後まで、それに別のインストール方法。
-- [条件の実例](../examples/conditions.md)、出荷に値するもの 8 本と避けるべきもの 8 本。悪いほうが何を失っているかを 1 行で書いてあります。
-- [実例のブリーフ](../examples/sample-brief.md)、本物のブリーフと、そこから導いた条件。
-- [エディタへのインストール](../docs/editors.md) · [FAQ](../docs/faq.md) · [Codex で動かす](../docs/codex.md)
-- [正直な限界](../docs/limits.md) · [変更履歴](../CHANGELOG.md) · [スキル本体](../skills/goalify/SKILL.md) · [ライセンス](../LICENSE)
-
-<p align="center"><sub><a href="../assets/goalify-teaser.mp4">28 秒のティザーを見る</a> · <a href="../assets/goalify-teaser.gif">GIF</a></sub></p>
+- [Web サイト](https://goalify-kappa.vercel.app) · [クイックスタート](../docs/quickstart.md) · [FAQ](../docs/faq.md)
+- [条件の実例](../examples/conditions.md)、良いものと悪いもの。悪いほうには、それぞれ何を失うかを添えています。
+- [実例のブリーフ](../examples/sample-brief.md)、本物のブリーフと条件。さらに[そのプレビューページ](../examples/sample-brief.html)（ダウンロードしてブラウザで開いてください）。
+- [エディタへのインストール](../docs/editors.md) · [Codex で動かす](../docs/codex.md) · [正直な限界](../docs/limits.md)
+- [変更履歴](../CHANGELOG.md) · [スキル本体](../skills/goalify/SKILL.md) · [ライセンス](../LICENSE)
 
 ---
 
-<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` の挙動は 2026 年に、配布された Claude Code 2.1.223 のバイナリから再導出したものです。<a href="https://github.com/Aboudjem/goalify/issues">気になる点は？</a></sub>
+<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` の挙動は、Claude Code 2.1.317 とそのドキュメントで 2026 年 11 月に再確認しました。<a href="https://github.com/Aboudjem/goalify/issues">気になる点は？</a></sub>
 
 <sub>この翻訳は機械支援によるものです。正典は英語版の <a href="../README.md">README.md</a> です。</sub>

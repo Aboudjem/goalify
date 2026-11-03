@@ -15,11 +15,15 @@ that brief's definition of done. The user then runs `/clear` and pastes the cond
 archives the brief on success.
 
 The repo is the skill at `skills/goalify/SKILL.md`, the `/goalify` author. goalify stays a **skill
-plugin**: no MCP server, no standalone CLI, no runtime dependency, no network call. Its one
-executable file, `skills/goalify/scripts/condition_lint.py`, is a standard-library helper the skill
-may run over a condition before it prints the handoff. It is not a command users install and it
-changes nothing about the output, which is still the brief plus the condition. **`/goal` takes a condition string, never a file
-path** — the docs say *"Run `/goal` followed by the condition you want satisfied"* and the shipped
+plugin**: no MCP server, no standalone CLI, no runtime dependency, no network call. Its helper
+scripts in `skills/goalify/scripts/` are standard library only and make no network call:
+`condition_lint.py` (lint a condition), `goal_state.py` (parse briefs, `/goalify status`),
+`render_preview.py` (the run preview page and the brief lint), `verify.py` (`/goalify verify`, which
+re-runs a brief's own checks only when the user asks and writes a proof receipt), `detect_checks.py`
+(propose real check commands from the repo, read-only) and `doctor.py` (list installed copies). They
+are not commands users install, and the output is still the brief plus the condition. goalify never
+does the task. **`/goal` takes a condition string, never a file
+path** — the docs say _"Run `/goal` followed by the condition you want satisfied"_ and the shipped
 binary contains `No goal set. Usage: /goal <condition>` with no file-path branch. The evaluator behind
 `/goal` has no tools and cannot read files, so a path handed to it can never be verified
 (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
@@ -49,7 +53,7 @@ These are non-negotiable. Do not look for loopholes; violating the letter violat
 5. **The archive gate is gated and low-freedom.** The brief moves to `.goal/done/` with a completion
    stamp only after every criterion is met and verification passed; otherwise it stays in place so the
    run can resume. Do not modify the `mv` command or weaken the gate.
-5b. **Never emit a file path where a condition belongs.** The handoff is `/clear`, then the condition
+   5b. **Never emit a file path where a condition belongs.** The handoff is `/clear`, then the condition
    printed inline as a complete `/goal` line the user pastes whole. Anything omitted from the
    condition is unenforceable; derive the condition from the brief's definition of done and lint it
    (≤ 4,000 chars, no bare `$`, a sentinel, a named command per criterion, an explicit turn bound).
@@ -67,13 +71,14 @@ source for any load-bearing claim, especially "works with X" / standard-complian
   condition-authoring rules (the four teeth), the handoff format, hard rules, common mistakes.
 - `evals/` — `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
   (recorded RED→GREEN on Haiku/Sonnet/Opus).
-- `examples/` — an illustrative brief plus the `/goal` condition derived from it.
-- `skills/goalify/scripts/condition_lint.py`: the checkable half of the skill's condition-lint
-  checklist, as a standard-library script. Judgment calls stay with the reader.
-- `tests/` — `test_manifests.py`: manifest validity, version consistency across all four sources, the
-  "no file path to `/goal`" contract, and the shipped example's template clauses. A release gate.
-- `video/` — Remotion source for the README teaser; typechecked in CI, and every relative import must
-  be tracked by git.
+- `examples/` — an illustrative brief, the `/goal` condition derived from it, and its preview page.
+- `skills/goalify/scripts/`: the standard-library helpers listed above. `references/` holds the
+  Codex details and the Definition-of-done patterns, loaded just in time.
+- `tests/` — `run_all.py` runs every suite. `test_manifests.py`: manifest validity, version
+  consistency across all four sources, the "no file path to `/goal`" contract, and the shipped
+  example's template clauses. A release gate.
+- `video/` — HyperFrames source for the promo video (`assets/goalify-promo*.mp4`), linted in CI.
+- `site/` — the static landing page, https://goalify-kappa.vercel.app.
 - `assets/`: the animated SVG banners and logo lockups, the tall hero poster, the two diagrams, the
   PNG logo mark, and the social preview.
 - `docs/` — the quickstart, honest limits, FAQ, and the Codex guide. (A local build journal lives in
@@ -86,6 +91,8 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 - `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (all checks pass).
 - `python3 tests/test_manifests.py` exits 0 (plugin + marketplace manifests valid).
 - `python3 tests/test_condition_lint.py` exits 0 (every lint rule fires on its own specimen).
+- `python3 tests/run_all.py` exits 0 and prints one PASS line per suite (check_skill, manifests,
+  condition lint, goal_state, render_preview, verify, detect_checks, status, doctor).
 - `SKILL.md` frontmatter parses (valid YAML: `name`, `description`, `license`, `metadata.version`).
 - `assets/*.svg` contain no `<script>` and no external references, and are well-formed XML.
 - All relative Markdown links resolve.
@@ -99,7 +106,8 @@ from it. It then prints two steps — `/clear`, then paste the printed `/goal` l
 full-context session executes the task and proves every criterion before it stops.
 
 **Does it run the task itself?**
-No. goalify only prepares the handoff file. You run it (after `/clear`) in a fresh session.
+No. goalify never does the task, and it only runs your checks when you ask (`/goalify verify`).
+It prepares the handoff; you run it (after `/clear`) in a fresh session.
 
 **Why does the brief archive itself?**
 To kill spec-drift and clutter: it is single-use. On full success it moves to `.goal/done/` with a

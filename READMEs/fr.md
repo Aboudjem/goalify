@@ -2,14 +2,15 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../assets/hero-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="../assets/hero-light.svg">
-    <img src="../assets/hero-dark.svg" alt="goalify : préparation d'une exécution autonome. Revenez à une preuve, pas à une promesse." width="100%">
+    <img src="../assets/hero-dark.svg" alt="goalify : confiez une tâche énorme à Claude, revenez à la preuve." width="100%">
   </picture>
 </p>
 
 <p align="center">
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="validation"></a>
-  <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=8E7BFF" alt="licence MIT"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=8E7BFF" alt="étoiles GitHub"></a>
+  <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="licence MIT"></a>
+  <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="dernière version"></a>
+  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="étoiles GitHub"></a>
 </p>
 
 <p align="center">
@@ -21,30 +22,13 @@
 </p>
 
 <p align="center">
-  <a href="#ce-que-ça-fait">Ce que ça fait</a> · <a href="#installation">Installation</a> · <a href="#utilisation">Utilisation</a> · <a href="#ce-que-vous-obtenez">Ce que vous obtenez</a> · <a href="#fonctionne-dans-votre-éditeur">Fonctionne dans votre éditeur</a> · <a href="#bon-à-savoir">Bon à savoir</a>
+  <a href="https://goalify-kappa.vercel.app">Site web</a> · <a href="#installation">Installation</a> · <a href="#comment-ça-marche">Comment ça marche</a> · <a href="#nouveautés-de-la-30">Nouveautés de la 3.0</a> · <a href="#comparaison">Comparaison</a> · <a href="#bon-à-savoir">Bon à savoir</a>
 </p>
 
-```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
-```
-
-## Ce que ça fait
-
-Certains chantiers sont trop gros pour rester à les regarder. Renommer une chose dans des centaines
-de fichiers. Faire passer un vieux projet sur une version plus récente du code sur lequel il repose.
-Traverser un projet en désordre pour nettoyer un seul type de problème. Vous décrivez le travail
-pendant que Claude a encore votre contexte, et goalify écrit ce que l'exécution doit faire et à quoi
-ressemble le fait d'avoir terminé. Puis il vous tend une ligne à coller.
-
-- **Le brief** est un fichier qui contient tout ce dont l'exécution a besoin : vos décisions, les
-  chemins exacts, l'ordre du travail.
-- **La condition** est la ligne que vous collez dans `/goal`, le contrôle d'arrêt intégré à Claude
-  Code, qui garde la session au travail et juge chaque tour au regard de cette ligne.
-
-Imaginez un chantier. Le brief, ce sont les plans sur lesquels travaille celui qui construit. La
-condition, c'est la liste de contrôle que signe celui qui inspecte, et cette personne ne lit jamais les plans et
-ne vient jamais sur le chantier. Elle ne juge que les preuves qu'on lui montre.
+goalify fait toute la réflexion avant le début de l'exécution : il vérifie que le travail est faisable,
+lit la doc, trouve vos vraies commandes de test et vous pose toutes ses questions, une seule fois.
+Ensuite Claude travaille dans une session propre, sans s'arrêter, pendant des heures voire des jours,
+sans la moindre interruption. Il ne s'arrête que lorsque la preuve est à l'écran.
 
 ## Installation
 
@@ -53,86 +37,119 @@ claude plugin marketplace add Aboudjem/10x
 claude plugin install goalify@10x
 ```
 
-N'importe quel autre agent, en une ligne :
+N'importe quel autre agent qui lit les skills, en une ligne :
 
 ```bash
 npx skills add Aboudjem/goalify
 ```
 
-<details>
-<summary>Le copier à la main</summary>
+Tapez ensuite `/goalify` et décrivez le travail. Il vous faut Claude Code 2.1.139 ou plus récent, la
+version qui a introduit `/goal`.
 
-```bash
-git clone https://github.com/Aboudjem/goalify
-cp -R goalify/skills/goalify ~/.claude/skills/
-```
+<p align="center">
+  <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="goalify en boucle : le brief et la condition, l'aperçu de l'exécution, puis un reçu VERIFIED au vert." width="88%"></a>
+  <br><sub><a href="../assets/goalify-promo.mp4">Voir la vidéo complète</a> · <a href="../assets/goalify-promo-vertical.mp4">version verticale</a> · <a href="../assets/goalify-promo-15s.mp4">version de 15 secondes</a></sub>
+</p>
 
-Rien d'autre dans le dépôt n'est nécessaire à l'exécution. Vous voudrez Claude Code 2.1.139 ou plus
-récent, car c'est la version dans laquelle `/goal` est arrivé. Le reste est dans le
-[démarrage rapide](../docs/quickstart.md).
-</details>
+## Sans goalify, avec goalify
 
-## Utilisation
+| Sans goalify | Avec goalify |
+|:--|:--|
+| Il s'arrête à 3 h du matin pour demander de quelle base de données vous parliez | Chaque question est posée une fois, avant l'exécution |
+| Le plan vit dans un chat que `/clear` efface | Le plan est un fichier que la session neuve relit à chaque boucle |
+| Il invente un `npm test` que votre dépôt n'a pas | Les vérifications viennent de votre dépôt et de votre CI |
+| « Terminé ! » veut dire qu'il l'a dit | Terminé veut dire que le dernier tour a cité la sortie qui passe |
+| Vous découvrez les trous le lendemain matin | `/goalify verify` rejoue les vérifications et vous remet un reçu |
 
-**1. Décrivez le travail.** Lancez `/goalify` suivi de votre tâche dans Claude Code. goalify lit
-votre projet, vous interroge sur les quelques vraies décisions, écrit le brief et affiche la
-condition.
+## Comment ça marche
+
+goalify ne fait que préparer. C'est le `/goal` de Claude Code qui fait tourner l'exécution. Le rôle de
+goalify, c'est de ne rien laisser à demander à l'exécution.
+
+1. **Les devoirs.** Est-ce faisable ? goalify lit votre projet, la doc et votre CI, et trouve les
+   commandes qui prouvent vraiment que le travail est fait.
+2. **Des questions, une fois.** Il pose en un seul lot les quelques vrais choix. C'est la dernière
+   fois qu'il demande.
+3. **Deux choses en sortent.** Le **brief** est un fichier qui contient tout ce dont l'exécution a
+   besoin : vos décisions, les chemins exacts, l'ordre du travail. La **condition** est une ligne
+   pour `/goal` qui dit à quoi ressemble la preuve. Une **page d'aperçu** s'ouvre pour que vous
+   voyiez d'abord tout le plan.
+4. **`/clear`, collez, partez.** L'exécution démarre à neuf, avec tout son contexte libre pour votre
+   travail. Un évaluateur distinct lit la transcription après chaque tour et ne la laisse s'arrêter
+   que lorsque la preuve est là, ou au plafond de tours que vous avez fixé.
+5. **Vérifiez plus tard.** `/goalify verify` rejoue les vérifications du brief et écrit un reçu.
+
+La ligne à coller ressemble à ceci. Elle se replie à l'écran, alors prenez-la en entier :
 
 ```text
-/goalify migrate our API to async/await
-    Brief:     ~/acme/.goal/api-migration.md
-    Condition: 149 chars, under the 4,000 limit
+/goal Do everything in ~/acme/.goal/api-migration.md and prove it, done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
 ```
 
-**2. Videz la conversation.** `/clear` efface l'échange, l'exécution repart donc à neuf, pleinement
-attentive.
-
-**3. Collez la condition.** La ligne entière. Elle se replie à l'écran, alors prenez-la en entier.
-
-```text
-/goal Do everything in ~/acme/.goal/api-migration.md and prove it - done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
-```
-
-Le chemin du brief voyage à l'intérieur de cette ligne, car l'évaluateur derrière `/goal` n'a aucun
-outil et ne peut pas ouvrir de fichier. Il lit la ligne que vous collez et une transcription tronquée de l'exécution, jamais le brief
-lui-même. Lui donner le
-chemin tout seul ne provoque aucune erreur et ne prouve rien, ce qui en fait l'erreur la plus facile
-à commettre :
+Le chemin du brief voyage à l'intérieur de cette phrase, car l'évaluateur derrière `/goal` n'a aucun
+outil et ne peut pas ouvrir de fichier. Il lit la ligne que vous collez et la transcription de
+l'exécution, jamais le brief. Donner à `/goal` un chemin tout seul ne provoque aucune erreur et ne
+prouve rien, ce qui en fait l'erreur la plus facile à commettre :
 
 ```text v1-antipattern
 /goal ~/acme/.goal/api-migration.md
 ```
 
-Un doute sur une ligne avant de la coller ?
-`python3 skills/goalify/scripts/condition_lint.py "<your condition>"` la vérifie au regard de six
-règles mécaniques et nomme celles qu'elle rate. Les appréciations restent les vôtres.
-
 <p align="center">
   <img src="../assets/hero.svg" alt="Quatre étapes : décrire le travail, recevoir un brief et une condition, coller la condition, revenir à la preuve." width="72%">
 </p>
 
-## Ce que vous obtenez
+### Pourquoi ça peut tourner des jours
 
-- **Une seule ligne à transmettre.** Videz la conversation, collez une ligne, partez.
-- **Votre contexte survit à la remise à zéro.** Le brief porte vos décisions dans la nouvelle session.
-- **Une progression visible d'un coup d'œil.** L'exécution coche une liste de contrôle à l'intérieur du brief au
-  fur et à mesure.
-- **Une preuve, pas une promesse.** Le dernier tour doit citer les vérifications qui passent et
-  afficher un mot inventé, `ASYNC-OK` ci-dessus, si bien qu'une exécution qui aurait sauté le travail
-  devrait mentir ouvertement.
-- **Une fin propre au plafond.** À l'approche de sa limite de tours, l'exécution arrête d'ouvrir de
-  nouveaux chantiers, termine ou annule ce qui est à moitié fait, et dit dans son rapport final
-  qu'elle s'est arrêtée en avance.
-- **Un arrêt garde votre progression.** Le brief reste en place, sa liste de contrôle intacte. Vous reprenez en
-  collant la même ligne, vous ne recommencez pas.
-- **Un classement seulement en cas de succès.** Le tour de clôture rejoue toutes les vérifications,
-  cite la sortie et déplace le brief dans `.goal/done/`, un déplacement de fichier visible dans
-  n'importe quel navigateur de fichiers.
+Une longue exécution meurt en général de deux façons : elle s'arrête pour vous demander quelque chose,
+ou elle dit « terminé » alors que quelque chose est encore cassé. goalify règle la première en posant
+tout d'avance et en écrivant les réponses dans le brief. Il règle la seconde avec la condition : le
+dernier tour doit rejouer chaque vérification, citer la sortie et afficher un mot inventé comme
+`ASYNC-OK`, si bien qu'une exécution qui aurait sauté le travail devrait mentir ouvertement. Près de
+son plafond de tours, l'exécution termine proprement et dit ce qu'il reste. Si elle s'arrête trop
+tôt, le brief garde sa liste de contrôle, et recoller la même ligne la reprend.
+
+## Nouveautés de la 3.0
+
+<p align="center">
+  <img src="../assets/preview-and-receipt.svg" alt="La boucle 3.0 : un aperçu de l'exécution avant, une exécution sans arrêt, puis un reçu de preuve qui dit VERIFIED." width="88%">
+</p>
+
+- **Aperçu de l'exécution.** Après chaque `/goalify`, une vue d'une page s'ouvre dans votre navigateur :
+  les phases en flux, chaque vérification avec la commande qui la prouve, les plafonds, vos
+  décisions, et un bouton pour copier la ligne `/goal`. Il passe aussi le brief au lint et refuse
+  d'afficher un brief cassé. La ligne `/goal` affichée dans le chat reste la vraie remise. La page
+  est un plus.
+- **Reçus de preuve.** `/goalify verify` vous montre les commandes de vérification du brief, demande
+  une fois, les lance et écrit un reçu : **VERIFIED**, **NOT VERIFIED** ou **UNVERIFIABLE**. Il peut
+  contredire une exécution qui se disait terminée. Il refuse les commandes destructrices, sauf si
+  vous autorisez chacune par son nom.
+- **De vraies vérifications, trouvées pour vous.** goalify lit `package.json`, `pyproject.toml`,
+  `Cargo.toml`, `go.mod`, les Makefiles et vos workflows CI, et écarte le bouchon « no test
+  specified » de npm, pour que la ligne d'arrivée ne nomme jamais une commande qui ne peut pas
+  passer. Il peut aussi les lancer une fois comme état de référence.
+- **Statut.** `/goalify status` liste chaque brief de `.goal/` (ouvert, bloqué ou terminé, avec ses
+  coches) et réaffiche la ligne `/goal` complète pour reprendre chacun de ceux qui sont ouverts.
+- **Mode express.** `/goalify --quick <task>` saute la recherche web et les questions pour les
+  travaux moyens, garde tous les garde-fous, et s'arrête au lieu de deviner quand le périmètre se
+  scinde.
+- **Doctor.** `/goalify doctor` liste chaque copie de goalify sur votre machine et prévient quand une
+  ancienne se charge à côté de la nouvelle.
+- **Ligne headless plus sûre.** Les conditions ne peuvent plus contenir d'accents graves ni de
+  guillemets doubles, si bien que la ligne `claude -p "/goal ..."` ne peut pas lancer une commande
+  dans votre shell quand vous la collez. Merci à [@Hug0x0](https://github.com/Hug0x0) pour le
+  correctif.
+
+## Comparaison
+
+Des différences simples, vérifiées dans le README de chaque projet en novembre 2026.
+
+| Outil | Ce que c'est | En quoi il diffère de goalify |
+|:--|:--|:--|
+| [supergoal](https://github.com/robzilla1738/supergoal) | Un plugin Claude Code qui fait une reconnaissance, pose des questions, planifie des phases et passe une commande à `/goal`, avec un audit final au regard du plan | Le voisin le plus proche. goalify écrit un seul brief autonome et une condition passée au lint, affiche une page d'aperçu avant l'exécution et écrit un reçu de preuve après |
+| Boucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) et consorts) | Une boucle qui renvoie le même prompt à l'agent encore et encore | S'arrête d'ordinaire sur un mot que le travailleur affiche ou sur un plafond d'itérations. Avec `/goal`, un évaluateur distinct lit la transcription à chaque tour |
+| [Spec Kit](https://github.com/github/spec-kit) | La boîte à outils de GitHub pilotée par la spec : spécifier, planifier, tâches, implémenter | Très bien pour écrire la spec. goalify s'occupe de la longue exécution sans surveillance et de la preuve qu'elle est finie |
 
 ## Fonctionne dans votre éditeur
-
-Fonctionne dans Claude Code, Cursor, Codex, Copilot, Gemini CLI et plus de 70 autres agents via
-`npx skills add`. La compétence est du Markdown pur, rien en elle n'est lié à un modèle donné.
 
 | Agent | Installation en une ligne |
 |:--|:--|
@@ -143,38 +160,52 @@ Fonctionne dans Claude Code, Cursor, Codex, Copilot, Gemini CLI et plus de 70 au
 
 `/clear` et `/goal` sont des commandes de Claude Code. Ailleurs, ouvrez une nouvelle session à la
 place de `/clear` et donnez-lui la condition comme objectif constant. Codex a son propre `/goal`, et
-[l'utiliser sous Codex](../docs/codex.md) dit ce qui se transporte et ce qui ne se transporte pas.
+[l'utiliser sous Codex](../docs/codex.md) dit ce qui se transporte.
+
+<details>
+<summary>Le copier à la main</summary>
+
+```bash
+git clone https://github.com/Aboudjem/goalify
+cp -R goalify/skills/goalify ~/.claude/skills/
+```
+
+Rien d'autre dans le dépôt n'est nécessaire à l'exécution. Le
+[démarrage rapide](../docs/quickstart.md) couvre le reste. Si vous avez eu une ancienne copie, lancez
+`/goalify doctor` pour vous assurer qu'une seule est chargée.
+
+</details>
 
 ## Bon à savoir
 
 > [!IMPORTANT]
 > Une exécution qui s'arrête ne prouve pas qu'elle a fini. L'évaluateur juge par lui-même et peut
 > mettre fin à une exécution en décidant que la ligne d'arrivée est hors d'atteinte. Avant de croire
-> un résultat au vert, relisez les preuves de clôture, les vérifications citées dans la dernière
-> réponse et le brief déplacé dans `.goal/done/`, ou rejouez les vérifications vous-même.
+> un résultat au vert, lancez `/goalify verify` sur le brief, ou rejouez vous-même ses vérifications.
 
-- **goalify rédige, il n'exécute jamais.** Il écrit les deux artefacts dans cette session puis
-  s'arrête. C'est vous qui lancez l'exécution.
-- **Rien ne tourne en arrière-plan.** Une compétence Markdown, sans serveur, sans dépendance à
-  installer, sans appel réseau qui lui soit propre.
+- **goalify ne fait jamais la tâche.** Il écrit le brief et la condition, et ne lance vos
+  vérifications que si vous le demandez.
+- **Rien ne remonte vers un serveur.** Pas de serveur, pas de dépendance à l'exécution, pas d'appel réseau.
+  Les scripts d'aide sont du Python pur de la bibliothèque standard, et la page d'aperçu ne fait
+  aucune requête extérieure.
+- **Pas d'estimation de coût.** goalify ne prédit jamais un montant en dollars ni un nombre de
+  tokens. Le plafond de tours, c'est votre contrôle.
 - **Tout ce qu'il ne promet pas** est écrit dans [les limites honnêtes](../docs/limits.md).
 
 ## En savoir plus
 
-- [Démarrage rapide](../docs/quickstart.md), une première exécution de bout en bout, et les autres
-  façons d'installer.
-- [Conditions travaillées](../examples/conditions.md), huit qui méritent d'être livrées et huit à
-  éviter, chacune avec une ligne qui dit ce que la mauvaise perd.
-- [Un exemple complet](../examples/sample-brief.md), un vrai brief et la condition qui en découle.
-- [Installer dans votre éditeur](../docs/editors.md) · [FAQ](../docs/faq.md) · [Sous Codex](../docs/codex.md)
-- [Limites honnêtes](../docs/limits.md) · [Journal des modifications](../CHANGELOG.md) · [La compétence elle-même](../skills/goalify/SKILL.md) · [Licence](../LICENSE)
-
-<p align="center"><sub><a href="../assets/goalify-teaser.mp4">Voir la bande-annonce de 28 secondes</a> · <a href="../assets/goalify-teaser.gif">GIF</a></sub></p>
+- [Site web](https://goalify-kappa.vercel.app) · [Démarrage rapide](../docs/quickstart.md) · [FAQ](../docs/faq.md)
+- [Conditions travaillées](../examples/conditions.md), bonnes et mauvaises, chaque mauvaise avec ce
+  qu'elle fait perdre.
+- [Un exemple complet](../examples/sample-brief.md), un vrai brief et sa condition, plus
+  [sa page d'aperçu](../examples/sample-brief.html) (téléchargez-la et ouvrez-la dans un navigateur).
+- [Installer dans votre éditeur](../docs/editors.md) · [Sous Codex](../docs/codex.md) · [Limites honnêtes](../docs/limits.md)
+- [Journal des modifications](../CHANGELOG.md) · [La compétence elle-même](../skills/goalify/SKILL.md) · [Licence](../LICENSE)
 
 ---
 
-<sub>Réalisé par <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licence MIT. Le
-comportement de `/goal` a été redérivé du binaire Claude Code 2.1.223 distribué, en 2026.
+<sub>Réalisé par <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licence MIT. Le comportement
+de `/goal` a été revérifié avec Claude Code 2.1.317 et sa doc, novembre 2026.
 <a href="https://github.com/Aboudjem/goalify/issues">Vous voyez un manque ?</a></sub>
 
 <sub>Traduction assistée par machine. La version de référence est le <a href="../README.md">README.md</a> en anglais.</sub>

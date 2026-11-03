@@ -94,7 +94,9 @@ handoff commands are the part you adapt.
 
 ## What goalify does not do
 
-It does not run your task. It does not fetch remote content and execute it. It does not delete the
+It does not run your task. It runs your brief's own check commands only when you ask
+(`/goalify verify`), shows them first, and refuses destructive ones unless you allow each one by
+name. It does not fetch remote content and execute it. It does not delete the
 brief — it files it away, only on full success, so the promise and the outcome stay comparable
 ([security](../SECURITY.md)).
 

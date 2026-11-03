@@ -21,7 +21,8 @@ evals/
 tests/
   test_manifests.py     manifests, version consistency, the no-path-handoff
                         contract, the example's clauses (runs in CI)
-video/                  Remotion source for the README teaser (typechecked in CI)
+video/                  HyperFrames source for the promo video (linted in CI)
+site/                   the static landing page
 assets/                 animated SVG hero + how-it-works + social card
 examples/               an illustrative brief + its derived /goal condition
 docs/                   quickstart (docs/audit/ is a local build journal, gitignored)
@@ -104,7 +105,7 @@ and paste the before/after into your PR.
 
 Every PR runs CI: frontmatter check, the `check_skill.py` eval, `tests/test_manifests.py` (manifests,
 version consistency, the no-path-handoff contract, the example's clauses), the markup safety gate, a
-secrets scan, a relative-link check, and a `video/` typecheck. It must be green before merge. If CI fails, read the log and
+secrets scan, a relative-link check, a `video/` lint, and `python3 tests/run_all.py`. It must be green before merge. If CI fails, read the log and
 push a fix; don't ask for a merge override.
 
 Thanks again — careful contributions to a tool people point at their real, big tasks genuinely matter.

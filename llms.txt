@@ -33,6 +33,16 @@ implements; the derived, checked condition string is what the user pastes into `
 wraps the objective as untrusted data, so only the definition of done binds there, not the
 instructions about how to work.
 
+New in 3.0: goalify front-loads everything (feasibility check, online research, every question up
+front) so the run can work non-stop for hours or days with zero interruptions. After the handoff it
+writes a self-contained run preview page (`.goal/<slug>-<stamp>.html`) that also lints the brief.
+`/goalify verify` re-runs the brief's own check commands only when the user asks, refuses
+destructive ones unless allowed by name, and writes a proof receipt with a VERIFIED / NOT VERIFIED /
+UNVERIFIABLE verdict. `/goalify status` lists every brief with its resume line. `/goalify --quick`
+is express mode. Check commands are detected from the repo and CI. `/goalify doctor` lists every
+installed copy. All helpers are Python standard library, with no network call. Landing page:
+https://goalify-kappa.vercel.app.
+
 ## Docs
 
 - [README](https://github.com/Aboudjem/goalify/blob/main/README.md): What goalify is, who it is for, how to install and use it.

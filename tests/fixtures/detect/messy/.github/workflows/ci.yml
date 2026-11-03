@@ -1,0 +1,28 @@
+name: CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        run: npm ci
+
+      - name: Validate
+        run: |
+          export CI=true
+          if [ -z "$CI" ]; then
+            echo "not CI"
+            exit 1
+          fi
+          curl -sS https://example.com \
+            -H "Accept: application/json" \
+            -d '{"key": "value"}'
+          python3 - <<'PY'
+          import sys
+          print("hello from heredoc")
+          PY
+          python3 tests/run_all.py
+          npx tsc --noEmit
+          make check

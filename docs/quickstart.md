@@ -112,6 +112,14 @@ is a convenience, not the step.
 `claude -p "/goal <condition>" --permission-mode auto`. Same condition string, typed on the command
 line instead of pasted.
 
+A **preview page** opens in your browser at the same time (and its `file://` link is printed on its
+own line). It shows the plan, the checks and the line again, with a copy button. It is optional;
+the printed line is the real step.
+
+4. **Check it when you come back.** `/goalify verify` re-runs the brief's checks, after asking you,
+   and writes a proof receipt that says VERIFIED, NOT VERIFIED or UNVERIFIABLE. `/goalify status`
+   lists every brief in `.goal/` with the line to resume any open one.
+
 That is it. **Step 1 touches nothing in your repo except `.goal/`** — goalify researches, then writes
 the two artifacts there, and changes no code. The work happens in the fresh `/goal` session, under
 the hard rules baked into the brief: nothing invented, verification by a separate agent, tests, and a

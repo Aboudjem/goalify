@@ -146,7 +146,7 @@ def receipt_html(brief, steps, verdict, when):
         '<header class="hero" style="min-height:min(70vh,640px)">\n'
         '<span class="badge glass rv"><i></i>Proof receipt · ' + esc(when) + "</span>\n"
         f'<h1 class="rv long">{inline(brief["title"])}</h1>\n'
-        f'<div class="rv"><span class="verdict {cls}">{esc(verdict)}</span></div>\n'
+        f'<div class="rv" style="margin-top:22px"><span class="verdict {cls}">{esc(verdict)}</span></div>\n'
         f'<p class="rv"><span class="grad">{esc(word)}</span> {passed} of {len(steps)} check '
         f"command(s) passed when re-run just now, in this repo. Fresh output, not the run's word "
         "for it.</p>\n</header>\n")
@@ -157,10 +157,14 @@ def receipt_html(brief, steps, verdict, when):
         if not mine:
             badge = ('<span class="st skip">CLAIMED</span>' if item["kind"] == "agent"
                      else '<span class="st skip">NO COMMAND</span>')
-            sub = ('<p class="note">Checked by a separate agent during the run. verify cannot '
-                   "re-run an agent, so this stays a claim.</p>" if item["kind"] == "agent" else "")
-            rows.append(f'<div class="check glass"><span>{badge}</span><div>'
-                        f'<div class="txt">{inline(clip(item["text"], 320))}</div>{sub}</div></div>')
+            sub = ("Checked by a separate agent during the run. verify cannot re-run an agent, "
+                   "so this stays a claim." if item["kind"] == "agent"
+                   else "This item names no command, so verify cannot check it.")
+            mark = ('<span class="ok" aria-hidden="true" style="border-color:var(--yellow);'
+                    'color:var(--yellow)">?</span>')
+            rows.append(f'<div class="check glass">{mark}<div>'
+                        f'<div class="txt">{inline(clip(item["text"], 320))}</div>'
+                        f'<div class="cmds">{badge}</div><p class="note">{esc(sub)}</p></div></div>')
             continue
         parts = []
         for s in mine:
@@ -179,7 +183,8 @@ def receipt_html(brief, steps, verdict, when):
         mark = ('<span class="ok" aria-hidden="true">✓</span>' if ok_all else
                 '<span class="ok" aria-hidden="true" style="border-color:var(--red);color:var(--red)">✕</span>')
         rows.append(f'<div class="check glass">{mark}<div>'
-                    f'<div class="txt">{inline(clip(item["text"], 320))}</div>{"".join(parts)}</div></div>')
+                    f'<div class="txt">{inline(clip(rp.display_text(item["text"], item["commands"]), 320))}'
+                    f'</div>{"".join(parts)}</div></div>')
     proof = ('<section class="rv">\n<div class="eyebrow">Promised vs proven</div>\n'
              "<h2>Every check, re-run</h2>\n"
              '<p class="lede">Each criterion from the brief, next to the exit code and the last '

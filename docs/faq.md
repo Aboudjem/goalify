@@ -1,7 +1,8 @@
 # FAQ
 
 **Does goalify run my task?**
-No. It writes the brief, derives the condition, and stops there. You start the run yourself, after
+No. goalify never does the task, and it only runs your checks when you ask. It writes the brief,
+derives the condition, and stops there. You start the run yourself, after
 `/clear`, in a session that has nothing else in it. That split is the point. The prep happens while
 Claude still has your context; the work happens with a full context of its own.
 
@@ -94,6 +95,39 @@ Yes. goalify ships as a Claude Code plugin in the [**10x** marketplace](https://
 — `claude plugin install goalify@10x` — and the skill still works on its own. Someone opened a Claude
 Code issue asking [how to carry a plan across `/clear`](https://github.com/anthropics/claude-code/issues/32916);
 it was closed as not planned, so goalify is one answer to it.
+
+**What is the preview page that opens after `/goalify`?**
+A one-page view of the run, written next to the brief as `.goal/<slug>-<stamp>.html`: the phases as
+a flow, each check and the command that proves it, the caps, your decisions, and the `/goal` line
+with a copy button. It is a self-contained file with no outside requests. The script that writes it
+also lints the brief, so a brief with a missing section, a check with no command, or a condition
+that names a command the brief never runs is refused before you see it. The inline `/goal` line in
+the chat stays the real handoff.
+
+**How do I check a run that says it finished?**
+Run `/goalify verify` (or `/goalify verify <brief>`). It lists the brief's check commands, asks you
+once, runs them in your repo, and writes `.goal/RECEIPT-<slug>-<stamp>.html` with a verdict:
+VERIFIED, NOT VERIFIED or UNVERIFIABLE. It refuses destructive commands such as `rm -rf` or
+`git push` unless you allow each one by name, it writes nothing outside `.goal/`, and it never moves
+the brief. A receipt can say NOT VERIFIED for a brief that was archived as done; the fresh run wins.
+
+**How do I see all my runs?**
+`/goalify status` prints one row per brief in `.goal/`: open, blocked, done, or a condition file
+whose brief is gone, with checklist ticks and age. For each open or blocked brief it reprints the
+full `/goal` line, so resuming is a paste. Add `--html` for an index page. It never edits a file and
+never starts a run.
+
+**Which goalify copy is running?**
+Run `/goalify doctor`. It lists every copy it can find on your machine (the plugin, a hand copy in
+`~/.claude/skills/`, a project copy, an `npx skills` copy) with each version, and warns when there
+is more than one or they disagree, because two copies of a skill can load side by side and the old
+one can win. It makes no network call, so it can't tell you the latest release.
+
+**Is there a faster mode for medium jobs?**
+`/goalify --quick <task>` skips the web research and the question batch. It keeps the repo
+inspection, check detection, the full brief, both lints and the preview, and it notes in the brief
+that it ran in express mode. If the scope could go two ways, it stops and says so instead of
+guessing.
 
 **Does anything in my repo change when I run `/goalify`?**
 Only `.goal/` does — it gains the brief and the condition. The prep phase reads and never writes

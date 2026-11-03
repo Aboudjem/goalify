@@ -1,0 +1,8 @@
+{
+  "name": "pnpm-example",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "vitest run",
+    "build": "vite build"
+  }
+}
