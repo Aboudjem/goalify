@@ -38,6 +38,10 @@ STOP_AFTER_RE = re.compile(r"\bstop\s+after\b", re.IGNORECASE)
 # Matches the semantics tests/test_manifests.py already asserts on the shipped example:
 # "bare" means unescaped.
 BARE_DOLLAR_RE = re.compile(r"(?<!\\)\$")
+# The headless handoff wraps the condition in double quotes: claude -p "/goal <condition>".
+# Inside them a backtick is command substitution, run by the user's shell at paste time, and a
+# double quote ends the string early.
+SHELL_QUOTE_RE = re.compile(r'[`"]')
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
 
 
@@ -101,6 +105,11 @@ def lint(condition):
     results.append((
         "bare-dollar", not BARE_DOLLAR_RE.search(cond),
         "a bare $ sequence can be rewritten by the hook prompt; escape or reword it",
+    ))
+
+    results.append((
+        "shell-quote", not SHELL_QUOTE_RE.search(cond),
+        'a backtick or " breaks the headless claude -p "/goal ..." line; name commands in plain words',
     ))
 
     return results

@@ -91,6 +91,16 @@ BAD = [
      "Do everything in ~/a/.goal/b.md, done when the last turn quotes echo $ARGUMENTS and "
      "says B-OK. Stop after 30 turns.",
      {"bare-dollar"}),
+    # The template writes commands in backticks, so a derived condition can inherit them. In
+    # the headless claude -p "/goal ..." line the shell would run them at paste time.
+    ("a backticked command the shell would run at paste time",
+     "Do everything in ~/a/.goal/b.md, done when the last turn quotes `npm test` passing and "
+     "says B-OK. Stop after 30 turns.",
+     {"shell-quote"}),
+    ("a double quote that ends the headless line early",
+     'Do everything in ~/a/.goal/b.md, done when the last turn quotes npm test passing and '
+     'says "B-OK". Stop after 30 turns.',
+     {"shell-quote"}),
     ("longer than the 4,000-character limit", LONG, {"length"}),
 ]
 for name, cond, expected in BAD:

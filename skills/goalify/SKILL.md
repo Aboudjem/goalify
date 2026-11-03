@@ -309,6 +309,9 @@ not proof.
 - [ ] Reads in one breath. Over ~150 characters, cut until every remaining clause is one of the four
       teeth or a genuinely extra check.
 - [ ] Contains no bare `$` sequence (hook-substitution hazard). Escape or reword.
+- [ ] Contains no backtick and no double quote. The headless line wraps the condition in double
+      quotes, so a backticked command would run in the user's shell at paste time. Name commands
+      in plain words.
 - [ ] All four teeth present: the brief's path, a quoted-evidence clause naming a runnable command,
       the sentinel, and an explicit turn bound.
 - [ ] Plain words only — no jargon the user would have to decode before pasting it.
@@ -316,7 +319,7 @@ not proof.
       it is done" the success test.
 - [ ] Every command in it appears in the brief's definition of done, and vice versa.
 
-The first four boxes and the bare-`$` one are mechanical, so run them rather than eyeballing them:
+The first four boxes, the bare-`$` one and the quote one are mechanical, so run them rather than eyeballing them:
 `python3 skills/goalify/scripts/condition_lint.py "<the condition>"` (standard library, exits non-zero
 on a failure). The rest are judgment: whether the named command really proves the criterion, whether
 the sentinel is distinctive, and whether a clause is satisfied by the condition text itself. Worked
