@@ -4,6 +4,62 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-11-03
+
+See the run before it starts, check it after it ends. goalify now opens a preview of every run,
+re-runs your checks into a proof receipt on demand, finds your real test commands for you, and asks
+every question up front so the run can go for hours or days without stopping to ask you anything.
+
+### Added
+
+- **Run preview.** After the handoff, `scripts/render_preview.py` writes `.goal/<slug>-<stamp>.html`
+  and opens it: the goal in one sentence, the phases as a flow, every check next to the command that
+  proves it, the caps, your locked decisions, and the full `/goal` line with a copy button (plus a
+  Codex tab). One self-contained file: inline CSS, JS and SVG, system fonts, no outside requests.
+  The inline `/goal` line in the chat is still the required step.
+- **Brief lint.** The same script refuses to render a broken brief: a missing section, a brief path
+  that isn't absolute, a check with no command, a condition that doesn't name the brief, or a
+  condition that names a command the brief never runs.
+- **`/goalify verify`.** Shows the brief's check commands, asks once, runs them, and writes
+  `.goal/RECEIPT-<slug>-<stamp>.html` with a VERIFIED, NOT VERIFIED or UNVERIFIABLE verdict. It
+  refuses destructive commands unless you allow each one by name, writes nothing outside `.goal/`,
+  and never archives anything. A receipt can say NOT VERIFIED for a brief that was archived as done.
+- **Check detection.** `scripts/detect_checks.py` reads `package.json` (with the package manager from
+  the lockfile), Python, Rust, Go, Makefile, justfile and Deno config, and your CI workflows, and
+  proposes the check commands that exist. It skips npm's "no test specified" stub. An optional
+  baseline run goes into the brief's Context and warns when the finish line is already met.
+- **`/goalify status`.** One row per brief in `.goal/` (open, blocked, done, or a condition whose
+  brief is gone), with ticks and age, and the full `/goal` line to resume each open one. `--html`
+  writes an index page. Read-only.
+- **Express mode.** `/goalify --quick <task>` skips the web research and the questions but keeps
+  every floor: the four teeth, both lints, the trivial-task decline and the exploration gate.
+- **`/goalify doctor`** and a version stamp. The skill now says which version it is, briefs record
+  the version that wrote them, and `scripts/doctor.py` lists every installed copy and warns when
+  more than one is loaded.
+- **`references/done-patterns.md`**: finish-line patterns for migrations, refactors, coverage, docs,
+  upgrades and releases.
+- **`tests/run_all.py`** runs every suite and prints one PASS line each. CI runs it.
+- A landing page at https://goalify-kappa.vercel.app and a new promo video in three cuts
+  (`assets/goalify-promo.mp4`, `-vertical.mp4`, `-15s.mp4`), made with HyperFrames.
+
+### Changed
+
+- **The condition lint rejects backticks and double quotes**, so the headless
+  `claude -p "/goal ..."` line can't run a command in your shell at paste time. Contributed by
+  [@Hug0x0](https://github.com/Hug0x0) in #2. It also prints a note (not a failure) when a `!`
+  followed by a word could trigger shell history expansion.
+- PREPARE now says it out loud: the feasibility check, the online research and every question
+  happen up front, so the run never has to interrupt you.
+- The Codex details moved to `skills/goalify/references/codex.md`, loaded only when needed.
+- README, docs, translations and every visual rebuilt in the new glass look. The Remotion teaser is
+  replaced by the HyperFrames source in `video/`.
+- FAQ wording: goalify never does the task, and only runs your checks when you ask.
+
+### Fixed
+
+- Eval Scenario 3 expected a split flowchart that no longer existed. SKILL.md has the split rule
+  back (one brief and one condition per big independent sub-project) and the scenario matches it.
+
 ## [2.6.1] - 2026-09-03
 
 A motion identity, and the literal synthwave scenery removed. No behaviour changes.

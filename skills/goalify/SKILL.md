@@ -16,7 +16,7 @@ description: >-
 argument-hint: "[task] | status | verify [brief] | doctor | --quick [task]"
 license: MIT
 metadata:
-  version: 2.6.1
+  version: 3.0.0
 ---
 
 # goalify
@@ -26,7 +26,7 @@ metadata:
 In one line, for anyone: **Hand Claude a huge task. Come back to proof it's done — not a promise
 that it is.**
 
-This is goalify 2.6.1.
+This is goalify 3.0.0.
 
 Prepare the best possible autonomous run in THIS session, then hand off so the user can `/clear` and
 launch it in a fresh session that has full context to work in.
