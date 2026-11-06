@@ -1,0 +1,179 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #po-top {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      font: 750 92px/1 var(--sans);
+      letter-spacing: -0.05em;
+      color: #fff;
+    }
+    #po-top svg {
+      width: 100px;
+      height: 100px;
+    }
+    .po-panel {
+      position: absolute;
+      top: 190px;
+      width: 850px;
+      height: 690px;
+      padding: 40px 44px;
+    }
+    #po-l {
+      left: 80px;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    #po-r {
+      left: 990px;
+      border-color: rgba(95, 217, 160, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .po-chip {
+      display: inline-block;
+      padding: 10px 26px;
+      border-radius: 999px;
+      font: 800 34px/1 var(--sans);
+      letter-spacing: 0.02em;
+    }
+    #po-l .po-chip {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    #po-r .po-chip {
+      color: #0a0818;
+      background: var(--green);
+    }
+    .po-time {
+      float: right;
+      margin-top: 4px;
+      font: 800 40px/1 var(--sans);
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .po-scr {
+      margin-top: 34px;
+      padding: 34px 38px;
+      border-radius: 24px;
+      background: #0d0a1c;
+      border: 2px solid #3a3560;
+    }
+    .po-st {
+      font: 750 46px/1.1 var(--sans);
+      color: var(--mute);
+      white-space: nowrap;
+    }
+    .po-n {
+      margin-top: 18px;
+      font: 850 76px/1.02 var(--sans);
+      letter-spacing: -0.035em;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .po-bar {
+      margin-top: 24px;
+      height: 22px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+    #po-r .po-st {
+      color: #fff;
+    }
+    #po-r .po-n {
+      color: var(--green);
+    }
+    #po-r .po-bar {
+      background: var(--green);
+    }
+    .po-face {
+      position: absolute;
+      bottom: 26px;
+      width: 220px;
+      height: 253px;
+    }
+    #po-fl {
+      left: 40px;
+    }
+    #po-fr {
+      left: 40px;
+    }
+    .po-cap {
+      position: absolute;
+      left: 290px;
+      right: 40px;
+      bottom: 70px;
+      font: 700 44px/1.15 var(--sans);
+      color: var(--ink);
+    }
+    #po-mug {
+      position: absolute;
+      left: 236px;
+      bottom: 30px;
+      width: 80px;
+      height: 94px;
+    }
+    #po-r .po-cap {
+      left: 340px;
+    }
+    #po-tag {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 920px;
+      text-align: center;
+      font: 760 70px/1 var(--sans);
+      letter-spacing: -0.035em;
+      color: #fff;
+    }
+    #po-arrow {
+      position: absolute;
+      left: 936px;
+      top: 500px;
+      width: 48px;
+      height: 64px;
+    }
+  </style>
+  <div id="root" data-composition-id="poster" data-width="1920" data-height="1080">
+    <div id="po-top"><svg viewBox="0 0 256 256" fill="none"><g stroke="#a78cff" stroke-width="16" stroke-linecap="round"><circle cx="128" cy="128" r="26" /><circle cx="128" cy="128" r="56" /><circle cx="128" cy="128" r="86" /></g><line x1="200" y1="56" x2="128" y2="128" stroke="#c77dff" stroke-width="20" stroke-linecap="round" /><circle cx="128" cy="128" r="10" fill="#fff" /></svg>goalify</div>
+    <div class="po-panel glass" id="po-l">
+      <span class="po-chip">Without goalify</span><span class="po-time">7:00 AM</span>
+      <div class="po-scr"><div class="po-st">Waiting since 11:12 PM</div><div class="po-n">0 of 6 pages built</div><div class="po-bar"></div></div>
+      <div class="po-face" id="po-fl"></div>
+      <div class="po-cap">It stopped to ask<br />you 4 questions.</div>
+    </div>
+    <svg id="po-arrow" viewBox="0 0 48 64"><path d="M8 6 L40 32 L8 58" stroke="#f1edff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <div class="po-panel glass" id="po-r">
+      <span class="po-chip">With goalify</span><span class="po-time">7:00 AM</span>
+      <div class="po-scr"><div class="po-st">Little Oven Bakery</div><div class="po-n">6 of 6 pages built</div><div class="po-bar"></div></div>
+      <div class="po-face" id="po-fr"></div>
+      <div id="po-mug"></div>
+      <div class="po-cap">Ran 7 h 18 min,<br />0 questions.</div>
+    </div>
+    <div id="po-tag">Set the goal. Go to sleep. <span class="grad">It's done.</span></div>
+  </div>
+  <script>
+    (function () {
+      var T = window.Toon;
+      var tl = gsap.timeline({ paused: true });
+      document.getElementById("po-fl").innerHTML = T.face();
+      document.getElementById("po-fr").innerHTML = T.face();
+      document.getElementById("po-mug").innerHTML = T.mug();
+      T.mood(tl, document.getElementById("po-fl"), "sleepy", 0);
+      T.mood(tl, document.getElementById("po-fr"), "happy", 0);
+      gsap.set(".po-face .c-hand", { opacity: 0 });
+      gsap.set("#po-tag .grad", { backgroundPosition: "30% 0" });
+      tl.fromTo("#po-top", { opacity: 1 }, { opacity: 1, duration: 1 }, 0);
+      window.__timelines["poster"] = tl;
+    })();
+  </script>
+</template>

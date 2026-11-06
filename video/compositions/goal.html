@@ -15,24 +15,42 @@
       width: max-content;
       padding: 8px 20px;
       border-radius: 999px;
-      font: 600 24px var(--sans);
-      color: var(--dim);
+      font: 650 30px var(--sans);
+      color: var(--ink);
+    }
+    #gl-tag b {
+      color: var(--accent);
     }
     .gl-card {
       position: absolute;
       top: 250px;
-      width: 520px;
-      height: 320px;
+      width: 500px;
+      height: 340px;
       perspective: 1400px;
     }
+    /* round 7: one thread. The request bubble from the bad night flips into its goal. */
     #gl-c0 {
-      left: 410px;
+      left: 520px;
+      top: 290px;
+      width: 880px;
+      height: 300px;
     }
-    #gl-c1 {
-      left: 990px;
+    #gl-c1,
+    #gl-c2,
+    #gl-tag {
+      display: none !important;
     }
-    #gl-c2 {
-      display: none;
+    #gl-c0 .gl-front {
+      background: #7b62d8 !important;
+      border-color: rgba(255, 255, 255, 0.14) !important;
+      border-radius: 40px 40px 12px 40px;
+    }
+    #gl-c0 .gl-front .gl-eye {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    #gl-c0 .gl-face .gl-txt {
+      font-size: 64px;
+      line-height: 1.08;
     }
     .gl-face {
       position: absolute;
@@ -50,7 +68,7 @@
       color: var(--dim);
     }
     .gl-back .gl-eye {
-      color: var(--green);
+      color: var(--dim);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -61,8 +79,8 @@
       color: var(--ink);
     }
     .gl-back {
-      border-color: rgba(61, 255, 168, 0.5) !important;
-      background: rgba(61, 255, 168, 0.07) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      background: rgba(255, 255, 255, 0.035) !important;
     }
     /* the one goal, up close */
     #gl-big {
@@ -72,8 +90,8 @@
       width: 1100px;
       height: 690px;
       padding: 56px 64px;
-      border-color: rgba(61, 255, 168, 0.5);
-      background: rgba(61, 255, 168, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
     }
     /* the finish line: a track that runs toward the flag and stops short of it */
     #gl-flag {
@@ -95,11 +113,10 @@
       border-radius: 4px;
     }
     #gl-track {
-      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 16px, transparent 16px 28px);
+      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 16px, transparent 16px 28px);
     }
     #gl-fill {
-      background: linear-gradient(90deg, var(--purple), var(--cyan));
-      box-shadow: 0 0 18px rgba(46, 230, 255, 0.5);
+      background: var(--accent);
       transform-origin: 0 50%;
     }
     #gl-dot {
@@ -110,7 +127,6 @@
       height: 24px;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 0 18px var(--cyan), 0 0 36px rgba(46, 230, 255, 0.6);
     }
     #gl-bt {
       margin-top: 18px;
@@ -124,7 +140,7 @@
       font: 700 24px/1 var(--sans);
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--cyan);
+      color: var(--dim);
     }
     .gl-row {
       display: flex;
@@ -139,7 +155,7 @@
       width: 54px;
       height: 54px;
       border-radius: 14px;
-      border: 3px solid rgba(255, 255, 255, 0.55);
+      border: 2px solid rgba(255, 255, 255, 0.45);
     }
     @media (max-aspect-ratio: 1/1) {
       #gl-tag {
@@ -151,13 +167,14 @@
         height: 230px;
       }
       #gl-c0 {
-        top: 340px;
+        top: 560px;
+        height: 330px;
       }
       #gl-c1 {
-        top: 620px;
+        top: 570px;
       }
       #gl-c2 {
-        top: 790px;
+        top: 820px;
       }
       .gl-face {
         gap: 12px;
@@ -200,32 +217,32 @@
   </style>
   <div id="root" data-composition-id="goal" data-width="1920" data-height="1080">
     <div class="cam" id="gl-cam"><div class="rig" id="gl-rig">
-    <div id="gl-tag" class="glass">example requests</div>
+    <div id="gl-tag" class="glass">for your <b>AI agents</b></div>
     <div class="gl-card" id="gl-c0">
-      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Build a website for my bakery</div></div>
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request, 11:04 PM</div><div class="gl-txt">Build a website for my bakery.</div></div>
       <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">Bakery website live</div></div>
     </div>
     <div class="gl-card" id="gl-c1">
-      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Sort my 3,000 photos by trip</div></div>
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Sort my 3,000 photos</div></div>
       <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">Every photo in the right album</div></div>
     </div>
     <div class="gl-card" id="gl-c2">
-      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Turn my notes into a 20-page guide</div></div>
-      <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">Guide written, every chapter done</div></div>
+      <div class="gl-face gl-front glass"><div class="gl-eye">Your request</div><div class="gl-txt">Plan my wedding budget</div></div>
+      <div class="gl-face gl-back glass"><div class="gl-eye">● Goal</div><div class="gl-txt">Budget sheet done, every cost in</div></div>
     </div>
 
     <div id="gl-big" class="glass">
-      <div class="gl-eye" style="color: var(--green); font-size: 26px">Goal</div>
+      <div class="gl-eye" style="color: var(--dim); font-size: 26px">Goal</div>
       <div id="gl-bt">Bakery website live</div>
       <div id="gl-fl">Finish line</div>
-      <div class="gl-row"><span class="gl-box"></span>Every page loads</div>
-      <div class="gl-row"><span class="gl-box"></span>Menu and prices shown</div>
-      <div class="gl-row"><span class="gl-box"></span>Order button works</div>
+      <div class="gl-row"><span class="gl-box"></span>6 pages load</div>
+      <div class="gl-row"><span class="gl-box"></span>Menu shows 24 cakes</div>
+      <div class="gl-row"><span class="gl-box"></span>Orders work</div>
       <div id="gl-track"></div>
       <div id="gl-fill"></div>
       <div id="gl-dot"></div>
     </div>
-    <svg id="gl-flag" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="6" stroke-linecap="round" /><path id="gl-pen" d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#3dffa8" /></svg>
+    <svg id="gl-flag" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f2f0f7" stroke-width="5" stroke-linecap="round" /><path id="gl-pen" d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#b8a6ff" /></svg>
 
   </div></div>
   </div>
@@ -233,12 +250,12 @@
     (function () {
       var F = window.Film;
       var P = F.portrait();
-      var MODE = F.cut(); // main and demo: two requests flip into goals, then one goal up close
-      var FULL = MODE !== "short";
-      var SLOT = MODE === "demo" ? 4.5 : MODE === "short" ? 2.05 : 8.4;
+      var D = F.slot("goal") || 8;
+      var CS = F.seg("goal", "cards") || [0, 4],
+        B = F.seg("goal", "big") || [4, 8];
       var tl = gsap.timeline({ paused: true });
-      window.Film.push(tl, "#gl-cam", 9, 1, 1.04);
-      var cards = ["#gl-c0", "#gl-c1"]; // round 4: two cards, calmer
+      F.push(tl, "#gl-cam", D, 1, 1.04);
+      var cards = ["#gl-c0"];
 
       function flip(sel, t) {
         var f = document.querySelector(sel + " .gl-front"),
@@ -248,55 +265,36 @@
       }
       tl.fromTo(".gl-back", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
 
-      if (!FULL) {
-        tl.fromTo(["#gl-tag"].concat(cards), { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
-      } else {
-        tl.fromTo("#gl-tag", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.05);
-        tl.fromTo(cards, { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.1 }, 0);
-        flip("#gl-c0", 0.3);
-        flip("#gl-c1", 0.75);
-      }
+      // ---- beat 5: your requests flip into clear goals (pops at +0.55, +1.15, +1.75) ----
+      var c0 = CS[0];
+      tl.fromTo(cards, { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.1 }, c0);
+      flip("#gl-c0", c0 + 0.98);
+      tl.fromTo(".gl-back", { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 0 rgba(95, 217, 160,0)" }, { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 50px 0 rgba(95, 217, 160,0.35)", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, c0 + 2.7);
 
-      // the goal, up close
-      var tBig = FULL ? 1.45 : 0;
-      if (FULL) {
-        tl.to(["#gl-c1", "#gl-tag"], { opacity: 0, filter: "blur(10px)", scale: 0.92, duration: 0.3, ease: "power3.in" }, tBig);
-        // one element grows into the close-up: its small label fades first, then the card hands over
-        var c0 = document.getElementById("gl-c0"),
-          big = document.getElementById("gl-big");
-        var dx = big.offsetLeft + big.offsetWidth / 2 - (c0.offsetLeft + c0.offsetWidth / 2);
-        var dy = big.offsetTop + big.offsetHeight / 2 - (c0.offsetTop + c0.offsetHeight / 2);
-        tl.to("#gl-c0 .gl-back .gl-eye, #gl-c0 .gl-back .gl-txt", { opacity: 0, duration: 0.14, ease: "power2.in" }, tBig);
-        tl.to("#gl-c0", { x: dx, y: dy, scale: big.offsetWidth / c0.offsetWidth, duration: 0.5, ease: "power3.inOut" }, tBig);
-        tl.to("#gl-c0", { opacity: 0, duration: 0.14 }, tBig + 0.48);
-      }
-      var tb = FULL ? tBig + 0.44 : 0;
-      tl.fromTo("#gl-big", { opacity: 0, scale: FULL ? 1 : 0.92, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, tb);
+      // ---- beat 6: one goal up close, a finish line you can check ----
+      var tBig = B[0] - 0.4;
+      var cc = document.getElementById("gl-c0"),
+        big = document.getElementById("gl-big");
+      var dx = big.offsetLeft + big.offsetWidth / 2 - (cc.offsetLeft + cc.offsetWidth / 2);
+      var dy = big.offsetTop + big.offsetHeight / 2 - (cc.offsetTop + cc.offsetHeight / 2);
+      tl.to("#gl-c0 .gl-back .gl-eye, #gl-c0 .gl-back .gl-txt", { opacity: 0, duration: 0.14, ease: "power2.in" }, tBig);
+      tl.to("#gl-c0", { x: dx, y: dy, scale: big.offsetWidth / cc.offsetWidth, duration: 0.5, ease: "power3.inOut" }, tBig);
+      tl.to("#gl-c0", { opacity: 0, duration: 0.14 }, tBig + 0.48);
+      var tb = tBig + 0.44;
+      tl.fromTo("#gl-big", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, tb);
       tl.fromTo("#gl-flag", { opacity: 0, y: 30, scale: 0.6, transformOrigin: "10% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, tb + 0.25);
       tl.fromTo("#gl-pen", { skewY: 0, transformOrigin: "0% 50%" }, { skewY: -5, duration: 0.6, yoyo: true, repeat: 3, ease: "sine.inOut" }, tb + 0.6);
       tl.fromTo("#gl-fl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.3);
       tl.fromTo("#gl-big .gl-row", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.32, ease: "expo.out", stagger: 0.15 }, tb + 0.35);
-      // the run heads for the flag and is not there yet
       var trackW = document.getElementById("gl-track").offsetWidth;
       tl.fromTo("#gl-track", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tb + 0.35);
-      var FILLD = MODE === "main" ? 3.2 : 1.3;
-      tl.fromTo("#gl-fill", { scaleX: 0 }, { scaleX: 0.78, duration: FILLD, ease: "power2.out" }, tb + 0.45);
-      tl.fromTo("#gl-dot", { x: 0, opacity: 0 }, { x: trackW * 0.78, opacity: 1, duration: FILLD, ease: "power2.out" }, tb + 0.45);
-      tl.fromTo("#gl-big .gl-box", { borderColor: "rgba(255,255,255,0.55)", boxShadow: "0 0 0px rgba(46,230,255,0)" }, { borderColor: "rgba(46,230,255,1)", boxShadow: "0 0 22px rgba(46,230,255,0.8)", duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out", stagger: 0.15, immediateRender: false }, tb + 1.4);
-      // main: the finish line is held longer under its definition, so the boxes pulse once more
-      if (MODE === "main") tl.fromTo("#gl-big .gl-box", { borderColor: "rgba(255,255,255,0.55)", boxShadow: "0 0 0px rgba(46,230,255,0)" }, { borderColor: "rgba(46,230,255,1)", boxShadow: "0 0 22px rgba(46,230,255,0.8)", duration: 0.3, yoyo: true, repeat: 1, ease: "power2.out", stagger: 0.15, immediateRender: false }, tb + 4.6);
-
-      // exit: the flag flies to the next scene's checklist header (the card stays, dimmed)
-      var tEnd = SLOT - 0.45;
-      if (FULL) {
-        var fl = document.getElementById("gl-flag");
-        var tx = P ? 118 : 202,
-          ty = P ? 332 : 228;
-        tl.to("#gl-big", { opacity: 0.55, x: P ? 0 : -120, scale: 0.9, duration: 0.45, ease: "power3.inOut" }, tEnd);
-        tl.to("#gl-flag", { x: tx - (fl.offsetLeft + 48), y: ty - (fl.offsetTop + 56), scale: 0.5, transformOrigin: "50% 50%", duration: 0.45, ease: "power3.inOut" }, tEnd);
-      } else {
-        tl.to(["#gl-big", "#gl-flag"], { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.22, ease: "power3.in" }, tEnd);
-      }
+      tl.fromTo("#gl-fill", { scaleX: 0 }, { scaleX: 0.78, duration: 2.6, ease: "power2.out" }, tb + 0.45);
+      tl.fromTo("#gl-dot", { x: 0, opacity: 0 }, { x: trackW * 0.78, opacity: 1, duration: 2.6, ease: "power2.out" }, tb + 0.45);
+      // each box is a check you can run: they light up one by one, twice
+      [1.3, 2.6].forEach(function (o) {
+        tl.fromTo("#gl-big .gl-box", { borderColor: "rgba(255,255,255,0.45)" }, { borderColor: "rgba(184, 166, 255,1)", duration: 0.28, yoyo: true, repeat: 1, ease: "power2.out", stagger: 0.18, immediateRender: false }, tb + o);
+      });
+      tl.to(["#gl-big", "#gl-flag"], { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.3, ease: "power3.in" }, D - 0.32);
 
       window.__timelines["goal"] = tl;
     })();

@@ -22,7 +22,7 @@
       top: 130px;
       width: 760px;
       padding: 40px 44px 30px;
-      border-color: rgba(155, 107, 255, 0.45);
+      border-color: rgba(255, 255, 255, 0.12);
     }
     #sm-who {
       display: flex;
@@ -37,7 +37,6 @@
       height: 16px;
       border-radius: 50%;
       background: var(--purple);
-      box-shadow: 0 0 14px var(--purple);
     }
     .sm-li {
       display: flex;
@@ -54,7 +53,7 @@
       height: 14px;
       margin-top: 14px;
       border-radius: 50%;
-      background: var(--cyan);
+      background: var(--accent);
       transform: translateY(-6px);
     }
     #sm-opt {
@@ -64,8 +63,8 @@
       padding: 8px 20px;
       border-radius: 999px;
       font: 650 32px var(--sans);
-      color: var(--yellow);
-      border-color: rgba(255, 210, 63, 0.4);
+      color: var(--ink);
+      border-color: rgba(255, 255, 255, 0.14);
       z-index: 6;
     }
     #pv-chrome {
@@ -83,14 +82,7 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: #ff5f57;
-      opacity: 0.85;
-    }
-    #pv-chrome i:nth-child(2) {
-      background: #febc2e;
-    }
-    #pv-chrome i:nth-child(3) {
-      background: #28c840;
+      background: rgba(255, 255, 255, 0.22);
     }
     #pv-url {
       margin-left: 22px;
@@ -111,8 +103,8 @@
       bottom: 0;
       overflow: hidden;
       background:
-        radial-gradient(900px 520px at 85% -10%, #2a1563 0%, transparent 60%),
-        radial-gradient(700px 480px at -10% 30%, #0b3a52 0%, transparent 55%),
+        radial-gradient(900px 520px at 85% -10%, #1d1640 0%, transparent 60%),
+        radial-gradient(700px 480px at -10% 30%, #16152a 0%, transparent 55%),
         #07060f;
     }
     #pv-stars {
@@ -167,7 +159,6 @@
       height: 8px;
       border-radius: 50%;
       background: var(--green);
-      box-shadow: 0 0 12px var(--green);
     }
     .pv-h1 {
       font-size: 56px;
@@ -194,7 +185,7 @@
       font-size: 14px;
     }
     .pv-pill b {
-      color: var(--yellow);
+      color: var(--accent);
     }
     .pv-sec {
       margin-top: 40px;
@@ -203,7 +194,7 @@
       font: 600 12px/1 var(--sans);
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cyan);
+      color: var(--accent);
       margin-bottom: 14px;
     }
     .pv-h2 {
@@ -382,8 +373,8 @@
               <div class="pv-flow glass">
                 <svg class="h" viewBox="0 0 704 238">
                   <defs>
-                    <linearGradient id="pv-fg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="704" y2="238"><stop offset="0" stop-color="#9b6bff" /><stop offset="1" stop-color="#2ee6ff" /></linearGradient>
-                    <marker id="pv-ah" viewBox="0 0 8 8" refX="6" refY="4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L8 4L0 8z" fill="#2ee6ff" /></marker>
+                    <linearGradient id="pv-fg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="704" y2="238"><stop offset="0" stop-color="#9b6bff" /><stop offset="1" stop-color="#b8a6ff" /></linearGradient>
+                    <marker id="pv-ah" viewBox="0 0 8 8" refX="6" refY="4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L8 4L0 8z" fill="#b8a6ff" /></marker>
                   </defs>
                   <g fill="none" stroke="url(#pv-fg)" stroke-width="2.2" stroke-linecap="round" class="pv-dash">
                     <path d="M217 55 H247" marker-end="url(#pv-ah)" /><path d="M457 55 H487" marker-end="url(#pv-ah)" /><path d="M592 103 V135" marker-end="url(#pv-ah)" /><path d="M487 183 H457" marker-end="url(#pv-ah)" /><path d="M247 183 H217" marker-end="url(#pv-ah)" />
@@ -394,13 +385,13 @@
                     <g class="pv-node"><rect x="494" y="14" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="520" cy="55" r="13" fill="rgba(155,107,255,.22)" /><text x="520" y="59.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="544" y="51">Rebuild each</text><text x="544" y="68">page</text></g>
                     <g class="pv-node"><rect x="494" y="142" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="520" cy="183" r="13" fill="rgba(155,107,255,.22)" /><text x="520" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">4</text><text x="544" y="187.5">Verify</text></g>
                     <g class="pv-node"><rect x="254" y="142" width="196" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="280" cy="183" r="13" fill="rgba(155,107,255,.22)" /><text x="280" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">5</text><text x="304" y="179">Closeout + final</text><text x="304" y="196">report</text></g>
-                    <g class="pv-node"><rect x="14" y="142" width="196" height="82" rx="20" fill="rgba(61,255,168,.08)" stroke="#3dffa8" /><circle cx="40" cy="183" r="13" fill="#3dffa833" /><text x="40" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#3dffa8">✓</text><text x="64" y="179">Proven, then</text><text x="64" y="196">archived</text></g>
+                    <g class="pv-node"><rect x="14" y="142" width="196" height="82" rx="20" fill="rgba(95, 217, 160,.08)" stroke="#5fd9a0" /><circle cx="40" cy="183" r="13" fill="#5fd9a033" /><text x="40" y="187.5" text-anchor="middle" font-size="12" font-weight="700" fill="#5fd9a0">✓</text><text x="64" y="179">Proven, then</text><text x="64" y="196">archived</text></g>
                   </g>
                 </svg>
                 <svg class="v" viewBox="0 0 328 670">
                   <defs>
-                    <linearGradient id="pv-fgv" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="328" y2="670"><stop offset="0" stop-color="#9b6bff" /><stop offset="1" stop-color="#2ee6ff" /></linearGradient>
-                    <marker id="pv-ahv" viewBox="0 0 8 8" refX="6" refY="4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L8 4L0 8z" fill="#2ee6ff" /></marker>
+                    <linearGradient id="pv-fgv" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="328" y2="670"><stop offset="0" stop-color="#9b6bff" /><stop offset="1" stop-color="#b8a6ff" /></linearGradient>
+                    <marker id="pv-ahv" viewBox="0 0 8 8" refX="6" refY="4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L8 4L0 8z" fill="#b8a6ff" /></marker>
                   </defs>
                   <g fill="none" stroke="url(#pv-fgv)" stroke-width="2.2" stroke-linecap="round" class="pv-dash">
                     <path d="M164 103 V119" marker-end="url(#pv-ahv)" /><path d="M164 215 V231" marker-end="url(#pv-ahv)" /><path d="M164 327 V343" marker-end="url(#pv-ahv)" /><path d="M164 439 V455" marker-end="url(#pv-ahv)" /><path d="M164 551 V567" marker-end="url(#pv-ahv)" />
@@ -411,7 +402,7 @@
                     <g class="pv-nodev"><rect x="14" y="238" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="279" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="283.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">3</text><text x="64" y="283.5">Rebuild each page</text></g>
                     <g class="pv-nodev"><rect x="14" y="350" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="391" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="395.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">4</text><text x="64" y="395.5">Verify</text></g>
                     <g class="pv-nodev"><rect x="14" y="462" width="300" height="82" rx="20" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" /><circle cx="40" cy="503" r="13" fill="rgba(155,107,255,.22)" /><text x="40" y="507.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d9c9ff">5</text><text x="64" y="507.5">Closeout + final report</text></g>
-                    <g class="pv-nodev"><rect x="14" y="574" width="300" height="82" rx="20" fill="rgba(61,255,168,.08)" stroke="#3dffa8" /><circle cx="40" cy="615" r="13" fill="#3dffa833" /><text x="40" y="619.5" text-anchor="middle" font-size="12" font-weight="700" fill="#3dffa8">✓</text><text x="64" y="619.5">Proven, then archived</text></g>
+                    <g class="pv-nodev"><rect x="14" y="574" width="300" height="82" rx="20" fill="rgba(95, 217, 160,.08)" stroke="#5fd9a0" /><circle cx="40" cy="615" r="13" fill="#5fd9a033" /><text x="40" y="619.5" text-anchor="middle" font-size="12" font-weight="700" fill="#5fd9a0">✓</text><text x="64" y="619.5">Proven, then archived</text></g>
                   </g>
                 </svg>
               </div>

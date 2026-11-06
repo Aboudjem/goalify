@@ -48,7 +48,7 @@ npx skills add Aboudjem/goalify
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="ループで動く goalify。依頼がゴールになり、質問が全部先に来て、AI がひとりで働き、最後に証拠が届く。" width="88%"></a>
-  <br><sub><a href="../assets/goalify-promo.mp4">フル動画を見る</a> · <a href="../assets/goalify-promo-vertical.mp4">縦型動画</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒動画</a></sub>
+  <br><sub><a href="../assets/goalify-promo.mp4">フル動画を見る</a> · <a href="../assets/goalify-promo-vertical.mp4">縦型動画</a> · <a href="../assets/goalify-promo-30s.mp4">30 秒動画</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒動画</a></sub>
 </p>
 
 ## goalify なしと、goalify あり

@@ -10,19 +10,19 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 56px;
+      top: 70px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 30px;
     }
     #ct-mark {
-      width: 150px;
-      height: 150px;
+      width: 124px;
+      height: 124px;
       overflow: visible;
     }
     #ct-word {
-      font: 700 128px/1 var(--sans);
+      font: 700 106px/1 var(--sans);
       letter-spacing: -0.055em;
     }
     #ct-lab {
@@ -34,19 +34,19 @@
       font: 700 30px/1 var(--sans);
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cyan);
+      color: var(--dim);
     }
     #ct-box {
       position: absolute;
       left: 0;
       right: 0;
-      top: 312px;
+      top: 520px;
       margin: 0 auto;
       width: max-content;
       padding: 30px 56px;
       border-radius: 32px;
-      border-color: rgba(155, 107, 255, 0.55);
-      font: 58px/1.2 var(--mono);
+      border-color: rgba(255, 255, 255, 0.12);
+      font: 68px/1.2 var(--mono);
       color: var(--ink);
       white-space: nowrap;
     }
@@ -56,27 +56,27 @@
       margin-right: 18px;
     }
     #ct-box b {
-      font-weight: 700;
-      color: var(--purple);
+      font-weight: 600;
+      color: var(--accent);
     }
     #ct-free {
       position: absolute;
       left: 0;
       right: 0;
-      top: 490px;
+      top: 420px;
       text-align: center;
       font: 500 42px/1.2 var(--sans);
       color: var(--mute);
     }
     #ct-free b {
-      font-weight: 800;
-      color: #fff;
+      font-weight: 650;
+      color: var(--ink);
     }
     #ct-gh {
       position: absolute;
       left: 0;
       right: 0;
-      top: 590px;
+      top: 726px;
       margin: 0 auto;
       width: max-content;
       display: flex;
@@ -84,12 +84,17 @@
       gap: 16px;
       padding: 14px 32px;
       border-radius: 999px;
-      font: 650 38px var(--sans);
-      color: var(--ink);
+      font: 600 34px var(--sans);
+      color: var(--mute);
+    }
+    #ct-seam {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
     }
     @media (max-aspect-ratio: 1/1) {
       #ct-lock {
-        top: 230px;
+        top: 290px;
         gap: 24px;
       }
       #ct-mark {
@@ -104,20 +109,26 @@
         font-size: 30px;
       }
       #ct-box {
-        top: 520px;
+        top: 1000px;
         padding: 26px 40px;
-        font-size: 44px;
+        font-size: 46px;
+      }
+      #ct-free b {
+        display: block;
       }
       #ct-free {
-        top: 690px;
+        top: 830px;
+        left: 70px;
+        right: 70px;
         font-size: 44px;
       }
       #ct-gh {
-        top: 800px;
+        top: 1170px;
       }
     }
   </style>
   <div id="root" data-composition-id="cta" data-width="1920" data-height="1080">
+    <div id="ct-seam"></div>
     <div class="cam" id="ct-cam"><div class="rig" id="ct-rig">
     <div id="ct-lock">
       <svg id="ct-mark" viewBox="0 0 256 256" fill="none" aria-label="goalify mark">
@@ -125,21 +136,19 @@
           <linearGradient id="ct-ink" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="200" y2="200">
             <stop offset="0" stop-color="#8E7BFF" /><stop offset="0.52" stop-color="#A78CFF" /><stop offset="1" stop-color="#C77DFF" />
           </linearGradient>
-          <filter id="ct-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
         </defs>
-        <g filter="url(#ct-glow)" stroke="url(#ct-ink)" stroke-width="10" stroke-linecap="round">
+        <g stroke="url(#ct-ink)" stroke-width="10" stroke-linecap="round">
           <circle class="ct-ring" cx="128" cy="128" r="26" transform="rotate(-90 128 128)" />
           <circle class="ct-ring" cx="128" cy="128" r="50" transform="rotate(-90 128 128)" />
           <circle class="ct-ring" cx="128" cy="128" r="74" transform="rotate(-90 128 128)" />
         </g>
-        <g id="ct-pin" filter="url(#ct-glow)"><line x1="196" y1="60" x2="128" y2="128" stroke="url(#ct-ink)" stroke-width="14" stroke-linecap="round" /></g>
-        <circle cx="128" cy="128" r="8" fill="#fff" filter="url(#ct-glow)" />
+        <g id="ct-pin"><line x1="196" y1="60" x2="128" y2="128" stroke="url(#ct-ink)" stroke-width="14" stroke-linecap="round" /></g>
+        <circle cx="128" cy="128" r="8" fill="#fff" />
       </svg>
       <div id="ct-word">goalify</div>
     </div>
-    <div id="ct-lab">Install in one line · paste in your terminal</div>
     <div id="ct-box" class="glass"><i>$</i>npx skills add <b>Aboudjem/goalify</b></div>
-    <div id="ct-free"><b>Free.</b> <span id="ct-free-t">Also works in Codex.</span></div>
+    <div id="ct-free"><b>Free skill for your AI agents.</b> Best in Claude Code and Codex.</div>
     <div id="ct-gh" class="glass"><svg width="38" height="38" viewBox="0 0 16 16" fill="#f1edff"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z" /></svg><span>github.com/Aboudjem/goalify</span></div>
   </div></div>
   </div>
@@ -148,13 +157,7 @@
       var F = window.Film;
       var tl = gsap.timeline({ paused: true });
       F.push(tl, "#ct-cam", 9, 1, 1.03);
-      // the 15 s cut says it in one line, in the caption, so the card keeps only the install
-      // main: the caption's sub line says it, so the card keeps only the install; 15 s: the card says it
-      if (F.cut() === "short") document.getElementById("ct-free-t").textContent = "Works in Claude Code and Codex.";
-      else {
-        document.getElementById("ct-free").style.display = "none";
-        document.getElementById("ct-gh").style.top = (F.portrait() ? 690 : 490) + "px";
-      }
+      // the tagline is the film's last caption (set big as this card's headline, captions.html)
 
       document.querySelectorAll(".ct-ring").forEach(function (c, k) {
         var len = 2 * Math.PI * [26, 50, 74][k];
@@ -164,11 +167,21 @@
       tl.fromTo("#ct-word", { opacity: 0, filter: "blur(10px)", x: -14 }, { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.35, ease: "expo.out" }, 0.1);
       // the install box lands where the "what I did" card shrank to
       tl.fromTo("#ct-box", { opacity: 0, scale: 1.12, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0);
-      tl.fromTo("#ct-lab", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.2);
       tl.fromTo("#ct-free", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.35);
       tl.fromTo("#ct-gh", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.5);
-      tl.fromTo("#ct-box", { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 0 rgba(155,107,255,0)" }, { boxShadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 0 60px 0 rgba(155,107,255,0.45)", duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 1.0);
+      tl.fromTo("#ct-box", { borderColor: "rgba(255,255,255,0.12)" }, { borderColor: "rgba(184,166,255,0.45)", duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 1.0);
 
+      // loop seam (main cut): in the last 0.45 s the card dissolves into the film's exact first
+      // frame (the same bedroom, same sleepy face, same frozen laptop), so a looping player restarts clean
+      var D = F.slot("cta") || 8;
+      if (window.FILM_SEAM) {
+        var seam = document.getElementById("ct-seam");
+        seam.innerHTML = window.Toon.room("cr");
+        window.Toon.night0("cr");
+        window.Toon.mood(tl, document.getElementById("cr-char"), "focused", 0);
+        tl.to("#ct-cam", { opacity: 0, duration: 0.3, ease: "power2.in" }, D - 0.45);
+        tl.fromTo("#ct-seam", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, D - 0.45);
+      }
       window.__timelines["cta"] = tl;
     })();
   </script>

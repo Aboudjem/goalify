@@ -185,6 +185,11 @@ function shaker(t0, amp) {
   }
 }
 
+// stems for the sound report: --nomusic (effects only) / --nofx (music only), --norm <gain> to
+// reuse the full mix's gain so the stems keep their real level
+const NOMUSIC = process.argv.includes("--nomusic");
+const NOFX = process.argv.includes("--nofx");
+if (!NOMUSIC) {
 // ---- 1. the cold open: Bm pad, a bell on "Done.", a drop on the failing test ----
 pad(0, TURN + 0.3, [47, 50, 54], 0.075, 0.08);
 bass(0, TURN, 35, 0.12);
@@ -234,6 +239,139 @@ pad(PEAK, 2.6, [62, 66, 69, 74], 0.05, 0.22);
 [74, 78, 81, 86].forEach((m, k) =>
   bell(PEAK + 0.02 + k * 0.07, m, 0.08, 0.25 + k * 0.17),
 );
+
+}
+
+// ---- 5. sound effects (round 5), mixed under the bed: --fx "name@time,name@time,..." ----
+// Every effect is synthesised here (no samples). Each has a cause on screen at that time.
+let _n = 0x51f15e >>> 0;
+const nz = () => {
+  _n ^= _n << 13;
+  _n ^= _n >>> 17;
+  _n ^= _n << 5;
+  _n >>>= 0;
+  return (_n / 4294967296) * 2 - 1;
+};
+function add(i, l, r, wet) {
+  if (i < 0 || i >= N) return;
+  dryL[i] += l;
+  dryR[i] += r;
+  if (wet) {
+    wetL[i] += l * wet;
+    wetR[i] += r * wet;
+  }
+}
+function tone(t0, f, len, amp, pan, wet, decay) {
+  const i0 = Math.floor(t0 * SR),
+    n = Math.floor(len * SR);
+  for (let k = 0; k < n; k++) {
+    const tt = k / SR;
+    const env = Math.min(1, tt / 0.004) * Math.exp(-tt / (decay || len * 0.4)) * Math.min(1, (len - tt) / 0.01);
+    const v = (Math.sin(2 * Math.PI * f * tt) + 0.18 * Math.sin(6 * Math.PI * f * tt)) * env * amp;
+    add(i0 + k, v * (1 - pan), v * pan, wet);
+  }
+}
+function noise(t0, len, amp, lpA, hp, decay, wet) {
+  const i0 = Math.floor(t0 * SR),
+    n = Math.floor(len * SR);
+  let lp = 0,
+    prev = 0,
+    h = 0;
+  for (let k = 0; k < n; k++) {
+    const tt = k / SR;
+    lp += lpA * (nz() - lp);
+    h = hp ? 0.9 * (h + lp - prev) : lp;
+    prev = lp;
+    const env = Math.min(1, tt / 0.002) * Math.exp(-tt / decay);
+    const v = h * env * amp;
+    add(i0 + k, v, v, wet);
+  }
+}
+const FX = {
+  // a soft bedside alarm: three pairs of gentle beeps, then a sunrise bell
+  alarm(t) {
+    for (let g = 0; g < 3; g++) for (let b = 0; b < 2; b++) tone(t + g * 0.36 + b * 0.13, 1568, 0.09, 0.11, 0.5, 0.3, 0.06);
+    [74, 78, 81].forEach((m, k) => bell(t + 1.2 + k * 0.12, m, 0.06, 0.4 + k * 0.1));
+  },
+  chime(t) {
+    [74, 78, 81, 86].forEach((m, k) => bell(t + k * 0.11, m, 0.07, 0.3 + k * 0.13));
+  },
+  // a phone notification: two quick rising tones
+  ping(t) {
+    tone(t, 1318.5, 0.22, 0.24, 0.55, 0.5, 0.09);
+    tone(t + 0.09, 1975.5, 0.3, 0.22, 0.55, 0.5, 0.12);
+  },
+  // the facepalm: a soft slap and a low thud
+  slap(t) {
+    noise(t, 0.12, 0.5, 0.35, true, 0.025, 0.2);
+    drop(t, 170, 80, 0.22, 0.18);
+  },
+  whoosh(t) {
+    const i0 = Math.floor(t * SR),
+      n = Math.floor(0.42 * SR);
+    let lp = 0;
+    for (let k = 0; k < n; k++) {
+      const x = k / n;
+      lp += (0.03 + 0.25 * Math.sin(Math.PI * x)) * (nz() - lp);
+      const v = lp * Math.pow(Math.sin(Math.PI * x), 1.5) * 0.32;
+      add(i0 + k, v * (1 - x * 0.6), v * (0.4 + x * 0.6), 0.3);
+    }
+  },
+  pop(t) {
+    const i0 = Math.floor(t * SR),
+      n = Math.floor(0.08 * SR);
+    let ph = 0;
+    for (let k = 0; k < n; k++) {
+      const tt = k / SR;
+      ph += (2 * Math.PI * (520 + 900 * (tt / 0.08))) / SR;
+      const v = Math.sin(ph) * Math.exp(-tt / 0.025) * 0.15;
+      add(i0 + k, v, v, 0.2);
+    }
+  },
+  tick(t) {
+    tone(t, 2637, 0.05, 0.12, 0.5, 0.15, 0.015);
+    noise(t, 0.012, 0.25, 0.9, true, 0.003, 0);
+  },
+  click(t) {
+    noise(t, 0.015, 0.35, 0.8, true, 0.004, 0);
+    tone(t, 1800, 0.02, 0.06, 0.5, 0, 0.006);
+  },
+  stamp(t) {
+    drop(t, 140, 48, 0.36, 0.35);
+    noise(t, 0.09, 0.4, 0.3, false, 0.02, 0.25);
+  },
+  // a light, friendly snore: two slow breaths with a soft rumble, then a tiny whistle out
+  snore(t) {
+    for (let b = 0; b < 2; b++) {
+      const t0 = t + b * 1.6,
+        i0 = Math.floor(t0 * SR),
+        n = Math.floor(1.0 * SR);
+      let lp = 0;
+      for (let k = 0; k < n; k++) {
+        const x = k / n,
+          tt = k / SR;
+        lp += 0.04 * (nz() - lp);
+        const rumble = 0.6 + 0.4 * Math.sin(2 * Math.PI * 26 * tt);
+        const v = (lp * 3 * rumble + 0.25 * Math.sin(2 * Math.PI * 92 * tt) * rumble) * Math.pow(Math.sin(Math.PI * x), 2) * 0.12;
+        add(i0 + k, v, v, 0.15);
+      }
+      tone(t0 + 1.05, 880, 0.35, 0.03, 0.5, 0.4, 0.2);
+    }
+  },
+  // VERIFIED: a bright crash on top of the verdict drop
+  hit(t) {
+    noise(t, 0.9, 0.34, 0.7, true, 0.22, 0.5);
+  },
+};
+String(NOFX ? "" : arg("fx", ""))
+  .split(",")
+  .filter(Boolean)
+  .forEach((e) => {
+    const [name, at] = e.split("@");
+    const tt = parseFloat(at);
+    if (FX[name] && tt >= 0 && tt < DUR) FX[name](tt);
+    else if (!FX[name]) console.error("unknown fx " + name);
+  });
 
 // ---- Schroeder reverb on the wet bus ----
 function comb(buf, delaySec, fb, damp) {
@@ -285,7 +423,7 @@ for (let i = 0; i < N; i++) {
   mix[2 * i + 1] = dryR[i] + rR[i] * WET;
   peak = Math.max(peak, Math.abs(mix[2 * i]), Math.abs(mix[2 * i + 1]));
 }
-const norm = peak > 0 ? 0.8 / peak : 1;
+const norm = arg("norm", null) ? parseFloat(arg("norm")) : peak > 0 ? 0.8 / peak : 1;
 const fi = 0.05,
   fo = Math.min(2.4, DUR * 0.12);
 const buf = Buffer.alloc(44 + N * 4);
@@ -317,5 +455,5 @@ for (let i = 0; i < N; i++) {
 fs.mkdirSync(path.dirname(path.resolve(OUT)), { recursive: true });
 fs.writeFileSync(OUT, buf);
 console.log(
-  `wrote ${OUT} ${DUR.toFixed(1)}s turn=${TURN} peak=${PEAK} (pre-norm peak ${peak.toFixed(3)})`,
+  `wrote ${OUT} ${DUR.toFixed(1)}s turn=${TURN} peak=${PEAK} (pre-norm peak ${peak.toFixed(3)}, gain ${norm.toFixed(5)})`,
 );

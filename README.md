@@ -56,7 +56,7 @@ added `/goal`.
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app"><img src="assets/goalify-demo.gif" alt="goalify in a loop: your request becomes a goal, all questions come first, the AI works alone, and at the end you get proof." width="88%"></a>
-  <br><sub><a href="assets/goalify-promo.mp4">Watch the full video</a> · <a href="assets/goalify-promo-vertical.mp4">vertical video</a> · <a href="assets/goalify-promo-15s.mp4">15-second video</a></sub>
+  <br><sub><a href="assets/goalify-promo.mp4">Watch the full video</a> · <a href="assets/goalify-promo-vertical.mp4">vertical video</a> · <a href="assets/goalify-promo-30s.mp4">30-second video</a> · <a href="assets/goalify-promo-15s.mp4">15-second video</a></sub>
 </p>
 
 ## Without goalify, with goalify

@@ -10,15 +10,21 @@
     }
   </style>
   <div id="root" data-composition-id="captions" data-width="1920" data-height="1080">
-    <div id="cap-1" class="clip" data-start="0.1" data-duration="4.8" data-track-index="31"><div class="cap"><span class="capin">You ask AI<br>to do a <span class="grad">big job.</span></span></div></div>
-    <div id="cap-2" class="clip" data-start="4.95" data-duration="3" data-track-index="31"><div class="cap"><span class="capin">It keeps asking you <span class="grad">questions.</span></span></div></div>
-    <div id="cap-3" class="clip" data-start="8" data-duration="2.5" data-track-index="31"><div class="cap"><span class="capin">Meet <span class="grad">goalify.</span></span></div></div>
-    <div id="cap-4" class="clip" data-start="10.55" data-duration="8.4" data-track-index="31"><div class="cap cap-tall"><span class="capin">It turns your request into a goal.<br>A goal is a clear <span class="grad">finish line.</span></span></div></div>
-    <div id="cap-5" class="clip" data-start="19" data-duration="7.8" data-track-index="31"><div class="cap"><span class="capin">First, it asks <span class="grad">all its questions.</span><br>It checks that the plan can work.</span></div></div>
-    <div id="cap-6" class="clip" data-start="26.85" data-duration="3.6" data-track-index="31"><div class="cap"><span class="capin">Clear the chat. <span class="grad">Paste one line.</span></span></div></div>
-    <div id="cap-7" class="clip" data-start="30.5" data-duration="4.2" data-track-index="31"><div class="cap"><span class="capin">Then the AI works <span class="grad">alone,</span> for hours.</span></div></div>
-    <div id="cap-8" class="clip" data-start="34.75" data-duration="4.2" data-track-index="31"><div class="cap"><span class="capin">At the end, it shows you <span class="grad">proof.</span></span></div></div>
-    <div id="cap-9" class="clip" data-start="39" data-duration="5.4" data-track-index="31"><div class="cap cap-sub"><span class="capin">Give your AI a big job.<br>Get <span class="grad">proof</span> back.</span><span class="capsub">Free. Works in Claude Code and Codex.</span></div></div>
+    <div id="cap-1" class="clip" data-start="0" data-duration="3.5" data-track-index="31"><div class="cap"><span class="capin">11:04 PM. You give your AI<br class="pb"> a <span class="grad">big job.</span></span></div></div>
+    <div id="cap-2" class="clip" data-start="3.5" data-duration="3" data-track-index="31"><div class="cap"><span class="capin">You go to sleep.<br class="pb"> It works all night... <span class="grad">right?</span></span></div></div>
+    <div id="cap-3" class="clip" data-start="6.5" data-duration="4" data-track-index="31"><div class="cap"><span class="capin"><span class="grad">11:12 PM.</span> It stops<br class="pb"> to ask you a question.</span></div></div>
+    <div id="cap-4" class="clip" data-start="10.5" data-duration="3.5" data-track-index="31"><div class="cap"><span class="capin">7:00 AM. <span class="grad">Nothing</span> is done.</span></div></div>
+    <div id="cap-5" class="clip" data-start="14" data-duration="2.5" data-track-index="31"><div class="cap"><span class="capin">Meet <span class="grad">goalify.</span></span></div></div>
+    <div id="cap-6" class="clip" data-start="16.5" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">It turns your request<br class="pb"> into a <span class="grad">clear goal.</span></span></div></div>
+    <div id="cap-7" class="clip" data-start="20.5" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">A goal has a <span class="grad">finish line</span><br class="pb"> you can check.</span></div></div>
+    <div id="cap-8" class="clip" data-start="24.5" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">It looks online for<br class="pb"> the <span class="grad">best way</span> to do it.</span></div></div>
+    <div id="cap-9" class="clip" data-start="28.5" data-duration="3" data-track-index="31"><div class="cap"><span class="capin">It checks that the plan<br class="pb"> can <span class="grad">really work.</span></span></div></div>
+    <div id="cap-10" class="clip" data-start="31.5" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">It asks <span class="grad">every question</span> now.<br>Before you sleep.</span></div></div>
+    <div id="cap-11" class="clip" data-start="35.5" data-duration="3.5" data-track-index="31"><div class="cap"><span class="capin">Clear the chat. Paste one line.<br class="pb"> <span class="grad">Go to bed.</span></span></div></div>
+    <div id="cap-12" class="clip" data-start="39" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">This time, your AI works<br class="pb"> <span class="grad">alone</span> all night.</span></div></div>
+    <div id="cap-13" class="clip" data-start="43" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">At the end, it checks<br class="pb"> <span class="grad">every finish line.</span></span></div></div>
+    <div id="cap-14" class="clip" data-start="47" data-duration="4" data-track-index="31"><div class="cap"><span class="capin">7:00 AM.<br class="pb"> <span class="grad">Everything</span> is done.</span></div></div>
+    <div id="cap-15" class="clip" data-start="51" data-duration="6.7" data-track-index="31"><div class="cap cap-tag"><span class="capin">Set the goal. Go to sleep.<br class="pb"> <span class="grad">It's done.</span></span></div></div>
   </div>
   <script>
     (function () {
@@ -30,7 +36,7 @@
           d = parseFloat(host.getAttribute("data-duration"));
         window.Film.fitCaption(el);
         // the film's last line holds sharp to the final frame
-        window.Film.cap(tl, el, s, s + d, i === all.length - 1);
+        window.Film.cap(tl, el, s, s + d, false);
       });
       window.__timelines["captions"] = tl;
     })();

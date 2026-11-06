@@ -7,12 +7,16 @@
     <title>goalify promo (16:9)</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <link rel="stylesheet" href="assets/film.css" />
+    <link rel="stylesheet" href="assets/toon.css" />
     <script src="assets/film.js"></script>
+    <script src="assets/toon.js"></script>
     <script src="assets/camera-shake.js"></script>
     <script>
       window.FILM_CUT = "main";
-      window.FILM_SUB_DELAY = 1.1;
-      window.FILM_SKY = {"dur":44.4,"shots":[8.4,20.6,39.3],"warp":[30.6,34.65],"calm":false};
+      window.FILM_SLOTS = {"night":14,"turn":2.5,"goal":8,"research":4,"homework":7,"clear":3.5,"goodnight":4,"proof":4,"done":4,"cta":7};
+      window.FILM_SEGS = {"night":{"type":[0,3.5],"sleep":[3.5,6.5],"q":[6.5,10.5],"wake":[10.5,14]},"goal":{"cards":[0,4],"big":[4,8]},"homework":{"meter":[0,3],"ask":[3,7]}};
+      window.FILM_SEAM = true;
+      window.FILM_SKY = {"dur":58,"shots":[14.4,40.2],"warp":[],"calm":false};
     </script>
     <style>
       html,
@@ -23,19 +27,20 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="44.4" data-width="1920" data-height="1080">
-      <div id="sky" data-composition-id="sky" data-composition-src="compositions/sky.html" data-start="0" data-duration="44.4" data-track-index="0" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
-      <div id="ask" data-composition-id="ask" data-composition-src="compositions/ask.html" data-start="0" data-duration="8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
-      <div id="turn" data-composition-id="turn" data-composition-src="compositions/turn.html" data-start="8" data-duration="2.55" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
-      <div id="goal" data-composition-id="goal" data-composition-src="compositions/goal.html" data-start="10.55" data-duration="8.4" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 4"></div>
-      <div id="homework" data-composition-id="homework" data-composition-src="compositions/homework.html" data-start="18.95" data-duration="4.85" data-track-index="4" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 5"></div>
-      <div id="summary" data-composition-id="summary" data-composition-src="compositions/summary.html" data-start="23.8" data-duration="3.05" data-track-index="5" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
-      <div id="clear" data-composition-id="clear" data-composition-src="compositions/clear.html" data-start="26.85" data-duration="3.65" data-track-index="6" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 7"></div>
-      <div id="nonstop" data-composition-id="nonstop" data-composition-src="compositions/nonstop.html" data-start="30.5" data-duration="4.25" data-track-index="7" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 8"></div>
-      <div id="proof" data-composition-id="proof" data-composition-src="compositions/proof.html" data-start="34.75" data-duration="4.25" data-track-index="8" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 9"></div>
-      <div id="cta" data-composition-id="cta" data-composition-src="compositions/cta.html" data-start="39" data-duration="5.4" data-track-index="9" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 10"></div>
-      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="44.4" data-track-index="30" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index: 40"></div>
-      <audio id="music" src="assets/music-main.mp3" data-start="0" data-duration="44.4" data-track-index="20" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="58" data-width="1920" data-height="1080">
+      <div id="sky" data-composition-id="sky" data-composition-src="compositions/sky.html" data-start="0" data-duration="58" data-track-index="0" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div id="night" data-composition-id="night" data-composition-src="compositions/night.html" data-start="0" data-duration="14" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="turn" data-composition-id="turn" data-composition-src="compositions/turn.html" data-start="14" data-duration="2.5" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+      <div id="goal" data-composition-id="goal" data-composition-src="compositions/goal.html" data-start="16.5" data-duration="8" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 4"></div>
+      <div id="research" data-composition-id="research" data-composition-src="compositions/research.html" data-start="24.5" data-duration="4" data-track-index="4" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 5"></div>
+      <div id="homework" data-composition-id="homework" data-composition-src="compositions/homework.html" data-start="28.5" data-duration="7" data-track-index="5" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 6"></div>
+      <div id="clear" data-composition-id="clear" data-composition-src="compositions/clear.html" data-start="35.5" data-duration="3.5" data-track-index="6" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 7"></div>
+      <div id="goodnight" data-composition-id="goodnight" data-composition-src="compositions/goodnight.html" data-start="39" data-duration="4" data-track-index="7" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 8"></div>
+      <div id="proof" data-composition-id="proof" data-composition-src="compositions/proof.html" data-start="43" data-duration="4" data-track-index="8" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 9"></div>
+      <div id="done" data-composition-id="done" data-composition-src="compositions/done.html" data-start="47" data-duration="4" data-track-index="9" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 10"></div>
+      <div id="cta" data-composition-id="cta" data-composition-src="compositions/cta.html" data-start="51" data-duration="7" data-track-index="10" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 11"></div>
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="58" data-track-index="30" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index: 40"></div>
+      <audio id="music" src="assets/music-main.mp3" data-start="0" data-duration="58" data-track-index="20" data-volume="1"></audio>
     </div>
     <script>
       window.__timelines = window.__timelines || {};

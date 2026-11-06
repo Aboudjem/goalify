@@ -50,12 +50,11 @@
       min-width: 38px;
       padding: 1px 10px;
       border-radius: 999px;
-      background: #ff3b5c;
+      background: #c9566c;
       color: #fff;
       font: 800 22px var(--sans);
       text-align: center;
       font-variant-numeric: tabular-nums;
-      box-shadow: 0 0 16px rgba(255, 59, 92, 0.7);
     }
     #ak-clock {
       font-variant-numeric: tabular-nums;
@@ -70,7 +69,6 @@
       height: 10px;
       border-radius: 50%;
       background: var(--green);
-      box-shadow: 0 0 10px var(--green);
     }
     #ak-away {
       position: absolute;
@@ -80,9 +78,9 @@
       gap: 8px;
       padding: 7px 16px;
       border-radius: 999px;
-      color: var(--yellow);
+      color: var(--accent);
       background: #1b1630;
-      border: 1px solid rgba(255, 210, 63, 0.4);
+      border: 1px solid rgba(184, 166, 255, 0.4);
       white-space: nowrap;
     }
     #ak-body {
@@ -114,16 +112,12 @@
     }
     .ak-b.me {
       align-self: flex-end;
-      background: linear-gradient(135deg, rgba(155, 107, 255, 0.55), rgba(110, 70, 230, 0.5));
-      border-color: rgba(155, 107, 255, 0.6);
+      background: rgba(123, 98, 216, 0.55);
+      border-color: rgba(155, 107, 255, 0.3);
       font-weight: 600;
     }
     .ak-b.q {
-      border-color: rgba(46, 230, 255, 0.35);
-    }
-    .ak-b.q b {
-      color: var(--cyan);
-      margin-right: 10px;
+      border-color: rgba(255, 255, 255, 0.14);
     }
     /* "Done!" that isn't */
     #ak-done {
@@ -133,8 +127,8 @@
       top: 90px;
       padding: 30px 40px;
       border-radius: 30px;
-      background: rgba(61, 255, 168, 0.08);
-      border: 1px solid rgba(61, 255, 168, 0.45);
+      background: rgba(95, 217, 160, 0.08);
+      border: 1px solid rgba(95, 217, 160, 0.45);
     }
     #ak-dl {
       position: relative;
@@ -157,7 +151,6 @@
       height: 9px;
       border-radius: 5px;
       background: var(--red);
-      box-shadow: 0 0 22px rgba(255, 107, 139, 0.9);
       transform-origin: 0 50%;
     }
     #ak-crack {
@@ -191,8 +184,8 @@
       place-items: center;
       font: 800 28px var(--sans);
       color: var(--red);
-      background: rgba(255, 107, 139, 0.14);
-      border: 2px solid rgba(255, 107, 139, 0.6);
+      background: transparent;
+      border: 1px solid rgba(229, 138, 156, 0.5);
     }
     @media (max-aspect-ratio: 1/1) {
       #ak-win {
@@ -253,18 +246,18 @@
         <span class="ak-chip" id="ak-ex">example</span>
         <span class="ak-chip" id="ak-bell"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-6 6v4l-2 3h16l-2-3V9a6 6 0 00-6-6zm-2 15a2 2 0 004 0z" fill="#f1edff" /></svg><b id="ak-n">0</b></span>
         <span class="ak-chip" id="ak-clock">11:42 AM</span>
-        <span class="ak-chip" id="ak-you"><i></i>You: here<span id="ak-away"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" fill="#ffd23f" /></svg>You: away</span></span>
+        <span class="ak-chip" id="ak-you"><i></i>You: here<span id="ak-away"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" fill="#b8a6ff" /></svg>You: away</span></span>
       </div>
       <div id="ak-body">
         <div id="ak-stack">
           <div class="ak-b me" id="ak-req">Build a website for my bakery.</div>
           <div class="ak-b" id="ak-on">On it!</div>
-          <div class="ak-b q"><b>?</b>Which colors?</div>
-          <div class="ak-b q"><b>?</b>Got photos of the cakes?</div>
-          <div class="ak-b q"><b>?</b>Prices for the menu?</div>
-          <div class="ak-b q"><b>?</b>Which font?</div>
-          <div class="ak-b q"><b>?</b>Are you there?</div>
-          <div class="ak-b q"><b>?</b>Hello?</div>
+          <div class="ak-b q">Which colors?</div>
+          <div class="ak-b q">Got photos of the cakes?</div>
+          <div class="ak-b q">Prices for the menu?</div>
+          <div class="ak-b q">Which font?</div>
+          <div class="ak-b q">Are you there?</div>
+          <div class="ak-b q">Hello?</div>
         </div>
       </div>
     </div>

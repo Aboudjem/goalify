@@ -2,18 +2,21 @@
    Mirrors examples/sample-brief.html and .goal/recap-v3.html. */
 :root {
   --bg: #07060f;
-  --ink: #f1edff;
-  --mute: #a59cc9;
-  --dim: #8a82b6;
-  --line: rgba(255, 255, 255, 0.12);
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-hi: rgba(255, 255, 255, 0.2);
+  /* v8 minimal palette: near-black, white, two greys, ONE accent (soft violet from the brand
+     purple) and green only for success. --cyan / --pink / --yellow alias the accent. */
+  --ink: #f2f0f7;
+  --mute: #a6a2b4;
+  --dim: #8c8899;
+  --line: rgba(255, 255, 255, 0.09);
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-hi: rgba(255, 255, 255, 0.08);
   --purple: #9b6bff;
-  --cyan: #2ee6ff;
-  --pink: #ff3d9a;
-  --yellow: #ffd23f;
-  --green: #3dffa8;
-  --red: #ff6b8b;
+  --accent: #b8a6ff;
+  --cyan: var(--accent);
+  --pink: var(--accent);
+  --yellow: var(--accent);
+  --green: #5fd9a0;
+  --red: #e58a9c;
   --sans:
     -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, Inter,
     sans-serif;
@@ -44,31 +47,21 @@ body {
 .glass {
   background: var(--glass);
   border: 1px solid var(--line);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   box-shadow:
     inset 0 1px 0 var(--glass-hi),
-    0 30px 80px -30px rgba(0, 0, 0, 0.75);
+    0 24px 60px -30px rgba(0, 0, 0, 0.6);
   border-radius: 28px;
 }
 .mono {
   font-family: var(--mono);
 }
 
-/* gradient-drift word: background-position is tweened by the scene timeline */
+/* the emphasis word: v8 is one flat soft accent (no rainbow). The scene timelines still tween
+   background-position on it, which is now a no-op on a flat colour. */
 .grad {
-  background: linear-gradient(
-    90deg,
-    var(--purple),
-    var(--pink),
-    var(--yellow),
-    var(--cyan),
-    var(--purple)
-  );
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
 /* burned-in captions: generated into index.html per cut, one clip per line group */
@@ -78,16 +71,16 @@ body {
   right: 0;
   bottom: 64px;
   text-align: center;
-  color: #fff;
+  color: var(--ink);
   overflow: visible;
   z-index: 50;
 }
 .cap .capin {
   display: inline-block;
   white-space: nowrap;
-  font: 680 64px/1.13 var(--sans);
-  letter-spacing: -0.025em;
-  text-shadow: 0 2px 30px rgba(7, 6, 15, 0.95), 0 0 3px rgba(7, 6, 15, 0.9);
+  font: 560 62px/1.13 var(--sans);
+  letter-spacing: -0.022em;
+  text-shadow: 0 2px 24px rgba(7, 6, 15, 0.9), 0 0 3px rgba(7, 6, 15, 0.85);
 }
 .cap .capsub {
   display: block;
@@ -109,7 +102,23 @@ body {
   display: inline-block;
   white-space: pre;
 }
+/* the end card tagline: the last caption, set big as the card's headline */
+.cap.cap-tag {
+  bottom: auto;
+  top: 262px;
+}
+.cap.cap-tag .capin {
+  font-size: 100px;
+  font-weight: 680;
+  letter-spacing: -0.035em;
+}
 @media (max-aspect-ratio: 1/1) {
+  .cap.cap-tag {
+    top: 540px !important;
+  }
+  .cap.cap-tag .capin {
+    font-size: 96px;
+  }
   .cap {
     bottom: auto;
     top: 1110px;
@@ -140,7 +149,7 @@ body {
   font: 650 20px var(--mono);
 }
 .st.pass {
-  background: rgba(61, 255, 168, 0.12);
+  background: rgba(95, 217, 160, 0.1);
   color: var(--green);
 }
 .cmd {
@@ -148,18 +157,18 @@ body {
   font: 20px var(--mono);
   padding: 5px 12px;
   border-radius: 10px;
-  background: rgba(46, 230, 255, 0.08);
-  border: 1px solid rgba(46, 230, 255, 0.24);
-  color: var(--cyan);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ink);
 }
 .cmd.agent {
-  background: rgba(255, 210, 63, 0.08);
-  border-color: rgba(255, 210, 63, 0.28);
-  color: var(--yellow);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--mute);
 }
+/* the caption emphasis: same off-white family is too quiet, so a heavier weight in the accent */
 .cap .grad {
-  text-shadow: none;
-  filter: drop-shadow(0 2px 18px rgba(7, 6, 15, 0.85));
+  font-weight: 700;
 }
 
 /* every scene sits in a camera wrapper (slow push) holding a rig (shake) */

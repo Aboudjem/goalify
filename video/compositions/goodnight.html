@@ -1,0 +1,117 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #gn-roomwrap {
+      position: absolute;
+      inset: 0;
+    }
+    #gn-zz {
+      position: absolute;
+      left: 1110px;
+      top: 300px;
+      width: 200px;
+      height: 200px;
+    }
+    .gn-z {
+      position: absolute;
+      font: 800 56px/1 var(--sans);
+      color: #e6e3f0;
+    }
+    #gn-tag {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 30px;
+      margin: 0 auto;
+      width: max-content;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 26px;
+      border-radius: 999px;
+      font: 700 30px var(--sans);
+      color: #fff;
+      background: rgba(7, 6, 15, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    #gn-tag i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    #gn-tag em {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--mute);
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #gn-zz {
+        left: 360px;
+        top: 560px;
+      }
+      #gn-tag {
+        top: 64px;
+        font-size: 28px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="goodnight" data-width="1920" data-height="1080">
+    <div class="cam" id="gn-cam"><div class="rig" id="gn-rig">
+      <div id="gn-roomwrap"></div>
+      <div id="gn-zz"><span class="gn-z">z</span><span class="gn-z">z</span><span class="gn-z">Z</span></div>
+      <div id="gn-tag"><i></i>Claude Code and Codex <em>· example run</em></div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film,
+        T = window.Toon;
+      var P = F.portrait();
+      var D = F.slot("goodnight") || 4;
+      var tl = gsap.timeline({ paused: true });
+      F.push(tl, "#gn-cam", D + 2, 1, 1.035);
+      document.getElementById("gn-roomwrap").innerHTML = T.room("gr");
+      var face = document.getElementById("gr-char");
+      var LY = P ? 70 : 112;
+      // the same bedroom, the good night: lamp off, he sleeps smiling, the laptop works alone
+      gsap.set(["#gr-ring", "#gr-mug", "#gr-sun", "#gr-sunwall", "#gr-cone", "#gr-laptop .lp-chat", "#gr-laptop .lp-wait", "#gr-laptop .lp-done", "#gr-laptop .lp-site", "#gr-char .c-hand"], { opacity: 0 });
+      gsap.set("#gr-shade", { opacity: 0.6 });
+      gsap.set("#gr-room .rm-cloud", { opacity: 0 });
+      gsap.set("#gr-lamp .lamp-shade", { fill: "#6d5f8e" });
+      gsap.set("#gr-char", { y: LY, rotation: -5, transformOrigin: "50% 80%" });
+      T.mood(tl, face, "smilesleep", 0);
+      tl.fromTo("#gn-roomwrap", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+      tl.fromTo("#gn-tag", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.2);
+      var run = D - 0.75;
+      // the night time-lapse in the window: the stars wheel, the moon crosses, dawn starts
+      tl.fromTo("#gr-stars", { rotation: 0 }, { rotation: 38, duration: run, ease: "power1.in" }, 0.2);
+      tl.fromTo("#gr-moon", { x: -170, y: 60 }, { keyframes: [{ x: -20, y: -30, duration: run * 0.5, ease: "sine.out" }, { x: 130, y: 70, duration: run * 0.5, ease: "sine.in" }] }, 0.2);
+      tl.fromTo("#gr-sky2", { opacity: 0 }, { opacity: 0.35, duration: run * 0.4, ease: "sine.in" }, 0.2 + run * 0.6);
+      // the wall clock spins 11:30 PM -> 6:48 AM (7 h 18 min, the same numbers as the summary)
+      T.clock(tl, "gr", 23 * 60 + 30, 24 * 60 + 6 * 60 + 48, 0.2, run, true);
+      // the laptop: 1 -> 6 of 6 pages, questions asked: 0 (a tick lands on 6 of 6)
+      var kEl = document.querySelector("#gr-laptop .lp-prog .lp-k");
+      var pr = { v: 1 };
+      tl.fromTo(pr, { v: 1 }, { v: 6, duration: run, ease: "power1.in", onUpdate: function () { kEl.textContent = Math.floor(pr.v + 0.0001); } }, 0.2);
+      tl.fromTo("#gr-laptop .lp-prog .lp-bar b", { scaleX: 1 / 6 }, { scaleX: 1, duration: run, ease: "power1.in" }, 0.2);
+      tl.fromTo("#gr-laptop .lp-prog .lp-n", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, 0.2 + run);
+      // zzz from the sleeper
+      document.querySelectorAll(".gn-z").forEach(function (z, i) {
+        z.style.left = 20 + i * 46 + "px";
+        z.style.top = 120 - i * 48 + "px";
+        z.style.fontSize = 40 + i * 16 + "px";
+        gsap.set(z, { opacity: 0 });
+        for (var o = 0.4 + i * 0.3; o < D - 1.0; o += 1.6) tl.fromTo(z, { opacity: 0, y: 20, x: 0 }, { keyframes: [{ opacity: 1, y: -16, x: 8, duration: 0.6, ease: "sine.out" }, { opacity: 0, y: -56, x: 22, duration: 0.6, ease: "sine.in" }], immediateRender: false }, o);
+      });
+      tl.fromTo("#gr-char", { y: LY }, { y: LY + 5, duration: 0.8, yoyo: true, repeat: 2, ease: "sine.inOut", immediateRender: false }, 0.4);
+      tl.to(["#gn-roomwrap", "#gn-tag", "#gn-zz"], { opacity: 0, duration: 0.28, ease: "power2.in" }, D - 0.3);
+      window.__timelines["goodnight"] = tl;
+    })();
+  </script>
+</template>

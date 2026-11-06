@@ -58,7 +58,7 @@ Cette version a ajouté `/goal`.
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="goalify en boucle : votre demande devient un objectif, toutes les questions viennent d'abord, l'IA travaille seule, et à la fin vous recevez une preuve." width="88%"></a>
-  <br><sub><a href="../assets/goalify-promo.mp4">Voir la vidéo complète</a> · <a href="../assets/goalify-promo-vertical.mp4">vidéo verticale</a> · <a href="../assets/goalify-promo-15s.mp4">vidéo de 15 secondes</a></sub>
+  <br><sub><a href="../assets/goalify-promo.mp4">Voir la vidéo complète</a> · <a href="../assets/goalify-promo-vertical.mp4">vidéo verticale</a> · <a href="../assets/goalify-promo-30s.mp4">vidéo de 30 secondes</a> · <a href="../assets/goalify-promo-15s.mp4">vidéo de 15 secondes</a></sub>
 </p>
 
 ## Sans goalify, avec goalify

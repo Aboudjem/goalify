@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **New promo video.** The README, the landing page and `assets/` now use the 58 s film from the launch
+  post: a bakery website over two nights, in a calmer, more minimal style. Adds a 30 s cut
+  (`assets/goalify-promo-30s.mp4`). The files attached to the v3.0.0 release stay as published.
+- `assets/social-preview.png` now matches the image set on GitHub.
+
+### Fixed
+
+- `video/scripts/render-all.sh` takes the poster from `compositions/poster.html`. It used to grab a
+  fixed second of the film, which no longer landed on the right scene.
+
 ## [3.0.0] - 2026-11-03
 
 See the run before it starts, check it after it ends. goalify now opens a preview of every run,

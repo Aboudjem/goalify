@@ -90,7 +90,7 @@
     if (w > avail) inner.style.fontSize = Math.max(48, Math.floor((base * avail) / w)) + "px";
   }
   // kinetic caption: words spring in one by one (scale + rise + blur), the key word (.grad)
-  // lands last-ish with a glow pulse; the line blurs out just before its clip ends
+  // lands last-ish with a small scale nudge (v8: no glow); the line blurs out just before its clip ends
   function cap(tl, el, start, end, hold) {
     var inner = el.querySelector(".capin");
     var sub = el.querySelector(".capsub");
@@ -112,8 +112,7 @@
         kw.push(x.closest(".w") || x);
       });
       var tk = start + 0.65;
-      tl.fromTo(kw, { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tk);
-      tl.fromTo(g, { filter: "drop-shadow(0 0 0px rgba(155,107,255,0))" }, { filter: "drop-shadow(0 0 18px rgba(155,107,255,0.85))", duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, tk);
+      tl.fromTo(kw, { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tk);
     }
     if (!hold) tl.to(sub ? [inner, sub] : inner, { opacity: 0, y: -8, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, end - 0.18);
   }
@@ -128,7 +127,7 @@
   function burst(tl, box, x, y, t, opts) {
     opts = opts || {};
     var R = rng(opts.seed || 1);
-    var cols = opts.colors || ["#3dffa8", "#ffffff", "#2ee6ff"];
+    var cols = opts.colors || ["#5fd9a0", "#ffffff", "#b8a6ff"];
     var n = opts.n || 10,
       dist = opts.dist || 90,
       dur = opts.dur || 0.6;
@@ -138,7 +137,7 @@
       var c = cols[(R() * cols.length) | 0];
       d.style.cssText =
         "position:absolute;pointer-events:none;left:" + (x - sz / 2) + "px;top:" + (y - sz / 2) + "px;width:" + sz + "px;height:" + sz + "px;background:" + c + ";" +
-        (opts.star ? "clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);" : "border-radius:50%;box-shadow:0 0 " + (6 + sz) + "px " + c + ";");
+        (opts.star ? "clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);" : "border-radius:50%;");
       box.appendChild(d);
       var a = R() * Math.PI * 2,
         r = dist * (0.45 + R() * 0.7);
@@ -174,6 +173,16 @@
     return window.FILM_CUT || "main";
   }
 
+  // the cut table (scripts/build-roots.js) gives each scene its slot length and, for scenes that
+  // hold several beats, the [start, end] of each beat on the scene's own clock (null: not in this cut)
+  function slot(id) {
+    return (window.FILM_SLOTS || {})[id] || 0;
+  }
+  function seg(id, name) {
+    var g = (window.FILM_SEGS || {})[id];
+    return g && g[name] ? g[name] : null;
+  }
+
   function portrait() {
     return window.matchMedia("(max-aspect-ratio: 1/1)").matches;
   }
@@ -190,5 +199,7 @@
     burst: burst,
     shake: shake,
     cut: cut,
+    slot: slot,
+    seg: seg,
   };
 })();

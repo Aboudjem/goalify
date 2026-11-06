@@ -1,0 +1,244 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #rs-bar {
+      position: absolute;
+      left: 410px;
+      top: 92px;
+      width: 1100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 0 34px;
+      border-radius: 999px;
+      border-color: rgba(255, 255, 255, 0.14);
+      font: 600 40px var(--sans);
+      color: var(--ink);
+    }
+    #rs-q {
+      flex: 1;
+      white-space: nowrap;
+    }
+    #rs-go {
+      padding: 8px 24px;
+      border-radius: 999px;
+      font: 700 26px var(--sans);
+      color: #0a0818;
+      background: var(--accent);
+    }
+    .rs-card {
+      position: absolute;
+      top: 250px;
+      width: 500px;
+      height: 410px;
+      padding: 0 0 26px;
+      overflow: hidden;
+    }
+    #rs-c0 {
+      left: 170px;
+    }
+    #rs-c1 {
+      left: 710px;
+    }
+    #rs-c2 {
+      left: 1250px;
+    }
+    .rs-chrome {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .rs-chrome i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.28);
+    }
+    .rs-thumb {
+      height: 150px;
+      margin: 18px 22px 0;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* the thumbnails are texture: muted so the titles and ticks win the squint test */
+    .rs-thumb {
+      filter: saturate(0) brightness(0.55);
+    }
+    .rs-thumb b {
+      position: absolute;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .rs-tag {
+      display: inline-block;
+      margin: 18px 24px 0;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font: 700 20px var(--sans);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mute);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .rs-tag.ex {
+      color: var(--mute);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .rs-t {
+      margin: 12px 24px 0;
+      font: 680 38px/1.12 var(--sans);
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+    .rs-ok {
+      position: absolute;
+      right: 18px;
+      top: 74px;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 800 34px var(--sans);
+      color: #0a0818;
+      background: var(--green);
+      z-index: 3;
+    }
+    #rs-best {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 712px;
+      margin: 0 auto;
+      width: max-content;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      font: 700 36px var(--sans);
+      color: var(--green);
+      border-color: rgba(95, 217, 160, 0.35);
+    }
+    #rs-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #rs-bar {
+        left: 50px;
+        top: 190px;
+        width: 980px;
+        height: 96px;
+        font-size: 38px;
+      }
+      .rs-card {
+        left: 50px !important;
+        width: 980px;
+        height: 230px;
+        padding: 0;
+      }
+      #rs-c0 {
+        top: 330px;
+      }
+      #rs-c1 {
+        top: 580px;
+      }
+      #rs-c2 {
+        top: 830px;
+      }
+      .rs-chrome {
+        display: none;
+      }
+      .rs-thumb {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 250px;
+        height: auto;
+        margin: 0;
+        border-radius: 0;
+      }
+      .rs-tag {
+        margin: 34px 0 0 282px;
+      }
+      .rs-t {
+        margin: 12px 110px 0 282px;
+        font-size: 44px;
+      }
+      .rs-ok {
+        top: 82px;
+        right: 26px;
+      }
+      #rs-best {
+        top: 1380px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="research" data-width="1920" data-height="1080">
+    <div class="cam" id="rs-cam"><div class="rig" id="rs-rig">
+      <div id="rs-bar" class="glass"><svg width="44" height="44" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" stroke="#b8a6ff" stroke-width="2.4" fill="none" /><path d="M15.5 15.5L21 21" stroke="#b8a6ff" stroke-width="2.6" stroke-linecap="round" /></svg><span id="rs-q" data-text="best way to build a bakery website"></span><span id="rs-go">Search</span></div>
+      <div class="rs-card glass" id="rs-c0">
+        <div class="rs-chrome"><i></i><i></i><i></i></div>
+        <div class="rs-thumb" style="background: linear-gradient(135deg, #ff8fb8, #b8a6ff)"><b style="left: 20px; top: 20px; width: 140px; height: 18px"></b><b style="left: 20px; top: 52px; width: 220px; height: 12px"></b><b style="left: 20px; top: 76px; width: 180px; height: 12px"></b></div>
+        <span class="rs-tag">Guide</span>
+        <div class="rs-t">What makes bakery sites sell</div>
+        <div class="rs-ok">✓</div>
+      </div>
+      <div class="rs-card glass" id="rs-c1">
+        <div class="rs-chrome"><i></i><i></i><i></i></div>
+        <div class="rs-thumb" style="background: linear-gradient(135deg, #9b6bff, #b8a6ff)"><b style="left: 20px; top: 26px; width: 80px; height: 80px; border-radius: 50%"></b><b style="left: 120px; top: 26px; width: 80px; height: 80px; border-radius: 50%"></b><b style="left: 220px; top: 26px; width: 80px; height: 80px; border-radius: 50%"></b></div>
+        <span class="rs-tag ex">Example</span>
+        <div class="rs-t">A menu with photos and prices</div>
+        <div class="rs-ok">✓</div>
+      </div>
+      <div class="rs-card glass" id="rs-c2">
+        <div class="rs-chrome"><i></i><i></i><i></i></div>
+        <div class="rs-thumb" style="background: linear-gradient(135deg, #b8a6ff, #5fd9a0)"><b style="left: 20px; top: 22px; width: 200px; height: 16px"></b><b style="left: 20px; top: 92px; width: 130px; height: 38px; border-radius: 19px"></b></div>
+        <span class="rs-tag">Guide</span>
+        <div class="rs-t">Simple online orders</div>
+        <div class="rs-ok">✓</div>
+      </div>
+      <div id="rs-best" class="glass"><svg width="34" height="40" viewBox="0 0 120 140"><line x1="14" y1="8" x2="14" y2="136" stroke="#f1edff" stroke-width="10" stroke-linecap="round" /><path d="M17 12 C50 2 70 26 110 14 L110 64 C70 76 50 52 17 62 Z" fill="#5fd9a0" /></svg>Best way found</div>
+      <div id="rs-fx"></div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film;
+      var D = F.slot("research") || 4;
+      var tl = gsap.timeline({ paused: true });
+      F.push(tl, "#rs-cam", D, 1, 1.04);
+      tl.fromTo("#rs-bar", { opacity: 0, y: -20, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 0);
+      F.type(tl, document.getElementById("rs-q"), 0.15, 0.7);
+      tl.fromTo(".rs-card", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.15 }, 0.6);
+      tl.fromTo(".rs-ok", { scale: 0, opacity: 0 }, { scale: 0, opacity: 0, duration: 0.01 }, 0);
+      var fx = document.getElementById("rs-fx");
+      // each source is read and kept (ticks at +1.3, +1.9, +2.5)
+      ["#rs-c0", "#rs-c1", "#rs-c2"].forEach(function (sel, i) {
+        var t = 1.3 + i * 0.6;
+        var card = document.querySelector(sel),
+          ok = card.querySelector(".rs-ok");
+        tl.to(ok, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(3)" }, t - 0.05);
+        tl.to(card, { borderColor: "rgba(95, 217, 160,0.6)", duration: 0.2 }, t);
+        tl.fromTo(card, { scale: 1 }, { scale: 1.03, duration: 0.14, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, t);
+        F.burst(tl, fx, card.offsetLeft + ok.offsetLeft + 33, card.offsetTop + ok.offsetTop + 33, t + 0.05, { n: 10, dist: 70, seed: 60 + i, dur: 0.5, size: 7 });
+      });
+      tl.fromTo("#rs-best", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 3.0);
+      tl.to(["#rs-bar", ".rs-card", "#rs-best"], { opacity: 0, filter: "blur(12px)", duration: 0.25, ease: "power3.in" }, D - 0.3);
+      window.__timelines["research"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,409 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #wk-roomwrap {
+      position: absolute;
+      inset: 0;
+    }
+    #wk-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 6, 15, 0.62);
+      opacity: 0;
+    }
+    #wk-chat {
+      position: absolute;
+      left: 200px;
+      top: 70px;
+      width: 1240px;
+      height: 720px;
+      overflow: hidden;
+      background: rgba(14, 11, 30, 0.86);
+    }
+    #wk-bar {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 30px;
+      border-bottom: 1px solid var(--line);
+      font: 600 28px var(--sans);
+      color: var(--ink);
+    }
+    .wk-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 18px;
+      border-radius: 999px;
+      font: 600 24px var(--sans);
+      color: var(--dim);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+    }
+    #wk-now {
+      margin-left: auto;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    #wk-stack {
+      position: absolute;
+      left: 44px;
+      right: 44px;
+      top: 116px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .wk-b {
+      position: relative;
+      max-width: 78%;
+      padding: 20px 30px;
+      border-radius: 30px;
+      font: 550 42px/1.2 var(--sans);
+      letter-spacing: -0.015em;
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .wk-b small {
+      display: block;
+      margin-top: 6px;
+      font: 600 22px var(--sans);
+      color: var(--dim);
+    }
+    .wk-b.me {
+      align-self: flex-end;
+      background: rgba(123, 98, 216, 0.6);
+      border-color: rgba(155, 107, 255, 0.3);
+      font-weight: 650;
+    }
+    .wk-b.me small {
+      color: rgba(241, 237, 255, 0.8);
+    }
+    /* the question: no glyph glued on its left, just the words and the time it was sent */
+    #wk-q {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      border: 1px solid rgba(184, 166, 255, 0.4);
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 650;
+    }
+    #wk-stamp {
+      flex: none;
+      padding: 8px 18px;
+      border-radius: 14px;
+      font: 650 30px var(--sans);
+      font-variant-numeric: tabular-nums;
+      color: var(--mute);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    #wk-pingring {
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      width: 120px;
+      height: 120px;
+      margin: -60px -60px 0 0;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #wk-wait {
+      align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 6px 4px;
+    }
+    #wk-wt {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font: 650 38px var(--sans);
+      color: var(--mute);
+    }
+    #wk-prog {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font: 600 28px var(--sans);
+      color: var(--mute);
+    }
+    #wk-prog i {
+      width: 360px;
+      height: 14px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    #wk-me {
+      position: absolute;
+      left: 1488px;
+      top: 430px;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: linear-gradient(180deg, #e6b896, #d49ab2 60%, #7b62d8);
+      border: 3px solid rgba(241, 237, 255, 0.5);
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+    }
+    #wk-mef {
+      position: absolute;
+      left: 30px;
+      top: 46px;
+      width: 290px;
+      height: 290px;
+    }
+    #wk-melab {
+      position: absolute;
+      left: 1488px;
+      top: 796px;
+      width: 350px;
+      text-align: center;
+      font: 700 26px var(--sans);
+      color: var(--ink);
+    }
+    /* a small goalify mark in the corner, early (a brand pulse, not a logo intro) */
+    #wk-brand {
+      position: absolute;
+      right: 36px;
+      top: 26px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 20px 8px 10px;
+      border-radius: 999px;
+      background: rgba(7, 6, 15, 0.55);
+      font: 700 34px/1 var(--sans);
+      letter-spacing: -0.04em;
+      color: #fff;
+    }
+    #wk-brand svg {
+      width: 46px;
+      height: 46px;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #wk-brand {
+        top: 60px;
+      }
+      #wk-chat {
+        left: 40px;
+        top: 440px;
+        width: 1000px;
+        height: 630px;
+      }
+      #wk-bar {
+        height: 74px;
+        font-size: 26px;
+        padding: 0 24px;
+      }
+      .wk-chip {
+        font-size: 22px;
+        padding: 6px 14px;
+      }
+      #wk-stack {
+        left: 28px;
+        right: 28px;
+        top: 98px;
+        gap: 18px;
+      }
+      .wk-b {
+        max-width: 92%;
+        font-size: 40px;
+        padding: 16px 26px;
+      }
+      #wk-prog i {
+        width: 300px;
+      }
+      #wk-me {
+        left: 60px;
+        top: 150px;
+        width: 270px;
+        height: 270px;
+      }
+      #wk-mef {
+        left: 20px;
+        top: 34px;
+        width: 230px;
+        height: 230px;
+      }
+      #wk-melab {
+        left: 360px;
+        top: 250px;
+        width: auto;
+        text-align: left;
+        font-size: 40px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="wake" data-width="1920" data-height="1080">
+    <div class="cam" id="wk-cam"><div class="rig" id="wk-rig">
+      <div id="wk-roomwrap"></div>
+      <div id="wk-dim"></div>
+      <div id="wk-chat" class="glass">
+        <div id="wk-bar"><span>AI chat</span><span class="wk-chip">example</span><span class="wk-chip" id="wk-now">7:00 AM</span></div>
+        <div id="wk-stack">
+          <div class="wk-b me" id="wk-req">Build a website for my bakery.<small>11:04 PM</small></div>
+          <div class="wk-b" id="wk-on">On it!<small>11:05 PM</small></div>
+          <div class="wk-b" id="wk-q"><span>Which font do you like?</span><span id="wk-stamp">11:12 PM</span><span id="wk-pingring"></span></div>
+          <div id="wk-wait">
+            <div id="wk-wt"><svg width="36" height="36" viewBox="0 0 24 24"><path d="M6 2h12v5l-4 5 4 5v5H6v-5l4-5-4-5z" fill="none" stroke="#a6a2b4" stroke-width="2" stroke-linejoin="round" /><path d="M9 20h6l-3-3z" fill="#a6a2b4" /></svg><span>Waiting for your answer...</span></div>
+            <div id="wk-prog"><i></i><span>0 of 6 pages built</span></div>
+          </div>
+        </div>
+      </div>
+      <div id="wk-me"><div id="wk-mef"></div></div>
+      <div id="wk-melab">You, at 7:00 AM</div>
+      <div id="wk-brand"><svg viewBox="0 0 256 256" fill="none"><g stroke="#a78cff" stroke-width="16" stroke-linecap="round"><circle cx="128" cy="128" r="26" /><circle cx="128" cy="128" r="56" /><circle cx="128" cy="128" r="86" /></g><line x1="200" y1="56" x2="128" y2="128" stroke="#c77dff" stroke-width="20" stroke-linecap="round" /><circle cx="128" cy="128" r="10" fill="#fff" /></svg>goalify</div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film,
+        T = window.Toon;
+      var P = F.portrait();
+      var D = F.slot("wake") || 11;
+      var R = F.seg("wake", "room"),
+        C = F.seg("wake", "chat"),
+        Q = F.seg("wake", "q");
+      var tl = gsap.timeline({ paused: true });
+      F.push(tl, "#wk-cam", D, 1, 1.04);
+
+      var wrap = document.getElementById("wk-roomwrap");
+      wrap.innerHTML = T.room("wk");
+      document.getElementById("wk-mef").innerHTML = T.face();
+      var roomFace = document.getElementById("wk-face"),
+        meFace = document.getElementById("wk-mef");
+      gsap.set(["#wk-mug", "#wk-laptop .lp-site", "#wk-laptop .lp-done", "#wk-face .f-hand"], { opacity: 0 });
+      var LOOP = F.cut() === "loop";
+      var COLD = !!Q && Q[0] < 0.05 && !LOOP; // the cold-open hook starts on the 11:12 PM question
+      var AFTER = !!R && !!Q && R[0] > Q[0]; // ... and the morning comes after it
+
+      // the laptop on the blanket: the chat window grows out of its screen
+      var lap = document.getElementById("wk-laptop"),
+        chat = document.getElementById("wk-chat");
+      var lx = lap.offsetLeft + lap.offsetWidth / 2,
+        ly = lap.offsetTop + lap.offsetHeight * 0.42;
+      var cx = chat.offsetLeft + chat.offsetWidth / 2,
+        cy = chat.offsetTop + chat.offsetHeight / 2;
+      var origin = ((lx / (P ? 1080 : 1920)) * 100).toFixed(1) + "% " + ((ly / (P ? 1920 : 1080)) * 100).toFixed(1) + "%";
+
+      // the brand, small, in the corner from 0.6 s
+      if (!LOOP) tl.fromTo("#wk-brand", { opacity: 0, x: 20 }, { opacity: 0.9, x: 0, duration: 0.4, ease: "expo.out" }, 0.6);
+      else gsap.set("#wk-brand", { opacity: 0 });
+
+      // ---- beat 1: 7:00 AM, sunrise, the alarm, a sleepy face; the laptop already says it all ----
+      T.mood(tl, roomFace, "sleep", 0);
+      var r0 = R ? R[0] : 0,
+        r1 = R ? R[1] : 0.01;
+      var SUN = Math.max(2.5, r1 - r0 + 1.5);
+      if (LOOP) {
+        // the README loop restarts from the end of the film: the same morning sky
+        gsap.set("#wk-sun", { y: -10 });
+        gsap.set(["#wk-sky2", "#wk-glow", "#wk-beam"], { opacity: 1 });
+      } else {
+        tl.fromTo("#wk-sun", { y: 210 }, { y: 10, duration: SUN, ease: "sine.out" }, r0);
+        tl.fromTo("#wk-sky2", { opacity: 0.15 }, { opacity: 1, duration: SUN, ease: "sine.inOut" }, r0);
+        tl.fromTo(["#wk-glow", "#wk-beam"], { opacity: 0.25 }, { opacity: 1, duration: SUN, ease: "sine.inOut" }, r0);
+      }
+      if (R) {
+        // the alarm rings (sound at +0.15): the clock buzzes, the rings flicker
+        var ta = r0 + 0.15;
+        tl.fromTo("#wk-ring", { opacity: 0 }, { opacity: 1, duration: 0.12, yoyo: true, repeat: 7, ease: "none" }, ta);
+        for (var k = 0; k < 14; k++) tl.to("#wk-clock", { rotation: k % 2 ? -3 : 3, duration: 0.07, ease: "none" }, ta + k * 0.075);
+        tl.to("#wk-clock", { rotation: 0, duration: 0.1 }, ta + 1.05);
+        // the frozen laptop pulses once: nothing moved all night
+        tl.fromTo("#wk-laptop .lp-st", { opacity: 1 }, { opacity: 0.5, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, r0 + 0.5);
+        // one eye at a time: groggy, crusty, then a big yawn
+        T.mood(tl, roomFace, "groggy", r0 + 1.05);
+        tl.fromTo("#wk-face .e-groggy", { scaleY: 0.3, transformOrigin: "50% 50%" }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, r0 + 1.05);
+        tl.fromTo("#wk-face", { rotation: 0, transformOrigin: "50% 80%" }, { rotation: -4, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, r0 + 1.0);
+        T.mood(tl, roomFace, "yawn", r0 + 1.95);
+        tl.fromTo("#wk-face .m-yawn", { scale: 0.4, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, r0 + 1.95);
+        T.mood(tl, roomFace, "groggy", r0 + 2.75);
+      }
+      if (!R || AFTER) T.mood(tl, roomFace, "groggy", 0);
+      if (AFTER) T.mood(tl, roomFace, "sleep", R[0] - 0.01);
+
+      // ---- beat 2: the chat on the laptop: the AI did nothing all night ----
+      var E = C ? C[0] : Q ? Q[0] : 0;
+      var fromRest = E < 0.05;
+      tl.fromTo("#wk-roomwrap", { scale: fromRest ? 1.5 : 1, filter: fromRest ? "blur(10px)" : "blur(0px)", transformOrigin: origin }, { scale: 1.5, filter: "blur(10px)", duration: fromRest ? 0.01 : 0.55, ease: "power3.inOut" }, E);
+      tl.fromTo("#wk-dim", { opacity: fromRest ? 1 : 0 }, { opacity: 1, duration: fromRest ? 0.01 : 0.5 }, E);
+      // the room's own text leaves the blurred background so it never sits under the chat
+      tl.fromTo(["#wk-clock", "#wk-laptop .lp-wait"], { opacity: fromRest ? 0 : 1 }, { opacity: 0, duration: fromRest ? 0.01 : 0.3 }, E);
+      // README loop: the chat fades in over the blurred room; cold open: it is there at frame 0;
+      // otherwise it grows out of the laptop screen
+      var cFrom = LOOP ? { opacity: 0, x: 0, y: 0, scale: 0.97 } : fromRest ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: lx - cx, y: ly - cy, scale: 0.26 };
+      tl.fromTo("#wk-chat", cFrom, { opacity: 1, x: 0, y: 0, scale: 1, duration: LOOP ? 0.35 : fromRest ? 0.01 : 0.55, ease: LOOP ? "expo.out" : "power3.inOut" }, E);
+      tl.fromTo(["#wk-me", "#wk-melab"], { opacity: COLD ? 1 : 0, scale: COLD ? 1 : 0.6 }, { opacity: 1, scale: 1, duration: COLD ? 0.01 : 0.4, ease: "back.out(2)", stagger: COLD ? 0 : 0.08 }, COLD ? 0 : E + 0.45);
+      T.mood(tl, meFace, "groggy", 0);
+      gsap.set("#wk-mef .f-hand", { opacity: 1, y: 300 });
+      tl.fromTo("#wk-q", { opacity: COLD ? 1 : 0.32 }, { opacity: COLD ? 1 : 0.32, duration: 0.01 }, 0);
+      tl.fromTo("#wk-stamp", { opacity: COLD ? 1 : 0 }, { opacity: COLD ? 1 : 0, duration: 0.01 }, 0);
+      if (COLD) tl.fromTo(["#wk-req", "#wk-on"], { opacity: 0.35 }, { opacity: 0.35, duration: 0.01 }, 0);
+      tl.fromTo("#wk-wait", { opacity: COLD ? 0.35 : 0, y: COLD ? 0 : 12 }, { opacity: COLD ? 0.35 : 1, y: 0, duration: COLD ? 0.01 : 0.35, ease: "expo.out" }, COLD ? 0 : E + 0.55);
+      if (C) {
+        tl.fromTo("#wk-wt", { opacity: 1 }, { opacity: 0.45, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, C[0] + 1.2);
+        tl.fromTo("#wk-mef .e-groggy", { scaleY: 1, transformOrigin: "50% 50%" }, { scaleY: 0.45, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, C[0] + 2.1);
+      }
+
+      // ---- beat 3: it stopped at 11:12 PM, to ask you this ----
+      if (Q) {
+        var tp = Q[0] + 0.6; // the ping (sound at seg +0.6)
+        if (!COLD) {
+          var q0 = Q[0] + (fromRest ? 0.2 : C ? 0 : 0.55);
+          tl.to(["#wk-req", "#wk-on", "#wk-wait"], { opacity: 0.35, duration: 0.3 }, q0);
+          tl.to("#wk-q", { opacity: 1, duration: 0.25 }, q0);
+          tl.fromTo("#wk-q", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.08, duration: 0.35, ease: "back.out(2)", immediateRender: false }, q0);
+          tl.fromTo("#wk-stamp", { opacity: 0, scale: 2, rotation: -10 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.22, ease: "power4.in", immediateRender: false }, tp - 0.22);
+        } else {
+          tl.fromTo("#wk-q", { scale: 1.08, transformOrigin: "0% 50%" }, { scale: 1.08, duration: 0.01 }, 0);
+          tl.fromTo("#wk-stamp", { scale: 1 }, { scale: 1.25, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tp);
+        }
+        tl.fromTo("#wk-pingring", { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 2.4, duration: 0.6, ease: "power2.out", immediateRender: false }, tp);
+        tl.fromTo("#wk-pingring", { opacity: 0.7, scale: 0.4 }, { opacity: 0, scale: 2.4, duration: 0.6, ease: "power2.out", immediateRender: false }, tp + 0.3);
+        tl.fromTo("#wk-q", { borderColor: "rgba(184, 166, 255,0.4)" }, { borderColor: "rgba(184, 166, 255,0.9)", duration: 0.4, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, tp);
+        // the facepalm (sound at the same offset, build-roots.js)
+        var tf = Q[0] + Math.min(2.3, Q[1] - Q[0] - 0.9);
+        tl.fromTo("#wk-mef .f-hand", { y: 300 }, { y: -34, duration: 0.2, ease: "power3.in", immediateRender: false }, tf - 0.2);
+        F.shake(tl, "#wk-me", tf, 0.26, 0.5);
+        tl.to("#wk-melab", { opacity: 0, duration: 0.15 }, tf - 0.1);
+      }
+
+      // the cold open: after the question, the chat falls away and the morning comes into focus
+      if (AFTER) {
+        var ra = R[0] - 0.3;
+        tl.to(["#wk-chat", "#wk-me"], { y: P ? 1500 : 1000, rotation: 6, opacity: 0, duration: 0.3, ease: "power3.in" }, ra);
+        tl.to("#wk-roomwrap", { scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, R[0] - 0.1);
+        tl.to("#wk-dim", { opacity: 0, duration: 0.4 }, R[0] - 0.1);
+        tl.to(["#wk-clock", "#wk-laptop .lp-wait"], { opacity: 1, duration: 0.3 }, R[0]);
+      }
+
+      // exit: the chat freezes and drops out of frame as goalify ignites behind it
+      var tEnd = D - 0.34;
+      if (!LOOP) {
+        if (!AFTER) tl.to(["#wk-chat", "#wk-me"], { y: P ? 1500 : 1000, rotation: P ? 5 : 7, duration: 0.34, ease: "power3.in" }, tEnd);
+        tl.to(["#wk-roomwrap", "#wk-dim", "#wk-melab", "#wk-brand"], { opacity: 0, duration: 0.3, ease: "power2.in" }, tEnd);
+      } else {
+        tl.to(["#wk-chat", "#wk-me"], { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, tEnd);
+        tl.to(["#wk-roomwrap", "#wk-dim", "#wk-melab"], { opacity: 0, duration: 0.3, ease: "power2.in" }, tEnd);
+      }
+
+      window.__timelines["wake"] = tl;
+    })();
+  </script>
+</template>

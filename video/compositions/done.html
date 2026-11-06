@@ -1,0 +1,236 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #dn-roomwrap {
+      position: absolute;
+      inset: 0;
+    }
+    #dn-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 6, 15, 0.62);
+      opacity: 0;
+    }
+    #dn-site {
+      position: absolute;
+      left: 1330px;
+      top: 40px;
+      width: 560px;
+      overflow: hidden;
+      border-radius: 26px;
+      background: rgba(18, 13, 38, 0.92);
+    }
+    #dn-sbar {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    #dn-sbar i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+    }
+    #dn-sbar span {
+      margin-left: 10px;
+      font: 22px var(--mono);
+      color: var(--dim);
+    }
+    #dn-hero {
+      padding: 20px 26px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      font: 750 40px/1.1 var(--sans);
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+    #dn-hero small {
+      display: block;
+      margin-top: 6px;
+      font: 600 24px var(--sans);
+      color: var(--ink);
+    }
+    #dn-cakes {
+      display: flex;
+      gap: 14px;
+      padding: 16px 26px 4px;
+    }
+    #dn-cakes b {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #cfc2ee;
+    }
+    #dn-cakes b:nth-child(2) {
+      background: #dcb3c5;
+    }
+    #dn-cakes b:nth-child(3) {
+      background: #a594dc;
+    }
+    #dn-cakes b:nth-child(4) {
+      background: #cfc2ee;
+    }
+    #dn-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 26px 22px;
+    }
+    #dn-order {
+      padding: 10px 24px;
+      border-radius: 999px;
+      font: 750 26px var(--sans);
+      color: #0a0818;
+      background: var(--green);
+    }
+    #dn-ok {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font: 700 26px var(--sans);
+      color: var(--green);
+    }
+    #dn-ok i {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 800 20px var(--sans);
+      font-style: normal;
+      color: var(--green);
+      border: 2px solid var(--green);
+    }
+    #dn-sum {
+      padding: 12px 26px 18px;
+      border-top: 1px solid var(--line);
+      font: 650 26px var(--sans);
+      color: var(--ink);
+    }
+    /* 16:9: the laptop itself shows the finished site; one summary chip sits above it */
+    #dn-site {
+      display: none;
+    }
+    #dn-chip {
+      position: absolute;
+      left: 1250px;
+      top: 120px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 24px 10px 12px;
+      border-radius: 999px;
+      font: 700 28px var(--sans);
+      color: #fff;
+      white-space: nowrap;
+      border-color: rgba(95, 217, 160, 0.3);
+    }
+    #dn-chip i {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 800 20px var(--sans);
+      font-style: normal;
+      color: #0a0818;
+      background: var(--green);
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #dn-site {
+        display: block;
+      }
+      #dn-chip {
+        display: none;
+      }
+      #dn-sum {
+        font-size: 32px;
+      }
+      #dn-site {
+        left: 110px;
+        top: 1370px;
+        width: 860px;
+      }
+      #dn-hero {
+        font-size: 50px;
+      }
+      #dn-cakes b {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+  <div id="root" data-composition-id="done" data-width="1920" data-height="1080">
+    <div class="cam" id="dn-cam"><div class="rig" id="dn-rig">
+      <div id="dn-roomwrap"></div>
+      <div id="dn-site" class="glass">
+        <div id="dn-sbar"><i></i><i></i><i></i><span>your bakery site · example</span></div>
+        <div id="dn-hero">Little Oven Bakery<small>Fresh cakes, every morning</small></div>
+        <div id="dn-cakes"><b></b><b></b><b></b><b></b></div>
+        <div id="dn-row"><span id="dn-order">Order now</span><span id="dn-ok"><i>✓</i>6 pages live</span></div>
+        <div id="dn-sum">Done at 6:48 AM · 7 h 18 min · 0 questions</div>
+      </div>
+      <div id="dn-chip" class="glass"><i>✓</i>Done 6:48 AM · ran 7 h 18 min · 0 questions</div>
+      <div id="dn-dim"></div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      var F = window.Film,
+        T = window.Toon;
+      var P = F.portrait();
+      var D = F.slot("done") || 4;
+      var LOOP = F.cut() === "loop";
+      var OPEN = F.cut() === "hook-c"; // the result-first hook opens on this shot
+      var tl = gsap.timeline({ paused: true });
+      F.push(tl, "#dn-cam", D + 2, 1, 1.035);
+      document.getElementById("dn-roomwrap").innerHTML = T.room("dn");
+      var face = document.getElementById("dn-char");
+      var LY = P ? 70 : 112;
+      // the morning after the good night: same room, same alarm, a happy face, the site done
+      gsap.set(["#dn-ring", "#dn-laptop .lp-chat", "#dn-laptop .lp-wait", "#dn-laptop .lp-prog", "#dn-char .c-hand", "#dn-stars", "#dn-moon", "#dn-cone", "#dn-scr"], { opacity: 0 });
+      gsap.set(["#dn-sky2", "#dn-sunwall", "#dn-sun"], { opacity: 1 });
+      gsap.set("#dn-shade", { opacity: 0 });
+      gsap.set("#dn-room .rm-cloud", { opacity: 1 });
+      gsap.set("#dn-lamp .lamp-shade", { fill: "#6d5f8e" });
+      T.clock(tl, "dn", 7 * 60, 7 * 60, 0.01, 0.01, true);
+      tl.fromTo("#dn-roomwrap", { opacity: OPEN ? 1 : 0 }, { opacity: 1, duration: OPEN ? 0.01 : 0.35, ease: "power2.out" }, 0);
+      tl.fromTo("#dn-sun", { y: 40 }, { y: -6, duration: D, ease: "sine.out" }, 0);
+      // still asleep, smiling; the alarm (sound at +0.15); he sits up happy
+      gsap.set("#dn-char", { y: LY, rotation: -5, transformOrigin: "50% 80%" });
+      T.mood(tl, face, "smilesleep", 0);
+      tl.fromTo("#dn-ring", { opacity: 0 }, { opacity: 1, duration: 0.12, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, 0.15);
+      for (var k = 0; k < 10; k++) tl.to("#dn-clock", { rotation: k % 2 ? -3 : 3, duration: 0.07, ease: "none" }, 0.15 + k * 0.075);
+      tl.to("#dn-clock", { rotation: 0, duration: 0.1 }, 0.9);
+      tl.to("#dn-char", { y: 0, rotation: 0, duration: 0.5, ease: "back.out(1.5)" }, 0.5);
+      T.mood(tl, face, "happy", 0.55);
+      tl.fromTo("#dn-char", { scale: 1, transformOrigin: "50% 90%" }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 1.0);
+      tl.fromTo("#dn-mug", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(2)" }, 0.8);
+      tl.fromTo("#dn-mug .mg-s", { y: 6, opacity: 0.2 }, { y: -10, opacity: 0.9, duration: 0.6, yoyo: true, repeat: Math.max(1, Math.floor((D - 0.8) / 0.6) - 1), ease: "sine.inOut", stagger: 0.18 }, 1.0);
+      // the laptop: the site is live (and the summary, the same numbers as the night)
+      tl.fromTo("#dn-laptop", { scale: 1, transformOrigin: "50% 100%" }, { scale: 1.05, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, 0.9);
+      var tS = OPEN ? 0 : D < 3 ? 0.7 : 1.1;
+      tl.fromTo("#dn-chip", { opacity: OPEN ? 1 : 0, y: OPEN ? 0 : -14, scale: OPEN ? 1 : 0.8 }, { opacity: 1, y: 0, scale: 1, duration: OPEN ? 0.01 : 0.4, ease: "back.out(2)" }, tS);
+      tl.fromTo("#dn-site", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, tS + 0.1);
+      tl.fromTo("#dn-cakes b", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.08 }, tS + 0.4);
+
+      if (LOOP) {
+        // the README loop restarts on a dark veil: fade into it
+        tl.to(["#dn-site", "#dn-chip"], { opacity: 0, duration: 0.3 }, D - 0.5);
+        tl.fromTo("#dn-dim", { opacity: 0, background: "#07060f" }, { opacity: 1, duration: 0.45, ease: "power2.in" }, D - 0.5);
+      } else {
+        tl.to(["#dn-site", "#dn-chip"], { opacity: 0, y: P ? 0 : -20, duration: 0.25, ease: "power2.in" }, D - 0.3);
+        tl.to("#dn-roomwrap", { opacity: 0, scale: 1.03, duration: 0.3, ease: "power2.in" }, D - 0.3);
+      }
+      window.__timelines["done"] = tl;
+    })();
+  </script>
+</template>
