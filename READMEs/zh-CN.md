@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../assets/hero-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="../assets/hero-light.svg">
-    <img src="../assets/hero-dark.svg" alt="goalify：把大活交给你的 AI，拿回证据。" width="100%">
+    <img src="../assets/hero-dark.svg" alt="goalify：把一件大活交给你的 AI，拿回证据。" width="100%">
   </picture>
 </p>
 
@@ -21,17 +21,17 @@
 </p>
 
 <p align="center">
-  <a href="https://goalify-kappa.vercel.app">网站</a> · <a href="#安装">安装</a> · <a href="#它是怎么工作的">它是怎么工作的</a> · <a href="#30-新特性">3.0 新特性</a> · <a href="#和同类工具比">和同类工具比</a> · <a href="#需要知道的事">需要知道的事</a>
+  <a href="https://goalify-kappa.vercel.app">网站</a> · <a href="#安装">安装</a> · <a href="#它是怎么工作的">它是怎么工作的</a> · <a href="#报告示例">报告示例</a> · <a href="#证据">证据</a> · <a href="#常见问题">常见问题</a> · <a href="#限制">限制</a>
 </p>
 
-goalify 先把问题问完，写好计划，再用你真正的测试检查结果。
+goalify 先把问题问完，再写计划，最后用你真实的测试检查结果。
 
 ```bash
 claude plugin marketplace add Aboudjem/10x
 claude plugin install goalify@10x
 ```
 
-演示回执：在本仓库的克隆里运行 `make demo`（2026-11-17 的真实运行，有删节）：
+演示回执，来自在本仓库克隆中运行 `make demo`（2026-11-17 的一次真实运行，有删节）：
 
 ```text
 VERDICT: VERIFIED (2/2 checks passed)
@@ -40,28 +40,30 @@ Checks:
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
 
-你的智能体说活干完了。真的吗？goalify 在开工之前就定好终点线：你自己的测试全部通过。最后，`/goalify verify` 再跑一遍这些测试，并写一张回执。
+你的智能体说活干完了。真的吗？goalify 在开工前就定好终点线：你自己的测试全部通过。
+最后，`/goalify verify` 会再跑一遍这些测试，并写一张回执。
 
-有两条限制要先知道。停下来的工作不一定是做完的工作。另外 `/goal` 不改你的权限模式，所以工作仍可能停在一个权限确认上（[需要知道的事](#需要知道的事)）。
+有两个限制要先知道。运行停下来，不一定代表活干完了。另外 `/goal` 会保留你的权限模式，
+所以运行仍可能停在一个权限提示上（[限制](#限制)）。
 
 ## 为什么用它
 
-- **一开始回答一次。** 所有问题都先问完，所以工作过程中没有什么需要再问你。
-  证据：答案写在简报的「Decisions」下面，见[这份真实简报](../examples/sample-brief.md)。
-- **终点线来自你自己的测试。** `/goal` 这一行写明了必须通过的测试命令。
-  证据：[示例条件](../examples/sample-condition.txt)写着「done when the last turn quotes npm test passing」。
-- **会说「不」的回执。** `make demo` 输出 `VERDICT: VERIFIED (2/2 checks passed)`。
+- **一次答完，放在开头。** 所有问题都先问，所以运行中不会再有需要你做的决定。
+  证据：答案写在 brief 的 "Decisions" 下面，就像[这份示例 brief](../examples/sample-brief.md)。
+- **终点线来自你自己的测试。** `/goal` 那一行写明了必须通过的测试命令。
+  证据：[示例 condition](../examples/sample-condition.txt) 写着 "done when the last turn quotes npm test passing"。
+- **一张可以不通过的回执。** `make demo` 输出 `VERDICT: VERIFIED (2/2 checks passed)`。
   证据：`python3 examples/demo/run.py --broken` 输出 `VERDICT: NOT VERIFIED (1/2 checks passed)`。
 
-## 没有 goalify，有了 goalify
+## 没有 goalify 与有 goalify
 
-| 没有 goalify | 有了 goalify |
-|:--|:--|
-| AI 凌晨 3 点停下来问你问题 | 所有问题先问，只问一次 |
-| 清空聊天，计划就丢了 | 计划存在一个文件里。AI 会一遍遍重读 |
-| AI 用了你的项目里根本没有的测试 | 测试来自你真正的项目 |
-| 「搞定了！」只是 AI 自己这么说 | 「搞定」的意思是最后一步显示测试通过 |
-| 第二天早上你才发现问题 | `/goalify verify` 重新跑测试，并给你一份回执 |
+| 没有 goalify                   | 有 goalify                               |
+| :----------------------------- | :--------------------------------------- |
+| AI 凌晨 3 点停下来问你一个问题 | 所有问题都先问，只问一次                 |
+| 清空聊天后计划就没了           | 计划保存在文件里。AI 会一遍遍重读        |
+| AI 用了你项目里没有的测试      | 测试来自你真实的项目                     |
+| “完成！”只代表 AI 这么说了     | “完成”代表最后一步展示了测试通过         |
+| 第二天早上你才发现问题         | `/goalify verify` 重跑测试并给你一张回执 |
 
 ## 安装
 
@@ -70,103 +72,112 @@ claude plugin marketplace add Aboudjem/10x
 claude plugin install goalify@10x
 ```
 
-其他任何能读技能的 AI 工具，一行搞定：
+其他能读取 skills 的 AI 工具，一行搞定：
 
 ```bash
 npx skills add Aboudjem/goalify
 ```
 
-然后输入 `/goalify`，描述这件活。你需要 Claude Code 2.1.139 或更新的版本。那个版本加入了 `/goal`。
+安装时，skills.sh 会给 goalify 显示一个中等风险提示。它指出 `verify` 会在 shell 里运行 brief 中的检查命令。
+verify 会先列出这些命令，没有你的同意什么都不运行。
+
+你需要 Claude Code 2.1.139 或更新版本。`/goal` 是在这个版本加入的。
+
+**你的第一个命令。** 输入 `/goalify` 和一句话描述的任务：
+
+```text
+/goalify migrate the API client to async and keep every test green
+```
+
+goalify 会先提问，然后输出一个 brief 路径和一行要粘贴的 `/goal`。
+
+**一分钟看到真实回执**，不需要长时间运行。你需要 `git`、`python3` 和 `make`。
+
+```bash
+git clone https://github.com/Aboudjem/goalify && cd goalify
+```
+
+```bash
+make demo
+```
 
 <p align="center">
-  <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="循环中的 goalify：你的请求变成目标，所有问题先问完，AI 自己干活，最后你拿到证据。" width="88%"></a>
-  <br><sub><a href="../assets/goalify-promo.mp4">观看完整视频</a> · <a href="../assets/goalify-promo-vertical.mp4">竖屏视频</a> · <a href="../assets/goalify-promo-30s.mp4">30 秒视频</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒视频</a></sub>
+  <a href="https://goalify-kappa.vercel.app"><img src="../assets/goalify-demo.gif" alt="goalify 的循环：你的请求变成一个 goal，所有问题先问，AI 独自工作，最后你拿到证据。" width="88%"></a>
+  <br><sub>这是流程动画，不是屏幕录像。</sub>
+  <br><sub><a href="../assets/goalify-promo.mp4">观看完整视频</a> · <a href="../assets/goalify-promo-vertical.mp4">竖版视频</a> · <a href="../assets/goalify-promo-30s.mp4">30 秒视频</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒视频</a></sub>
 </p>
 
 ## 它是怎么工作的
 
-goalify 把你的请求变成一个**目标**。目标就是一条清楚的终点线。AI 会一直干下去，直到目标完成并且被证明，或者到了你设的上限。
+goalify 把你的请求变成一个 **goal**。goal 就是一条清楚的终点线。AI 会一直干，直到 goal 完成并得到证明，
+或者达到你设的上限。
 
-它在 **Claude Code** 和 **Codex** 里效果最好。两者都内置了 `/goal` 命令，能让工作一直继续。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。Codex 则对照同一条终点线，自己检查自己的工作。其他能读取 skills 的 AI 工具也能得到同样的计划和终点线，工作由你自己来启动。
+它在 **Claude Code** 和 **Codex** 里效果最好。两者都有内置的 `/goal` 命令，让工作持续推进。在 Claude Code 里，
+每一步之后都有第二个检查者读一遍工作。Codex 用同一条终点线检查自己的工作。其他能读 skills 的 AI 工具
+拿到同样的计划和终点线，由你自己启动工作。
 
-goalify 只负责准备。真正干活的是 `/goal` 命令。goalify 要保证 AI 没有任何需要再问的事。
+goalify 只负责准备工作。真正干活的是 `/goal` 命令。goalify 确保 AI 没有需要再问你的决定。
 
-1. **先做功课。** 行得通吗？goalify 读你的项目、文档和测试，找出真正能说明这件活做完了的命令。
-2. **问题只问一次。** 它把那几个真正要你选的问题放在一起问。之后不再问。
-3. **产出两样东西。** **简报**是一个文件，装着完整的计划：你的选择、准确的文件、做事的顺序。**条件**是给 `/goal` 的一行，说明证据长什么样。还会打开一个**预览页面**，让你先看到整个计划。
-4. **`/clear`，粘贴，走开。** 工作在一个干净的聊天里开始，所有记忆都留给你的活。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。只有证据到位，或者到了你设的步数上限，它才允许工作停下。
-5. **之后再核对。** `/goalify verify` 重新跑一遍检查，并写出一份回执。
+1. **做功课。** 这件事能做吗？goalify 读你的项目、文档和测试。它找出能证明活真的干完了的命令。
+2. **问题，只问一次。** 它把少数几个真正的选择一起问你。之后不会再问。
+3. **产出两样东西。** **brief** 是一个写着完整计划的文件：你的选择、具体的文件、工作的顺序。
+   **condition** 是给 `/goal` 的一行。它说明证据是什么样子。还会打开一个**预览页面**，让你先看完整个计划。
+4. **`/clear`，粘贴，走开。** 工作在一个干净的聊天里开始，全部记忆都留给你的任务。在 Claude Code 里，
+   每一步之后都有第二个检查者读一遍工作。只有证据到位，或者达到你的步数上限，它才让工作停下。
+5. **之后再检查。** `/goalify verify` 重跑检查并写一张回执。
 
-你要粘贴的那一行长这样。它很长，所以要全部复制：
+你粘贴的那一行长这样。它很长，请整行复制：
 
 ```text
 /goal Do everything in ~/acme/.goal/api-migration.md and prove it, done when the last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.
 ```
 
-简报的路径就在这一行里面。这一点很重要：`/goal` 背后的检查员打不开文件。它只读你粘贴的那一行和聊天内容。所以不要只给 `/goal` 一个文件路径。什么都不会坏，但什么也不会被检查。这是最容易犯的错：
+brief 的路径就在这一行里。这很重要：`/goal` 背后的检查者打不开文件。它只读你粘贴的那一行和聊天内容。
+所以不要只给 `/goal` 一个文件路径。什么都不会坏，但也什么都不会被检查。这是最容易犯的错误：
 
 ```text v1-antipattern
 /goal ~/acme/.goal/api-migration.md
 ```
 
 <p align="center">
-  <img src="../assets/hero.svg" alt="四步：描述这件活，拿到简报和条件，粘贴条件，回来看到证据。" width="72%">
+  <img src="../assets/hero.svg" alt="四步：描述任务，拿到 brief 和 condition，粘贴 condition，回来看证据。" width="72%">
 </p>
 
-### 为什么长时间的工作不会跑偏
+### 为什么长时间运行不会跑偏
 
-AI 的长时间工作通常以两种方式失败。一种是 AI 停下来问你问题。另一种是东西还坏着，它却说「做完了」。goalify 解决第一个问题的办法是：一开始就把所有问题问完，并把答案写进简报。它解决第二个问题的办法是条件：最后 AI 必须把每一项检查再跑一遍，给出结果，并写出一个特别的词，比如 `ASYNC-OK`。如果 AI 跳过了工作，它就只能撒谎。接近步数上限时，AI 会干净地收尾，并说明还剩什么。如果它提前停了，简报里还留着清单。再粘贴同一行，就能接着干。
+AI 的长时间工作通常有两种失败方式。AI 停下来问你事情。或者东西还坏着，它却说“完成”。goalify 解决第一个问题：
+它在开头把所有事问完，并把答案写进 brief。condition 解决第二个问题。最后，AI 必须重跑每一项检查、
+展示结果，并写出一个特殊的词，比如 `ASYNC-OK`。如果 AI 跳过了工作，它就只能撒谎。接近步数上限时，
+AI 会干净地收尾，并说明还剩什么。如果它提前停下，brief 会保留它的清单。再粘贴同一行就能继续。
 
-## 3.0 新特性
+### 每个命令给你什么
 
 <p align="center">
-  <img src="../assets/preview-and-receipt.svg" alt="3.0 的循环：先看计划预览，AI 自己干活，然后是写着 VERIFIED 的回执。" width="88%">
+  <img src="../assets/preview-and-receipt.svg" alt="循环：开工前的计划预览，AI 独自工作，然后是一张写着 VERIFIED 的回执。" width="88%">
 </p>
 
-- **计划预览。** 每次 `/goalify` 之后，浏览器里会打开一个页面。它显示各个步骤、每项检查和证明它的命令、上限、你的选择，还有一个复制 `/goal` 那一行的按钮。它还会检查简报，并拒绝显示有问题的简报。聊天里的那行 `/goal` 仍然是主要的一步。这个页面只是额外的。
-- **证据回执。** `/goalify verify` 会给你看这些检查，问你一次，然后运行它们，并写出一份回执：**VERIFIED**、**NOT VERIFIED** 或 **UNVERIFIABLE**。即使 AI 说了「做完了」，它也可以说「没有验证通过」。除非你逐条允许，否则它不会运行危险的命令。
-- **真正的测试，替你找出来。** goalify 会读 `package.json`、`pyproject.toml`、`Cargo.toml`、`go.mod`、Makefile 和你的 CI 文件。它会跳过 npm 那个空的「no test specified」测试。所以终点线上绝不会出现一个根本通不过的测试。它也可以在一开始先把测试跑一遍。
-- **状态。** `/goalify status` 列出 `.goal/` 里的每一份简报：进行中、被阻塞或已完成。对每个进行中的简报，它会显示完整的 `/goal` 那一行，方便接着做。
-- **快速模式。** `/goalify --quick <task>` 适合中等规模的活。它跳过网络调研和提问，但保留所有安全检查。如果这件活可能有两种不同的理解，它会停下来，请你改用完整模式。
-- **Doctor。** `/goalify doctor` 列出你电脑上每一份 goalify 副本。如果旧副本和新副本同时被加载，它会提醒你。
-- **更安全的复制粘贴。** 条件里不能再带反引号或双引号。所以你粘贴 `claude -p "/goal ..."` 那一行时，不会运行任何隐藏的命令。感谢 [@Hug0x0](https://github.com/Hug0x0) 的修复。
+- **计划预览。** 每次 `/goalify` 之后，浏览器里会打开一个页面。它显示各个步骤、每项检查和证明它的命令、
+  上限、你的选择，以及一个复制 `/goal` 那一行的按钮。它还会检查 brief，拒绝显示有问题的 brief。
+  聊天里的 `/goal` 那一行仍然是主要步骤。页面只是额外的。
+- **证据回执。** `/goalify verify` 先给你看检查项，问你一次，然后运行，并写一张回执：**VERIFIED**、
+  **NOT VERIFIED** 或 **UNVERIFIABLE**。即使 AI 说了“完成”，它也可能说 "not verified"。
+  危险命令必须你逐个允许，它才会运行。
+- **替你找到真实的测试。** goalify 读 `package.json`、`pyproject.toml`、`Cargo.toml`、`go.mod`、
+  Makefile 和你的 CI 文件。它会跳过 npm 那个空的 "no test specified" 测试。所以终点线永远不会用一个
+  不可能通过的测试。它也可以在开始时先跑一遍测试。
+- **状态。** `/goalify status` 列出 `.goal/` 里的每个 brief：未完成、受阻或已完成。对每个未完成的，
+  它会显示用来继续的完整 `/goal` 那一行。
+- **快速模式。** `/goalify --quick <task>` 适合中等规模的任务。它跳过网络调研和提问，但保留每一项安全检查。
+  如果任务可能有两种理解，它会停下来，请你改用完整模式。
+- **Doctor。** `/goalify doctor` 列出你电脑上 goalify 的每一份副本。当旧副本和新副本同时被加载时，它会提醒你。
+- **更安全的复制粘贴。** condition 里不能再包含反引号或双引号。所以粘贴 `claude -p "/goal ..."` 这一行时，
+  不会运行隐藏的命令。感谢 [@Hug0x0](https://github.com/Hug0x0) 的这个修复。
 
-## 和同类工具比
+## 报告示例
 
-只讲明白的差别，2026 年 11 月对照各项目的 README 核对过。
-
-| 工具 | 它是什么 | 和 goalify 有什么不同 |
-|:--|:--|:--|
-| [supergoal](https://github.com/robzilla1738/supergoal) | 一个 Claude Code 插件。它先探查，再提问，分阶段做计划，给 `/goal` 一条命令。最后它对照计划检查结果 | 最接近的工具。goalify 写出一份完整的简报和一条经过检查的条件，干活前给你看预览页面，干活后写一份证据回执 |
-| Ralph 循环（[snarktank/ralph](https://github.com/snarktank/ralph) 等） | 一个把同一个提示词一遍又一遍交给 AI 的循环 | 通常靠 AI 写出的某个词，或者靠轮数上限来停。用 Claude Code 的 `/goal` 时，由第二个检查员每一步读一遍工作成果 |
-| [Spec Kit](https://github.com/github/spec-kit) | GitHub 的工具包，用来写规范、计划和任务 | 很适合用来写规范。goalify 管的是没人盯着的长时间工作，以及证明它真的做完了 |
-
-## 在你的 AI 工具里可用
-
-| 工具 | 一行安装 |
-|:--|:--|
-| Claude Code | `claude plugin install goalify@10x` |
-| 其他能读取 skills 的工具 | `npx skills add Aboudjem/goalify` |
-| Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
-| 其他所有 | [docs/editors.md](../docs/editors.md) 里的代码和文件夹 |
-
-`/clear` 和 `/goal` 是 Claude Code 的命令。在其他工具里，用新开一个聊天来代替 `/clear`，并把条件作为主要任务交给 AI。Codex 有它自己的 `/goal`。哪些做法一样、哪些不一样，请看 [Codex 里的 goalify](../docs/codex.md)。
-
-<details>
-<summary>手动安装</summary>
-
-```bash
-git clone https://github.com/Aboudjem/goalify
-cp -R goalify/skills/goalify ~/.claude/skills/
-```
-
-你只需要那一个文件夹。其余内容见[快速上手](../docs/quickstart.md)。如果你以前装过旧版本，运行 `/goalify doctor`，确认只加载了一份。
-
-</details>
-
-## 回执示例
-
-`/goalify verify` 会重新运行 brief 里的检查，并先给出结论。下面是 `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` 的一次真实运行 (2026-11-17)。这次"运行"勾选了所有项目，但有一个测试失败：
+`/goalify verify` 重跑 brief 的检查，并先输出结论。下面是 2026-11-17 真实运行
+`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` 的结果。这次“运行”勾选了所有项目，
+但有一个测试失败：
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
@@ -181,29 +192,111 @@ Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
 Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
-在本仓库的克隆里运行 `make demo`，就能自己验证。Proof、Works with 和 FAQ 部分见[英文 README](../README.md)。
+检查 2 必须什么都不输出：`grep` 找不到剩下的 TODO，所以它通过。
 
-## 需要知道的事
+不加 `--broken` 时，同一个演示输出 `VERDICT: VERIFIED (2/2 checks passed)`。HTML 回执也以结论开头。
+每种模式都在自己的临时文件夹里构建，所以两张回执都会保留。
+
+## 证据
+
+这里的每个数字都来自你能在本仓库克隆中运行的命令。
+
+| 说法                        | 命令                                                      | 今天的输出                                                                                |
+| :-------------------------- | :-------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| 所有测试套件都通过          | `make test`                                               | `10/10 suites passed`，然后 `460/460 checks passed`                                       |
+| 回执在两个方向上都说真话    | `make demo`，然后 `python3 examples/demo/run.py --broken` | `VERDICT: VERIFIED (2/2 checks passed)`，然后 `VERDICT: NOT VERIFIED (1/2 checks passed)` |
+| 插件能在 Claude Code 中加载 | `claude plugin validate . --strict`                       | `Validation passed`                                                                       |
+| skills CLI 能找到这个 skill | `npx -y skills@1.9.0 add . --list`                        | 一个 skill，`goalify`                                                                     |
+
+CI 在每次 push 和 pull request 时都运行这四项。
+
+## 支持的工具
+
+只列出在所示日期真实安装并运行过的。
+
+| 智能体              | 安装方式                                         | 测试日期   |
+| :------------------ | :----------------------------------------------- | :--------- |
+| Claude Code 2.1.326 | `claude plugin install goalify@10x`              | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
+| Codex CLI           | `npx skills add Aboudjem/goalify -a codex`       | 2026-11-17 |
+
+有文档、未测试：Cursor、GitHub Copilot、Gemini CLI、OpenCode，以及 skills CLI 支持的其他智能体。
+它们的代号和文件夹见 [docs/editors.md](../docs/editors.md)。
+
+`/clear` 和 `/goal` 是 Claude Code 的命令。在其他工具里，用新开一个聊天代替 `/clear`，并把 condition
+作为 AI 的主要任务交给它。Codex 有自己的 `/goal`。哪些一样、哪些不同，见 [Codex 中的 goalify](../docs/codex.md)。
+
+<details>
+<summary>手动安装</summary>
+
+```bash
+git clone https://github.com/Aboudjem/goalify
+cp -R goalify/skills/goalify ~/.claude/skills/
+```
+
+你只需要这一个文件夹。[quickstart](../docs/quickstart.md) 讲解其余部分。如果你之前装过旧副本，
+运行 `/goalify doctor` 确认只加载了一份。
+</details>
+
+## 和同类工具比
+
+简单的区别，于 2026 年 11 月对照各项目的 README 核对。
+
+| 工具                                                                   | 它是什么                                                                                     | 和 goalify 有何不同                                                                                           |
+| :--------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| [supergoal](https://github.com/robzilla1738/supergoal)                 | 一个 Claude Code 插件。它探索、提问、分阶段规划，并给 `/goal` 一条命令。最后对照计划检查结果 | 最接近的工具。goalify 写一份完整的 brief 和一个经过检查的 condition，开工前展示预览页面，完工后写一张证据回执 |
+| Ralph 循环（[snarktank/ralph](https://github.com/snarktank/ralph) 等） | 一个反复给 AI 同一个提示词的循环                                                             | 它通常在 AI 写出某个词时停下，或跑满若干轮后停下。用 Claude Code 的 `/goal`，每一步都有第二个检查者读一遍工作 |
+| [Spec Kit](https://github.com/github/spec-kit)                         | GitHub 用来写 spec、计划和任务的工具包                                                       | 很适合写 spec。goalify 用于无人看守的长时间工作，并证明它已完成                                               |
+
+## 常见问题
+
+**goalify 会自己干活吗？**
+不会。它写好 brief 和 condition 就停下。由你在一个干净的聊天里用 `/goal` 启动运行。
+
+**为什么不能只给 `/goal` brief 的路径？**
+`/goal` 背后的检查者打不开文件。它只读你粘贴的那一行和聊天内容。只有一个路径，它就没有可检查的东西，
+运行也永远不会因为证据而停下。
+
+**如果活没干完运行就停了怎么办？**
+brief 会保留它的清单。再粘贴同一行 `/goal`，运行会从停下的地方继续。
+
+**我怎么知道活真的干完了？**
+对 brief 运行 `/goalify verify`。它重跑每一项检查，并写一张回执，结论是 VERIFIED、NOT VERIFIED 或 UNVERIFIABLE。
+
+**我有两份 goalify。加载的是哪一份？**
+运行 `/goalify doctor`。它列出每一份副本，说明哪些被加载了，并输出删除多余那份的命令。
+
+更多回答见[完整 FAQ](../docs/faq.md)。
+
+## 限制
 
 > [!IMPORTANT]
-> 工作停下来了，不一定就做完了。检查员自己做判断。如果它认为目标够不着，也可能让工作停下。在你相信一个绿色结果之前，请对简报运行 `/goalify verify`，或者自己把它的检查跑一遍。
+> 运行停下来时，不一定已经完成。检查者自己做决定。如果它认为 goal 无法达成，也可能停止运行。
+> 在相信一个绿色结果之前，先对 brief 运行 `/goalify verify`，或者自己跑一遍它的检查。
 
-- **goalify 从不自己做这件活。** 它写简报和条件。只有你要求时，它才运行你的检查。
-- **工作仍可能停在权限确认上。** `/goal` 不改你的权限模式：手动模式会在未允许的工具调用前询问，自动模式在多次拦截后也会重新询问。
-- **不会往任何地方发送东西。** 没有服务端，没有额外的包，没有网络请求。辅助脚本只用标准的 Python，预览页面也不从互联网加载任何东西。
-- **不瞎猜价格。** goalify 从不猜测要花多少钱或多少 token。步数上限由你来掌控。
-- **它不承诺的每一件事**都列在[诚实的边界](../docs/limits.md)里。
+- **goalify 从不自己干活。** 它写 brief 和 condition。只有你要求时，它才运行你的检查。
+- **运行仍可能停在一个权限提示上。** `/goal` 会保留你的权限模式：手动模式在未批准的工具调用前会询问，
+  auto 模式在反复被拦截后会再次询问。
+- **verify 只是重跑检查，不审查代码。** 一个测错了东西的检查照样会通过。
+- **goalify 自己发出的东西：没有。** 没有服务器，没有额外的包，它自己不发起网络调用。辅助脚本只用标准 Python，
+  预览页面不从互联网加载任何东西。`/goal` 运行照常与你的模型通信。
+- **不估算价格。** goalify 从不猜测金钱或 token 成本。你的步数上限就是你的控制手段。
+- **它不承诺的所有事情**都列在[诚实的限制](../docs/limits.md)里。
 
 ## 了解更多
 
-- [网站](https://goalify-kappa.vercel.app) · [快速上手](../docs/quickstart.md) · [常见问题](../docs/faq.md)
-- [条件示例](../examples/conditions.md)：有好的也有差的，每一条差的都说明了它丢了什么。
-- [一个完整示例](../examples/sample-brief.md)：一份真实的简报和它的条件，外加[它的预览页面](../examples/sample-brief.html)（下载后用浏览器打开）。
-- [在你的 AI 工具里安装](../docs/editors.md) · [Codex 里的 goalify](../docs/codex.md) · [诚实的边界](../docs/limits.md)
-- [更新日志](../CHANGELOG.md) · [技能本身](../skills/goalify/SKILL.md) · [许可证](../LICENSE)
+- [网站](https://goalify-kappa.vercel.app) · [Quickstart](../docs/quickstart.md) · [FAQ](../docs/faq.md)
+- [condition 示例](../examples/conditions.md)：好的和坏的，以及每个坏例子会失去什么。
+- [一个完整示例](../examples/sample-brief.md)：一份示例 brief 及其 condition，还有
+  [它的预览页面](../examples/sample-brief.html)（下载后在浏览器中打开）。
+- [在你的 AI 工具中安装](../docs/editors.md) · [Codex 中的 goalify](../docs/codex.md) · [诚实的限制](../docs/limits.md)
+- [Changelog](../CHANGELOG.md) · [skill 本体](../skills/goalify/SKILL.md) · [LICENSE](../LICENSE)
 
 ---
 
-<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。关于 `/goal` 的事实已对照 Claude Code 2.1.326 及其文档核对，2026 年 11 月。[docs/limits.md](../docs/limits.md) 中更细的限制各自标明了测量时的版本。<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
+<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。本页关于 `/goal` 的事实已于 2026-11-17
+对照 Claude Code 2.1.326、其 changelog 和文档核对。
+[docs/limits.md](../docs/limits.md) 中更细的限制各自标明了测量时的版本。
+<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
 
 <sub>本译文由机器辅助翻译，以英文版 <a href="../README.md">README.md</a> 为准。</sub>

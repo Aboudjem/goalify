@@ -48,8 +48,8 @@ permission mode, so a run can still pause on a permission prompt ([Limits](#limi
 
 ## Why use it
 
-- **Answer once, up front.** Every question comes first, so the run has nothing left to ask you.
-  Proof: the answers sit in the brief under "Decisions", as in [this real brief](examples/sample-brief.md).
+- **Answer once, up front.** Every question comes first, so the run has no decision left to ask you.
+  Proof: the answers sit in the brief under "Decisions", as in [this sample brief](examples/sample-brief.md).
 - **A finish line from your own tests.** The `/goal` line names the test command that must pass.
   Proof: [the sample condition](examples/sample-condition.txt) says "done when the last turn quotes npm test passing".
 - **A receipt that can fail.** `make demo` prints `VERDICT: VERIFIED (2/2 checks passed)`.
@@ -119,7 +119,7 @@ its own work against the same finish line. Other AI tools that read skills get t
 finish line, and you start the work yourself.
 
 goalify only prepares the work. The `/goal` command does the work. goalify makes sure the AI has
-nothing left to ask.
+no decision left to ask you.
 
 1. **Homework.** Can this work? goalify reads your project, the docs and your tests. It finds the
    commands that show the job is really done.
@@ -218,7 +218,7 @@ Every number here comes from a command you can run in a clone of this repo.
 
 | Claim | Command | What it prints today |
 |:--|:--|:--|
-| Every test suite passes | `make test` | `10/10 suites passed`, then `452/452 checks passed` |
+| Every test suite passes | `make test` | `10/10 suites passed`, then `460/460 checks passed` |
 | The receipt tells the truth both ways | `make demo`, then `python3 examples/demo/run.py --broken` | `VERDICT: VERIFIED (2/2 checks passed)`, then `VERDICT: NOT VERIFIED (1/2 checks passed)` |
 | The plugin loads in Claude Code | `claude plugin validate . --strict` | `Validation passed` |
 | The skills CLI finds the skill | `npx -y skills@1.9.0 add . --list` | one skill, `goalify` |
@@ -298,8 +298,9 @@ More answers in the [full FAQ](docs/faq.md).
 - **A run can still pause on a permission prompt.** `/goal` keeps your permission mode: manual mode
   asks before unapproved tool calls, and auto mode asks again after repeated blocks.
 - **Verify re-runs checks, it does not review code.** A check that tests the wrong thing still passes.
-- **What leaves your machine: nothing.** No server, no extra packages, no network calls. The helper
-  scripts use only standard Python, and the preview page loads nothing from the internet.
+- **What goalify itself sends: nothing.** No server, no extra packages, no network calls of its own.
+  The helper scripts use only standard Python, and the preview page loads nothing from the internet.
+  The `/goal` run talks to your model as usual.
 - **No price guesses.** goalify never guesses a cost in money or tokens. Your step limit is your
   control.
 - **Everything it does not promise** is listed in [honest limits](docs/limits.md).
@@ -308,7 +309,7 @@ More answers in the [full FAQ](docs/faq.md).
 
 - [Website](https://goalify-kappa.vercel.app) · [Quickstart](docs/quickstart.md) · [FAQ](docs/faq.md)
 - [Example conditions](examples/conditions.md): good ones and bad ones, and what each bad one loses.
-- [A full example](examples/sample-brief.md): a real brief and its condition, plus
+- [A full example](examples/sample-brief.md): a sample brief and its condition, plus
   [its preview page](examples/sample-brief.html) (download it and open it in a browser).
 - [Install in your AI tool](docs/editors.md) · [goalify in Codex](docs/codex.md) · [Honest limits](docs/limits.md)
 - [Changelog](CHANGELOG.md) · [The skill itself](skills/goalify/SKILL.md) · [LICENSE](LICENSE)

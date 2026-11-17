@@ -749,6 +749,49 @@ if os.path.exists(gallery_path):
     check("conditions gallery: every worked condition carries a sentinel token",
           not no_sentinel, f"missing in {no_sentinel}")
 
+# --- Translations stay full translations of the English README ---
+# A translation may word its prose freely, but it must carry every fenced code block byte for
+# byte (same info string, same body, same order) and the same heading levels in the same order.
+# A translation that drifts behind the English page (a missing command, a dropped section) fails
+# here instead of waiting for a reader to notice.
+def _heading_levels(text):
+    """Heading levels (1 to 6) of the ATX headings outside fenced blocks, in document order."""
+    levels, fence = [], None
+    for line in text.splitlines():
+        m = FENCE_RE.match(line)
+        if m:
+            if fence is None:
+                fence = m.group(1)[0]
+            elif m.group(1)[0] == fence and not m.group(2).strip():
+                fence = None
+            continue
+        if fence is None:
+            h = re.match(r"^(#{1,6})\s", line)
+            if h:
+                levels.append(len(h.group(1)))
+    return levels
+
+
+_en_readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+_en_blocks = _fenced_blocks(_en_readme)
+_en_levels = _heading_levels(_en_readme)
+for _lang in ("fr", "es", "ja", "zh-CN"):
+    _tr_path = os.path.join(ROOT, "READMEs", f"{_lang}.md")
+    if not os.path.exists(_tr_path):
+        check(f"translation READMEs/{_lang}.md exists", False)
+        continue
+    _tr = open(_tr_path, encoding="utf-8").read()
+    _tr_blocks = _fenced_blocks(_tr)
+    _diff = next((i for i, (a, b) in enumerate(zip(_en_blocks, _tr_blocks)) if a != b), None)
+    check(f"translation READMEs/{_lang}.md carries the {len(_en_blocks)} English code blocks verbatim",
+          _tr_blocks == _en_blocks,
+          f"{len(_tr_blocks)} blocks; first difference at block "
+          f"{_diff + 1 if _diff is not None else min(len(_en_blocks), len(_tr_blocks)) + 1}")
+    _tr_levels = _heading_levels(_tr)
+    check(f"translation READMEs/{_lang}.md has the English heading levels in order",
+          _tr_levels == _en_levels,
+          f"English {_en_levels}, translation {_tr_levels}")
+
 # --- House style: no em dash in any tracked text file ---
 # Built from code points so this file does not contain the characters it bans. The forms are
 # the ones a reader sees as an em dash: the character, the horizontal bar, the two-em dash,
