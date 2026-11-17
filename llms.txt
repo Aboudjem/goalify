@@ -1,6 +1,7 @@
 # goalify
 
-> Hand Claude a huge task. Come back to proof it's done, not a promise that it is.
+> Give your AI a big job. Get proof back. goalify asks its questions up front, writes the plan and
+> the /goal finish line. Its verify step re-runs your tests into a receipt.
 >
 > Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current
 > session still has the user's context. It turns the task into two artifacts. A **brief**: a

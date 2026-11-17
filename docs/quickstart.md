@@ -1,6 +1,6 @@
 # Quickstart
 
-Hand Claude a huge task. Come back to proof it's done, not a promise that it is. You do the prep
+Give your AI a big job. Get proof back. goalify asks its questions up front and writes the plan. You do the prep
 **before** you `/clear`, then start the run in a fresh session that has its whole attention on the job.
 
 goalify only **writes** the run. It does not do your task, and you are the one who starts it. It

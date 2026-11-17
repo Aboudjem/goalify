@@ -24,20 +24,46 @@
   <a href="https://goalify-kappa.vercel.app">Site web</a> · <a href="#installation">Installation</a> · <a href="#comment-ça-marche">Comment ça marche</a> · <a href="#nouveautés-de-la-30">Nouveautés de la 3.0</a> · <a href="#comparaison">Comparaison</a> · <a href="#bon-à-savoir">Bon à savoir</a>
 </p>
 
-goalify transforme votre demande en **objectif**. Un objectif est une ligne d'arrivée claire. L'IA
-continue de travailler jusqu'à ce que l'objectif soit atteint et prouvé, ou jusqu'à la limite que
-vous avez fixée.
+goalify pose ses questions d'abord, écrit le plan, et vérifie le résultat avec vos vrais tests.
 
-goalify réfléchit d'abord. Il vérifie que le plan peut marcher. Il lit la doc. Il trouve les vrais
-tests de votre projet. Il vous pose toutes ses questions au début, une seule fois. Ensuite l'IA
-travaille seule, pendant des heures ou même des jours, sans que personne ait à répondre. À la fin,
-elle vous montre une preuve.
+```bash
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
+```
 
-Il marche mieux dans **Claude Code** et **Codex**. Les deux ont une commande `/goal` intégrée qui
-fait continuer le travail. Dans Claude Code, un second vérificateur relit le travail après chaque
-étape. Codex vérifie son propre travail par rapport à la même ligne d'arrivée. Les autres outils d'IA qui lisent
-les skills obtiennent le même plan et la même ligne d'arrivée,
-et vous lancez le travail vous-même.
+Le reçu de la démo, avec `make demo` dans un clone de ce dépôt (une vraie exécution du 2026-11-17, raccourcie) :
+
+```text
+VERDICT: VERIFIED (2/2 checks passed)
+Checks:
+  1. PASS (exit 0) python3 -m unittest -q test_slugify
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+```
+
+Votre agent a dit que le travail était fini. L'était-il ? goalify fixe la ligne d'arrivée avant le début du travail :
+vos propres tests, qui passent. À la fin, `/goalify verify` les relance et écrit un reçu.
+
+Deux limites à connaître d'emblée. Un travail qui s'arrête n'est pas toujours un travail fini. Et `/goal` garde votre
+mode de permission, donc un travail peut encore s'arrêter sur une demande de permission ([Bon à savoir](#bon-à-savoir)).
+
+## Pourquoi l'utiliser
+
+- **Répondez une fois, au début.** Toutes les questions viennent d'abord, donc le travail n'a plus rien à vous demander.
+  Preuve : les réponses sont dans le brief, sous « Decisions », comme dans [ce vrai brief](../examples/sample-brief.md).
+- **Une ligne d'arrivée tirée de vos propres tests.** La ligne `/goal` nomme la commande de test qui doit passer.
+  Preuve : [la condition d'exemple](../examples/sample-condition.txt) dit « done when the last turn quotes npm test passing ».
+- **Un reçu qui peut dire non.** `make demo` affiche `VERDICT: VERIFIED (2/2 checks passed)`.
+  Preuve : `python3 examples/demo/run.py --broken` affiche `VERDICT: NOT VERIFIED (1/2 checks passed)`.
+
+## Sans goalify, avec goalify
+
+| Sans goalify | Avec goalify |
+|:--|:--|
+| L'IA s'arrête à 3 h du matin pour vous poser une question | Toutes les questions viennent d'abord, une seule fois |
+| Le plan est perdu quand vous videz le chat | Le plan est gardé dans un fichier. L'IA le relit encore et encore |
+| L'IA utilise un test que votre projet n'a pas | Les tests viennent de votre vrai projet |
+| « Terminé ! » veut seulement dire que l'IA l'a dit | « Terminé » veut dire que la dernière étape montre les tests qui passent |
+| Vous trouvez les problèmes le lendemain matin | `/goalify verify` relance les tests et vous donne un reçu |
 
 ## Installation
 
@@ -60,17 +86,17 @@ Cette version a ajouté `/goal`.
   <br><sub><a href="../assets/goalify-promo.mp4">Voir la vidéo complète</a> · <a href="../assets/goalify-promo-vertical.mp4">vidéo verticale</a> · <a href="../assets/goalify-promo-30s.mp4">vidéo de 30 secondes</a> · <a href="../assets/goalify-promo-15s.mp4">vidéo de 15 secondes</a></sub>
 </p>
 
-## Sans goalify, avec goalify
-
-| Sans goalify | Avec goalify |
-|:--|:--|
-| L'IA s'arrête à 3 h du matin pour vous poser une question | Toutes les questions viennent d'abord, une seule fois |
-| Le plan est perdu quand vous videz le chat | Le plan est gardé dans un fichier. L'IA le relit encore et encore |
-| L'IA utilise un test que votre projet n'a pas | Les tests viennent de votre vrai projet |
-| « Terminé ! » veut seulement dire que l'IA l'a dit | « Terminé » veut dire que la dernière étape montre les tests qui passent |
-| Vous trouvez les problèmes le lendemain matin | `/goalify verify` relance les tests et vous donne un reçu |
-
 ## Comment ça marche
+
+goalify transforme votre demande en **objectif**. Un objectif est une ligne d'arrivée claire. L'IA
+continue de travailler jusqu'à ce que l'objectif soit atteint et prouvé, ou jusqu'à la limite que
+vous avez fixée.
+
+Il marche mieux dans **Claude Code** et **Codex**. Les deux ont une commande `/goal` intégrée qui
+fait continuer le travail. Dans Claude Code, un second vérificateur relit le travail après chaque
+étape. Codex vérifie son propre travail par rapport à la même ligne d'arrivée. Les autres outils d'IA qui lisent
+les skills obtiennent le même plan et la même ligne d'arrivée,
+et vous lancez le travail vous-même.
 
 goalify prépare seulement le travail. C'est la commande `/goal` qui fait le travail. goalify s'assure
 que l'IA n'a plus rien à demander.
@@ -108,7 +134,7 @@ l'erreur la plus facile à faire :
   <img src="../assets/hero.svg" alt="Quatre étapes : décrire le travail, recevoir un brief et une condition, coller la condition, revenir à la preuve." width="72%">
 </p>
 
-### Pourquoi ça peut travailler des jours
+### Pourquoi un long travail garde le cap
 
 Un long travail d'IA échoue en général de deux façons. L'IA s'arrête pour vous demander quelque
 chose. Ou elle dit « terminé » alors que quelque chose est encore cassé. goalify règle le premier
@@ -216,6 +242,8 @@ sont dans le [README anglais](../README.md).
 
 - **goalify ne fait jamais le travail lui-même.** Il écrit le brief et la condition. Il lance vos
   vérifications seulement si vous le demandez.
+- **Un travail peut encore s'arrêter sur une demande de permission.** `/goal` garde votre mode de permission : le mode manuel
+  demande avant les appels d'outils non autorisés, et le mode auto redemande après des blocages répétés.
 - **Rien n'est envoyé nulle part.** Pas de serveur, pas de paquets en plus, pas d'appels réseau. Les
   scripts d'aide utilisent seulement le Python standard, et la page d'aperçu ne charge rien depuis
   internet.

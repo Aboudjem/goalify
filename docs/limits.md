@@ -51,6 +51,23 @@ goalify can write a brief and a condition in a workspace where neither gate will
 way to detect that for you, and no way to clear it: the first wants the trust dialog accepted, the
 second wants the restriction lifted in settings or by whoever set the policy.
 
+## A run can still pause on a permission prompt
+
+goalify asks every question up front, but it cannot answer a permission prompt for you. The official
+[`/goal` docs](https://code.claude.com/docs/en/goal) say a goal does not change your permission mode.
+In manual mode (config value `default`), Claude still asks before tool calls your settings do not
+already allow, such as your test command. The run then waits for you.
+
+Auto mode removes most prompts, not all of them. The
+[permission modes docs](https://code.claude.com/docs/en/permission-modes) list the exceptions.
+Explicit `ask` rules still prompt. After 3 blocks in a row or 20 in total, auto mode pauses and
+prompting resumes. In a headless `claude -p` run there is no prompt: a call that needs approval is
+denied, and the run keeps going without it.
+
+**What to do instead.** Run `/goal` in auto mode, and allow your test and build commands in your
+settings before you start. Then read the closing evidence: a denied command shows up there as a
+missing proof, not as a pause.
+
 ## The brief and the condition are two specs, and they can drift
 
 goalify derives the condition from the brief's definition of done, then checks it. That keeps the two

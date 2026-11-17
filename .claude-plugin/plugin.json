@@ -1,7 +1,7 @@
 {
   "name": "goalify",
-  "version": "3.1.1",
-  "description": "Give your AI a big job and get proof it is done. Writes the brief and the /goal condition for Claude Code and Codex.",
+  "version": "3.1.2",
+  "description": "Hand off a big task once. goalify asks its questions up front, writes the plan and the /goal finish line. Its verify step re-runs your tests into a receipt.",
   "author": {
     "name": "Adam Boudjemaa",
     "url": "https://github.com/Aboudjem/goalify"

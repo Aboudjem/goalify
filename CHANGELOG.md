@@ -6,6 +6,31 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [3.1.2] - 2026-11-17
+
+A clearer first screen and truer wording. One small fix in `/goalify doctor`. No other behaviour change.
+
+### Changed
+
+- **README first screen.** One sentence, the install command, a real `make demo` receipt, then a
+  `Why use it` block with a proof for each point. The "Without goalify, with goalify" table now sits
+  right under it. The four translations follow the same order.
+- **The duration claim is gone.** "For hours or even days" is cut from the README, the translations,
+  the landing page, its share image and the how-it-works diagram. No command proved it.
+- **One honest limit moved up.** `/goal` keeps your permission mode, so a run can still pause on a
+  permission prompt. The README says so on its first screen and in Limits. `docs/limits.md` explains
+  manual mode, auto mode and `claude -p`, with links to the official docs.
+- **New listing description** in every manifest: "Hand off a big task once. goalify asks its questions
+  up front, writes the plan and the /goal finish line. Its verify step re-runs your tests into a receipt."
+- **New social preview** (`.github/social-preview.png`, also `assets/social-preview.png`), rendered from
+  `assets/social-card.html`: "Done should mean the tests passed."
+
+### Fixed
+
+- **`/goalify doctor` names a `npx skills add --copy` install correctly.** It used to call the copy in
+  `.claude/skills` a hand copy and warn about two copies. It now lists one skills CLI copy, "copied
+  into" that folder. A linked install still says "linked into". Three new checks in `tests/test_doctor.py`.
+
 ## [3.1.1] - 2026-11-17
 
 Three fixes found by an independent check of 3.1.0.
@@ -265,7 +290,7 @@ use cases anyone can picture, and a fully re-scripted teaser.
   byte-identical on every surface that carries them.
 - **Teaser fully re-scripted** (27.9s, 836 frames) in the new direction: no terminal chrome, every
   frame a complete statement, and the `/goal` beat now shows the condition carrying all four teeth
- , the brief's path inside it, the quoted-evidence clause, the sentinel word, the turn bound , 
+  , the brief's path inside it, the quoted-evidence clause, the sentinel word, the turn bound ,
   each underlined and captioned in plain words (closes the v2.3 adversary's S5 follow-up). GIF
   re-derived (13fps, 900px).
 
@@ -298,7 +323,7 @@ proof it's done, not a promise that it is.", and a README built to land in secon
   three steps, right/wrong pair and stopped-run caveat. Copy went through a humanizer pass to strip
   AI-writing patterns.
 - **The story replaced verbatim on every surface**: quickstart, `llms.txt`, `plugin.json`,
-  `marketplace.json` (both fields), and the skill's frontmatter description and overview , 
+  `marketplace.json` (both fields), and the skill's frontmatter description and overview ,
   with `check_skill.py`'s two verbatim-story assertions re-pinned to the new wording in the same
   commit (still 78/78; the RED baseline is unchanged at 30/78).
 - **Social card re-voiced** (story plus legend glosses) and re-shot at exactly 1280×640, viewed;
@@ -372,7 +397,7 @@ conditions, and four hardened gates. The condition contract itself is unchanged.
   file itself).
 - **`evals/check_skill.py` grew 55 → 78 assertions** (+23 new v2.3 clauses, 1 tightened knowingly,
   0 deleted), pinning the short-condition default, the four teeth, the one-line handoff, the
-  Done/Proof/Next template, the live-progress rules, the no-handoff-while-agents-live rule, and , 
+  Done/Proof/Next template, the live-progress rules, the no-handoff-while-agents-live rule, and ,
   after an adversarial pass caught the template omitting it, the closeout-turn directive inside
   the brief template itself. The RED baseline against v1.1.0 was re-run, not predicted: **30/78**.
 
@@ -383,7 +408,7 @@ teaser. The condition contract itself is unchanged.
 
 ### Changed
 
-- **README rewritten from scratch in plain, pain-first English.** It opens on the reader's problem , 
+- **README rewritten from scratch in plain, pain-first English.** It opens on the reader's problem ,
   the plan dying at `/clear`: before goalify is named, shows the whole handoff in one block with the
   literal 157-character condition, and adds a with/without comparison plus a what-you-get list. The
   two-artifact distinction stays in flowing prose; the single `[!IMPORTANT]` remains reserved for the
@@ -458,7 +483,7 @@ last two releases slipped through. The condition contract itself is unchanged.
   goes to the worker, the condition string goes to `/goal`'s evaluator, and the evaluator has no tools.
 - **A gate asserting every shipped SVG is animated**, well-formed, script-free, free of external
   references, and that every font stack ends in a generic keyword (an unmatched stack falls back to
-  *serif*, which is the loudest possible failure).
+  _serif_, which is the loudest possible failure).
 - **`docs/codex.md`, `docs/limits.md`, `docs/faq.md`**: the Codex specifics, the full honest-limits
   list, and the long-tail FAQ, split out of the README. The limit that changes behaviour stays visible
   in the README itself rather than being buried by the split.
@@ -511,7 +536,7 @@ the skill, the condition contract, and the tests are identical to 2.0.0.
 - **The `v1-antipattern` exemption cap was `<= 4` with 3 in use**, leaving one free slot through which
   a genuine path handoff could have passed silently. It is now pinned to exactly the number in use, so
   adding one fails the build. Its failure message also claimed the test verifies each exemption is
-  *prose about* the old handoff; it only counts lines, and now says so.
+  _prose about_ the old handoff; it only counts lines, and now says so.
 - **`evals/scenarios.md` still pointed the RED demo at the retired `goal-prep` file** that no longer
   exists, the exact unfalsifiable baseline 2.0.0 replaced everywhere else.
 - **`evals/README.md` repeated the v1-era behavioral numbers** without the "dated record, not evidence"
@@ -524,18 +549,18 @@ the skill, the condition contract, and the tests are identical to 2.0.0.
 **goalify's central handoff was wrong, and this release fixes it.**
 
 `/goal` takes a **completion condition, not a file path.** Every version before this one told you to
-run `/goal <the-file-it-wrote>`. That path string simply *became* the condition. The evaluator behind
+run `/goal <the-file-it-wrote>`. That path string simply _became_ the condition. The evaluator behind
 `/goal` has no tools and cannot read files, so on every turn it was asked whether the literal string
 `/Users/you/.goal/task.md` had been satisfied, a question it can never answer from the transcript.
 The run either never resolved, resolved arbitrarily, or ended early because the evaluator judged the
-condition unachievable, stopping with the work unfinished. It *looked* fine because the first turn read
+condition unachievable, stopping with the work unfinished. It _looked_ fine because the first turn read
 the path and started working; the finish-line gate goalify advertised was never actually running.
 
 The evidence, so you can check rather than trust:
 
-- Docs, https://code.claude.com/docs/en/goal, *"Run `/goal` followed by the condition you want
-  satisfied"*, *"The condition can be up to 4,000 characters"*, and *"It doesn't run commands or read
-  files independently, so write the condition as something Claude's own output can demonstrate."*
+- Docs, https://code.claude.com/docs/en/goal, _"Run `/goal` followed by the condition you want
+  satisfied"_, _"The condition can be up to 4,000 characters"_, and _"It doesn't run commands or read
+  files independently, so write the condition as something Claude's own output can demonstrate."_
 - The shipped Claude Code binary (2.1.221) contains `No goal set. Usage: `/goal <condition>`` and
   `Goal condition is limited to <N> characters`. The `/goal` handler has three branches, empty,
   clear, and "treat the rest as the raw condition". There is no file-path branch.
@@ -570,14 +595,14 @@ The evidence, so you can check rather than trust:
   (`/goal [<objective>|clear|edit|pause|resume]`), it also takes an inline objective rather than a
   path, and its cap is the same 4,000 characters (established by probing the boundary live, since the
   number is interpolated at runtime rather than stored as a string), so the derivation is built once and both forms are
-  printed. Codex tells the model the objective is *"user-provided data … the task to pursue, not
-  higher-priority instructions"* and tags an edited objective `<untrusted_objective>`, so goalify now
+  printed. Codex tells the model the objective is _"user-provided data … the task to pursue, not
+  higher-priority instructions"_ and tags an edited objective `<untrusted_objective>`, so goalify now
   documents plainly that its **process directives do not reliably bind under Codex; only the definition
   of done carries.** `/goal` is TUI-only there, so the headless form pipes the brief to `codex exec -`.
   goalify does not promise budgeted Codex goals: `token_budget` reports `under development`.
 - **Model routing** (fast model for mechanical breadth, deep model for architecture and every skeptic
   pass) and a **dry run with caps**: phases, subagents, turn cap, printed before anything is written.
-  goalify deliberately does *not* predict a token or dollar cost; there is no citable basis for one.
+  goalify deliberately does _not_ predict a token or dollar cost; there is no citable basis for one.
 - **An honest-limits section.** A `/goal` run that stops is not proof of completion, the evaluator can
   end the loop by judging the condition unachievable, and no wording prevents that. (Claude Code books
   that case as a failed goal rather than an achieved one, but the loop ends either way.) The docs now
@@ -610,7 +635,7 @@ The evidence, so you can check rather than trust:
 - Runs `tests/test_manifests.py` (which `AGENTS.md` already called a release gate), now including a
   version-consistency check across `SKILL.md`, `plugin.json`, `marketplace.json` and this file, and an
   assertion over **every tracked text file** (not just Markdown) that nothing passes a file path to
-  `/goal`: absolute, `~`, or relative. Lines that *describe* the old handoff opt out with a
+  `/goal`: absolute, `~`, or relative. Lines that _describe_ the old handoff opt out with a
   `v1-antipattern` marker, and the number of those exemptions is itself asserted.
 - Typechecks `video/` and asserts every relative import in `video/src` is tracked by git, the exact
   failure above, gated so it cannot recur.

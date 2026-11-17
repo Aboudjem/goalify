@@ -6,6 +6,9 @@ Human-facing docs live in `README.md`; this file holds the extra context an agen
 
 ## What this repo is
 
+In one line: hand off a big task once. goalify asks its questions up front, writes the plan and the
+`/goal` finish line. Its verify step re-runs your tests into a receipt.
+
 This repo is `goalify`, a Claude Code / Agent Skills skill that **turns a big coding task into a
 self-contained implementation brief plus the `/goal` completion condition derived from it**. In one session it researches the task, locks the few real decisions
 (asking the user only the genuine forks, one interactive MCQ batch), and authors **two** artifacts: a

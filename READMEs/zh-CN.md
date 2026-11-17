@@ -24,11 +24,44 @@
   <a href="https://goalify-kappa.vercel.app">网站</a> · <a href="#安装">安装</a> · <a href="#它是怎么工作的">它是怎么工作的</a> · <a href="#30-新特性">3.0 新特性</a> · <a href="#和同类工具比">和同类工具比</a> · <a href="#需要知道的事">需要知道的事</a>
 </p>
 
-goalify 把你的请求变成一个**目标**。目标就是一条清楚的终点线。AI 会一直干下去，直到目标完成并且被证明，或者到了你设的上限。
+goalify 先把问题问完，写好计划，再用你真正的测试检查结果。
 
-goalify 先动脑。它先确认计划行得通，读文档，找出你项目里真正的测试。它把所有问题在一开始一次问完。然后 AI 自己干，干几个小时，甚至几天，不需要任何人回答。最后，它给你看证据。
+```bash
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
+```
 
-它在 **Claude Code** 和 **Codex** 里效果最好。两者都内置了 `/goal` 命令，能让工作一直继续。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。Codex 则对照同一条终点线，自己检查自己的工作。其他能读取 skills 的 AI 工具也能得到同样的计划和终点线，工作由你自己来启动。
+演示回执：在本仓库的克隆里运行 `make demo`（2026-11-17 的真实运行，有删节）：
+
+```text
+VERDICT: VERIFIED (2/2 checks passed)
+Checks:
+  1. PASS (exit 0) python3 -m unittest -q test_slugify
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+```
+
+你的智能体说活干完了。真的吗？goalify 在开工之前就定好终点线：你自己的测试全部通过。最后，`/goalify verify` 再跑一遍这些测试，并写一张回执。
+
+有两条限制要先知道。停下来的工作不一定是做完的工作。另外 `/goal` 不改你的权限模式，所以工作仍可能停在一个权限确认上（[需要知道的事](#需要知道的事)）。
+
+## 为什么用它
+
+- **一开始回答一次。** 所有问题都先问完，所以工作过程中没有什么需要再问你。
+  证据：答案写在简报的「Decisions」下面，见[这份真实简报](../examples/sample-brief.md)。
+- **终点线来自你自己的测试。** `/goal` 这一行写明了必须通过的测试命令。
+  证据：[示例条件](../examples/sample-condition.txt)写着「done when the last turn quotes npm test passing」。
+- **会说「不」的回执。** `make demo` 输出 `VERDICT: VERIFIED (2/2 checks passed)`。
+  证据：`python3 examples/demo/run.py --broken` 输出 `VERDICT: NOT VERIFIED (1/2 checks passed)`。
+
+## 没有 goalify，有了 goalify
+
+| 没有 goalify | 有了 goalify |
+|:--|:--|
+| AI 凌晨 3 点停下来问你问题 | 所有问题先问，只问一次 |
+| 清空聊天，计划就丢了 | 计划存在一个文件里。AI 会一遍遍重读 |
+| AI 用了你的项目里根本没有的测试 | 测试来自你真正的项目 |
+| 「搞定了！」只是 AI 自己这么说 | 「搞定」的意思是最后一步显示测试通过 |
+| 第二天早上你才发现问题 | `/goalify verify` 重新跑测试，并给你一份回执 |
 
 ## 安装
 
@@ -50,17 +83,11 @@ npx skills add Aboudjem/goalify
   <br><sub><a href="../assets/goalify-promo.mp4">观看完整视频</a> · <a href="../assets/goalify-promo-vertical.mp4">竖屏视频</a> · <a href="../assets/goalify-promo-30s.mp4">30 秒视频</a> · <a href="../assets/goalify-promo-15s.mp4">15 秒视频</a></sub>
 </p>
 
-## 没有 goalify，有了 goalify
-
-| 没有 goalify | 有了 goalify |
-|:--|:--|
-| AI 凌晨 3 点停下来问你问题 | 所有问题先问，只问一次 |
-| 清空聊天，计划就丢了 | 计划存在一个文件里。AI 会一遍遍重读 |
-| AI 用了你的项目里根本没有的测试 | 测试来自你真正的项目 |
-| 「搞定了！」只是 AI 自己这么说 | 「搞定」的意思是最后一步显示测试通过 |
-| 第二天早上你才发现问题 | `/goalify verify` 重新跑测试，并给你一份回执 |
-
 ## 它是怎么工作的
+
+goalify 把你的请求变成一个**目标**。目标就是一条清楚的终点线。AI 会一直干下去，直到目标完成并且被证明，或者到了你设的上限。
+
+它在 **Claude Code** 和 **Codex** 里效果最好。两者都内置了 `/goal` 命令，能让工作一直继续。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。Codex 则对照同一条终点线，自己检查自己的工作。其他能读取 skills 的 AI 工具也能得到同样的计划和终点线，工作由你自己来启动。
 
 goalify 只负责准备。真正干活的是 `/goal` 命令。goalify 要保证 AI 没有任何需要再问的事。
 
@@ -86,7 +113,7 @@ goalify 只负责准备。真正干活的是 `/goal` 命令。goalify 要保证 
   <img src="../assets/hero.svg" alt="四步：描述这件活，拿到简报和条件，粘贴条件，回来看到证据。" width="72%">
 </p>
 
-### 为什么它能干上好几天
+### 为什么长时间的工作不会跑偏
 
 AI 的长时间工作通常以两种方式失败。一种是 AI 停下来问你问题。另一种是东西还坏着，它却说「做完了」。goalify 解决第一个问题的办法是：一开始就把所有问题问完，并把答案写进简报。它解决第二个问题的办法是条件：最后 AI 必须把每一项检查再跑一遍，给出结果，并写出一个特别的词，比如 `ASYNC-OK`。如果 AI 跳过了工作，它就只能撒谎。接近步数上限时，AI 会干净地收尾，并说明还剩什么。如果它提前停了，简报里还留着清单。再粘贴同一行，就能接着干。
 
@@ -162,6 +189,7 @@ Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-
 > 工作停下来了，不一定就做完了。检查员自己做判断。如果它认为目标够不着，也可能让工作停下。在你相信一个绿色结果之前，请对简报运行 `/goalify verify`，或者自己把它的检查跑一遍。
 
 - **goalify 从不自己做这件活。** 它写简报和条件。只有你要求时，它才运行你的检查。
+- **工作仍可能停在权限确认上。** `/goal` 不改你的权限模式：手动模式会在未允许的工具调用前询问，自动模式在多次拦截后也会重新询问。
 - **不会往任何地方发送东西。** 没有服务端，没有额外的包，没有网络请求。辅助脚本只用标准的 Python，预览页面也不从互联网加载任何东西。
 - **不瞎猜价格。** goalify 从不猜测要花多少钱或多少 token。步数上限由你来掌控。
 - **它不承诺的每一件事**都列在[诚实的边界](../docs/limits.md)里。

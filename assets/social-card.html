@@ -4,16 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=1280">
 <title>goalify social card</title>
+<!--
+  Source of .github/social-preview.png and assets/social-preview.png (1280x640).
+  Render: chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 \
+    --window-size=1280,640 --screenshot=social-preview.png assets/social-card.html
+  The receipt on the right is the real output of `make demo` (2026-11-17), trimmed.
+-->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --bg:    #07060f;
-    --bg2:   #0d0b1a;
     --purp:  #9b6bff;
+    --lav:   #b9a3ff;
     --cyan:  #2ee6ff;
-    --pink:  #ff3d9a;
-    --yell:  #ffd23f;
     --grn:   #3dffa8;
     --ink:   #f1edff;
     --sub:   #a59cc9;
@@ -25,298 +29,120 @@
     height: 640px;
     overflow: hidden;
     background: var(--bg);
-    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
 
   body {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 80px;
-    /* Glass border */
-    border: 1.5px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-  }
-
-  /* Subtle ambient glows */
-  body::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
     background:
-      radial-gradient(ellipse 60% 60% at 10% 15%, rgba(155,107,255,0.14) 0%, transparent 70%),
-      radial-gradient(ellipse 55% 55% at 90% 88%, rgba(46,230,255,0.10) 0%, transparent 70%);
-    pointer-events: none;
+      radial-gradient(ellipse 55% 60% at 12% 18%, rgba(155,107,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 55% at 88% 85%, rgba(61,255,168,0.07) 0%, transparent 70%),
+      var(--bg);
   }
 
-  /* Top highlight */
-  body::after {
-    content: '';
-    position: absolute;
-    top: 2px; left: 2px; right: 2px;
-    height: 1.5px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 24px 24px 0 0;
-    pointer-events: none;
-  }
-
-  /* Stars */
-  .star {
-    position: absolute;
-    border-radius: 50%;
-    background: #fff;
-  }
-  .star-1 { width: 2px; height: 2px; top: 78px;  right: 160px; opacity: 0.45; }
-  .star-2 { width: 2px; height: 2px; top: 520px; right: 80px;  opacity: 0.35; }
-  .star-3 { width: 2px; height: 2px; top: 200px; left: 600px;  opacity: 0.28; }
-
-  /* Cross-flare star */
-  .flare {
-    position: absolute;
-    top: 64px; right: 200px;
-    width: 14px; height: 14px;
-  }
-  .flare::before, .flare::after {
-    content: '';
-    position: absolute;
-    background: var(--cyan);
-    border-radius: 2px;
-    opacity: 0.55;
-  }
-  .flare::before { width: 1.5px; height: 14px; left: 6.25px; top: 0; }
-  .flare::after  { width: 14px; height: 1.5px; top: 6.25px; left: 0; }
-
-  /* Mark */
-  .mark {
-    position: absolute;
-    top: 48px;
-    left: 80px;
-  }
-
-  /* Main layout: left block + divider + right block */
-  .layout {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Left: wordmark + tagline */
   .left {
-    flex: 0 0 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-right: 60px;
+    position: absolute;
+    left: 72px;
+    top: 92px;
+    width: 640px;
   }
 
-  .logo-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  .logo-row { display: flex; align-items: center; gap: 16px; }
+  .wordmark { font-size: 34px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
 
-  .logo-svg {
-    flex-shrink: 0;
-  }
-
-  .wordmark {
-    font-size: 96px;
+  h1 {
+    margin-top: 44px;
+    font-size: 78px;
+    line-height: 1.02;
     font-weight: 800;
-    letter-spacing: -3px;
-    line-height: 1;
-    background: linear-gradient(95deg, var(--purp) 0%, var(--cyan) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.045em;
+    color: var(--ink);
   }
+  h1 .grad { color: var(--lav); }
 
-  .tagline {
+  .sub {
+    margin-top: 26px;
     font-size: 26px;
+    line-height: 1.35;
     font-weight: 500;
     color: var(--sub);
-    line-height: 1.4;
-    max-width: 360px;
   }
 
-  .tagline strong {
-    color: var(--ink);
-    font-weight: 700;
-  }
-
-  /* Divider */
-  .divider {
-    flex-shrink: 0;
-    width: 1.5px;
-    height: 340px;
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(155,107,255,0.50) 20%,
-      rgba(46,230,255,0.50) 80%,
-      transparent 100%
-    );
-    margin: 0 60px;
-  }
-
-  /* Right: code panel */
-  .right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 100px;
-    padding: 6px 20px;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .pill.purp {
-    background: rgba(155,107,255,0.18);
-    border: 1px solid rgba(155,107,255,0.45);
-    color: var(--purp);
-  }
-  .pill.pink {
-    background: rgba(255,61,154,0.18);
-    border: 1px solid rgba(255,61,154,0.45);
-    color: var(--pink);
-  }
-
-  .code-block {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 16px;
-    padding: 20px 24px;
-    position: relative;
-  }
-  .code-block::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: rgba(255,255,255,0.16);
-    border-radius: 16px 16px 0 0;
-  }
-
-  .code-block pre {
-    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
-    font-size: 20px;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  .code-block .cmd  { color: var(--purp); }
-  .code-block .sep  { color: var(--dim); }
-  .code-block .ok   { color: var(--grn); }
-  .code-block .lite { color: var(--sub); }
-
-  .badges {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--grn);
-    background: rgba(61,255,168,0.10);
-    border: 1px solid rgba(61,255,168,0.30);
-    border-radius: 100px;
-    padding: 4px 14px;
-  }
-
-  .dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--grn);
+  .cmd {
     display: inline-block;
+    margin-top: 30px;
+    padding: 14px 22px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.14);
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+    font-size: 21px;
+    color: var(--ink);
   }
+  .cmd .k { color: var(--lav); }
 
-  /* Bottom: version label */
-  .version {
+  .card {
     position: absolute;
-    bottom: 32px;
-    right: 80px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--dim);
-    letter-spacing: 0.5px;
+    right: 72px;
+    top: 168px;
+    width: 452px;
+    padding: 30px 30px 34px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(61,255,168,0.28);
   }
+  .card .label {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(61,255,168,0.12);
+    color: var(--grn);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .card .verdict {
+    margin-top: 22px;
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--grn);
+  }
+  .card .count { margin-top: 8px; font-size: 20px; font-weight: 600; color: var(--ink); }
+  .card pre {
+    margin-top: 22px;
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--sub);
+    white-space: pre-wrap;
+  }
+  .card pre .ok { color: var(--grn); }
+  .card .bar { margin-top: 22px; height: 8px; border-radius: 4px; background: var(--grn); }
 </style>
 </head>
 <body>
-  <div class="star star-1"></div>
-  <div class="star star-2"></div>
-  <div class="star star-3"></div>
-  <div class="flare"></div>
-
-  <div class="layout">
-    <!-- Left -->
-    <div class="left">
-      <div class="logo-row">
-        <!-- Inline mark SVG -->
-        <svg class="logo-svg" width="72" height="72" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="128" cy="128" r="100" stroke="url(#sc-lg)" stroke-width="8"/>
-          <circle cx="128" cy="128" r="62"  stroke="url(#sc-lg)" stroke-width="7" opacity="0.82"/>
-          <circle cx="128" cy="128" r="26"  stroke="url(#sc-lg)" stroke-width="6" opacity="0.64"/>
-          <line x1="46" y1="46" x2="172" y2="172" stroke="#2ee6ff" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="40" cy="40" r="12" fill="#2ee6ff"/>
-          <circle cx="128" cy="128" r="9" fill="#3dffa8"/>
-          <defs>
-            <linearGradient id="sc-lg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#9b6bff"/>
-              <stop offset="100%" stop-color="#2ee6ff"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="wordmark">goalify</div>
-      </div>
-      <p class="tagline">writes the <strong>brief</strong> and the <strong>condition.</strong><br>You paste one line. Claude runs.</p>
-      <div class="badges">
-        <span class="badge"><span class="dot"></span>no interruptions</span>
-        <span class="badge"><span class="dot"></span>verified proof</span>
-      </div>
+  <div class="left">
+    <div class="logo-row">
+      <svg width="48" height="48" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#a78cff" stroke-width="16" stroke-linecap="round"><circle cx="128" cy="128" r="26"/><circle cx="128" cy="128" r="56"/><circle cx="128" cy="128" r="86"/></g>
+        <line x1="200" y1="56" x2="128" y2="128" stroke="#c77dff" stroke-width="20" stroke-linecap="round"/>
+        <circle cx="128" cy="128" r="10" fill="#fff"/>
+      </svg>
+      <div class="wordmark">goalify</div>
     </div>
-
-    <!-- Divider -->
-    <div class="divider"></div>
-
-    <!-- Right: code steps -->
-    <div class="right">
-      <div style="display:flex; gap:12px; flex-wrap:wrap;">
-        <span class="pill purp">BRIEF</span>
-        <span class="pill pink">CONDITION</span>
-      </div>
-      <div class="code-block">
-        <pre><span class="cmd">/goalify</span> migrate our API to OpenAPI 3.1
-<span class="lite">↓  writes api-migration.md + condition string</span>
-
-<span class="cmd">/clear</span>
-<span class="cmd">/goal</span>  Do everything in ~/acme/.goal/api-migration.md
-       and prove it, done when npm test passes
-       and the last turn says ASYNC-OK. Stop at 40.</pre>
-      </div>
-      <div class="code-block">
-        <pre><span class="ok">npm test  PASS  47 passed</span>
-<span class="ok">ASYNC-OK</span>
-<span class="sep">.goal/done/api-migration.receipt</span></pre>
-      </div>
-    </div>
+    <h1>Done should mean <span class="grad">the tests passed.</span></h1>
+    <p class="sub">Plan the big job once. Get a receipt, not a promise.</p>
+    <div class="cmd"><span class="k">/goalify</span> migrate the API client to async</div>
   </div>
 
-  <div class="version">v3.0 · a Claude Code skill</div>
+  <div class="card">
+    <span class="label">/goalify verify</span>
+    <div class="verdict">VERIFIED</div>
+    <div class="count">2/2 checks passed</div>
+    <pre><span class="ok">PASS</span> python3 -m unittest -q test_slugify
+<span class="ok">PASS</span> grep -n "TODO" slugify.py</pre>
+    <div class="bar"></div>
+  </div>
 </body>
 </html>

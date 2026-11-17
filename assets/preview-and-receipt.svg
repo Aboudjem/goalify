@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" fill="none" role="img" aria-label="goalify 3.0 loop: run preview before, non-stop run during, verified proof receipt after">
   <title>goalify 3.0 loop: run preview, non-stop run, verified proof receipt</title>
-  <desc>Three horizontal panels. The first panel is labelled before and shows the run preview output, a page showing the phases, the checks and the condition before the run starts. The middle panel is labelled during and shows a non-stop autonomous run over hours or days with zero interruptions. The third panel is labelled after and shows the proof receipt: a terminal block with npm test passing, ASYNC-OK, and a green VERIFIED badge.</desc>
+  <desc>Three horizontal panels. The first panel is labelled before and shows the run preview output, a page showing the phases, the checks and the condition before the run starts. The middle panel is labelled during and shows the autonomous run, with no questions left to ask. The third panel is labelled after and shows the proof receipt: a terminal block with npm test passing, ASYNC-OK, and a green VERIFIED badge.</desc>
   <defs>
     <linearGradient id="par-bg" x1="0" y1="0" x2="0.25" y2="1">
       <stop offset="0%"   stop-color="#0d0b1a"/>

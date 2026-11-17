@@ -69,6 +69,25 @@ def active_plugin_paths(config_dir):
     return out
 
 
+def skills_cli_twin(skill_dir):
+    """The .agents copy that `npx skills add --copy` made next to this .claude copy, or None.
+
+    `<root>/.claude/skills/goalify` is one install with `<root>/.agents/skills/goalify` when
+    it is a real folder and both SKILL.md files hold the same bytes."""
+    skills = os.path.dirname(skill_dir)
+    claude = os.path.dirname(skills)
+    if os.path.basename(skills) != "skills" or os.path.basename(claude) != ".claude":
+        return None
+    twin = os.path.join(os.path.dirname(claude), ".agents", "skills", os.path.basename(skill_dir))
+    try:
+        with open(os.path.join(skill_dir, "SKILL.md"), "rb") as a, \
+                open(os.path.join(twin, "SKILL.md"), "rb") as b:
+            same = a.read() == b.read()
+    except OSError:
+        return None
+    return os.path.realpath(twin) if same else None
+
+
 def find_copies(home, project):
     copies = []
 
@@ -76,13 +95,19 @@ def find_copies(home, project):
         md = os.path.join(skill_dir, "SKILL.md")
         if os.path.isfile(md):
             # `npx skills add` keeps one real copy in .agents/skills and links it into each
-            # agent's folder. Name it for what it is, and list it once.
+            # agent's folder. With --copy it copies it there instead. Name it for what it
+            # is, and list it once.
             real = os.path.realpath(skill_dir)
             if os.path.islink(skill_dir) and os.sep + ".agents" + os.sep in real:
                 kind = "skills CLI copy (npx skills add), linked into " + os.path.dirname(skill_dir)
+            else:
+                twin = skills_cli_twin(skill_dir)
+                if twin:
+                    kind = "skills CLI copy (npx skills add --copy), copied into " + os.path.dirname(skill_dir)
+                    real = twin
             if any(c["path"] == real for c in copies):
                 return
-            copies.append({"kind": kind, "path": os.path.realpath(skill_dir),
+            copies.append({"kind": kind, "path": real,
                            "version": skill_version(md), "note": note})
 
     for cdir in config_dirs(home):

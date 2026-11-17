@@ -200,12 +200,12 @@
     <rect x="109" y="637" width="758" height="1.5" rx="0.75"
           fill="#ffffff" fill-opacity="0.18"/>
     <text class="hiw" font-size="26" font-weight="700" x="138" y="672"
-          fill="#f1edff">Claude runs. No interruptions.</text>
+          fill="#f1edff">Claude runs. No questions left.</text>
     <!-- pulse dots = busy indicator -->
     <circle cx="138" cy="714" r="6" fill="#2ee6ff" opacity="0.85"/>
     <circle cx="162" cy="714" r="6" fill="#2ee6ff" opacity="0.60"/>
     <circle cx="186" cy="714" r="6" fill="#2ee6ff" opacity="0.35"/>
-    <text class="hiw" font-size="22" x="210" y="720" fill="#a59cc9">hours or days, zero check-ins needed</text>
+    <text class="hiw" font-size="22" x="210" y="720" fill="#a59cc9">your answers are already in the brief</text>
   </g>
 
   <!-- STEP 5: y~782 -->

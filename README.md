@@ -24,18 +24,46 @@
   <a href="https://goalify-kappa.vercel.app">Website</a> · <a href="#install">Install</a> · <a href="#how-it-works">How it works</a> · <a href="#sample-report">Sample report</a> · <a href="#proof">Proof</a> · <a href="#faq">FAQ</a> · <a href="#limits">Limits</a>
 </p>
 
-goalify turns your request into a **goal**. A goal is a clear finish line. The AI keeps working
-until the goal is done and proven, or until it reaches the limit you set.
+goalify asks its questions first, writes the plan, and checks the result against your real tests.
 
-goalify does the thinking first. It checks that the plan can work. It reads the docs. It finds the
-real tests in your project. It asks you all its questions at the start, one time. Then the AI
-works alone, for hours or even days, and nobody needs to answer anything. At the end, it shows
-you proof.
+```bash
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
+```
 
-It works best in **Claude Code** and **Codex**. Both have a built-in `/goal` command that keeps
-the work going. In Claude Code, a second checker reads the work after every step. Codex checks
-its own work against the same finish line. Other AI tools that read skills get the same plan and
-finish line, and you start the work yourself.
+The demo receipt, from `make demo` in a clone of this repo (a real run on 2026-11-17, trimmed):
+
+```text
+VERDICT: VERIFIED (2/2 checks passed)
+Checks:
+  1. PASS (exit 0) python3 -m unittest -q test_slugify
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+```
+
+Your agent said the job was done. Was it? goalify sets the finish line before the work starts:
+your own tests, passing. At the end, `/goalify verify` runs them again and writes a receipt.
+
+Two limits to know up front. A run that stops is not always a finished run. And `/goal` keeps your
+permission mode, so a run can still pause on a permission prompt ([Limits](#limits)).
+
+## Why use it
+
+- **Answer once, up front.** Every question comes first, so the run has nothing left to ask you.
+  Proof: the answers sit in the brief under "Decisions", as in [this real brief](examples/sample-brief.md).
+- **A finish line from your own tests.** The `/goal` line names the test command that must pass.
+  Proof: [the sample condition](examples/sample-condition.txt) says "done when the last turn quotes npm test passing".
+- **A receipt that can fail.** `make demo` prints `VERDICT: VERIFIED (2/2 checks passed)`.
+  Proof: `python3 examples/demo/run.py --broken` prints `VERDICT: NOT VERIFIED (1/2 checks passed)`.
+
+## Without goalify, with goalify
+
+| Without goalify | With goalify |
+|:--|:--|
+| The AI stops at 3am to ask you a question | All questions come first, one time |
+| The plan is lost when you clear the chat | The plan is saved in a file. The AI reads it again and again |
+| The AI uses a test that your project does not have | The tests come from your real project |
+| "Done!" only means the AI said so | "Done" means the last step shows the tests passing |
+| You find the problems the next morning | `/goalify verify` runs the tests again and gives you a receipt |
 
 ## Install
 
@@ -80,17 +108,15 @@ make demo
   <br><sub><a href="assets/goalify-promo.mp4">Watch the full video</a> · <a href="assets/goalify-promo-vertical.mp4">vertical video</a> · <a href="assets/goalify-promo-30s.mp4">30-second video</a> · <a href="assets/goalify-promo-15s.mp4">15-second video</a></sub>
 </p>
 
-## Without goalify, with goalify
-
-| Without goalify | With goalify |
-|:--|:--|
-| The AI stops at 3am to ask you a question | All questions come first, one time |
-| The plan is lost when you clear the chat | The plan is saved in a file. The AI reads it again and again |
-| The AI uses a test that your project does not have | The tests come from your real project |
-| "Done!" only means the AI said so | "Done" means the last step shows the tests passing |
-| You find the problems the next morning | `/goalify verify` runs the tests again and gives you a receipt |
-
 ## How it works
+
+goalify turns your request into a **goal**. A goal is a clear finish line. The AI keeps working
+until the goal is done and proven, or until it reaches the limit you set.
+
+It works best in **Claude Code** and **Codex**. Both have a built-in `/goal` command that keeps
+the work going. In Claude Code, a second checker reads the work after every step. Codex checks
+its own work against the same finish line. Other AI tools that read skills get the same plan and
+finish line, and you start the work yourself.
 
 goalify only prepares the work. The `/goal` command does the work. goalify makes sure the AI has
 nothing left to ask.
@@ -125,7 +151,7 @@ Nothing breaks, but nothing is checked either. It is the easiest mistake to make
   <img src="assets/hero.svg" alt="Four steps: describe the job, get a brief and a condition, paste the condition, come back to proof." width="72%">
 </p>
 
-### Why it can work for days
+### Why a long run stays on track
 
 Long AI work usually fails in two ways. The AI stops to ask you something. Or it says "done" when
 something is still broken. goalify fixes the first problem: it asks everything at the start and
@@ -269,6 +295,8 @@ More answers in the [full FAQ](docs/faq.md).
 
 - **goalify never does the job itself.** It writes the brief and the condition. It runs your
   checks only when you ask.
+- **A run can still pause on a permission prompt.** `/goal` keeps your permission mode: manual mode
+  asks before unapproved tool calls, and auto mode asks again after repeated blocks.
 - **Verify re-runs checks, it does not review code.** A check that tests the wrong thing still passes.
 - **What leaves your machine: nothing.** No server, no extra packages, no network calls. The helper
   scripts use only standard Python, and the preview page loads nothing from the internet.

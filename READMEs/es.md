@@ -24,18 +24,46 @@
   <a href="https://goalify-kappa.vercel.app">Sitio web</a> · <a href="#instalación">Instalación</a> · <a href="#cómo-funciona">Cómo funciona</a> · <a href="#novedades-de-la-30">Novedades de la 3.0</a> · <a href="#cómo-se-compara">Cómo se compara</a> · <a href="#conviene-saber">Conviene saber</a>
 </p>
 
-goalify convierte tu petición en un **objetivo**. Un objetivo es una meta clara. La IA sigue
-trabajando hasta que el objetivo está hecho y probado, o hasta que llega al límite que tú pusiste.
+goalify hace sus preguntas primero, escribe el plan y comprueba el resultado con tus tests reales.
 
-goalify piensa primero. Comprueba que el plan puede funcionar. Lee la documentación. Encuentra los
-tests reales de tu proyecto. Te hace todas sus preguntas al principio, una sola vez. Después la IA
-trabaja sola, durante horas o incluso días, y nadie tiene que responder nada. Al final, te
-enseña una prueba.
+```bash
+claude plugin marketplace add Aboudjem/10x
+claude plugin install goalify@10x
+```
 
-Funciona mejor en **Claude Code** y **Codex**. Los dos tienen un comando `/goal` integrado que
-mantiene el trabajo en marcha. En Claude Code, un segundo revisor lee el trabajo después de cada
-paso. Codex revisa su propio trabajo frente a la misma meta. Otras herramientas de IA que leen skills
-obtienen el mismo plan y la misma meta, y empiezas el trabajo tú.
+El recibo de la demo, con `make demo` en un clon de este repo (una ejecución real del 2026-11-17, recortada):
+
+```text
+VERDICT: VERIFIED (2/2 checks passed)
+Checks:
+  1. PASS (exit 0) python3 -m unittest -q test_slugify
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+```
+
+Tu agente dijo que el trabajo estaba hecho. ¿Lo estaba? goalify fija la meta antes de empezar el trabajo:
+tus propios tests, pasando. Al final, `/goalify verify` los vuelve a ejecutar y escribe un recibo.
+
+Dos límites que conviene saber desde el principio. Un trabajo que para no siempre es un trabajo terminado. Y `/goal` mantiene
+tu modo de permisos, así que un trabajo aún puede pararse en una petición de permiso ([Conviene saber](#conviene-saber)).
+
+## Por qué usarlo
+
+- **Responde una vez, al principio.** Todas las preguntas van primero, así que el trabajo ya no tiene nada que preguntarte.
+  Prueba: las respuestas están en el informe, bajo «Decisions», como en [este informe real](../examples/sample-brief.md).
+- **Una meta sacada de tus propios tests.** La línea `/goal` nombra el comando de test que debe pasar.
+  Prueba: [la condición de ejemplo](../examples/sample-condition.txt) dice «done when the last turn quotes npm test passing».
+- **Un recibo que puede decir que no.** `make demo` imprime `VERDICT: VERIFIED (2/2 checks passed)`.
+  Prueba: `python3 examples/demo/run.py --broken` imprime `VERDICT: NOT VERIFIED (1/2 checks passed)`.
+
+## Sin goalify, con goalify
+
+| Sin goalify | Con goalify |
+|:--|:--|
+| La IA para a las 3 de la mañana para hacerte una pregunta | Todas las preguntas van primero, una sola vez |
+| El plan se pierde cuando borras el chat | El plan se guarda en un archivo. La IA lo lee una y otra vez |
+| La IA usa un test que tu proyecto no tiene | Los tests salen de tu proyecto real |
+| «¡Hecho!» solo significa que la IA lo dijo | «Hecho» significa que el último paso muestra los tests pasando |
+| Encuentras los problemas a la mañana siguiente | `/goalify verify` repite los tests y te da un recibo |
 
 ## Instalación
 
@@ -58,17 +86,15 @@ versión añadió `/goal`.
   <br><sub><a href="../assets/goalify-promo.mp4">Ver el vídeo completo</a> · <a href="../assets/goalify-promo-vertical.mp4">vídeo vertical</a> · <a href="../assets/goalify-promo-30s.mp4">vídeo de 30 segundos</a> · <a href="../assets/goalify-promo-15s.mp4">vídeo de 15 segundos</a></sub>
 </p>
 
-## Sin goalify, con goalify
-
-| Sin goalify | Con goalify |
-|:--|:--|
-| La IA para a las 3 de la mañana para hacerte una pregunta | Todas las preguntas van primero, una sola vez |
-| El plan se pierde cuando borras el chat | El plan se guarda en un archivo. La IA lo lee una y otra vez |
-| La IA usa un test que tu proyecto no tiene | Los tests salen de tu proyecto real |
-| «¡Hecho!» solo significa que la IA lo dijo | «Hecho» significa que el último paso muestra los tests pasando |
-| Encuentras los problemas a la mañana siguiente | `/goalify verify` repite los tests y te da un recibo |
-
 ## Cómo funciona
+
+goalify convierte tu petición en un **objetivo**. Un objetivo es una meta clara. La IA sigue
+trabajando hasta que el objetivo está hecho y probado, o hasta que llega al límite que tú pusiste.
+
+Funciona mejor en **Claude Code** y **Codex**. Los dos tienen un comando `/goal` integrado que
+mantiene el trabajo en marcha. En Claude Code, un segundo revisor lee el trabajo después de cada
+paso. Codex revisa su propio trabajo frente a la misma meta. Otras herramientas de IA que leen skills
+obtienen el mismo plan y la misma meta, y empiezas el trabajo tú.
 
 goalify solo prepara el trabajo. El comando `/goal` hace el trabajo. goalify se asegura de que la IA
 no tenga nada más que preguntar.
@@ -104,7 +130,7 @@ de cometer:
   <img src="../assets/hero.svg" alt="Cuatro pasos: describe el trabajo, recibe un informe y una condición, pega la condición, vuelve a la prueba." width="72%">
 </p>
 
-### Por qué puede trabajar durante días
+### Por qué un trabajo largo no se desvía
 
 Un trabajo largo de IA suele fallar de dos maneras. La IA para para preguntarte algo. O dice
 «hecho» cuando algo sigue roto. goalify arregla el primer problema: lo pregunta todo al principio y
@@ -209,6 +235,8 @@ el [README en inglés](../README.md).
 
 - **goalify nunca hace el trabajo él mismo.** Escribe el informe y la condición. Ejecuta tus
   comprobaciones solo cuando se lo pides.
+- **Un trabajo aún puede pararse en una petición de permiso.** `/goal` mantiene tu modo de permisos: el modo manual
+  pregunta antes de las llamadas a herramientas no permitidas, y el modo auto vuelve a preguntar tras bloqueos repetidos.
 - **No se envía nada a ningún sitio.** Sin servidor, sin paquetes extra, sin llamadas de red. Los
   scripts de ayuda usan solo Python estándar, y la página de vista previa no carga nada de internet.
 - **Sin adivinar precios.** goalify nunca adivina un coste en dinero o en tokens. Tu límite de pasos

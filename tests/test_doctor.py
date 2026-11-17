@@ -116,6 +116,27 @@ try:
     check("skills CLI copy + plugin: warns and prints the remove command",
           p.returncode == 1 and "npx skills remove goalify" in p.stdout, p.stdout)
 
+    check("skills CLI linked install: the label says linked into",
+          "linked into " + os.path.join(proj6, ".claude", "skills") in p.stdout, p.stdout)
+
+    # `npx skills add --copy` copies the .agents folder into .claude/skills instead of
+    # linking it. That is still one install, named as copied, not linked and not a hand copy.
+    h8 = os.path.join(tmp, "h8")
+    proj8 = os.path.join(h8, "proj")
+    skill(os.path.join(proj8, ".agents", "skills", "goalify"), "3.1.2")
+    skill(os.path.join(proj8, ".claude", "skills", "goalify"), "3.1.2")
+    p = doctor(h8)
+    check("skills CLI --copy install: the two folders count once, exit 0",
+          p.returncode == 0 and "1 installed copy found" in p.stdout, p.stdout)
+    check("skills CLI --copy install: the label says copied into, not linked into",
+          "copied into " + os.path.join(proj8, ".claude", "skills") in p.stdout
+          and "linked into" not in p.stdout and "hand copy" not in p.stdout, p.stdout)
+    skill(os.path.join(proj8, ".claude", "skills", "goalify"), "3.0.0")
+    p = doctor(h8)
+    check("a .claude copy that differs from .agents stays a hand copy and is warned",
+          p.returncode == 1 and "hand copy" in p.stdout and "2 installed copies found" in p.stdout,
+          p.stdout)
+
     # Claude Code reads $CLAUDE_CONFIG_DIR instead of ~/.claude when it is set.
     h7 = os.path.join(tmp, "h7")
     cfg7 = os.path.join(tmp, "custom-config")
