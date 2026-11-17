@@ -64,7 +64,18 @@ Un run arrêté n'est pas toujours fini, et il peut s'arrêter sur une demande d
 
 ## Installation
 
-**Choisissez votre agent.** Chaque commande installe goalify pour tous vos projets.
+**Recommandé : la CLI skills de Vercel.** Une commande, pour tous vos projets :
+
+```bash
+npx skills add Aboudjem/goalify -g
+```
+
+Fonctionne dans 79 agents : choisissez le vôtre dans le menu ([agents pris en charge](https://github.com/vercel-labs/skills#supported-agents)). `npx skills` est
+l'installeur ouvert de Vercel pour les skills. <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a> [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)
+
+Seulement ce projet : retirez `-g`.
+
+**Ou installez directement dans un agent.** Chaque commande installe goalify pour tous vos projets.
 
 <p align="center">
   <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Code" height="24"></a>
@@ -73,16 +84,12 @@ Un run arrêté n'est pas toujours fini, et il peut s'arrêter sur une demande d
   <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini CLI" height="24"></a>
   <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=flat-square&logo=githubcopilot&logoColor=white" alt="GitHub Copilot" height="24"></a>
   <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=flat-square&logo=opencode&logoColor=white" alt="OpenCode" height="24"></a>
-  <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a>
 </p>
 
-**Tout autre agent** (CLI skills de Vercel) : `npx skills add Aboudjem/goalify -g`, puis choisissez votre agent dans son menu.
-`npx skills` est l'installeur ouvert de Vercel pour les skills. La page de goalify : [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify).
-
-<a id="install-claude-code"></a>**Claude Code**, testé. Installé pour tous vos projets :
+<a id="install-claude-code"></a>**Claude Code**, testé :
 
 ```bash
-claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+npx skills add Aboudjem/goalify -g -a claude-code
 ```
 
 <a id="install-codex"></a>**Codex**, testé :
@@ -115,7 +122,13 @@ npx skills add Aboudjem/goalify -g -a github-copilot
 npx skills add Aboudjem/goalify -g -a opencode
 ```
 
-Seulement ce projet : retirez `-g`. Un autre agent : son code `-a` est dans [docs/editors.md](../docs/editors.md).
+Un autre agent : son code `-a` est dans [docs/editors.md](../docs/editors.md).
+
+**Ou comme plugin Claude Code**, testé. Le même skill, géré par le système de plugins de Claude Code :
+
+```bash
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+```
 
 La CLI skills affiche un avertissement de risque moyen pour goalify, car `verify` lance les commandes de
 vérification du brief dans un shell. verify liste d'abord ces commandes et ne lance rien sans votre oui.

@@ -36,7 +36,7 @@ binary contains `No goal set. Usage: /goal <condition>` with no file-path branch
 - If running inside Claude Code with the skill installed: trigger it by describing the user's intent,
   e.g. "goalify this: <task>", "prep a goal", "make the brief for /goal", "set up an autonomous run to
   launch later". Claude Code matches these to the skill's `description` and loads `SKILL.md`.
-- Install: the plugin (`claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`, per user), or for any agent that reads skills `npx skills add Aboudjem/goalify -g -a <agent>` (all projects; drop `-g` for one project), or drop in manually: `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. The runner is Claude Code's built-in `/goal`; goalify does not ship its own.
+- Install: recommended is the Vercel skills CLI, `npx skills add Aboudjem/goalify -g` (all projects, pick the agent in its menu; `-a <agent>` to name one; drop `-g` for one project). Or the Claude Code plugin (`claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`, per user). Or drop in manually: `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. The runner is Claude Code's built-in `/goal`; goalify does not ship its own.
 - **This skill AUTHORS a handoff file; it does not execute the task.** If the user wants the work done
   immediately in the current session, that is `autopilot` / `ultrawork` / `ralph`, not goalify.
 

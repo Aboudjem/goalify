@@ -64,7 +64,18 @@ Checks:
 
 ## 安装
 
-**选择你的智能体。** 每条命令都会为你所有的项目安装 goalify。
+**推荐：Vercel 的 skills CLI。** 一条命令，装给你所有的项目：
+
+```bash
+npx skills add Aboudjem/goalify -g
+```
+
+支持 79 个智能体：在菜单里选你的（[支持的智能体](https://github.com/vercel-labs/skills#supported-agents)）。`npx skills` 是 Vercel 开源的 skills 安装器。
+<a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a> [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)
+
+只装在这个项目：去掉 `-g`。
+
+**或者直接装进一个智能体。** 每条命令都会为你所有的项目安装 goalify。
 
 <p align="center">
   <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Code" height="24"></a>
@@ -73,16 +84,12 @@ Checks:
   <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini CLI" height="24"></a>
   <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=flat-square&logo=githubcopilot&logoColor=white" alt="GitHub Copilot" height="24"></a>
   <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=flat-square&logo=opencode&logoColor=white" alt="OpenCode" height="24"></a>
-  <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a>
 </p>
 
-**其他任何智能体**（Vercel 的 skills CLI）：运行 `npx skills add Aboudjem/goalify -g`，然后在菜单里选你的智能体。
-`npx skills` 是 Vercel 开源的 skills 安装器。goalify 的页面：[skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)。
-
-<a id="install-claude-code"></a>**Claude Code**，已测试。为你所有的项目安装：
+<a id="install-claude-code"></a>**Claude Code**，已测试：
 
 ```bash
-claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+npx skills add Aboudjem/goalify -g -a claude-code
 ```
 
 <a id="install-codex"></a>**Codex**，已测试：
@@ -115,7 +122,13 @@ npx skills add Aboudjem/goalify -g -a github-copilot
 npx skills add Aboudjem/goalify -g -a opencode
 ```
 
-只装在这个项目：去掉 `-g`。其他智能体：它的 `-a` 代号见 [docs/editors.md](../docs/editors.md)。
+其他智能体：它的 `-a` 代号见 [docs/editors.md](../docs/editors.md)。
+
+**或者作为 Claude Code 插件**，已测试。同一个 skill，由 Claude Code 的插件系统管理：
+
+```bash
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+```
 
 skills CLI 会给 goalify 显示一个中等风险提示，因为 `verify` 会在 shell 里运行 brief 中的检查命令。
 verify 会先列出这些命令，没有你的同意什么都不运行。

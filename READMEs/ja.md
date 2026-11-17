@@ -64,7 +64,18 @@ Checks:
 
 ## インストール
 
-**エージェントを選ぶ。** どのコマンドも、すべてのプロジェクト用に goalify をインストールします。
+**おすすめ: Vercel の skills CLI。** 1 つのコマンドで、すべてのプロジェクト用に:
+
+```bash
+npx skills add Aboudjem/goalify -g
+```
+
+79 のエージェントで動きます: メニューで自分のものを選びます ([対応エージェント](https://github.com/vercel-labs/skills#supported-agents))。`npx skills` は
+Vercel のオープンな skills インストーラーです。<a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a> [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)
+
+このプロジェクトだけ: `-g` を外します。
+
+**または、1 つのエージェントに直接インストール。** どのコマンドも、すべてのプロジェクト用にインストールします。
 
 <p align="center">
   <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Code" height="24"></a>
@@ -73,16 +84,12 @@ Checks:
   <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini CLI" height="24"></a>
   <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=flat-square&logo=githubcopilot&logoColor=white" alt="GitHub Copilot" height="24"></a>
   <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=flat-square&logo=opencode&logoColor=white" alt="OpenCode" height="24"></a>
-  <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a>
 </p>
 
-**ほかのエージェント** (Vercel の skills CLI): `npx skills add Aboudjem/goalify -g` を実行し、メニューでエージェントを選びます。
-`npx skills` は Vercel のオープンな skills インストーラーです。goalify のページ: [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)。
-
-<a id="install-claude-code"></a>**Claude Code**、テスト済み。すべてのプロジェクト用にインストール:
+<a id="install-claude-code"></a>**Claude Code**、テスト済み:
 
 ```bash
-claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+npx skills add Aboudjem/goalify -g -a claude-code
 ```
 
 <a id="install-codex"></a>**Codex**、テスト済み:
@@ -115,7 +122,13 @@ npx skills add Aboudjem/goalify -g -a github-copilot
 npx skills add Aboudjem/goalify -g -a opencode
 ```
 
-このプロジェクトだけ: `-g` を外します。ほかのエージェント: `-a` のコードは [docs/editors.md](../docs/editors.md) にあります。
+ほかのエージェント: `-a` のコードは [docs/editors.md](../docs/editors.md) にあります。
+
+**または Claude Code プラグインとして**、テスト済み。同じ skill を Claude Code のプラグイン機能で管理します:
+
+```bash
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+```
 
 skills CLI は goalify に中程度のリスク警告を出します。`verify` が brief のチェックコマンドを shell で実行するためです。
 verify はまずそのコマンドを一覧にし、あなたが「はい」と言うまで何も実行しません。

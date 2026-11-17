@@ -64,7 +64,18 @@ A stopped run is not always done, and it can pause on a permission prompt ([Limi
 
 ## Install
 
-**Pick your agent.** Each command installs goalify for all your projects.
+**Recommended: the Vercel skills CLI.** One command, for all your projects:
+
+```bash
+npx skills add Aboudjem/goalify -g
+```
+
+Works in 79 agents: pick yours in the menu ([supported agents](https://github.com/vercel-labs/skills#supported-agents)). `npx skills` is Vercel's open
+installer for agent skills. <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a> [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify)
+
+Only this project: drop `-g`.
+
+**Or install straight into one agent.** Each command installs goalify for all your projects.
 
 <p align="center">
   <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Code" height="24"></a>
@@ -73,16 +84,12 @@ A stopped run is not always done, and it can pause on a permission prompt ([Limi
   <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini CLI" height="24"></a>
   <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=flat-square&logo=githubcopilot&logoColor=white" alt="GitHub Copilot" height="24"></a>
   <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=flat-square&logo=opencode&logoColor=white" alt="OpenCode" height="24"></a>
-  <a href="https://skills.sh/aboudjem/goalify"><img src="https://img.shields.io/badge/skills.sh-000000?style=flat-square&logo=vercel&logoColor=white" alt="skills.sh" height="24"></a>
 </p>
 
-**Any other agent** (Vercel skills CLI): `npx skills add Aboudjem/goalify -g`, then pick your agent in its menu.
-`npx skills` is Vercel's open installer for agent skills. goalify's page: [skills.sh/aboudjem/goalify](https://skills.sh/aboudjem/goalify).
-
-<a id="install-claude-code"></a>**Claude Code**, tested. Installs for all your projects:
+<a id="install-claude-code"></a>**Claude Code**, tested:
 
 ```bash
-claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+npx skills add Aboudjem/goalify -g -a claude-code
 ```
 
 <a id="install-codex"></a>**Codex**, tested:
@@ -115,7 +122,13 @@ npx skills add Aboudjem/goalify -g -a github-copilot
 npx skills add Aboudjem/goalify -g -a opencode
 ```
 
-Only this project: drop `-g`. Another agent: see its `-a` code in [docs/editors.md](docs/editors.md).
+Another agent: see its `-a` code in [docs/editors.md](docs/editors.md).
+
+**Or as a Claude Code plugin**, tested. Same skill, managed by Claude Code's plugin system:
+
+```bash
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
+```
 
 The skills CLI shows a medium risk warning for goalify, because `verify` runs the brief's check
 commands in a shell. verify lists those commands first and runs nothing without your yes.

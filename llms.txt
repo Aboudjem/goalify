@@ -68,8 +68,9 @@ goalify ships as a Claude Code plugin (in the 10x marketplace) and as a drop-in 
 get `/goalify`, which authors the run; you start it with Claude Code's built-in `/goal <condition>`
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
-- [Plugin (recommended)](https://github.com/Aboudjem/goalify#install): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
-- Any agent that reads skills, for all your projects: `npx skills add Aboudjem/goalify -g -a <agent>` (for example `-a codex`, `-a cursor`, `-a gemini-cli`, `-a github-copilot`, `-a opencode`). Only one project: drop `-g`.
+- [Recommended: the Vercel skills CLI](https://github.com/Aboudjem/goalify#install), for all your projects: `npx skills add Aboudjem/goalify -g`, then pick your agent in the menu (79 agents supported, https://github.com/vercel-labs/skills#supported-agents). Page: https://skills.sh/aboudjem/goalify
+- Straight into one agent: `npx skills add Aboudjem/goalify -g -a <agent>` (for example `-a claude-code`, `-a codex`, `-a cursor`, `-a gemini-cli`, `-a github-copilot`, `-a opencode`). Only one project: drop `-g`.
+- Claude Code plugin (same skill, managed by Claude Code's plugin system): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
 - [Manual / skill-only](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill
