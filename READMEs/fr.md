@@ -236,6 +236,7 @@ sont dans le [README anglais](../README.md).
 
 <sub>Fait par <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licence MIT. Les faits sur `/goal`
 sont vérifiés avec Claude Code 2.1.326 et sa doc, novembre 2026.
+Les limites fines de [docs/limits.md](../docs/limits.md) indiquent la version sur laquelle elles ont été mesurées.
 <a href="https://github.com/Aboudjem/goalify/issues">Un problème ?</a></sub>
 
 <sub>Traduction assistée par machine. La version de référence est le <a href="../README.md">README.md</a> en anglais.</sub>

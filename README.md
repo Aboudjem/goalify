@@ -287,6 +287,7 @@ More answers in the [full FAQ](docs/faq.md).
 
 ---
 
-<sub>Made by <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. MIT license. `/goal` facts
+<sub>Made by <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. MIT license. The `/goal` facts on this page were
 checked against Claude Code 2.1.326, its changelog and its docs on 2026-11-17.
+The finer limits in [docs/limits.md](docs/limits.md) name the version they were measured on.
 <a href="https://github.com/Aboudjem/goalify/issues">See a problem?</a></sub>

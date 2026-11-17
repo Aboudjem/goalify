@@ -176,6 +176,6 @@ Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-
 
 ---
 
-<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。关于 `/goal` 的事实已对照 Claude Code 2.1.326 及其文档核对，2026 年 11 月。<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
+<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。关于 `/goal` 的事实已对照 Claude Code 2.1.326 及其文档核对，2026 年 11 月。[docs/limits.md](../docs/limits.md) 中更细的限制各自标明了测量时的版本。<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
 
 <sub>本译文由机器辅助翻译，以英文版 <a href="../README.md">README.md</a> 为准。</sub>

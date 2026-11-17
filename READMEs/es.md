@@ -228,6 +228,7 @@ el [README en inglés](../README.md).
 
 <sub>Hecho por <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licencia MIT. Los datos sobre `/goal`
 están comprobados con Claude Code 2.1.326 y su documentación, noviembre de 2026.
+Los límites finos de [docs/limits.md](../docs/limits.md) indican la versión en la que se midieron.
 <a href="https://github.com/Aboudjem/goalify/issues">¿Ves un problema?</a></sub>
 
 <sub>Traducción asistida por máquina. La versión de referencia es el <a href="../README.md">README.md</a> en inglés.</sub>

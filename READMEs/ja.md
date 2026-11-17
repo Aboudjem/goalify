@@ -177,6 +177,6 @@ Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-
 
 ---
 
-<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` に関する事実は、Claude Code 2.1.326 とそのドキュメントで 2026 年 11 月に確認しました。<a href="https://github.com/Aboudjem/goalify/issues">問題を見つけたら？</a></sub>
+<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` に関する事実は、Claude Code 2.1.326 とそのドキュメントで 2026 年 11 月に確認しました。[docs/limits.md](../docs/limits.md) の細かい制限には、測定したバージョンを明記しています。<a href="https://github.com/Aboudjem/goalify/issues">問題を見つけたら？</a></sub>
 
 <sub>この翻訳は機械支援によるものです。正典は英語版の <a href="../README.md">README.md</a> です。</sub>
