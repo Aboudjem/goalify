@@ -30,10 +30,10 @@ goalify は最初に質問を済ませ、計画を書き、頼めばあなたの
 |:--|:--|:--|
 | 質問はすべて最初に一度だけ。答えは brief の "Decisions" の下にあります。 | 実行は brief ファイルを読み直すので、空のチャットで始められます。 | `/goalify verify` がテストを再実行: `make demo` は VERIFIED、`--broken` は NOT VERIFIED。 |
 
-**対応:** skills を読めるすべてのエージェント。テスト済み: Claude Code、Codex CLI。いちばん良いのはこの 2 つ: どちらにも `/goal` があります。ふつうの Markdown と Python なので、特定のモデルに縛られません。
+**対応:** skills を読めるすべてのエージェント。特定のモデルに縛られません (ふつうの Markdown と Python)。テスト済みは Claude Code と Codex CLI で、どちらにも `/goal` があります。
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g
 # then, in your agent: /goalify migrate the API client to async
 ```
 
@@ -45,6 +45,10 @@ Checks:
   1. PASS (exit 0) python3 -m unittest -q test_slugify
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
+
+**これは何か:** 大きな仕事を、計画ファイルと `/goal` の 1 行に変える skill です。
+**いつ使うか:** 1 つのチャットに収まらない大きな仕事、たとえば移行作業に。
+**得られるもの:** あなたへの質問が残らない実行と、あなた自身のテストによる受領書。
 
 止まった実行がいつも完了とは限らず、権限の確認で止まることもあります ([制限](#制限))。
 
@@ -60,24 +64,59 @@ Checks:
 
 ## インストール
 
-Claude Code では、プラグインとして:
+**エージェントを選ぶ。** どのコマンドも、すべてのプロジェクト用に goalify をインストールします。
+
+<p align="center">
+  <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code"></a>
+  <a href="#install-codex"><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex"></a>
+  <a href="#install-cursor"><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"></a>
+  <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini CLI"></a>
+  <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&logo=githubcopilot&logoColor=white" alt="GitHub Copilot"></a>
+  <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&logo=opencode&logoColor=white" alt="OpenCode"></a>
+</p>
+
+<a id="install-claude-code"></a>**Claude Code**、テスト済み。すべてのプロジェクト用にインストール:
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
 ```
 
-skills を読めるほかの AI ツールなら、1 行で:
+<a id="install-codex"></a>**Codex**、テスト済み:
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g -a codex
 ```
 
-このインストール中、skills.sh は goalify に中程度のリスク警告を出します。`verify` が brief のチェックコマンドを
-シェルで実行することを指摘するものです。verify はまずそのコマンドを一覧にし、あなたが許可するまで何も実行しません。
+<a id="install-cursor"></a>**Cursor**、インストールのみテスト済み:
 
-Claude Code 2.1.139 以降が必要です。`/goal` はこのバージョンで追加されました。
+```bash
+npx skills add Aboudjem/goalify -g -a cursor
+```
 
+<a id="install-gemini-cli"></a>**Gemini CLI**、インストールのみテスト済み:
+
+```bash
+npx skills add Aboudjem/goalify -g -a gemini-cli
+```
+
+<a id="install-github-copilot"></a>**GitHub Copilot**、インストールのみテスト済み:
+
+```bash
+npx skills add Aboudjem/goalify -g -a github-copilot
+```
+
+<a id="install-opencode"></a>**OpenCode**、インストールのみテスト済み:
+
+```bash
+npx skills add Aboudjem/goalify -g -a opencode
+```
+
+このプロジェクトだけ: `-g` を外します。ほかのエージェント: `-a` のコードは [docs/editors.md](../docs/editors.md) にあります。
+
+skills CLI は goalify に中程度のリスク警告を出します。`verify` が brief のチェックコマンドを shell で実行するためです。
+verify はまずそのコマンドを一覧にし、あなたが「はい」と言うまで何も実行しません。
+
+`/goal` には Claude Code 2.1.139 以降が必要です。
 **最初のコマンド。** `/goalify` と、仕事を 1 文で入力します:
 
 ```text
@@ -104,18 +143,8 @@ make demo
 
 ## しくみ
 
-エージェントは「終わりました」と言いました。本当でしょうか? goalify は作業の前に goal を決めます:
-あなた自身のテストが通ること。最後に `/goalify verify` がテストをもう一度実行します。そして受領書を書きます。
-
-goalify はあなたの依頼を **goal** に変えます。goal とは、テストで確かめられる明確な終わりの地点です。AI は goal が達成され証明されるまで、
-またはあなたが決めた上限に達するまで、作業を続けます。
-
-いちばんよく動くのは **Claude Code** と **Codex** です。どちらにも作業を続けさせる組み込みの `/goal` コマンドがあります。
-Claude Code では、別のチェッカーが各ステップのあとに作業を読みます。Codex は同じゴールラインで自分の作業を確かめます。
-skills を読めるほかの AI ツールにも同じ計画とゴールラインが渡り、作業はあなたが開始します。
-
-goalify は作業の準備だけをします。作業をするのは `/goal` コマンドです。goalify は、AI があなたに聞く判断が
-残らないようにします。
+goalify が作業を準備し、`/goal` が作業をします。goalify はあなたの依頼を **goal** に変えます: あなた自身の
+テストで確かめられる、明確な終わりの地点です。
 
 1. **下調べ。** これは実現できるか? goalify はプロジェクト、ドキュメント、テストを読みます。
    仕事が本当に終わったことを示すコマンドを見つけます。
@@ -127,6 +156,9 @@ goalify は作業の準備だけをします。作業をするのは `/goal` コ
    Claude Code では、別のチェッカーが各ステップのあとに作業を読みます。証拠がそろったとき、または
    ステップ上限に達したときにだけ、作業を止めさせます。
 5. **あとで確かめる。** `/goalify verify` がチェックを再実行し、受領書を書きます。
+
+いちばんよく動くのは **Claude Code** と **Codex** です。どちらにも組み込みの `/goal` があるからです。Codex は
+同じ goal で自分の作業を確かめます。ほかのエージェントでは、同じ計画から作業をあなたが開始します。
 
 貼り付ける 1 行はこのような形です。長いので、全部コピーしてください:
 
@@ -148,12 +180,14 @@ brief へのパスはこの 1 行の中にあります。これが大事です: 
 
 ### 長い実行が脱線しない理由
 
-AI の長い作業は、たいてい 2 つの形で失敗します。AI が止まってあなたに何かを聞く。または、まだ壊れている
-ところがあるのに「完了」と言う。goalify は 1 つ目を解決します: 最初にすべてを聞き、答えを brief に書きます。
-2 つ目は condition が解決します。最後に AI はすべてのチェックを再実行し、結果を見せ、`ASYNC-OK` のような
-特別な言葉を書く必要があります。作業を飛ばしていたら、AI は嘘をつくしかありません。ステップ上限が近づくと、
-AI はきれいに終えて残りを伝えます。早く止まっても、brief はチェックリストを保っています。同じ 1 行を
-もう一度貼れば続きから始まります。
+brief がすべての答えを持ち、condition が証拠を求めます。長い AI の作業は、たいてい 2 つの形で失敗します:
+AI があなたに何かを聞くために止まるか、何かが壊れたままなのに「終わった」と言うかです。
+
+1. **途中で質問しない。** goalify は最初にすべてを聞き、答えを brief に書きます。
+2. **うその「終わった」がない。** 最後に AI はすべてのチェックを再実行し、結果を見せ、`ASYNC-OK` のような
+   特別な言葉を書く必要があります。作業を飛ばしていたら、うそをつくしかありません。
+3. **作業が失われない。** ステップ上限が近づくと、AI はきれいに終え、残りを伝えます。早く止まっても、
+   brief がチェックリストを保ちます。同じ 1 行をもう一度貼れば続きます。
 
 ### 各コマンドで得られるもの
 
@@ -230,16 +264,22 @@ CI は push と pull request のたびに 4 つすべてを実行します。
 
 ## 対応ツール
 
-表示した日付に、実際にインストールして実行したものだけです。
+記載の日付に確かめたものだけです。「テスト済み」は skill をインストールして読み込めたことを意味します。
+「インストールのみテスト済み」は、空のホームフォルダへのグローバルインストールでファイルが配置されたことを意味します。
 
-| エージェント        | インストール方法                                 | テスト日   |
-| :------------------ | :----------------------------------------------- | :--------- |
-| Claude Code 2.1.326 | `claude plugin install goalify@10x`              | 2026-11-17 |
-| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
-| Codex CLI           | `npx skills add Aboudjem/goalify -a codex`       | 2026-11-17 |
+| エージェント | インストール方法 | 結果 | テスト日 |
+|:--|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | テスト済み | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | テスト済み | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | テスト済み | 2026-11-17 |
+| Cursor | `npx skills add Aboudjem/goalify -g -a cursor` | インストールのみテスト済み | 2026-11-17 |
+| Gemini CLI | `npx skills add Aboudjem/goalify -g -a gemini-cli` | インストールのみテスト済み | 2026-11-17 |
+| GitHub Copilot | `npx skills add Aboudjem/goalify -g -a github-copilot` | インストールのみテスト済み | 2026-11-17 |
+| OpenCode | `npx skills add Aboudjem/goalify -g -a opencode` | インストールのみテスト済み | 2026-11-17 |
 
-ドキュメントのみでテストしていないもの: Cursor、GitHub Copilot、Gemini CLI、OpenCode、そのほか skills CLI が
-対応するエージェント。それぞれのコードとフォルダは [docs/editors.md](../docs/editors.md) にあります。
+`-g` のとき、Claude Code は `~/.claude/skills/` に skill を受け取ります。ほかの 5 つは `~/.agents/skills/` を
+共有します (skills CLI 1.9.0)。skills CLI が対応するほかのエージェントは記載のみで未テストです: コードは
+[docs/editors.md](../docs/editors.md) にあります。
 
 goalify は特定のモデルに縛られません。skill は Markdown ファイルで、補助スクリプトは標準の Python です。
 skills を読めるエージェントの裏にあるモデルなら、どれでも従えます。

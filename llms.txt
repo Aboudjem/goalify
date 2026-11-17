@@ -69,6 +69,7 @@ get `/goalify`, which authors the run; you start it with Claude Code's built-in 
 command (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
 
 - [Plugin (recommended)](https://github.com/Aboudjem/goalify#install): `claude plugin marketplace add Aboudjem/10x` then `claude plugin install goalify@10x`.
+- Any agent that reads skills, for all your projects: `npx skills add Aboudjem/goalify -g -a <agent>` (for example `-a codex`, `-a cursor`, `-a gemini-cli`, `-a github-copilot`, `-a opencode`). Only one project: drop `-g`.
 - [Manual / skill-only](https://github.com/Aboudjem/goalify#install): `git clone https://github.com/Aboudjem/goalify`, then copy `skills/goalify` into `~/.claude/skills/`. Then say "goalify this: <task>" in Claude Code.
 
 ## Skill

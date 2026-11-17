@@ -16,8 +16,12 @@ Then say "goalify this: `<your task>`" or run `/goalify <task>`.
 ## Any other agent, in one line
 
 ```bash
-npx skills add Aboudjem/goalify -a <agent>
+npx skills add Aboudjem/goalify -g -a <agent>
 ```
+
+`-g` installs it for all your projects. Only this project: drop `-g`. With `-g`, skills CLI 1.9.0
+puts Claude Code's copy in `~/.claude/skills/` and the universal agents' copy (Codex, Cursor, Gemini CLI,
+GitHub Copilot, OpenCode and others) in `~/.agents/skills/` (checked on 2026-11-17).
 
 The agent codes below were read from the supported-agents table in
 [vercel-labs/skills](https://github.com/vercel-labs/skills#supported-agents) on 2026-09-02, along
@@ -39,7 +43,7 @@ almost certainly in the table.
 So, for Cursor:
 
 ```bash
-npx skills add Aboudjem/goalify -a cursor
+npx skills add Aboudjem/goalify -g -a cursor
 ```
 
 Three flags worth knowing:

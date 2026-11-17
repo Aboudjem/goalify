@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>goalify: give your agent a big job and get proof back</title>
-<meta name="description" content="Give your agent a big job once. It asks every question first, writes the plan and the finish line, and verify re-runs your tests.">
+<meta name="description" content="Give your agent a big job once. It asks every question first, saves the plan to a file, and re-runs your tests as proof. Works in any agent that reads skills.">
 <link rel="canonical" href="https://goalify-kappa.vercel.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -129,6 +129,12 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
 .chip b{display:block;font-size:17px;color:var(--ink);margin-bottom:6px}
 .chip span{display:block;font-size:14.5px;line-height:1.45;color:var(--mute)}
 @media (max-width:760px){.chips{grid-template-columns:1fr}}
+.pick{font-size:14px;color:var(--mute);text-align:center;margin-bottom:10px}
+.agents{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-bottom:12px}
+.ag{background:none;border:2px solid transparent;border-radius:6px;padding:1px;cursor:pointer;opacity:.6}
+.ag img{display:block;height:24px}
+.ag.on,.ag:hover{opacity:1}
+.ag.on{border-color:#2ee6ff}
 </style>
 </head>
 <body>
@@ -158,13 +164,13 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
     <div class="chip glass"><b>Plan saved to file</b><span>The run re-reads the brief file, so it can start in a clean chat.</span></div>
     <div class="chip glass"><b>Proof it is done</b><span><code>/goalify verify</code> re-runs your tests: <code>make demo</code> VERIFIED, <code>--broken</code> NOT VERIFIED.</span></div>
   </div>
-  <p class="cap works rv"><b>Works with:</b> any agent that reads skills. Tested: Claude Code, Codex CLI. Best in those two: both have <code>/goal</code>. Plain Markdown and Python, so not tied to one model.</p>
+  <p class="cap works rv"><b>Works with:</b> any agent that reads skills, and not tied to one model (plain Markdown and Python). Tested in Claude Code and Codex CLI, which both have <code>/goal</code>.</p>
 
   <div class="install glass rv" id="install">
-    <div class="line"><span class="p">1</span><code id="i1">claude plugin marketplace add Aboudjem/10x</code><button class="btn" type="button" data-copy="i1">Copy</button></div>
-    <div class="line"><span class="p">2</span><code id="i2">claude plugin install goalify@10x</code><button class="btn" type="button" data-copy="i2">Copy</button></div>
-    <div class="or">or, in one line, for any AI tool</div>
-    <div class="line"><span class="p">$</span><code id="i3">npx skills add Aboudjem/goalify</code><button class="btn" type="button" data-copy="i3">Copy</button></div>
+    <div class="pick">Pick your agent. Each command installs goalify for all your projects.</div>
+    <div class="agents" role="tablist" aria-label="Pick your agent"><button class="ag on" type="button" role="tab" aria-selected="true" data-cmd="claude plugin marketplace add Aboudjem/10x &amp;&amp; claude plugin install goalify@10x" data-note="Tested. Installs for your user, in every project."><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&amp;logo=claude&amp;logoColor=white" alt="Claude Code" height="24"></button><button class="ag" type="button" role="tab" aria-selected="false" data-cmd="npx skills add Aboudjem/goalify -g -a codex" data-note="Tested. Only this project: drop -g."><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex" height="24"></button><button class="ag" type="button" role="tab" aria-selected="false" data-cmd="npx skills add Aboudjem/goalify -g -a cursor" data-note="Install tested. Only this project: drop -g."><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&amp;logo=cursor&amp;logoColor=white" alt="Cursor" height="24"></button><button class="ag" type="button" role="tab" aria-selected="false" data-cmd="npx skills add Aboudjem/goalify -g -a gemini-cli" data-note="Install tested. Only this project: drop -g."><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&amp;logo=googlegemini&amp;logoColor=white" alt="Gemini CLI" height="24"></button><button class="ag" type="button" role="tab" aria-selected="false" data-cmd="npx skills add Aboudjem/goalify -g -a github-copilot" data-note="Install tested. Only this project: drop -g."><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&amp;logo=githubcopilot&amp;logoColor=white" alt="GitHub Copilot" height="24"></button><button class="ag" type="button" role="tab" aria-selected="false" data-cmd="npx skills add Aboudjem/goalify -g -a opencode" data-note="Install tested. Only this project: drop -g."><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&amp;logo=opencode&amp;logoColor=white" alt="OpenCode" height="24"></button></div>
+    <div class="line"><span class="p">$</span><code id="i1">claude plugin marketplace add Aboudjem/10x &amp;&amp; claude plugin install goalify@10x</code><button class="btn" type="button" data-copy="i1">Copy</button></div>
+    <div class="or" id="agnote">Tested. Installs for your user, in every project.</div>
   </div>
 
   <div class="video glass rv">
@@ -314,6 +320,11 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
   if(!still)requestAnimationFrame(function(t){last=t;frame(t)});
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.08});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});}else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')})}
+  document.querySelectorAll('.ag').forEach(function(b){b.addEventListener('click',function(){
+    document.querySelectorAll('.ag').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-selected','false')});
+    b.classList.add('on');b.setAttribute('aria-selected','true');
+    document.getElementById('i1').textContent=b.getAttribute('data-cmd');
+    document.getElementById('agnote').textContent=b.getAttribute('data-note');});});
   document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
     var t=document.getElementById(b.getAttribute('data-copy')).textContent,lbl=b.textContent;
     function ok(){b.textContent='Copied';document.getElementById('live').textContent='Copied to the clipboard';setTimeout(function(){b.textContent=lbl},1600)}

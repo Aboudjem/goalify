@@ -30,10 +30,10 @@ goalify asks its questions first, writes the plan, and re-runs your tests on req
 |:--|:--|:--|
 | Every question comes first, once. The answers sit in the brief under "Decisions". | The run re-reads the brief file, so it can start in a clean chat. | `/goalify verify` re-runs your tests: `make demo` VERIFIED, `--broken` NOT VERIFIED. |
 
-**Works with:** any agent that reads skills. Tested: Claude Code, Codex CLI. Best in those two: both have `/goal`. Plain Markdown and Python, so not tied to one model.
+**Works with:** any agent that reads skills, and not tied to one model (plain Markdown and Python). Tested in Claude Code and Codex CLI, which both have `/goal`.
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g
 # then, in your agent: /goalify migrate the API client to async
 ```
 
@@ -45,6 +45,10 @@ Checks:
   1. PASS (exit 0) python3 -m unittest -q test_slugify
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
+
+**What it is:** a skill that turns a big job into a plan file and one `/goal` line.
+**When to use it:** for a job too big for one chat, like a migration.
+**What you get:** a run with no questions left for you, and a receipt from your own tests.
 
 A stopped run is not always done, and it can pause on a permission prompt ([Limits](#limits)).
 
@@ -60,24 +64,59 @@ A stopped run is not always done, and it can pause on a permission prompt ([Limi
 
 ## Install
 
-In Claude Code, as a plugin:
+**Pick your agent.** Each command installs goalify for all your projects.
+
+<p align="center">
+  <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code"></a>
+  <a href="#install-codex"><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex"></a>
+  <a href="#install-cursor"><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"></a>
+  <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini CLI"></a>
+  <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&logo=githubcopilot&logoColor=white" alt="GitHub Copilot"></a>
+  <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&logo=opencode&logoColor=white" alt="OpenCode"></a>
+</p>
+
+<a id="install-claude-code"></a>**Claude Code**, tested. Installs for all your projects:
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
 ```
 
-Any other AI tool that reads skills, in one line:
+<a id="install-codex"></a>**Codex**, tested:
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g -a codex
 ```
 
-During that install, skills.sh shows a medium risk warning for goalify. It warns that `verify`
-runs the brief's check commands in a shell. verify lists those commands first and runs nothing
-without your yes.
+<a id="install-cursor"></a>**Cursor**, install tested:
 
-You need Claude Code 2.1.139 or newer. That version added `/goal`.
+```bash
+npx skills add Aboudjem/goalify -g -a cursor
+```
+
+<a id="install-gemini-cli"></a>**Gemini CLI**, install tested:
+
+```bash
+npx skills add Aboudjem/goalify -g -a gemini-cli
+```
+
+<a id="install-github-copilot"></a>**GitHub Copilot**, install tested:
+
+```bash
+npx skills add Aboudjem/goalify -g -a github-copilot
+```
+
+<a id="install-opencode"></a>**OpenCode**, install tested:
+
+```bash
+npx skills add Aboudjem/goalify -g -a opencode
+```
+
+Only this project: drop `-g`. Another agent: see its `-a` code in [docs/editors.md](docs/editors.md).
+
+The skills CLI shows a medium risk warning for goalify, because `verify` runs the brief's check
+commands in a shell. verify lists those commands first and runs nothing without your yes.
+
+You need Claude Code 2.1.139 or newer for `/goal`.
 
 **Your first command.** Type `/goalify` and the job in one sentence:
 
@@ -105,19 +144,8 @@ make demo
 
 ## How it works
 
-Your agent said the job was done. Was it? goalify sets the goal before work starts: your own tests
-must pass. At the end, `/goalify verify` runs them again. It writes a receipt.
-
-goalify turns your request into a **goal**. A goal is a clear end point that a test can check. The
-AI keeps working until the goal is done and proven, or until it reaches the limit you set.
-
-It works best in **Claude Code** and **Codex**. Both have a built-in `/goal` command that keeps
-the work going. In Claude Code, a second checker reads the work after every step. Codex checks
-its own work against the same goal. Other AI tools that read skills get the same plan and goal,
-and you start the work yourself.
-
-goalify only prepares the work. The `/goal` command does the work. goalify makes sure the AI has
-no decision left to ask you.
+goalify prepares the work, and `/goal` does it. goalify turns your request into a **goal**: a clear
+end point that your own tests can check.
 
 1. **Research.** Can this work? goalify reads your project, the docs and your tests. It finds the
    commands that show the job is really done.
@@ -130,6 +158,9 @@ no decision left to ask you.
    for your job. In Claude Code, a second checker reads the work after every step. It lets the
    work stop only when the proof is there, or when it reaches your step limit.
 5. **Check it later.** `/goalify verify` runs the checks again and writes a receipt.
+
+It works best in **Claude Code** and **Codex**, because both have a built-in `/goal`. Codex checks
+its own work against the same goal. In other agents, you start the work yourself from the same plan.
 
 The line you paste looks like this. It is long, so copy all of it:
 
@@ -151,13 +182,14 @@ Nothing breaks, but nothing is checked either. It is the easiest mistake to make
 
 ### Why a long run does not get lost
 
-Long AI work usually fails in two ways. The AI stops to ask you something. Or it says "done" when
-something is still broken. goalify fixes the first problem: it asks everything at the start and
-writes the answers in the brief. The condition fixes the second problem. At the end, the AI must
-run every check again, show the result, and write a special word like `ASYNC-OK`. If the
-AI skipped the work, it would have to lie. Near its step limit, the AI ends cleanly and says
-what is left. If it stops early, the brief keeps its checklist. Paste the same line again to
-continue.
+The brief holds every answer, and the condition demands proof. Long AI work usually fails in two
+ways: the AI stops to ask you something, or it says "done" when something is still broken.
+
+1. **No questions mid-run.** goalify asks everything at the start and writes the answers in the brief.
+2. **No false "done".** At the end, the AI must run every check again, show the result, and write a
+   special word like `ASYNC-OK`. If it skipped the work, it would have to lie.
+3. **No lost work.** Near its step limit, the AI ends cleanly and says what is left. If it stops early,
+   the brief keeps its checklist. Paste the same line again to continue.
 
 ### What each command gives you
 
@@ -236,16 +268,22 @@ What each promise on the first screen rests on:
 
 ## Works with
 
-Only what was installed and run on the date shown.
+Only what was checked on the date shown. "Tested" means the skill was installed and loaded. "Install
+tested" means a global install into a clean home folder put the files in place.
 
-| Agent | Install path | Tested |
-|:--|:--|:--|
-| Claude Code 2.1.326 | `claude plugin install goalify@10x` | 2026-11-17 |
-| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
-| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | 2026-11-17 |
+| Agent | Install path | Result | Tested |
+|:--|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | Tested | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | Tested | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | Tested | 2026-11-17 |
+| Cursor | `npx skills add Aboudjem/goalify -g -a cursor` | Install tested | 2026-11-17 |
+| Gemini CLI | `npx skills add Aboudjem/goalify -g -a gemini-cli` | Install tested | 2026-11-17 |
+| GitHub Copilot | `npx skills add Aboudjem/goalify -g -a github-copilot` | Install tested | 2026-11-17 |
+| OpenCode | `npx skills add Aboudjem/goalify -g -a opencode` | Install tested | 2026-11-17 |
 
-Documented, not tested: Cursor, GitHub Copilot, Gemini CLI, OpenCode and the other agents the
-skills CLI supports. Their codes and folders are in [docs/editors.md](docs/editors.md).
+With `-g`, Claude Code gets the skill in `~/.claude/skills/`. The other five share `~/.agents/skills/`
+(skills CLI 1.9.0). Other agents the skills CLI supports are documented, not tested: their codes are
+in [docs/editors.md](docs/editors.md).
 
 goalify is not tied to one model. The skill is a Markdown file and the helpers are standard Python.
 Any model behind an agent that reads skills can follow it.

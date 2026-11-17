@@ -30,10 +30,10 @@ goalify 先把问题问完，再写计划，你要求时就重跑你的测试。
 |:--|:--|:--|
 | 所有问题都先问，只问一次。答案写在 brief 的 "Decisions" 下面。 | 运行会重新读 brief 文件，所以可以在一个干净的聊天里开始。 | `/goalify verify` 重跑你的测试：`make demo` 得到 VERIFIED，`--broken` 得到 NOT VERIFIED。 |
 
-**支持：** 任何能读 skills 的智能体。已测试：Claude Code、Codex CLI。这两个效果最好：都有 `/goal`。只是普通的 Markdown 和 Python，所以不绑定某一个模型。
+**支持：** 任何能读 skills 的智能体，不绑定某一个模型（只是普通的 Markdown 和 Python）。已在 Claude Code 和 Codex CLI 中测试，两者都有 `/goal`。
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g
 # then, in your agent: /goalify migrate the API client to async
 ```
 
@@ -45,6 +45,10 @@ Checks:
   1. PASS (exit 0) python3 -m unittest -q test_slugify
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
+
+**它是什么：** 一个 skill，把一件大活变成一个计划文件和一行 `/goal`。
+**什么时候用：** 一个聊天装不下的大活，比如一次迁移。
+**你得到什么：** 一次不再需要问你的运行，以及一张来自你自己测试的回执。
 
 运行停下来不一定代表做完了，它也可能停在一个权限提示上（[限制](#限制)）。
 
@@ -60,24 +64,59 @@ Checks:
 
 ## 安装
 
-在 Claude Code 里，作为插件安装：
+**选择你的智能体。** 每条命令都会为你所有的项目安装 goalify。
+
+<p align="center">
+  <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code"></a>
+  <a href="#install-codex"><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex"></a>
+  <a href="#install-cursor"><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"></a>
+  <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini CLI"></a>
+  <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&logo=githubcopilot&logoColor=white" alt="GitHub Copilot"></a>
+  <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&logo=opencode&logoColor=white" alt="OpenCode"></a>
+</p>
+
+<a id="install-claude-code"></a>**Claude Code**，已测试。为你所有的项目安装：
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
 ```
 
-其他能读取 skills 的 AI 工具，一行搞定：
+<a id="install-codex"></a>**Codex**，已测试：
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g -a codex
 ```
 
-安装时，skills.sh 会给 goalify 显示一个中等风险提示。它指出 `verify` 会在 shell 里运行 brief 中的检查命令。
+<a id="install-cursor"></a>**Cursor**，仅测试安装：
+
+```bash
+npx skills add Aboudjem/goalify -g -a cursor
+```
+
+<a id="install-gemini-cli"></a>**Gemini CLI**，仅测试安装：
+
+```bash
+npx skills add Aboudjem/goalify -g -a gemini-cli
+```
+
+<a id="install-github-copilot"></a>**GitHub Copilot**，仅测试安装：
+
+```bash
+npx skills add Aboudjem/goalify -g -a github-copilot
+```
+
+<a id="install-opencode"></a>**OpenCode**，仅测试安装：
+
+```bash
+npx skills add Aboudjem/goalify -g -a opencode
+```
+
+只装在这个项目：去掉 `-g`。其他智能体：它的 `-a` 代号见 [docs/editors.md](../docs/editors.md)。
+
+skills CLI 会给 goalify 显示一个中等风险提示，因为 `verify` 会在 shell 里运行 brief 中的检查命令。
 verify 会先列出这些命令，没有你的同意什么都不运行。
 
-你需要 Claude Code 2.1.139 或更新版本。`/goal` 是在这个版本加入的。
-
+`/goal` 需要 Claude Code 2.1.139 或更新版本。
 **你的第一个命令。** 输入 `/goalify` 和一句话描述的任务：
 
 ```text
@@ -104,17 +143,7 @@ make demo
 
 ## 它是怎么工作的
 
-你的智能体说活干完了。真的吗？goalify 在开工前就定好 goal：你自己的测试必须通过。
-最后，`/goalify verify` 会再跑一遍这些测试。它会写一张回执。
-
-goalify 把你的请求变成一个 **goal**。goal 就是一个测试能检查的、清楚的终点。AI 会一直干，直到 goal 完成并得到证明，
-或者达到你设的上限。
-
-它在 **Claude Code** 和 **Codex** 里效果最好。两者都有内置的 `/goal` 命令，让工作持续推进。在 Claude Code 里，
-每一步之后都有第二个检查者读一遍工作。Codex 用同一条终点线检查自己的工作。其他能读 skills 的 AI 工具
-拿到同样的计划和终点线，由你自己启动工作。
-
-goalify 只负责准备工作。真正干活的是 `/goal` 命令。goalify 确保 AI 没有需要再问你的决定。
+goalify 准备工作，`/goal` 去做。goalify 把你的请求变成一个 **goal**：一个你自己的测试能检查的、清楚的终点。
 
 1. **调研。** 这件事能做吗？goalify 读你的项目、文档和测试。它找出能证明活真的干完了的命令。
 2. **问题，只问一次。** 它把少数几个真正的选择一起问你。之后不会再问。
@@ -123,6 +152,9 @@ goalify 只负责准备工作。真正干活的是 `/goal` 命令。goalify 确�
 4. **`/clear`，粘贴，然后交给它。** 工作在一个干净的聊天里开始，全部记忆都留给你的任务。在 Claude Code 里，
    每一步之后都有第二个检查者读一遍工作。只有证据到位，或者达到你的步数上限，它才让工作停下。
 5. **之后再检查。** `/goalify verify` 重跑检查并写一张回执。
+
+它在 **Claude Code** 和 **Codex** 里效果最好，因为两者都有内置的 `/goal`。Codex 用同一个 goal 检查自己的工作。
+在其他智能体里，你根据同一份计划自己启动工作。
 
 你粘贴的那一行长这样。它很长，请整行复制：
 
@@ -143,10 +175,14 @@ brief 的路径就在这一行里。这很重要：`/goal` 背后的检查者打
 
 ### 为什么长时间运行不会跑偏
 
-AI 的长时间工作通常有两种失败方式。AI 停下来问你事情。或者东西还坏着，它却说“完成”。goalify 解决第一个问题：
-它在开头把所有事问完，并把答案写进 brief。condition 解决第二个问题。最后，AI 必须重跑每一项检查、
-展示结果，并写出一个特殊的词，比如 `ASYNC-OK`。如果 AI 跳过了工作，它就只能撒谎。接近步数上限时，
-AI 会干净地收尾，并说明还剩什么。如果它提前停下，brief 会保留它的清单。再粘贴同一行就能继续。
+brief 保存每一个答案，condition 要求证据。AI 的长时间工作通常有两种失败方式：AI 停下来问你事情，
+或者东西还坏着，它却说“完成”。
+
+1. **中途不提问。** goalify 在开头把所有事问完，并把答案写进 brief。
+2. **没有假的“完成”。** 最后，AI 必须重跑每一项检查、展示结果，并写出一个特殊的词，比如 `ASYNC-OK`。
+   如果它跳过了工作，它就只能撒谎。
+3. **工作不会丢。** 接近步数上限时，AI 会干净地收尾，并说明还剩什么。如果它提前停下，brief 会保留它的清单。
+   再粘贴同一行就能继续。
 
 ### 每个命令给你什么
 
@@ -221,16 +257,20 @@ CI 在每次 push 和 pull request 时都运行这四项。
 
 ## 支持的工具
 
-只列出在所示日期真实安装并运行过的。
+只列出在所示日期检查过的。“已测试”指 skill 已安装并加载。“仅测试安装”指在一个空的主目录里做全局安装，文件已放到位。
 
-| 智能体              | 安装方式                                         | 测试日期   |
-| :------------------ | :----------------------------------------------- | :--------- |
-| Claude Code 2.1.326 | `claude plugin install goalify@10x`              | 2026-11-17 |
-| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
-| Codex CLI           | `npx skills add Aboudjem/goalify -a codex`       | 2026-11-17 |
+| 智能体 | 安装方式 | 结果 | 测试日期 |
+|:--|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | 已测试 | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 已测试 | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | 已测试 | 2026-11-17 |
+| Cursor | `npx skills add Aboudjem/goalify -g -a cursor` | 仅测试安装 | 2026-11-17 |
+| Gemini CLI | `npx skills add Aboudjem/goalify -g -a gemini-cli` | 仅测试安装 | 2026-11-17 |
+| GitHub Copilot | `npx skills add Aboudjem/goalify -g -a github-copilot` | 仅测试安装 | 2026-11-17 |
+| OpenCode | `npx skills add Aboudjem/goalify -g -a opencode` | 仅测试安装 | 2026-11-17 |
 
-有文档、未测试：Cursor、GitHub Copilot、Gemini CLI、OpenCode，以及 skills CLI 支持的其他智能体。
-它们的代号和文件夹见 [docs/editors.md](../docs/editors.md)。
+使用 `-g` 时，Claude Code 的 skill 放在 `~/.claude/skills/`。其他五个共用 `~/.agents/skills/`（skills CLI 1.9.0）。
+skills CLI 支持的其他智能体有文档、未测试：它们的代号见 [docs/editors.md](../docs/editors.md)。
 
 goalify 不绑定某一个模型。skill 是一个 Markdown 文件，辅助脚本是标准 Python。
 任何能读 skills 的智能体背后的模型都能照着它做。

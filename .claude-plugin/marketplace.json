@@ -4,14 +4,14 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "Give your agent a big job once. It asks every question first, writes the plan and the finish line, and verify re-runs your tests."
+    "description": "Give your agent a big job once. It asks every question first, saves the plan to a file, and re-runs your tests as proof. Works in any agent that reads skills."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "Give your agent a big job once. It asks every question first, writes the plan and the finish line, and verify re-runs your tests.",
-      "version": "3.1.3"
+      "description": "Give your agent a big job once. It asks every question first, saves the plan to a file, and re-runs your tests as proof. Works in any agent that reads skills.",
+      "version": "3.1.4"
     }
   ]
 }

@@ -30,10 +30,10 @@ goalify hace sus preguntas primero, escribe el plan y vuelve a ejecutar tus test
 |:--|:--|:--|
 | Todas las preguntas van primero, una vez. Las respuestas están en el brief, bajo "Decisions". | La ejecución vuelve a leer el archivo del brief, así que puede empezar en un chat limpio. | `/goalify verify` vuelve a ejecutar tus tests: `make demo` VERIFIED, `--broken` NOT VERIFIED. |
 
-**Funciona con:** cualquier agente que lea skills. Probado: Claude Code, Codex CLI. Mejor en esos dos: ambos tienen `/goal`. Markdown y Python simples, así que no depende de un modelo.
+**Funciona con:** cualquier agente que lea skills, sin depender de un modelo (Markdown y Python simples). Probado en Claude Code y Codex CLI, que tienen `/goal`.
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g
 # then, in your agent: /goalify migrate the API client to async
 ```
 
@@ -45,6 +45,10 @@ Checks:
   1. PASS (exit 0) python3 -m unittest -q test_slugify
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
+
+**Qué es:** un skill que convierte un trabajo grande en un archivo de plan y una línea de `/goal`.
+**Cuándo usarlo:** para un trabajo demasiado grande para un solo chat, como una migración.
+**Qué obtienes:** una ejecución sin preguntas pendientes para ti, y un recibo de tus propios tests.
 
 Una ejecución que se detiene no siempre está terminada, y puede pararse en una petición de permiso ([Límites](#límites)).
 
@@ -60,25 +64,59 @@ Una ejecución que se detiene no siempre está terminada, y puede pararse en una
 
 ## Instalación
 
-En Claude Code, como plugin:
+**Elige tu agente.** Cada comando instala goalify para todos tus proyectos.
+
+<p align="center">
+  <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code"></a>
+  <a href="#install-codex"><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex"></a>
+  <a href="#install-cursor"><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"></a>
+  <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini CLI"></a>
+  <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&logo=githubcopilot&logoColor=white" alt="GitHub Copilot"></a>
+  <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&logo=opencode&logoColor=white" alt="OpenCode"></a>
+</p>
+
+<a id="install-claude-code"></a>**Claude Code**, probado. Se instala para todos tus proyectos:
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
 ```
 
-Cualquier otra herramienta de IA que lea skills, en una línea:
+<a id="install-codex"></a>**Codex**, probado:
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g -a codex
 ```
 
-Durante esa instalación, skills.sh muestra un aviso de riesgo medio para goalify. Señala que `verify`
-ejecuta los comandos de comprobación del brief en un shell. verify lista esos comandos primero y no
-ejecuta nada sin tu sí.
+<a id="install-cursor"></a>**Cursor**, instalación probada:
 
-Necesitas Claude Code 2.1.139 o más reciente. Esa versión añadió `/goal`.
+```bash
+npx skills add Aboudjem/goalify -g -a cursor
+```
 
+<a id="install-gemini-cli"></a>**Gemini CLI**, instalación probada:
+
+```bash
+npx skills add Aboudjem/goalify -g -a gemini-cli
+```
+
+<a id="install-github-copilot"></a>**GitHub Copilot**, instalación probada:
+
+```bash
+npx skills add Aboudjem/goalify -g -a github-copilot
+```
+
+<a id="install-opencode"></a>**OpenCode**, instalación probada:
+
+```bash
+npx skills add Aboudjem/goalify -g -a opencode
+```
+
+Solo este proyecto: quita `-g`. Otro agente: su código `-a` está en [docs/editors.md](../docs/editors.md).
+
+La CLI de skills muestra un aviso de riesgo medio para goalify, porque `verify` ejecuta los comandos de
+comprobación del brief en un shell. verify lista antes esos comandos y no ejecuta nada sin tu sí.
+
+Necesitas Claude Code 2.1.139 o más reciente para `/goal`.
 **Tu primer comando.** Escribe `/goalify` y el trabajo en una frase:
 
 ```text
@@ -105,19 +143,8 @@ make demo
 
 ## Cómo funciona
 
-Tu agente dijo que el trabajo estaba hecho. ¿Lo estaba? goalify fija el goal antes de empezar: tus
-propios tests deben pasar. Al final, `/goalify verify` los vuelve a ejecutar. Escribe un recibo.
-
-goalify convierte tu petición en un **goal**. Un goal es una meta clara. La IA sigue trabajando hasta
-que el goal está hecho y probado, o hasta llegar al límite que fijaste.
-
-Funciona mejor en **Claude Code** y **Codex**. Los dos tienen un comando `/goal` integrado que mantiene
-el trabajo en marcha. En Claude Code, un segundo revisor lee el trabajo después de cada paso. Codex
-revisa su propio trabajo con la misma meta. Otras herramientas de IA que leen skills reciben el mismo
-plan y la misma meta, y tú inicias el trabajo.
-
-goalify solo prepara el trabajo. El comando `/goal` hace el trabajo. goalify se asegura de que la IA no
-tenga ninguna decisión que pedirte.
+goalify prepara el trabajo, y `/goal` lo hace. goalify convierte tu petición en un **goal**: un punto
+final claro que tus propios tests pueden comprobar.
 
 1. **La investigación.** ¿Se puede hacer? goalify lee tu proyecto, la documentación y tus tests. Encuentra los
    comandos que muestran que el trabajo está hecho de verdad.
@@ -130,6 +157,9 @@ tenga ninguna decisión que pedirte.
    trabajo. En Claude Code, un segundo revisor lee el trabajo después de cada paso. Solo deja que el
    trabajo pare cuando la prueba está ahí, o cuando llega a tu límite de pasos.
 5. **Compruébalo después.** `/goalify verify` vuelve a ejecutar las comprobaciones y escribe un recibo.
+
+Funciona mejor en **Claude Code** y **Codex**, porque los dos tienen un `/goal` integrado. Codex revisa
+su propio trabajo con el mismo goal. En otros agentes, tú inicias el trabajo a partir del mismo plan.
 
 La línea que pegas se ve así. Es larga, así que cópiala entera:
 
@@ -151,12 +181,14 @@ Nada se rompe, pero tampoco se comprueba nada. Es el error más fácil de comete
 
 ### Por qué una ejecución larga no se desvía
 
-El trabajo largo de una IA suele fallar de dos formas. La IA se para a preguntarte algo. O dice "hecho"
-cuando algo sigue roto. goalify arregla el primer problema: pregunta todo al principio y escribe las
-respuestas en el brief. La condición arregla el segundo. Al final, la IA debe volver a ejecutar cada
-comprobación, mostrar el resultado y escribir una palabra especial como `ASYNC-OK`. Si la IA se hubiera
-saltado el trabajo, tendría que mentir. Cerca de su límite de pasos, la IA termina limpiamente y dice lo
-que falta. Si para antes, el brief guarda su checklist. Pega la misma línea otra vez para continuar.
+El brief guarda cada respuesta, y la condición exige una prueba. Un trabajo largo de IA suele fallar de
+dos formas: la IA se para a preguntarte algo, o dice "hecho" cuando algo sigue roto.
+
+1. **Sin preguntas a mitad.** goalify pregunta todo al principio y escribe las respuestas en el brief.
+2. **Sin falso "hecho".** Al final, la IA debe volver a ejecutar cada comprobación, mostrar el resultado y
+   escribir una palabra especial como `ASYNC-OK`. Si se saltó el trabajo, tendría que mentir.
+3. **Sin trabajo perdido.** Cerca de su límite de pasos, la IA cierra limpiamente y dice lo que falta. Si
+   para antes, el brief guarda su lista. Pega la misma línea para continuar.
 
 ### Qué te da cada comando
 
@@ -236,16 +268,22 @@ En qué se apoya cada promesa de la primera pantalla:
 
 ## Funciona con
 
-Solo lo que se instaló y ejecutó en la fecha indicada.
+Solo lo que se comprobó en la fecha indicada. "Probado" significa que el skill se instaló y se cargó.
+"Instalación probada" significa que una instalación global en una carpeta personal vacía puso los archivos en su sitio.
 
-| Agente              | Forma de instalar                                | Probado    |
-| :------------------ | :----------------------------------------------- | :--------- |
-| Claude Code 2.1.326 | `claude plugin install goalify@10x`              | 2026-11-17 |
-| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
-| Codex CLI           | `npx skills add Aboudjem/goalify -a codex`       | 2026-11-17 |
+| Agente | Forma de instalar | Resultado | Probado |
+|:--|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | Probado | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | Probado | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | Probado | 2026-11-17 |
+| Cursor | `npx skills add Aboudjem/goalify -g -a cursor` | Instalación probada | 2026-11-17 |
+| Gemini CLI | `npx skills add Aboudjem/goalify -g -a gemini-cli` | Instalación probada | 2026-11-17 |
+| GitHub Copilot | `npx skills add Aboudjem/goalify -g -a github-copilot` | Instalación probada | 2026-11-17 |
+| OpenCode | `npx skills add Aboudjem/goalify -g -a opencode` | Instalación probada | 2026-11-17 |
 
-Documentados, sin probar: Cursor, GitHub Copilot, Gemini CLI, OpenCode y los demás agentes que admite
-la CLI de skills. Sus códigos y carpetas están en [docs/editors.md](../docs/editors.md).
+Con `-g`, Claude Code recibe el skill en `~/.claude/skills/`. Los otros cinco comparten
+`~/.agents/skills/` (CLI de skills 1.9.0). Los demás agentes que admite la CLI de skills están documentados,
+no probados: sus códigos están en [docs/editors.md](../docs/editors.md).
 
 goalify no depende de un solo modelo. El skill es un archivo Markdown y los scripts de ayuda son
 Python estándar. Cualquier modelo detrás de un agente que lea skills puede seguirlo.

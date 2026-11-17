@@ -30,10 +30,10 @@ goalify pose ses questions d'abord, écrit le plan, et relance vos tests à la d
 |:--|:--|:--|
 | Toutes les questions viennent d'abord, une fois. Les réponses sont dans le brief, sous « Decisions ». | Le run relit le fichier du brief, donc il peut démarrer dans un chat vide. | `/goalify verify` relance vos tests : `make demo` VERIFIED, `--broken` NOT VERIFIED. |
 
-**Fonctionne avec :** tout agent qui lit les skills. Testé : Claude Code, Codex CLI. Meilleur dans ces deux-là : les deux ont `/goal`. Du Markdown et du Python simples, donc lié à aucun modèle.
+**Fonctionne avec :** tout agent qui lit les skills, sans lien avec un modèle précis (Markdown et Python simples). Testé dans Claude Code et Codex CLI, qui ont tous les deux `/goal`.
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g
 # then, in your agent: /goalify migrate the API client to async
 ```
 
@@ -45,6 +45,10 @@ Checks:
   1. PASS (exit 0) python3 -m unittest -q test_slugify
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
+
+**Ce que c'est :** un skill qui transforme un gros travail en un fichier de plan et une ligne `/goal`.
+**Quand l'utiliser :** pour un travail trop gros pour un seul chat, comme une migration.
+**Ce que vous obtenez :** un run sans question pour vous, et un reçu tiré de vos propres tests.
 
 Un run arrêté n'est pas toujours fini, et il peut s'arrêter sur une demande de permission ([Limites](#limites)).
 
@@ -60,25 +64,59 @@ Un run arrêté n'est pas toujours fini, et il peut s'arrêter sur une demande d
 
 ## Installation
 
-Dans Claude Code, comme plugin :
+**Choisissez votre agent.** Chaque commande installe goalify pour tous vos projets.
+
+<p align="center">
+  <a href="#install-claude-code"><img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code"></a>
+  <a href="#install-codex"><img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge" alt="Codex"></a>
+  <a href="#install-cursor"><img src="https://img.shields.io/badge/Cursor-3B3B3B?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"></a>
+  <a href="#install-gemini-cli"><img src="https://img.shields.io/badge/Gemini_CLI-1A73E8?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini CLI"></a>
+  <a href="#install-github-copilot"><img src="https://img.shields.io/badge/GitHub_Copilot-24292F?style=for-the-badge&logo=githubcopilot&logoColor=white" alt="GitHub Copilot"></a>
+  <a href="#install-opencode"><img src="https://img.shields.io/badge/OpenCode-4A4A4A?style=for-the-badge&logo=opencode&logoColor=white" alt="OpenCode"></a>
+</p>
+
+<a id="install-claude-code"></a>**Claude Code**, testé. Installé pour tous vos projets :
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+claude plugin marketplace add Aboudjem/10x && claude plugin install goalify@10x
 ```
 
-Tout autre outil d'IA qui lit les skills, en une ligne :
+<a id="install-codex"></a>**Codex**, testé :
 
 ```bash
-npx skills add Aboudjem/goalify
+npx skills add Aboudjem/goalify -g -a codex
 ```
 
-Pendant cette installation, skills.sh affiche un avertissement de risque moyen pour goalify. Il signale
-que `verify` lance les commandes de vérification du brief dans un shell. verify liste d'abord ces
-commandes et ne lance rien sans votre oui.
+<a id="install-cursor"></a>**Cursor**, installation testée :
 
-Il vous faut Claude Code 2.1.139 ou plus récent. C'est cette version qui a ajouté `/goal`.
+```bash
+npx skills add Aboudjem/goalify -g -a cursor
+```
 
+<a id="install-gemini-cli"></a>**Gemini CLI**, installation testée :
+
+```bash
+npx skills add Aboudjem/goalify -g -a gemini-cli
+```
+
+<a id="install-github-copilot"></a>**GitHub Copilot**, installation testée :
+
+```bash
+npx skills add Aboudjem/goalify -g -a github-copilot
+```
+
+<a id="install-opencode"></a>**OpenCode**, installation testée :
+
+```bash
+npx skills add Aboudjem/goalify -g -a opencode
+```
+
+Seulement ce projet : retirez `-g`. Un autre agent : son code `-a` est dans [docs/editors.md](../docs/editors.md).
+
+La CLI skills affiche un avertissement de risque moyen pour goalify, car `verify` lance les commandes de
+vérification du brief dans un shell. verify liste d'abord ces commandes et ne lance rien sans votre oui.
+
+Il vous faut Claude Code 2.1.139 ou plus récent pour `/goal`.
 **Votre première commande.** Tapez `/goalify` et le travail en une phrase :
 
 ```text
@@ -105,19 +143,8 @@ make demo
 
 ## Comment ça marche
 
-Votre agent a dit que le travail était fini. L'était-il ? goalify fixe le goal avant le début du travail :
-vos propres tests doivent passer. À la fin, `/goalify verify` les relance. Il écrit un reçu.
-
-goalify transforme votre demande en **goal**. Un goal est un point d'arrivée clair qu'un test peut vérifier. L'IA continue de
-travailler jusqu'à ce que le goal soit atteint et prouvé, ou jusqu'à la limite que vous avez fixée.
-
-Il marche le mieux dans **Claude Code** et **Codex**. Les deux ont une commande `/goal` intégrée qui fait
-avancer le travail. Dans Claude Code, un second vérificateur lit le travail après chaque étape. Codex
-vérifie son propre travail avec le même goal. Les autres outils d'IA qui lisent les skills
-reçoivent le même plan et le même goal, et vous lancez le travail vous-même.
-
-goalify prépare seulement le travail. La commande `/goal` fait le travail. goalify s'assure que l'IA
-n'a plus aucune décision à vous demander.
+goalify prépare le travail, et `/goal` le fait. goalify transforme votre demande en **goal** : un point
+d'arrivée clair que vos propres tests peuvent vérifier.
 
 1. **La recherche.** Est-ce faisable ? goalify lit votre projet, la doc et vos tests. Il trouve les
    commandes qui montrent que le travail est vraiment fini.
@@ -130,6 +157,9 @@ n'a plus aucune décision à vous demander.
    votre travail. Dans Claude Code, un second vérificateur lit le travail après chaque étape. Il laisse
    le travail s'arrêter seulement quand la preuve est là, ou quand votre limite d'étapes est atteinte.
 5. **Vérifier plus tard.** `/goalify verify` relance les vérifications et écrit un reçu.
+
+Il marche le mieux dans **Claude Code** et **Codex**, car les deux ont un `/goal` intégré. Codex vérifie
+son propre travail avec le même goal. Dans les autres agents, vous lancez le travail vous-même à partir du même plan.
 
 La ligne à coller ressemble à ceci. Elle est longue, copiez-la en entier :
 
@@ -152,12 +182,14 @@ facile à faire :
 
 ### Pourquoi un long run ne se perd pas
 
-Un long travail d'IA échoue souvent de deux façons. L'IA s'arrête pour vous demander quelque chose. Ou
-elle dit « fini » alors que quelque chose est encore cassé. goalify règle le premier problème : il pose
-tout au début et écrit les réponses dans le brief. La condition règle le second. À la fin, l'IA doit
-relancer chaque vérification, montrer le résultat, et écrire un mot spécial comme `ASYNC-OK`. Si l'IA
-avait sauté le travail, elle devrait mentir. Près de sa limite d'étapes, l'IA termine proprement et dit
-ce qui reste. Si elle s'arrête tôt, le brief garde sa checklist. Collez la même ligne pour continuer.
+Le brief garde chaque réponse, et la condition exige une preuve. Un long travail d'IA échoue souvent de
+deux façons : l'IA s'arrête pour vous demander quelque chose, ou elle dit « fini » alors que quelque chose est cassé.
+
+1. **Pas de question en cours de run.** goalify pose tout au début et écrit les réponses dans le brief.
+2. **Pas de faux « fini ».** À la fin, l'IA doit relancer chaque vérification, montrer le résultat, et
+   écrire un mot spécial comme `ASYNC-OK`. Si elle avait sauté le travail, elle devrait mentir.
+3. **Pas de travail perdu.** Près de sa limite d'étapes, l'IA termine proprement et dit ce qui reste. Si
+   elle s'arrête tôt, le brief garde sa checklist. Collez la même ligne pour continuer.
 
 ### Ce que vous donne chaque commande
 
@@ -238,16 +270,23 @@ Sur quoi repose chaque promesse du premier écran :
 
 ## Compatibilité
 
-Seulement ce qui a été installé et lancé à la date indiquée.
+Seulement ce qui a été vérifié à la date indiquée. « Testé » veut dire que le skill a été installé et
+chargé. « Installation testée » veut dire qu'une installation globale dans un dossier personnel vide a mis
+les fichiers en place.
 
-| Agent               | Chemin d'installation                            | Testé      |
-| :------------------ | :----------------------------------------------- | :--------- |
-| Claude Code 2.1.326 | `claude plugin install goalify@10x`              | 2026-11-17 |
-| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
-| Codex CLI           | `npx skills add Aboudjem/goalify -a codex`       | 2026-11-17 |
+| Agent | Chemin d'installation | Résultat | Testé |
+|:--|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | Testé | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | Testé | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | Testé | 2026-11-17 |
+| Cursor | `npx skills add Aboudjem/goalify -g -a cursor` | Installation testée | 2026-11-17 |
+| Gemini CLI | `npx skills add Aboudjem/goalify -g -a gemini-cli` | Installation testée | 2026-11-17 |
+| GitHub Copilot | `npx skills add Aboudjem/goalify -g -a github-copilot` | Installation testée | 2026-11-17 |
+| OpenCode | `npx skills add Aboudjem/goalify -g -a opencode` | Installation testée | 2026-11-17 |
 
-Documentés, non testés : Cursor, GitHub Copilot, Gemini CLI, OpenCode et les autres agents pris en
-charge par la CLI skills. Leurs codes et dossiers sont dans [docs/editors.md](../docs/editors.md).
+Avec `-g`, Claude Code reçoit le skill dans `~/.claude/skills/`. Les cinq autres partagent
+`~/.agents/skills/` (CLI skills 1.9.0). Les autres agents pris en charge par la CLI skills sont documentés,
+non testés : leurs codes sont dans [docs/editors.md](../docs/editors.md).
 
 goalify n'est lié à aucun modèle. Le skill est un fichier Markdown et les scripts d'aide sont du
 Python standard. Tout modèle derrière un agent qui lit les skills peut le suivre.

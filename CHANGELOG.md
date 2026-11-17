@@ -6,6 +6,29 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [3.1.4] - 2026-11-17
+
+Pick your agent, install for all your projects, and shorter explanations. No behaviour change.
+
+### Changed
+
+- **Pick your agent.** `## Install` opens with a row of agent badges: Claude Code, Codex, Cursor,
+  Gemini CLI, GitHub Copilot, OpenCode. Each one links to that agent's single install command.
+- **Global by default.** Every skills CLI command now uses `-g`, so goalify installs once for all your
+  projects. To install it for one project only, drop `-g`. Each `-g` command was run into a clean home folder on
+  2026-11-17: Claude Code's copy lands in `~/.claude/skills/`, the other five share `~/.agents/skills/`.
+  The Claude Code plugin install is already per user.
+- **Works with table.** Cursor, Gemini CLI, GitHub Copilot and OpenCode are now listed as "Install
+  tested", next to the "Tested" rows for Claude Code and Codex CLI.
+- **Three short answers on the first screen:** what it is, when to use it, what you get. How it works
+  opens with its answer and lists the three ways a long run stays safe as numbered steps.
+- **New descriptions.** GitHub: "Give your agent a big job and get proof it is done. It asks first,
+  writes the plan, and re-runs your tests." Listing: "Give your agent a big job once. It asks every
+  question first, saves the plan to a file, and re-runs your tests as proof. Works in any agent that
+  reads skills."
+- **Landing page** (`site/index.html`): the same agent picker, with one command and a Copy button.
+- Translations, `llms.txt`, `AGENTS.md`, `docs/editors.md` and `docs/quickstart.md` follow.
+
 ## [3.1.3] - 2026-11-17
 
 A simpler first screen in plain English. No behaviour change.
