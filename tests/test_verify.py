@@ -6,7 +6,8 @@ Pins: true/false checks give 1/2 and exit 1; a destructive command is refused wi
 explicit --allow; no runnable command gives UNVERIFIABLE; an archived brief with a failing
 check is NOT VERIFIED (the receipt can contradict the stamp); nothing runs without --yes when
 stdin is not a terminal; nothing is written outside .goal/; and the receipt is escaped and
-makes no external request.
+makes no external request; a "printing nothing" pass reads in plain words;
+and a new receipt never overwrites an older one.
 
 Standard library only. Run: python3 tests/test_verify.py
 Exit 0 = all pass, 1 = at least one failed.
@@ -232,15 +233,23 @@ try:
     open(os.path.join(proj, "src", "a.js"), "w").write("call('api/v2')\n")
     p = run([bp, "--yes"])
     check("prints-nothing: grep with no match (exit 1, empty) is a PASS and VERIFIED",
-          p.returncode == 0 and "VERDICT: VERIFIED" in p.stdout and "expects no output" in p.stdout,
-          p.stdout)
+          p.returncode == 0 and "VERDICT: VERIFIED" in p.stdout, p.stdout)
+    check("prints-nothing: the line says it in plain words, with no bare exit code",
+          '  1. PASS (printed nothing, as expected) grep -rn "api/v1" src' in p.stdout.splitlines()
+          and "exit 1" not in p.stdout, p.stdout)
     rec = glob.glob(os.path.join(proj, ".goal", "RECEIPT-x-*.html"))
     check("prints-nothing: the receipt says it printed nothing",
-          bool(rec) and "PASS · printed nothing" in open(rec[0], encoding="utf-8").read())
+          bool(rec) and "PASS · printed nothing, as expected" in open(rec[0], encoding="utf-8").read())
     open(os.path.join(proj, "src", "b.js"), "w").write("call('api/v1')\n")
     p = run([bp, "--yes"])
     check("prints-nothing: a leftover match (output) is a FAIL, NOT VERIFIED",
-          p.returncode == 1 and "NOT VERIFIED" in p.stdout, p.stdout)
+          p.returncode == 1 and "NOT VERIFIED" in p.stdout
+          and '  1. FAIL (expected no output, exit 0) grep -rn "api/v1" src' in p.stdout.splitlines(),
+          p.stdout)
+    rec = sorted(glob.glob(os.path.join(proj, ".goal", "RECEIPT-x-*.html")))
+    verdicts = sorted(">NOT VERIFIED<" in open(r, encoding="utf-8").read() for r in rec)
+    check("receipts: a second run adds a receipt, it never overwrites the first",
+          len(rec) == 2 and verdicts == [False, True], f"{rec}")
     proj, bp = setup(tmp, "empty-err", brief("Broken grep", [
         'Clean, verified by `grep -rn "api/v1" missing-dir` printing nothing.']))
     p = run([bp, "--yes"])
@@ -250,6 +259,20 @@ try:
     p = run([bp, "--yes"])
     check("a plain check with exit 1 and no 'printing nothing' wording still FAILs",
           p.returncode == 1, p.stdout)
+
+    # --- two receipts in the same second get distinct names ---
+    sys.path.insert(0, os.path.dirname(VERIFY))
+    import verify as verify_mod  # noqa: E402
+    gd = os.path.join(tmp, "collide")
+    os.makedirs(gd)
+    names = []
+    for text in ("one", "two", "three"):
+        path = verify_mod.receipt_path(gd, "x", "20261117-120000")
+        open(path, "w").write(text)
+        names.append(os.path.basename(path))
+    check("receipts: same slug and same second give three distinct files",
+          names == ["RECEIPT-x-20261117-120000.html", "RECEIPT-x-20261117-120000-2.html",
+                    "RECEIPT-x-20261117-120000-3.html"], f"{names}")
 
     # --- more destructive shapes are refused ---
     proj, bp = setup(tmp, "find", brief("Find", ["Cleaned, verified by `find . -name x -delete`."]))

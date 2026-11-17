@@ -6,6 +6,28 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [3.1.1] - 2026-11-17
+
+Three fixes found by an independent check of 3.1.0.
+
+### Fixed
+
+- **`/goalify doctor` scans `$CLAUDE_CONFIG_DIR`.** When that variable is set, doctor also scans its
+  `skills/` folder and its plugin cache, next to `~/.claude`. Before, it missed those installs.
+- **The demo keeps both receipts.** `run.py --broken` now builds in its own temp folder
+  (`goalify-demo-broken`), so it no longer wipes the VERIFIED receipt of `make demo`.
+- **A receipt never overwrites another.** Two runs of verify in the same second now get distinct
+  receipt names (`-2`, `-3`).
+
+### Changed
+
+- **A "printing nothing" check reads in plain words.** The result line says
+  `PASS (printed nothing, as expected)` instead of `PASS (exit 1, expects no output)`. A failing one
+  says `FAIL (expected no output, exit <n>)`. The HTML receipt uses the same words.
+- **README:** the demo now shows the `git clone` step and names `git`, `python3` and `make`. The
+  skills.sh risk warning is explained. One Claude Code version (2.1.326) is named for the `/goal`
+  facts, re-checked against its changelog and docs today.
+
 ## [3.1.0] - 2026-11-17
 
 The receipt now tells you the verdict first and what to do next. You can also see a real receipt in

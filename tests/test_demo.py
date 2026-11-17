@@ -6,7 +6,8 @@ condition go through the same scripts a user runs, and the receipt has to tell t
 Pins: the condition passes condition_lint; the brief and the condition pass the brief lint and
 a preview page is written; verify says VERIFIED (exit 0) when the code is right and NOT VERIFIED
 (exit 1) when the same brief still has every box ticked but one test fails; the report opens
-with the verdict; and the demo writes nothing inside this repo.
+with the verdict; the default --broken folder keeps the VERIFIED receipt intact;
+and the demo writes nothing inside this repo.
 
 Standard library only. Run: python3 tests/test_demo.py
 Exit 0 = all pass, 1 = at least one failed.
@@ -59,7 +60,7 @@ try:
           lines[:1] == ["VERDICT: VERIFIED (2/2 checks passed)"], p.stdout)
     check("demo: both commands really ran and passed",
           "  1. PASS (exit 0) python3 -m unittest -q test_slugify" in lines
-          and '  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py' in lines, p.stdout)
+          and '  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py' in lines, p.stdout)
     goal = os.path.join(os.path.realpath(target), ".goal")
     check("demo: the brief lint passed and wrote the preview page",
           os.path.getsize(os.path.join(goal, "preview.html")) > 2000
@@ -94,6 +95,33 @@ try:
     logged = open(log, encoding="utf-8").read() if os.path.exists(log) else ""
     check("broken demo: the log shows the failing assertion",
           "FAILED" in logged and "release-3-1-notes" in logged, logged[-400:])
+
+    # --- default folders: make demo, then --broken, keep two receipts with their own verdicts ---
+    tdir = os.path.join(tmp, "tmpdir")
+    os.makedirs(tdir)
+    env = dict(os.environ, TMPDIR=tdir)
+    ok_run = subprocess.run([sys.executable, RUN], capture_output=True, text=True, env=env)
+    bad_run = subprocess.run([sys.executable, RUN, "--broken"], capture_output=True, text=True,
+                             env=env)
+    check("default folders: VERIFIED then NOT VERIFIED (exit 0, then 1)",
+          ok_run.returncode == 0 and bad_run.returncode == 1, ok_run.stdout + bad_run.stdout)
+
+    def receipt_of(out):
+        found = [l for l in out.splitlines() if l.startswith("Receipt: file://")]
+        return found[-1][len("Receipt: file://"):] if found else ""
+
+    ok_rec, bad_rec = receipt_of(ok_run.stdout), receipt_of(bad_run.stdout)
+    check("default folders: the two runs print two different receipt paths",
+          bool(ok_rec) and bool(bad_rec) and ok_rec != bad_rec, f"{ok_rec} | {bad_rec}")
+    ok_page = open(ok_rec, encoding="utf-8").read() if os.path.isfile(ok_rec) else ""
+    bad_page = open(bad_rec, encoding="utf-8").read() if os.path.isfile(bad_rec) else ""
+    check("default folders: after --broken, the first receipt still exists and says VERIFIED",
+          ">VERIFIED<" in ok_page and ">NOT VERIFIED<" not in ok_page, ok_rec)
+    check("default folders: the --broken receipt exists and says NOT VERIFIED",
+          ">NOT VERIFIED<" in bad_page, bad_rec)
+    check("default folders: --broken builds in goalify-demo-broken, the normal run in goalify-demo",
+          os.sep + "goalify-demo-broken" + os.sep in bad_rec
+          and os.sep + "goalify-demo" + os.sep in ok_rec, f"{ok_rec} | {bad_rec}")
 
     # --- usage ---
     p = demo(target, "--nope")

@@ -3,7 +3,7 @@
 Tests for skills/goalify/scripts/doctor.py (duplicate-install check) and the version stamp.
 
 Pins: a 2.5.0 hand copy plus a 2.6.1 plugin gives exactly one warning naming both; a single
-copy gives none; a leftover cache folder that is not installed is ignored; and the version
+copy gives none; a leftover cache folder that is not installed is ignored; $CLAUDE_CONFIG_DIR is scanned too; and the version
 line in the SKILL.md body equals plugin.json.
 
 Standard library only. Run: python3 tests/test_doctor.py
@@ -38,22 +38,27 @@ def skill(dirpath, version):
         f"---\nname: goalify\ndescription: x\nmetadata:\n  version: {version}\n---\n\n# goalify\n")
 
 
-def plugin(home, version, installed=True):
-    d = os.path.join(home, ".claude", "plugins", "cache", "10x", "goalify", version)
+def plugin(home, version, installed=True, config=None):
+    config = config or os.path.join(home, ".claude")
+    d = os.path.join(config, "plugins", "cache", "10x", "goalify", version)
     skill(os.path.join(d, "skills", "goalify"), version)
     if installed:
-        p = os.path.join(home, ".claude", "plugins", "installed_plugins.json")
+        p = os.path.join(config, "plugins", "installed_plugins.json")
         data = {"version": 2, "plugins": {"goalify@10x": [{"scope": "user", "installPath": d,
                                                             "version": version}]}}
         os.makedirs(os.path.dirname(p), exist_ok=True)
         json.dump(data, open(p, "w"))
 
 
-def doctor(home):
+def doctor(home, config_dir=None):
     proj = os.path.join(home, "proj")
     os.makedirs(proj, exist_ok=True)
+    # Never let the tester's own $CLAUDE_CONFIG_DIR leak into a test.
+    env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CONFIG_DIR"}
+    if config_dir:
+        env["CLAUDE_CONFIG_DIR"] = config_dir
     return subprocess.run([sys.executable, DOCTOR, "--home", home, "--project", proj],
-                          capture_output=True, text=True)
+                          capture_output=True, text=True, env=env)
 
 
 tmp = tempfile.mkdtemp(prefix="goalify-doctor-")
@@ -110,6 +115,30 @@ try:
     p = doctor(h6)
     check("skills CLI copy + plugin: warns and prints the remove command",
           p.returncode == 1 and "npx skills remove goalify" in p.stdout, p.stdout)
+
+    # Claude Code reads $CLAUDE_CONFIG_DIR instead of ~/.claude when it is set.
+    h7 = os.path.join(tmp, "h7")
+    cfg7 = os.path.join(tmp, "custom-config")
+    plugin(h7, "3.1.1", config=cfg7)
+    p = doctor(h7)
+    check("CLAUDE_CONFIG_DIR unset: a plugin only in a custom config folder is not seen",
+          "No goalify copy found" in p.stdout, p.stdout)
+    p = doctor(h7, cfg7)
+    check("CLAUDE_CONFIG_DIR set: its installed plugin is found, exit 0",
+          p.returncode == 0 and "exactly one goalify copy, version 3.1.1" in p.stdout
+          and "Claude Code plugin in $CLAUDE_CONFIG_DIR" in p.stdout, p.stdout)
+    skill(os.path.join(cfg7, "skills", "goalify"), "2.0.0")
+    plugin(h7, "1.9.0", installed=False, config=cfg7)
+    skill(os.path.join(h7, ".claude", "skills", "goalify"), "3.1.1")
+    p = doctor(h7, cfg7)
+    check("CLAUDE_CONFIG_DIR set: its hand copy and ~/.claude are both scanned, mismatch warned",
+          p.returncode == 1 and "2.0.0" in p.stdout and "3 installed copies found" in p.stdout,
+          p.stdout)
+    check("CLAUDE_CONFIG_DIR set: a leftover in its plugin cache is ignored",
+          "1.9.0" in p.stdout and "ignored" in p.stdout, p.stdout)
+    p = doctor(h7, os.path.join(h7, ".claude"))
+    check("CLAUDE_CONFIG_DIR pointing at ~/.claude: each copy listed once",
+          "1 installed copy found" in p.stdout, p.stdout)
 
     h5 = os.path.join(tmp, "h5")
     os.makedirs(h5)

@@ -140,19 +140,19 @@ cp -R goalify/skills/goalify ~/.claude/skills/
 ## レシートの例
 
 `/goalify verify` は brief のチェックをもう一度実行し、最初に判定を表示します。これは
-`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` の実際の実行結果です (2026-11-17)。「実行」はすべてのチェックボックスに印を付けましたが、テストが 1 つ失敗しています。
+`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` の実際の実行結果です (2026-11-17)。「実行」はすべてのチェックボックスに印を付けましたが、テストが 1 つ失敗しています。
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
 Next:
-  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  1. Read the log of the first failing check: /private/tmp/goalify-demo-broken/.goal/verify-slugify/1.log
   2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
-  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo-broken/.goal/slugify-20261117.md"
 Checks:
   1. FAIL (exit 1) python3 -m unittest -q test_slugify
-  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
-Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
-Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
 このリポジトリのクローンで `make demo` を実行すると、自分で確かめられます。Proof、Works with、FAQ の各セクションは[英語の README](../README.md) にあります。
@@ -177,6 +177,6 @@ Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.
 
 ---
 
-<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` に関する事実は、Claude Code 2.1.317 とそのドキュメントで 2026 年 11 月に確認しました。<a href="https://github.com/Aboudjem/goalify/issues">問題を見つけたら？</a></sub>
+<sub><a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 作。MIT ライセンス。`/goal` に関する事実は、Claude Code 2.1.326 とそのドキュメントで 2026 年 11 月に確認しました。<a href="https://github.com/Aboudjem/goalify/issues">問題を見つけたら？</a></sub>
 
 <sub>この翻訳は機械支援によるものです。正典は英語版の <a href="../README.md">README.md</a> です。</sub>

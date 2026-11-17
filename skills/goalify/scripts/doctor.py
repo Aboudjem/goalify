@@ -12,6 +12,9 @@ on this machine, which is where the real failure lives.
 
 Standard library only. Reads files, never writes, runs or fetches anything.
 
+Claude Code keeps its config in ~/.claude, or in $CLAUDE_CONFIG_DIR when that is set. doctor
+scans both, so a custom config folder is not missed.
+
 Usage:
     python3 doctor.py [--home <dir>] [--project <dir>] [--json]
 
@@ -36,9 +39,21 @@ def skill_version(skill_md):
     return m.group(1) if m else "unknown"
 
 
-def active_plugin_paths(home):
+def config_dirs(home, env=None):
+    """Claude Code config folders to scan: ~/.claude, plus $CLAUDE_CONFIG_DIR when set."""
+    env = os.environ if env is None else env
+    dirs = [os.path.join(home, ".claude")]
+    custom = env.get("CLAUDE_CONFIG_DIR", "").strip()
+    if custom:
+        custom = os.path.expanduser(custom)
+        if os.path.realpath(custom) != os.path.realpath(dirs[0]):
+            dirs.append(custom)
+    return dirs
+
+
+def active_plugin_paths(config_dir):
     """installPath of every goalify plugin Claude Code has installed (installed_plugins.json)."""
-    path = os.path.join(home, ".claude", "plugins", "installed_plugins.json")
+    path = os.path.join(config_dir, "plugins", "installed_plugins.json")
     try:
         data = json.load(open(path, encoding="utf-8"))
     except (OSError, ValueError):
@@ -70,18 +85,23 @@ def find_copies(home, project):
             copies.append({"kind": kind, "path": os.path.realpath(skill_dir),
                            "version": skill_version(md), "note": note})
 
-    add("Claude Code hand copy (user)", os.path.join(home, ".claude", "skills", "goalify"))
+    for cdir in config_dirs(home):
+        where = "" if cdir == os.path.join(home, ".claude") else " in $CLAUDE_CONFIG_DIR"
+        add("Claude Code hand copy (user" + where + ")", os.path.join(cdir, "skills", "goalify"))
+        active = active_plugin_paths(cdir)
+        for d in sorted(glob.glob(os.path.join(cdir, "plugins", "cache", "*", "goalify", "*"))):
+            skill_dir = os.path.join(d, "skills", "goalify")
+            if os.path.realpath(d) in active:
+                add("Claude Code plugin" + where, skill_dir, "installed")
+            elif os.path.isfile(os.path.join(skill_dir, "SKILL.md")):
+                real = os.path.realpath(skill_dir)
+                if any(c["path"] == real for c in copies):
+                    continue
+                copies.append({"kind": "plugin cache leftover" + where, "path": real,
+                               "version": skill_version(os.path.join(skill_dir, "SKILL.md")),
+                               "note": "not installed, not loaded", "inactive": True})
     if project:
         add("Claude Code hand copy (project)", os.path.join(project, ".claude", "skills", "goalify"))
-    active = active_plugin_paths(home)
-    for d in sorted(glob.glob(os.path.join(home, ".claude", "plugins", "cache", "*", "goalify", "*"))):
-        skill_dir = os.path.join(d, "skills", "goalify")
-        if os.path.realpath(d) in active:
-            add("Claude Code plugin", skill_dir, "installed")
-        elif os.path.isfile(os.path.join(skill_dir, "SKILL.md")):
-            copies.append({"kind": "plugin cache leftover", "path": os.path.realpath(skill_dir),
-                           "version": skill_version(os.path.join(skill_dir, "SKILL.md")),
-                           "note": "not installed, not loaded", "inactive": True})
     add("skills CLI copy (npx skills add, ~/.agents)", os.path.join(home, ".agents", "skills", "goalify"))
     if project:
         add("skills CLI copy (npx skills add, project)", os.path.join(project, ".agents", "skills", "goalify"))

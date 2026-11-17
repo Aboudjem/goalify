@@ -181,20 +181,20 @@ copia antigua, ejecuta `/goalify doctor` para asegurarte de que solo hay una cop
 ## Ejemplo de recibo
 
 `/goalify verify` vuelve a ejecutar las comprobaciones del brief y muestra primero el veredicto.
-Esta es una ejecución real de `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo`
+Esta es una ejecución real de `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken`
 (2026-11-17). La "ejecución" marcó todas las casillas, pero una prueba falla:
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
 Next:
-  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  1. Read the log of the first failing check: /private/tmp/goalify-demo-broken/.goal/verify-slugify/1.log
   2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
-  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo-broken/.goal/slugify-20261117.md"
 Checks:
   1. FAIL (exit 1) python3 -m unittest -q test_slugify
-  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
-Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
-Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
 Pruébalo tú con `make demo` en un clon de este repo. Las secciones Proof, Works with y FAQ están en
@@ -227,7 +227,7 @@ el [README en inglés](../README.md).
 ---
 
 <sub>Hecho por <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licencia MIT. Los datos sobre `/goal`
-están comprobados con Claude Code 2.1.317 y su documentación, noviembre de 2026.
+están comprobados con Claude Code 2.1.326 y su documentación, noviembre de 2026.
 <a href="https://github.com/Aboudjem/goalify/issues">¿Ves un problema?</a></sub>
 
 <sub>Traducción asistida por máquina. La versión de referencia es el <a href="../README.md">README.md</a> en inglés.</sub>

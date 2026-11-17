@@ -188,20 +188,20 @@ est chargée.
 ## Exemple de reçu
 
 `/goalify verify` relance les vérifications du brief et affiche le verdict en premier. Voici une
-vraie exécution de `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` (2026-11-17).
+vraie exécution de `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` (2026-11-17).
 Le « run » a coché toutes les cases, mais un test échoue :
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
 Next:
-  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  1. Read the log of the first failing check: /private/tmp/goalify-demo-broken/.goal/verify-slugify/1.log
   2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
-  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo-broken/.goal/slugify-20261117.md"
 Checks:
   1. FAIL (exit 1) python3 -m unittest -q test_slugify
-  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
-Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
-Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
 Essayez vous-même avec `make demo` dans un clone de ce dépôt. Les sections Proof, Works with et FAQ
@@ -235,7 +235,7 @@ sont dans le [README anglais](../README.md).
 ---
 
 <sub>Fait par <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. Licence MIT. Les faits sur `/goal`
-sont vérifiés avec Claude Code 2.1.317 et sa doc, novembre 2026.
+sont vérifiés avec Claude Code 2.1.326 et sa doc, novembre 2026.
 <a href="https://github.com/Aboudjem/goalify/issues">Un problème ?</a></sub>
 
 <sub>Traduction assistée par machine. La version de référence est le <a href="../README.md">README.md</a> en anglais.</sub>

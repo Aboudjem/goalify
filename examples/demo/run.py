@@ -9,7 +9,9 @@ comes from the shipped scripts. Nothing is written inside the goalify repo.
 Usage:
     python3 examples/demo/run.py            # the job was done: VERIFIED, exit 0
     python3 examples/demo/run.py --broken   # the run said "done" but one test fails: NOT VERIFIED, exit 1
-    options: --dir <folder>   where to build the demo (default: <temp>/goalify-demo)
+    options: --dir <folder>   where to build the demo (default: <temp>/goalify-demo,
+                              or <temp>/goalify-demo-broken with --broken, so each mode keeps
+                              its own receipt)
 
 Standard library only. No network call.
 """
@@ -54,7 +56,9 @@ def main(argv):
     if "-h" in args or "--help" in args:
         print(__doc__.strip())
         return 0
-    target = os.path.join(tempfile.gettempdir(), "goalify-demo")
+    broken = "--broken" in args
+    # Each mode gets its own folder: the --broken run must not wipe the VERIFIED receipt.
+    target = os.path.join(tempfile.gettempdir(), "goalify-demo-broken" if broken else "goalify-demo")
     if "--dir" in args:
         i = args.index("--dir")
         if i + 1 >= len(args):
@@ -67,7 +71,7 @@ def main(argv):
         print(f"unknown option(s): {', '.join(unknown)}. Run with --help to see the two modes.")
         return 2
     target = os.path.realpath(target)
-    brief = build(target, "--broken" in args)
+    brief = build(target, broken)
     cond = os.path.join(os.path.dirname(brief), f"CONDITION-{SLUG}.txt")
 
     # 1. The brief lint and the run preview: the same gate /goalify runs before the handoff.

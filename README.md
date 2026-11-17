@@ -50,6 +50,10 @@ Any other AI tool that reads skills, in one line:
 npx skills add Aboudjem/goalify
 ```
 
+During that install, skills.sh shows a medium risk warning for goalify. It flags that `verify`
+runs the brief's check commands in a shell. verify lists those commands first and runs nothing
+without your yes.
+
 You need Claude Code 2.1.139 or newer. That version added `/goal`.
 
 **Your first command.** Type `/goalify` and the job in one sentence:
@@ -60,7 +64,11 @@ You need Claude Code 2.1.139 or newer. That version added `/goal`.
 
 goalify asks its questions, then prints a brief path and one `/goal` line to paste.
 
-**See a real receipt in one minute**, without a long run. From a clone of this repo:
+**See a real receipt in one minute**, without a long run. You need `git`, `python3` and `make`.
+
+```bash
+git clone https://github.com/Aboudjem/goalify && cd goalify
+```
 
 ```bash
 make demo
@@ -157,24 +165,26 @@ continue.
 ## Sample report
 
 `/goalify verify` re-runs the brief's checks and prints the verdict first. This is a real run of
-`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` on 2026-11-17. The "run" ticked
-every box, but one test fails:
+`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` on 2026-11-17. The "run"
+ticked every box, but one test fails:
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
 Next:
-  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  1. Read the log of the first failing check: /private/tmp/goalify-demo-broken/.goal/verify-slugify/1.log
   2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
-  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo-broken/.goal/slugify-20261117.md"
 Checks:
   1. FAIL (exit 1) python3 -m unittest -q test_slugify
-  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
-Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
-Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
+Check 2 must print nothing: `grep` finds no TODO left, so it passes.
+
 Without `--broken`, the same demo prints `VERDICT: VERIFIED (2/2 checks passed)`. The HTML receipt
-also opens with the verdict.
+also opens with the verdict. Each mode builds in its own temp folder, so both receipts stay.
 
 ## Proof
 
@@ -182,7 +192,7 @@ Every number here comes from a command you can run in a clone of this repo.
 
 | Claim | Command | What it prints today |
 |:--|:--|:--|
-| Every test suite passes | `make test` | `10/10 suites passed`, then `435/435 checks passed` |
+| Every test suite passes | `make test` | `10/10 suites passed`, then `448/448 checks passed` |
 | The receipt tells the truth both ways | `make demo`, then `python3 examples/demo/run.py --broken` | `VERDICT: VERIFIED (2/2 checks passed)`, then `VERDICT: NOT VERIFIED (1/2 checks passed)` |
 | The plugin loads in Claude Code | `claude plugin validate . --strict` | `Validation passed` |
 | The skills CLI finds the skill | `npx -y skills@1.9.0 add . --list` | one skill, `goalify` |
@@ -278,5 +288,5 @@ More answers in the [full FAQ](docs/faq.md).
 ---
 
 <sub>Made by <a href="https://github.com/Aboudjem">Adam Boudjemaa</a>. MIT license. `/goal` facts
-checked against Claude Code 2.1.317 and its docs, November 2026.
+checked against Claude Code 2.1.326, its changelog and its docs on 2026-11-17.
 <a href="https://github.com/Aboudjem/goalify/issues">See a problem?</a></sub>

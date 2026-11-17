@@ -139,19 +139,19 @@ cp -R goalify/skills/goalify ~/.claude/skills/
 
 ## 回执示例
 
-`/goalify verify` 会重新运行 brief 里的检查，并先给出结论。下面是 `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` 的一次真实运行 (2026-11-17)。这次"运行"勾选了所有项目，但有一个测试失败：
+`/goalify verify` 会重新运行 brief 里的检查，并先给出结论。下面是 `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo-broken` 的一次真实运行 (2026-11-17)。这次"运行"勾选了所有项目，但有一个测试失败：
 
 ```text
 VERDICT: NOT VERIFIED (1/2 checks passed)
 Next:
-  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  1. Read the log of the first failing check: /private/tmp/goalify-demo-broken/.goal/verify-slugify/1.log
   2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
-  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo-broken/.goal/slugify-20261117.md"
 Checks:
   1. FAIL (exit 1) python3 -m unittest -q test_slugify
-  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
-Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
-Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+  2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo-broken/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-164816.html
 ```
 
 在本仓库的克隆里运行 `make demo`，就能自己验证。Proof、Works with 和 FAQ 部分见[英文 README](../README.md)。
@@ -176,6 +176,6 @@ Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.
 
 ---
 
-<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。关于 `/goal` 的事实已对照 Claude Code 2.1.317 及其文档核对，2026 年 11 月。<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
+<sub>由 <a href="https://github.com/Aboudjem">Adam Boudjemaa</a> 制作。MIT 许可证。关于 `/goal` 的事实已对照 Claude Code 2.1.326 及其文档核对，2026 年 11 月。<a href="https://github.com/Aboudjem/goalify/issues">发现问题？</a></sub>
 
 <sub>本译文由机器辅助翻译，以英文版 <a href="../README.md">README.md</a> 为准。</sub>

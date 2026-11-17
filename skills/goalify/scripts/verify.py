@@ -179,6 +179,26 @@ def next_steps(brief, steps, verdict, receipt):
     return out[:3]
 
 
+def result_note(s):
+    """The words in brackets after PASS or FAIL. A search that must find nothing (grep exits 1
+    when it finds no match) says so in plain words, not as a bare exit code."""
+    if not s.get("expect_empty"):
+        return f"exit {s.get('code')}"
+    if s.get("ok"):
+        return "printed nothing, as expected"
+    return f"expected no output, exit {s.get('code')}"
+
+
+def receipt_path(gdir, slug, stamp):
+    """A new receipt never overwrites an older one, even when two runs share the same second."""
+    path = os.path.join(gdir, f"RECEIPT-{slug}-{stamp}.html")
+    n = 2
+    while os.path.exists(path):
+        path = os.path.join(gdir, f"RECEIPT-{slug}-{stamp}-{n}.html")
+        n += 1
+    return path
+
+
 def print_result(brief, steps, verdict, receipt):
     """Verdict first, then what to do, then the detail. A tired reader stops after line one."""
     passed = sum(1 for s in steps if s["action"] == "run" and s.get("ok"))
@@ -189,8 +209,7 @@ def print_result(brief, steps, verdict, receipt):
     print("Checks:")
     for n, s in enumerate(steps, 1):
         if s["action"] == "run":
-            print(f"  {n}. {'PASS' if s.get('ok') else 'FAIL'} (exit {s.get('code')}"
-                  f"{', expects no output' if s.get('expect_empty') else ''}) {s['cmd']}")
+            print(f"  {n}. {'PASS' if s.get('ok') else 'FAIL'} ({result_note(s)}) {s['cmd']}")
         else:
             tag = {"skip": "skip", "refuse": "REFUSED"}[s["action"]]
             print(f"  {n}. {tag} {s['cmd']}   ({s['why']})")
@@ -247,7 +266,7 @@ def receipt_html(brief, steps, verdict, when):
             if s["action"] == "run":
                 st = "pass" if s.get("ok") else "fail"
                 if s.get("expect_empty"):
-                    lab = ("PASS · printed nothing" if st == "pass"
+                    lab = ("PASS · printed nothing, as expected" if st == "pass"
                            else f"FAIL · expected no output, exit {s.get('code')}")
                 else:
                     lab = "PASS" if st == "pass" else f"FAIL · exit {s.get('code')}"
@@ -351,7 +370,7 @@ def main(argv):
     when = time.strftime("%Y-%m-%d %H:%M")
     stamp = time.strftime("%Y%m%d-%H%M%S")
     gdir = goal_state.goal_dir_of(brief["path"])
-    out = rp.write_page(os.path.join(gdir, f"RECEIPT-{brief['slug']}-{stamp}.html"),
+    out = rp.write_page(receipt_path(gdir, brief["slug"], stamp),
                         receipt_html(brief, steps, verdict, when))
     print_result(brief, steps, verdict, out)
     return {"VERIFIED": 0, "NOT VERIFIED": 1, "UNVERIFIABLE": 3}[verdict]
