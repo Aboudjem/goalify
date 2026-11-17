@@ -120,6 +120,21 @@ try:
     check("true/false: exit 1", p.returncode == 1, f"exit={p.returncode}\n{p.stdout}")
     check("true/false: reports 1/2", "1/2 checks passed" in p.stdout, p.stdout)
     check("true/false: verdict NOT VERIFIED", "VERDICT: NOT VERIFIED" in p.stdout)
+    out_lines = p.stdout.splitlines()
+    check("report: the verdict is the first line, with the count",
+          out_lines[:1] == ["VERDICT: NOT VERIFIED (1/2 checks passed)"], p.stdout)
+    nxt = out_lines.index("Next:") if "Next:" in out_lines else -1
+    chk = out_lines.index("Checks:") if "Checks:" in out_lines else -1
+    steps3 = out_lines[nxt + 1:chk] if 0 <= nxt < chk else []
+    check("report: three numbered next steps sit between the verdict and the checks",
+          nxt == 1 and len(steps3) == 3
+          and all(re.match(rf"  {i}\. \S", l) for i, l in enumerate(steps3, 1)), p.stdout)
+    check("report: NOT VERIFIED points at the failing check's log first",
+          bool(steps3) and steps3[0].endswith(os.path.join(".goal", "verify-x", "2.log")), p.stdout)
+    check("report: the detail lists every command, then the brief and the receipt",
+          "  1. PASS (exit 0) true" in out_lines and "  2. FAIL (exit 1) false" in out_lines
+          and out_lines[-2].startswith("Brief: ") and out_lines[-1].startswith("Receipt: file://"),
+          p.stdout)
     receipts = glob.glob(os.path.join(proj, ".goal", "RECEIPT-x-*.html"))
     check("true/false: one receipt in .goal/", len(receipts) == 1, f"{receipts}")
     page = open(receipts[0], encoding="utf-8").read() if receipts else ""
@@ -145,6 +160,9 @@ try:
     p = run([bp, "--yes"])
     check("all pass: VERIFIED, exit 0", p.returncode == 0 and "VERDICT: VERIFIED" in p.stdout,
           p.stdout)
+    check("report: VERIFIED opens with the verdict and sends the reader to the receipt",
+          p.stdout.startswith("VERDICT: VERIFIED (2/2 checks passed)\nNext:\n  1. Open the receipt: file://"),
+          p.stdout)
 
     # --- destructive: refused without --allow, never runs ---
     victim = os.path.join(tmp, "victim")
@@ -153,7 +171,7 @@ try:
                                                     "Also, verified by `true`."]))
     p = run([bp, "--yes"])
     check("destructive: refused, the target still exists", os.path.isdir(victim), p.stdout)
-    check("destructive: the plan says REFUSED and names the pattern",
+    check("destructive: the report says REFUSED and names the pattern",
           "REFUSED" in p.stdout and "rm -r" in p.stdout, p.stdout)
     check("destructive: a refused check means NOT VERIFIED", p.returncode == 1, f"exit={p.returncode}")
     p = run([bp, "--yes", "--allow", f"rm -rf {victim}"])
@@ -166,6 +184,9 @@ try:
     p = run([bp, "--yes"])
     check("no commands: UNVERIFIABLE, exit 3", p.returncode == 3 and "UNVERIFIABLE" in p.stdout,
           f"exit={p.returncode}")
+    check("report: UNVERIFIABLE says how to make the brief checkable",
+          p.stdout.startswith("VERDICT: UNVERIFIABLE (0/0 checks passed)\nNext:\n")
+          and "verified by `<command>`" in p.stdout, p.stdout)
     proj, bp = setup(tmp, "ph", brief("Placeholder", ["Live, verified by `curl -s <landing URL>`."]))
     p = run([bp, "--yes"])
     check("placeholder-only: skipped, UNVERIFIABLE", p.returncode == 3 and "skip" in p.stdout,
@@ -236,6 +257,17 @@ try:
     check("destructive: find -delete is refused (nothing left to run: UNVERIFIABLE)",
           "REFUSED" in p.stdout and p.returncode == 3,
           p.stdout)
+
+    # --- no brief: the message says where it looked and what to do next ---
+    empty = os.path.join(tmp, "nobrief")
+    os.makedirs(empty)
+    p = run(["--yes"], cwd=empty)
+    check("no brief: exit 2, names the folder it searched and the next step",
+          p.returncode == 2 and os.path.join("nobrief", ".goal") in p.stdout
+          and "/goalify <task>" in p.stdout, p.stdout)
+    p = run([os.path.join(empty, "missing.md"), "--yes"])
+    check("missing brief path: exit 2 and names the path",
+          p.returncode == 2 and "missing.md" in p.stdout, p.stdout)
 
     # --- default brief: the newest in ./.goal ---
     proj, bp = setup(tmp, "dflt", brief("Default", ["Ok, verified by `true`."]))

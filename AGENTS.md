@@ -1,4 +1,4 @@
-# AGENTS.md — goalify
+# AGENTS.md for goalify
 
 Instructions for AI agents and coding assistants working in or invoking this repository. Plain
 Markdown, no required fields (per the AGENTS.md convention: the agent parses the text below).
@@ -23,7 +23,7 @@ re-runs a brief's own checks only when the user asks and writes a proof receipt)
 (propose real check commands from the repo, read-only) and `doctor.py` (list installed copies). They
 are not commands users install, and the output is still the brief plus the condition. goalify never
 does the task. **`/goal` takes a condition string, never a file
-path** — the docs say _"Run `/goal` followed by the condition you want satisfied"_ and the shipped
+path**: the docs say _"Run `/goal` followed by the condition you want satisfied"_ and the shipped
 binary contains `No goal set. Usage: /goal <condition>` with no file-path branch. The evaluator behind
 `/goal` has no tools and cannot read files, so a path handed to it can never be verified
 (Claude Code 2.1.139+, https://code.claude.com/docs/en/goal).
@@ -41,12 +41,12 @@ binary contains `No goal set. Usage: /goal <condition>` with no file-path branch
 
 These are non-negotiable. Do not look for loopholes; violating the letter violates the spirit.
 
-1. **Two phases, never mixed.** In PREPARE you research, decide, and author the file — you do NOT start
+1. **Two phases, never mixed.** In PREPARE you research, decide, and author the file: you do NOT start
    the implementation. Execution happens later in the fresh `/goal` session.
 2. **No hallucination.** Verify project state with evidence before scoping. Research subagents cite
    sources and label uncertainty; a separate skeptic re-derives load-bearing claims from primaries, not
    from another agent's summary.
-3. **Never run `/clear` or `/goal` yourself.** Print them for the user — they are the user's two manual
+3. **Never run `/clear` or `/goal` yourself.** Print them for the user: they are the user's two manual
    steps. Running them defeats the fresh-context handoff.
 4. **The generated file is self-contained and absolute-path'd.** The fresh session is a stranger to this
    one; relative paths and "see above" do not survive `/clear`.
@@ -58,7 +58,7 @@ These are non-negotiable. Do not look for loopholes; violating the letter violat
    condition is unenforceable; derive the condition from the brief's definition of done and lint it
    (≤ 4,000 chars, no bare `$`, a sentinel, a named command per criterion, an explicit turn bound).
 6. **Don't over-ask.** One MCQ batch, only genuine forks. Skip it entirely if there are none.
-7. **Decline when an autonomous run is the wrong tool** — a trivial task (just do it) or open-ended
+7. **Decline when an autonomous run is the wrong tool**: a trivial task (just do it) or open-ended
    exploration (no definable end state). A vague spec produces a meh autonomous run.
 
 Additional hygiene for agents editing this repo: never commit secrets or tokens. Keep the SVGs in
@@ -67,32 +67,34 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 
 ## Where things live
 
-- `skills/goalify/SKILL.md` — the skill: two-phase model, procedure, the brief template, the
+- `skills/goalify/SKILL.md` is the skill: two-phase model, procedure, the brief template, the
   condition-authoring rules (the four teeth), the handoff format, hard rules, common mistakes.
-- `evals/` — `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
+- `evals/`: `check_skill.py` (deterministic, in CI), `scenarios.md` (behavioral), `RED-baseline.md`
   (recorded RED→GREEN on Haiku/Sonnet/Opus).
-- `examples/` — an illustrative brief, the `/goal` condition derived from it, and its preview page.
+- `examples/`: an illustrative brief, the `/goal` condition derived from it, and its preview page.
 - `skills/goalify/scripts/`: the standard-library helpers listed above. `references/` holds the
   Codex details and the Definition-of-done patterns, loaded just in time.
-- `tests/` — `run_all.py` runs every suite. `test_manifests.py`: manifest validity, version
+- `tests/`: `run_all.py` runs every suite. `test_manifests.py`: manifest validity, version
   consistency across all four sources, the "no file path to `/goal`" contract, and the shipped
   example's template clauses. A release gate.
-- `video/` — HyperFrames source for the promo video (`assets/goalify-promo*.mp4`), linted in CI.
-- `site/` — the static landing page, https://goalify-kappa.vercel.app.
+- `video/`: HyperFrames source for the promo video (`assets/goalify-promo*.mp4`), linted in CI.
+- `site/`: the static landing page, https://goalify-kappa.vercel.app.
 - `assets/`: the animated SVG banners and logo lockups, the tall hero poster, the two diagrams, the
   PNG logo mark, and the social preview.
-- `docs/` — the quickstart, honest limits, FAQ, and the Codex guide. (A local build journal lives in
+- `docs/`: the quickstart, honest limits, FAQ, and the Codex guide. (A local build journal lives in
   `docs/audit/`, which `.gitignore` excludes.)
-- `README.md` — human-facing overview; `LICENSE` — MIT.
-- `MIGRATION.md` — the pre-public-release `goal-prep` → `goalify` rename note (historical).
+- `README.md`: human-facing overview. `LICENSE`: MIT.
+- `MIGRATION.md`: the pre-public-release `goal-prep` → `goalify` rename note (historical).
 
 ## Validate before claiming done
 
 - `python3 evals/check_skill.py skills/goalify/SKILL.md` exits 0 (all checks pass).
 - `python3 tests/test_manifests.py` exits 0 (plugin + marketplace manifests valid).
 - `python3 tests/test_condition_lint.py` exits 0 (every lint rule fires on its own specimen).
-- `python3 tests/run_all.py` exits 0 and prints one PASS line per suite (check_skill, manifests,
-  condition lint, goal_state, render_preview, verify, detect_checks, status, doctor).
+- `make test` (same as `python3 tests/run_all.py`) exits 0 and prints one PASS line per suite
+  (check_skill, manifests, condition lint, goal_state, render_preview, verify, detect_checks,
+  status, doctor, demo), then the suite and check totals.
+- `claude plugin validate . --strict` exits 0, and `npx -y skills@1.9.0 add . --list` lists `goalify`.
 - `SKILL.md` frontmatter parses (valid YAML: `name`, `description`, `license`, `metadata.version`).
 - `assets/*.svg` contain no `<script>` and no external references, and are well-formed XML.
 - All relative Markdown links resolve.
@@ -102,7 +104,7 @@ source for any load-bearing claim, especially "works with X" / standard-complian
 **How do I set up a big autonomous Claude Code run?**
 Install goalify, then say "goalify this: <your big task>". It researches, asks you the few real
 decisions, writes one self-contained brief to an absolute path, and derives the completion condition
-from it. It then prints two steps — `/clear`, then paste the printed `/goal` line whole — and a fresh
+from it. It then prints two steps (`/clear`, then paste the printed `/goal` line whole) and a fresh
 full-context session executes the task and proves every criterion before it stops.
 
 **Does it run the task itself?**

@@ -1,61 +1,61 @@
-# goalify — behavioral eval scenarios
+# goalify: behavioral eval scenarios
 
 Four scenarios that exercise the behaviors the skill must guarantee, each with a **RED**
 expectation (what a model does *without* the skill) and a **GREEN** expectation (what it must do
-*with* the skill). Run each scenario both ways, on **Haiku, Sonnet, and Opus** — the skill must hold
+*with* the skill). Run each scenario both ways, on **Haiku, Sonnet, and Opus**: the skill must hold
 on cheaper models and under pressure, not just on the strongest one. Recorded RED→GREEN results live
 in [`RED-baseline.md`](RED-baseline.md).
 
-Scoring is behavioral (LLM-judged against the rubric) — the deterministic, in-CI half of the suite is
+Scoring is behavioral (LLM-judged against the rubric); the deterministic, in-CI half of the suite is
 [`check_skill.py`](check_skill.py).
 
 ---
 
-## Scenario 1 — substantial task (the core case)
+## Scenario 1: substantial task (the core case)
 
 **User prompt:** *"goalify this: migrate our Express API in this repo from callbacks to async/await,
 keep behavior identical, and make sure the test suite still passes."*
 
-**RED (no skill) — expected failure modes:**
+**RED (no skill), expected failure modes:**
 - Starts editing code / proposes diffs immediately, instead of preparing a handoff file.
 - Produces a plan that lives only in the chat (lost on `/clear`), with no absolute path and no
   gated archive step.
 - No fan-out of research, no machine-checkable success criteria, no `/clear` + `/goal` handoff.
 
-**GREEN (with skill) — must hold (rubric):**
-1. Stays in PREPARE — does **not** start the migration.
+**GREEN (with skill), must hold (rubric):**
+1. Stays in PREPARE, does **not** start the migration.
 2. Inspects the repo with evidence first (or states it would, given no live repo).
 3. Produces a **self-contained** brief with an **absolute path** and a **gated archive step**, plus a
-   **derived condition string** — short and in plain words (~120–150 chars, and in every case
+   **derived condition string**: short and in plain words (~120–150 chars, and in every case
    ≤ 4,000), carrying all four teeth: the brief's path, a quoted-evidence clause, a sentinel, and a
    turn bound. Never a bare file path as the handoff.
 4. Success criteria are **machine-checkable** (wired to a named command/test, e.g. the test suite).
-5. Prints the **`/clear` → ONE short inline `/goal <condition>` line** handoff and stops — no copy
+5. Prints the **`/clear` → ONE short inline `/goal <condition>` line** handoff and stops: no copy
    step, no wrapper script, and not while any subagent is still running.
 6. Asks an MCQ **only** if a genuine fork exists; does not over-ask.
 
 ---
 
-## Scenario 2 — trivial task (must decline)
+## Scenario 2: trivial task (must decline)
 
 **User prompt:** *"goalify this: fix the typo 'recieve' → 'receive' in README.md."*
 
 **RED (no skill):** may dutifully produce a heavyweight brief for a one-line fix (ceremony that
 doesn't scale down).
 
-**GREEN (with skill) — must hold:**
+**GREEN (with skill), must hold:**
 1. Recognizes this is too small for an autonomous run.
 2. Declines to author an MD and says so (offers to just do it / that no handoff is needed).
 3. Does not fabricate phases or research for a trivial change.
 
 ---
 
-## Scenario 3 — several big independent sub-projects (must split)
+## Scenario 3: several big independent sub-projects (must split)
 
 **User prompt:** *"goalify this: (1) build a new billing microservice, (2) rewrite the marketing site,
-and (3) migrate the data warehouse — these are independent and each is large."*
+and (3) migrate the data warehouse: these are independent and each is large."*
 
-**GREEN (with skill) — must hold:**
+**GREEN (with skill), must hold:**
 1. Recognizes the work won't fit one fresh session.
 2. Splits it per the "Several big, independent sub-projects?" rule in SKILL.md: **one brief and one
    condition per sub-project**, and says the order to run them in, each after its own `/clear`.
@@ -96,6 +96,6 @@ Deterministic counterpart: the `v2.6:` clauses in [`check_skill.py`](check_skill
   RED→GREEN demo, reproducible from this repo's history:
   `git show v1.1.0:skills/goalify/SKILL.md` (fails, 30/83) vs `skills/goalify/SKILL.md` (passes, 83/83).
   See `README.md` in this directory for the exact commands.
-- **Behavioral:** for each scenario, prompt a model twice — once cold (RED) and once with
-  `skills/goalify/SKILL.md` prepended (GREEN) — on Haiku, Sonnet, and Opus, and judge each transcript
+- **Behavioral:** for each scenario, prompt a model twice, once cold (RED) and once with
+  `skills/goalify/SKILL.md` prepended (GREEN), on Haiku, Sonnet, and Opus, and judge each transcript
   against the rubric above. Results recorded in `RED-baseline.md`.

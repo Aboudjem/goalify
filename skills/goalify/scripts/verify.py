@@ -21,6 +21,8 @@ Writes .goal/RECEIPT-<slug>-<stamp>.html and logs to .goal/verify-<slug>/<n>.log
 folder that holds the brief (goalify keeps briefs in .goal/, or .goal/done/ once archived).
 A check written as "verified by `<command>` printing nothing" passes when the command prints
 nothing and exits 0 or 1 (grep exits 1 when it finds no match).
+The result is printed verdict first: `VERDICT: <word> (n/m checks passed)`, then `Next:` with
+three things to do, then `Checks:` with one line per command, then the receipt link.
 Exit 0 = VERIFIED, 1 = NOT VERIFIED, 3 = UNVERIFIABLE, 2 = usage error or the user said no.
 """
 import os
@@ -142,6 +144,66 @@ def verdict_of(steps):
     return "NOT VERIFIED"
 
 
+def next_steps(brief, steps, verdict, receipt):
+    """The three things to do after this verdict, most useful first."""
+    again = f'/goalify verify "{brief["path"]}"'
+    refused = [s for s in steps if s["action"] == "refuse"]
+    skipped = [s for s in steps if s["action"] == "skip"]
+    failed = [s for s in steps if s["action"] == "run" and not s.get("ok")]
+    if verdict == "VERIFIED":
+        return [f"Open the receipt: file://{receipt}",
+                "Read the diff yourself: verify re-runs the checks, it does not review the code.",
+                "Keep the receipt with the work: it is the proof, the run's summary is not."]
+    if verdict == "UNVERIFIABLE":
+        out = []
+        if refused:
+            out.append("Allow a refused command by name if it is safe: add "
+                       f"--allow \"{refused[0]['cmd']}\"")
+        if skipped:
+            out.append(f"Replace the <placeholder> in the brief with a real value: {skipped[0]['cmd']}")
+        out.append("Give each Definition-of-done item a command: write "
+                   "verified by `<command>` in the brief.")
+        out.append(f"Run verify again for a fresh receipt: {again}")
+        out.append("Until then, treat the work as unproven and check it by hand.")
+        return out[:3]
+    out = []
+    if failed:
+        out.append(f"Read the log of the first failing check: {failed[0]['log']}")
+    if refused:
+        out.append("Allow the refused command by name if it is safe: add "
+                   f"--allow \"{refused[0]['cmd']}\"")
+    if skipped:
+        out.append(f"Replace the <placeholder> in the brief with a real value: {skipped[0]['cmd']}")
+    out.append("Fix it, or paste the brief's /goal line again so the run resumes from its checklist.")
+    out.append(f"Run verify again for a fresh receipt: {again}")
+    return out[:3]
+
+
+def print_result(brief, steps, verdict, receipt):
+    """Verdict first, then what to do, then the detail. A tired reader stops after line one."""
+    passed = sum(1 for s in steps if s["action"] == "run" and s.get("ok"))
+    print(f"VERDICT: {verdict} ({passed}/{len(steps)} checks passed)")
+    print("Next:")
+    for n, line in enumerate(next_steps(brief, steps, verdict, receipt), 1):
+        print(f"  {n}. {line}")
+    print("Checks:")
+    for n, s in enumerate(steps, 1):
+        if s["action"] == "run":
+            print(f"  {n}. {'PASS' if s.get('ok') else 'FAIL'} (exit {s.get('code')}"
+                  f"{', expects no output' if s.get('expect_empty') else ''}) {s['cmd']}")
+        else:
+            tag = {"skip": "skip", "refuse": "REFUSED"}[s["action"]]
+            print(f"  {n}. {tag} {s['cmd']}   ({s['why']})")
+    if not steps:
+        print("  (no command in the Definition of done)")
+    agents = [i for i in brief["dod"] if i["kind"] == "agent"]
+    if agents:
+        print(f"  + {len(agents)} item(s) checked by a separate agent: shown on the receipt as "
+              "claimed, not re-run")
+    print(f"Brief: {brief['path']}")
+    print("Receipt: file://" + receipt)
+
+
 def closeout_quotes(brief):
     path = os.path.join(goal_state.goal_dir_of(brief["path"]), f"closeout-{brief['slug']}.md")
     if os.path.exists(path):
@@ -257,18 +319,25 @@ def main(argv):
 
     brief_path = paths[0] if paths else newest_brief(os.path.join(os.getcwd(), ".goal"))
     if not brief_path or not os.path.isfile(brief_path):
-        print("No brief found. Pass one: verify.py <brief.md>")
+        if paths:
+            print(f"No brief at {paths[0]}. Check the path, or list your briefs with /goalify status.")
+        else:
+            print(f"No brief found in {os.path.join(os.getcwd(), '.goal')} (or its done/ folder).")
+            print("Next: write one with /goalify <task>, or pass a path: verify.py <brief.md>")
         return 2
     brief = goal_state.parse_brief(brief_path)
     steps = plan(brief, allowed)
-    print_plan(brief, steps)
     if "--list" in flags:
+        print_plan(brief, steps)
         print("Nothing was run (--list).")
         return 0
     if not any(s["action"] == "run" for s in steps):
         verdict = "UNVERIFIABLE"
     else:
         if "--yes" not in flags:
+            # The plan is shown before the question. With --yes the user has already seen it
+            # (--list), so the result can open with the verdict.
+            print_plan(brief, steps)
             if not sys.stdin.isatty():
                 print("Not run: pass --yes once the user has agreed to run these commands.")
                 return 2
@@ -284,14 +353,7 @@ def main(argv):
     gdir = goal_state.goal_dir_of(brief["path"])
     out = rp.write_page(os.path.join(gdir, f"RECEIPT-{brief['slug']}-{stamp}.html"),
                         receipt_html(brief, steps, verdict, when))
-    passed = sum(1 for s in steps if s["action"] == "run" and s.get("ok"))
-    print(f"{passed}/{len(steps)} checks passed")
-    for n, s in enumerate(steps, 1):
-        if s["action"] == "run":
-            print(f"  {n}. {'PASS' if s.get('ok') else 'FAIL'} (exit {s.get('code')}"
-                  f"{', expects no output' if s.get('expect_empty') else ''}) {s['cmd']}")
-    print(f"VERDICT: {verdict}")
-    print("Receipt: file://" + out)
+    print_result(brief, steps, verdict, out)
     return {"VERIFIED": 0, "NOT VERIFIED": 1, "UNVERIFIABLE": 3}[verdict]
 
 

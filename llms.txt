@@ -1,10 +1,10 @@
 # goalify
 
-> Hand Claude a huge task. Come back to proof it's done — not a promise that it is.
+> Hand Claude a huge task. Come back to proof it's done, not a promise that it is.
 >
 > Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current
-> session still has the user's context. It turns the task into two artifacts. A **brief** — a
-> self-contained implementation file the fresh session works from. And a **condition** — the `/goal`
+> session still has the user's context. It turns the task into two artifacts. A **brief**: a
+> self-contained implementation file the fresh session works from. And a **condition**: the `/goal`
 > string derived from that brief's definition of done. goalify researches the task, locks the few real
 > decisions (asking the user only the genuine forks, one interactive MCQ), and wires the finish line
 > to commands the run can check. So the user can `/clear`, paste the condition into `/goal`, and have
@@ -29,9 +29,14 @@ Since v2.0.0 goalify emits two artifacts, because `/goal` takes a **completion c
 path** (docs: "Run `/goal` followed by the condition you want satisfied"; binary: `No goal set. Usage:
 /goal <condition>`; the evaluator has no tools and cannot read files). The brief is what the worker
 implements; the derived, checked condition string is what the user pastes into `/goal`. Codex's
-`/goal` also takes a typed-in objective rather than a path, so both forms are printed — but Codex
+`/goal` also takes a typed-in objective rather than a path, so both forms are printed, but Codex
 wraps the objective as untrusted data, so only the definition of done binds there, not the
 instructions about how to work.
+
+New in 3.1: `/goalify verify` prints the verdict first (`VERDICT: <word> (n/m checks passed)`), then
+three next steps for that verdict, then the checks. `make demo` builds a small real project in a temp
+folder and prints a real receipt; `python3 examples/demo/run.py --broken` shows NOT VERIFIED. `make
+test` runs every suite. `/goalify doctor` names a copy installed by `npx skills add` correctly.
 
 New in 3.0: goalify front-loads everything (feasibility check, online research, every question up
 front) so the run can work non-stop for hours or days with zero interruptions. After the handoff it
@@ -46,7 +51,7 @@ https://goalify-kappa.vercel.app.
 ## Docs
 
 - [README](https://github.com/Aboudjem/goalify/blob/main/README.md): What goalify is, who it is for, how to install and use it.
-- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition — two-phase model, procedure, the brief template, the condition-authoring rules, the handoff format, and hard rules.
+- [SKILL.md](https://github.com/Aboudjem/goalify/blob/main/skills/goalify/SKILL.md): The skill definition: two-phase model, procedure, the brief template, the condition-authoring rules, the handoff format, and hard rules.
 - [Quickstart](https://github.com/Aboudjem/goalify/blob/main/docs/quickstart.md): Install goalify and run it, step by step.
 - [Honest limits](https://github.com/Aboudjem/goalify/blob/main/docs/limits.md): Everything goalify does not promise, including that a stopped `/goal` run is not proof of completion.
 - [Running it under Codex](https://github.com/Aboudjem/goalify/blob/main/docs/codex.md): The same condition under Codex, and which instructions do not carry over.

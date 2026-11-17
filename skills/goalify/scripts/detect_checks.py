@@ -121,7 +121,7 @@ def _kind_from_command(cmd):
 
 
 # ---------------------------------------------------------------------------
-# CI line filtering — allowlist approach
+# CI line filtering: allowlist approach
 # ---------------------------------------------------------------------------
 
 # Shell keywords and builtins whose presence as the first token means the line
@@ -189,11 +189,11 @@ def _is_allowed_runner(cmd):
             return False
         return tokens[1] not in ("install", "add", "remove", "update")
 
-    # npx — any invocation is plausibly a check tool
+    # npx: any invocation is plausibly a check tool
     if first == "npx":
         return True
 
-    # make / just — any target is potentially a check
+    # make / just: any target is potentially a check
     if first in ("make", "just"):
         return True
 

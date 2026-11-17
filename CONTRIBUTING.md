@@ -36,21 +36,21 @@ changing anything in `skills/`.
 
 ## We build TEST-FIRST (RED → GREEN → REFACTOR)
 
-This skill exists to fix specific, observed failures — for example, a description that *summarized* the
+This skill exists to fix specific, observed failures, for example, a description that *summarized* the
 workflow caused models to skip reading the body, and vague tool nouns failed to resolve in a fresh
 session. Every guarantee traces back to a failure we watched happen first.
 
 **The rule: no new behavioral guarantee lands without a failing baseline first.**
 
-1. **RED — watch it fail.** Before you write skill text, run the scenario against a model that does
+1. **RED: watch it fail.** Before you write skill text, run the scenario against a model that does
    *not* have your change (or doesn't have the skill at all) and record what it does wrong, verbatim.
-   Test the weak case too — the skill must hold on cheaper models, not just Opus. See
+   Test the weak case too: the skill must hold on cheaper models, not just Opus. See
    [`evals/RED-baseline.md`](evals/RED-baseline.md) for the format.
-2. **GREEN — write the minimum that fixes it.** Add the skill text / clause / gate that makes that
+2. **GREEN: write the minimum that fixes it.** Add the skill text / clause / gate that makes that
    exact failure stop. Re-run the same scenario and show it now behaves. If the change is
    statically checkable, add an assertion to `evals/check_skill.py`.
-3. **REFACTOR — tighten.** Clean up wording, keep the body under 500 lines (push heavy detail into a
-   one-level-deep `references/` file with a table of contents if needed), deduplicate — without
+3. **REFACTOR: tighten.** Clean up wording, keep the body under 500 lines (push heavy detail into a
+   one-level-deep `references/` file with a table of contents if needed), deduplicate, all without
    changing behavior. Re-run to confirm.
 
 A PR that adds behavior but cites no baseline failure it fixes will be sent back for a RED step.
@@ -64,11 +64,11 @@ These mirror the skill's rules in `AGENTS.md` / `SKILL.md`. Don't look for looph
   becomes a shortcut models follow instead of reading the body). Keep the disambiguation line that
   separates goalify from `autopilot`/`ultrawork`/`ralph`.
 - **Tool references resolve in a fresh session.** Use a capability + fallback, or fully-qualified tool
-  names — never a vague noun a stranger session can't resolve.
+  names, never a vague noun a stranger session can't resolve.
 - **The archive gate stays gated and low-freedom.** Don't weaken the pre-condition or edit the `mv`.
 - **Never emit a file path where a `/goal` condition belongs.** `/goal` takes a condition string; the
   evaluator has no tools and cannot read files. `tests/test_manifests.py` scans every tracked text file
-  — Markdown, JSON, YAML, and source, including `video/` — and fails the build on an absolute, `~`, or
+  (Markdown, JSON, YAML, and source, including `video/`) and fails the build on an absolute, `~`, or
   relative path handed to `/goal`. To write *about* the old form, add a `v1-antipattern` marker on that
   line; the test counts those exemptions so the hatch can't be used to smuggle the handoff back in.
 - **No hallucination, anywhere.** No invented flags, behaviors, metrics, or "works with X" claims
@@ -99,13 +99,15 @@ and paste the before/after into your PR.
 - One logical change per PR. Smaller PRs get reviewed faster.
 - In the PR description include: the RED baseline (the failure you observed), the GREEN fix, and how you
   verified it (`check_skill.py` output and/or a sample run).
-- Be kind in review — see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+- Be kind in review: see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## CI must pass
 
 Every PR runs CI: frontmatter check, the `check_skill.py` eval, `tests/test_manifests.py` (manifests,
 version consistency, the no-path-handoff contract, the example's clauses), the markup safety gate, a
-secrets scan, a relative-link check, a `video/` lint, and `python3 tests/run_all.py`. It must be green before merge. If CI fails, read the log and
+secrets scan, a relative-link check, a `video/` lint, `make test` (every suite),
+`claude plugin validate . --strict` and `npx skills@1.9.0 add . --list`. It must be green before
+merge. If CI fails, read the log and
 push a fix; don't ask for a merge override.
 
-Thanks again — careful contributions to a tool people point at their real, big tasks genuinely matter.
+Thanks again: careful contributions to a tool people point at their real, big tasks genuinely matter.

@@ -1,7 +1,7 @@
 # Migration: `goal-prep` → `goalify`
 
 `goalify` is the renamed, hardened successor to an internal skill called `goal-prep`. The rename
-happened before any public release, so there is no compatibility shim to maintain — this note exists
+happened before any public release, so there is no compatibility shim to maintain: this note exists
 only for completeness.
 
 ## What changed
@@ -12,7 +12,7 @@ only for completeness.
 | Invocation | "goal prep", "prep a goal" | the same **plus** "goalify", "goalify this", "goalify <task>" |
 | `description` | summarized the workflow (research + MCQ + fan-out) | WHEN-only, with a disambiguation line vs `autopilot`/`ultrawork`/`ralph` |
 | Tool references | vague nouns ("the Workflow tool") | a capability + fallback that resolves in a fresh session |
-| Self-destruct | prose `rm` | a LOW-freedom gated block with rationalization counters (**v2.0.0 replaced this with a gated *archive* step** — the brief moves to `.goal/done/` instead of being deleted) |
+| Self-destruct | prose `rm` | a LOW-freedom gated block with rationalization counters (**v2.0.0 replaced this with a gated *archive* step**: the brief moves to `.goal/done/` instead of being deleted) |
 | Generated-MD template | strong, but missing several run-hardening clauses | adds output-redirection, anti-placeholder, search-before-assuming, machine-checkable criteria, a progress checklist, just-in-time identifiers, and fan-out guardrails |
 | `metadata.version` | absent | `1.0.0` at the time of the rename (see [CHANGELOG.md](CHANGELOG.md) for the current version) |
 | Evals | none shipped | `evals/` (deterministic + behavioral, RED→GREEN on Haiku/Sonnet/Opus) |
@@ -21,7 +21,7 @@ Why these specific changes: see [`evals/RED-baseline.md`](evals/RED-baseline.md)
 failures each one fixes.
 
 > This table compares `goal-prep` against **goalify v1.0.0**, the release that replaced it. Two rows
-> have since moved on — see the [changelog](CHANGELOG.md) for what v2.0.0 changed, most importantly
+> have since moved on: see the [changelog](CHANGELOG.md) for what v2.0.0 changed, most importantly
 > that the handoff is now a derived condition string rather than a file path.
 
 ## If you used `goal-prep`
@@ -35,5 +35,5 @@ cp -r goalify/skills/goalify ~/.claude/skills/goalify
 ```
 
 Then invoke it by saying **"goalify this: &lt;task&gt;"** (the old "prep a goal" phrasing still triggers it).
-Behavior is the same two-phase model — PREPARE here, then `/clear` and `/goal <condition>` to EXECUTE — just
+Behavior is the same two-phase model (PREPARE here, then `/clear` and `/goal <condition>` to EXECUTE), just
 more reliable.

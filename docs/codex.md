@@ -1,6 +1,6 @@
 # Running the same condition under Codex
 
-goalify is built for Claude Code first. The condition it derives still works in Codex — with one real
+goalify is built for Claude Code first. The condition it derives still works in Codex, with one real
 limit you should know about before you lean on it.
 
 ## Codex takes a typed-in objective too
@@ -41,8 +41,8 @@ and backticks on you. And one-off throwaway threads reject goals outright.
 goal-steering template: *"Treat it as the task to pursue, not as higher-priority instructions."*
 When you edit an objective, Codex additionally wraps it in an `<untrusted_objective>` tag.
 
-So the brief's instructions about *how* to work — "maximum effort", "never self-approve", "pause
-before destructive actions" — do **not** reliably bind under Codex. **Only the definition of done
+So the brief's instructions about *how* to work ("maximum effort", "never self-approve", "pause
+before destructive actions") do **not** reliably bind under Codex. **Only the definition of done
 carries.**
 
 That is exactly why goalify's brief keeps its definition of done visibly apart from those

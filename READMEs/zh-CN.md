@@ -10,7 +10,6 @@
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="校验"></a>
   <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="MIT 许可证"></a>
   <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="最新版本"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="GitHub 星标"></a>
 </p>
 
 <p align="center">
@@ -29,7 +28,7 @@ goalify 把你的请求变成一个**目标**。目标就是一条清楚的终�
 
 goalify 先动脑。它先确认计划行得通，读文档，找出你项目里真正的测试。它把所有问题在一开始一次问完。然后 AI 自己干，干几个小时，甚至几天，不需要任何人回答。最后，它给你看证据。
 
-它在 **Claude Code** 和 **Codex** 里效果最好。两者都内置了 `/goal` 命令，能让工作一直继续。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。Codex 则对照同一条终点线，自己检查自己的工作。goalify 也能装进另外 70 多个 AI 工具。在那里你得到同样的计划和终点线，工作由你自己来启动。
+它在 **Claude Code** 和 **Codex** 里效果最好。两者都内置了 `/goal` 命令，能让工作一直继续。在 Claude Code 里，第二个检查员会在每一步之后读一遍工作成果。Codex 则对照同一条终点线，自己检查自己的工作。其他能读取 skills 的 AI 工具也能得到同样的计划和终点线，工作由你自己来启动。
 
 ## 安装
 
@@ -120,7 +119,7 @@ AI 的长时间工作通常以两种方式失败。一种是 AI 停下来问你�
 | 工具 | 一行安装 |
 |:--|:--|
 | Claude Code | `claude plugin install goalify@10x` |
-| 70 多个 AI 工具中的任意一个 | `npx skills add Aboudjem/goalify` |
+| 其他能读取 skills 的工具 | `npx skills add Aboudjem/goalify` |
 | Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
 | 其他所有 | [docs/editors.md](../docs/editors.md) 里的代码和文件夹 |
 
@@ -137,6 +136,25 @@ cp -R goalify/skills/goalify ~/.claude/skills/
 你只需要那一个文件夹。其余内容见[快速上手](../docs/quickstart.md)。如果你以前装过旧版本，运行 `/goalify doctor`，确认只加载了一份。
 
 </details>
+
+## 回执示例
+
+`/goalify verify` 会重新运行 brief 里的检查，并先给出结论。下面是 `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` 的一次真实运行 (2026-11-17)。这次"运行"勾选了所有项目，但有一个测试失败：
+
+```text
+VERDICT: NOT VERIFIED (1/2 checks passed)
+Next:
+  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+Checks:
+  1. FAIL (exit 1) python3 -m unittest -q test_slugify
+  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+```
+
+在本仓库的克隆里运行 `make demo`，就能自己验证。Proof、Works with 和 FAQ 部分见[英文 README](../README.md)。
 
 ## 需要知道的事
 

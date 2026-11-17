@@ -112,12 +112,12 @@ jobs:
           print("PASS: frontmatter check passed")
           PY
 
-      # (b) SKILL EVAL — the CONFIRMED research edits must stay present (RED->GREEN regression guard)
+      # (b) SKILL EVAL: the CONFIRMED research edits must stay present (RED->GREEN regression guard)
       - name: Skill eval (check_skill.py)
         shell: bash
         run: python3 evals/check_skill.py skills/goalify/SKILL.md
 
-      # (b2) MANIFEST + CONTRACT TESTS — AGENTS.md calls this a release gate, so CI must run it.
+      # (b2) MANIFEST + CONTRACT TESTS: AGENTS.md calls this a release gate, so CI must run it.
       #      Covers plugin/marketplace validity, version consistency across all four sources,
       #      the v2 "no file path to /goal" contract, and the shipped example's template clauses.
       - name: Manifest and contract tests (test_manifests.py)
@@ -130,11 +130,42 @@ jobs:
         shell: bash
         run: python3 tests/test_condition_lint.py
 
-      # (b4) EVERY SUITE AT ONCE: check_skill, manifests, condition lint, goal_state, the run
-      #      preview and brief lint, verify, check detection, status and doctor. One PASS line each.
-      - name: All suites (run_all.py)
+      # (b4) EVERY SUITE AT ONCE, through the declared test command: check_skill, manifests,
+      #      condition lint, goal_state, the run preview and brief lint, verify, check detection,
+      #      status, doctor and the end-to-end demo. One PASS line each, then the totals.
+      - name: All suites (make test)
         shell: bash
-        run: python3 tests/run_all.py
+        run: make test
+
+      # (b5) INSTALL RAIL 1: the Claude Code plugin loader, on a pinned version, strict.
+      - name: Install Claude Code (pinned)
+        shell: bash
+        env:
+          CLAUDE_CODE_VERSION: "2.1.326"
+        run: |
+          # The native binary is an optional dependency whose download can stall,
+          # so check that it runs and retry from a clean state.
+          for attempt in 1 2 3; do
+            timeout -k 10 300 npm install -g --include=optional "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" || true
+            if claude --version; then exit 0; fi
+            npm uninstall -g @anthropic-ai/claude-code || true
+            npm cache clean --force || true
+            sleep $((attempt * 10))
+          done
+          echo "::error::Claude Code did not install after 3 attempts."
+          exit 1
+
+      - name: claude plugin validate (strict)
+        shell: bash
+        run: claude plugin validate . --strict
+
+      # (b6) INSTALL RAIL 2: the skills CLI must find the skill (pinned version).
+      - name: skills CLI lists the skill (skills@1.9.0)
+        shell: bash
+        run: |
+          set -o pipefail
+          npx -y skills@1.9.0 add . --list 2>&1 | tee /tmp/skills-list.txt
+          grep -q "goalify" /tmp/skills-list.txt
 
       # (c) NO-SECRETS CHECK (all tracked files)
       - name: No secrets
@@ -188,7 +219,7 @@ jobs:
           print(f"PASS: no credentials matched {len(PATTERNS)} secret patterns in tracked files")
           PY
 
-      # (d) MARKUP SAFETY GATE — every shipped SVG *and* the social card must stay
+      # (d) MARKUP SAFETY GATE: every shipped SVG *and* the social card must stay
       #     GitHub-safe: no <script>, no external references, well-formed XML for SVGs.
       - name: Markup safety (no <script>, no external refs)
         shell: bash

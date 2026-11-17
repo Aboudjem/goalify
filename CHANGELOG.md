@@ -6,8 +6,41 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-11-17
+
+The receipt now tells you the verdict first and what to do next. You can also see a real receipt in
+one command, without a long run.
+
+### Added
+
+- **`make demo`.** A small real project in `examples/demo/` with a brief and a condition. The command
+  builds it in a temp folder, runs the brief lint, runs `verify.py`, and prints the receipt.
+  `python3 examples/demo/run.py --broken` shows the other verdict: every box ticked, one test failing,
+  NOT VERIFIED.
+- **`make test`.** One declared test command. It runs every suite and prints the totals
+  (`10/10 suites passed`, then the check count). CI runs the same command.
+- **End-to-end suite** (`tests/test_demo.py`). The demo brief and condition go through the condition
+  lint, the brief lint and `verify.py`. The suite pins VERIFIED, NOT VERIFIED and the report order.
+- **Install checks in CI.** Every push now runs `claude plugin validate . --strict` on a pinned
+  Claude Code and `npx skills@1.9.0 add . --list`.
+- **Plugin icon** at `.claude-plugin/icon.png`, for plugin directories.
+- **A test that bans the em dash** in every tracked text file.
+
 ### Changed
 
+- **`/goalify verify` prints the verdict first.** The first line is
+  `VERDICT: <word> (n/m checks passed)`. Then `Next:` lists three things to do, chosen for that
+  verdict: the failing log, the refused command to allow, or the receipt to open. The checks and the
+  receipt link follow. With `--yes` the plan is no longer printed again above the result.
+- **Clearer "no brief" message.** `verify.py` says which folder it searched and what to type next.
+- **`/goalify doctor` names a skills CLI install correctly.** A copy installed by `npx skills add` is
+  listed once, as a skills CLI copy, and the fix line gives the command that removes it.
+- **README rewritten to the fleet standard:** a real sample receipt, a proof section with the command
+  that prints each number, a table of the agents tested with dates, a FAQ and a limits section.
+- **Shorter description** in every manifest (116 characters).
+- **The em dash is gone** from the skill, the docs, the examples and the workflow. The canonical
+  condition now reads `... and prove it, done when ...`. Older briefs still parse.
+- The plugin manifest lists the repository as the author URL, like the Cursor and Copilot manifests.
 - **New promo video.** The README, the landing page and `assets/` now use the 58 s film from the launch
   post: a bakery website over two nights, in a calmer, more minimal style. Adds a 30 s cut
   (`assets/goalify-promo-30s.mp4`). The files attached to the v3.0.0 release stay as published.

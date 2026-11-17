@@ -1,10 +1,10 @@
 {
   "name": "goalify",
-  "version": "3.0.0",
-  "description": "Give your AI a big job. goalify asks all the questions first. Then the AI works alone, for hours, and shows you proof at the end.",
+  "version": "3.1.0",
+  "description": "Give your AI a big job and get proof it is done. Writes the brief and the /goal condition for Claude Code and Codex.",
   "author": {
     "name": "Adam Boudjemaa",
-    "email": "boudjemaa.adam@gmail.com"
+    "url": "https://github.com/Aboudjem/goalify"
   },
   "homepage": "https://goalify-kappa.vercel.app",
   "repository": "https://github.com/Aboudjem/goalify",

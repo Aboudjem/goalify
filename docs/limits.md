@@ -5,12 +5,12 @@ This is everything goalify does not promise, in one place. The short version liv
 
 ## A `/goal` run that stops is not proof the work is done
 
-The evaluator — the judge that decides each turn whether you are done — applies its own judgment
+The evaluator (the judge that decides each turn whether you are done) applies its own judgment
 every turn. One of the calls it can make is that your condition can never be met, and that call ends
 the loop.
 
 From the outside it looks fine. The hook outcome is literally named `success`, so nothing blocks and
-the loop stops. But the goal itself is recorded `met:false, failed:true` — **failed, not achieved**.
+the loop stops. But the goal itself is recorded `met:false, failed:true` (**failed, not achieved**).
 So a run can stop with the work unfinished, and tooling wrapped around that run may not draw the
 distinction.
 
@@ -23,7 +23,7 @@ it unnecessary.
 
 ## The evaluator may never see your earliest evidence
 
-The evaluator behind `/goal` judges a transcript — the running record of the conversation — and on a
+The evaluator behind `/goal` judges a transcript (the running record of the conversation) and on a
 long run that record is trimmed to fit its budget. The **oldest** messages go first, replaced by a
 banner, and the banner tells the evaluator to answer not-met when the evidence it needs might be
 sitting in the omitted beginning. So proof that scrolled off the top is not neutral. It counts
@@ -37,7 +37,7 @@ works if the run actually reaches that closing turn.
 
 The evaluator runs under a 30-second default timeout per check. `/goal` registers its hook without a
 timeout of its own, so that default always applies, and nothing you can put in the condition changes
-it. Write the condition as something judged quickly from quoted output — not as an analysis the
+it. Write the condition as something judged quickly from quoted output, not as an analysis the
 evaluator has to perform.
 
 ## `/goal` can be blocked before it starts
@@ -48,7 +48,7 @@ Two gates are checked before any hook is registered, and either one stops the ru
 - `/goal can't run while hooks are restricted (disableAllHooks or allowManagedHooksOnly is set in settings or by policy).`
 
 goalify can write a brief and a condition in a workspace where neither gate will ever open. It has no
-way to detect that for you, and no way to clear it — the first wants the trust dialog accepted, the
+way to detect that for you, and no way to clear it: the first wants the trust dialog accepted, the
 second wants the restriction lifted in settings or by whoever set the policy.
 
 ## The brief and the condition are two specs, and they can drift
@@ -69,15 +69,16 @@ yours.
 
 ## Instructions about *how* to work do not bind outside Claude Code
 
-Codex tags the objective as data the user supplied. So the lines about how the run should behave —
-"maximum effort", "never self-approve", "pause before destructive actions" — do not reliably carry
+Codex tags the objective as data the user supplied. So the lines about how the run should behave
+("maximum effort", "never self-approve", "pause before destructive actions") do not reliably carry
 across. Only the definition of done does. The specifics are in [running it under Codex](codex.md).
 
 ## The eval baseline is a static diff, not a behavioral one
 
-goalify is built test-first, against a baseline you can reproduce. Measured by today's 83-assertion
-check, this repo's own v1.1.0 skill scores **30/83** and the current skill scores **83/83**
-([baseline](../evals/RED-baseline.md), re-measured 2026-09-02).
+goalify is built test-first, against a baseline you can reproduce. On 2026-09-02 the eval check
+had 83 assertions: the v1.1.0 skill scored **30/83** and the skill of that day scored **83/83**
+([baseline](../evals/RED-baseline.md)). The check has grown since. For today's count, run
+`python3 evals/check_skill.py skills/goalify/SKILL.md`.
 
 Read that number for what it is: a comparison of two files against a checklist. Nobody has yet
 recorded the v2 clauses failing and then passing in a live run, and the baseline says so rather than
@@ -85,7 +86,7 @@ implying otherwise.
 
 ## Agent Skills portability is a structural claim, not a tested one
 
-goalify is a plain [Agent Skill](https://agentskills.io) — a `name` and a `description` at the top,
+goalify is a plain [Agent Skill](https://agentskills.io): a `name` and a `description` at the top,
 then Markdown. On that basis it should load in any agent that implements the
 [Agent Skills standard](https://code.visualstudio.com/docs/copilot/customization/agent-skills).
 
@@ -97,14 +98,14 @@ handoff commands are the part you adapt.
 It does not run your task. It runs your brief's own check commands only when you ask
 (`/goalify verify`), shows them first, and refuses destructive ones unless you allow each one by
 name. It does not fetch remote content and execute it. It does not delete the
-brief — it files it away, only on full success, so the promise and the outcome stay comparable
+brief: it files it away, only on full success, so the promise and the outcome stay comparable
 ([security](../SECURITY.md)).
 
 ---
 
-<sub>The `/goal` constraints on this page — the 30-second evaluator timeout, the two startup gates
+<sub>The `/goal` constraints on this page (the 30-second evaluator timeout, the two startup gates
 and their exact messages, the visible over-4,000-character rejection, and the oldest-first
-transcript truncation — were re-derived from the shipped Claude Code 2.1.223 binary and the official
+transcript truncation) were re-derived from the shipped Claude Code 2.1.223 binary and the official
 `/goal` docs, 2026.</sub>
 
 Back to the [README](../README.md) · [FAQ](faq.md) · [quickstart](quickstart.md)

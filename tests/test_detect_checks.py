@@ -73,7 +73,7 @@ check(
 )
 
 # ---------------------------------------------------------------------------
-# npm-stub: default npm init stub — no test candidate, no package.json candidate at all
+# npm-stub: default npm init stub, no test candidate, no package.json candidate at all
 # ---------------------------------------------------------------------------
 npm_stub = detect_checks.detect(os.path.join(FIX, "npm-stub"))
 check(
@@ -172,7 +172,7 @@ check(
 )
 
 # ---------------------------------------------------------------------------
-# messy: complex block run with control flow, heredoc, curl — only real cmds survive
+# messy: complex block run with control flow, heredoc, curl, only real cmds survive
 # ---------------------------------------------------------------------------
 messy = detect_checks.detect(os.path.join(FIX, "messy"))
 check(

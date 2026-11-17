@@ -1,0 +1,1 @@
+Do everything in __DEMO_DIR__/.goal/slugify-20261117.md and prove it, done when the last turn quotes python3 -m unittest -q test_slugify passing and says SLUG-OK. Stop after 15 turns.

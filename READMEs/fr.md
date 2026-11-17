@@ -10,7 +10,6 @@
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="validation"></a>
   <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="licence MIT"></a>
   <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="dernière version"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="étoiles GitHub"></a>
 </p>
 
 <p align="center">
@@ -36,8 +35,8 @@ elle vous montre une preuve.
 
 Il marche mieux dans **Claude Code** et **Codex**. Les deux ont une commande `/goal` intégrée qui
 fait continuer le travail. Dans Claude Code, un second vérificateur relit le travail après chaque
-étape. Codex vérifie son propre travail par rapport à la même ligne d'arrivée. goalify s'installe
-aussi dans plus de 70 autres outils d'IA. Là, vous obtenez le même plan et la même ligne d'arrivée,
+étape. Codex vérifie son propre travail par rapport à la même ligne d'arrivée. Les autres outils d'IA qui lisent
+les skills obtiennent le même plan et la même ligne d'arrivée,
 et vous lancez le travail vous-même.
 
 ## Installation
@@ -163,7 +162,7 @@ Des différences simples, vérifiées dans le README de chaque projet en novembr
 | Outil | Installation en une ligne |
 |:--|:--|
 | Claude Code | `claude plugin install goalify@10x` |
-| N'importe lequel des 70 outils d'IA et plus | `npx skills add Aboudjem/goalify` |
+| Les autres outils qui lisent les skills | `npx skills add Aboudjem/goalify` |
 | Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
 | Tout le reste | les codes et les dossiers dans [docs/editors.md](../docs/editors.md) |
 
@@ -185,6 +184,28 @@ reste. Si vous aviez une ancienne copie, lancez `/goalify doctor` pour vérifier
 est chargée.
 
 </details>
+
+## Exemple de reçu
+
+`/goalify verify` relance les vérifications du brief et affiche le verdict en premier. Voici une
+vraie exécution de `python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` (2026-11-17).
+Le « run » a coché toutes les cases, mais un test échoue :
+
+```text
+VERDICT: NOT VERIFIED (1/2 checks passed)
+Next:
+  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+Checks:
+  1. FAIL (exit 1) python3 -m unittest -q test_slugify
+  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+```
+
+Essayez vous-même avec `make demo` dans un clone de ce dépôt. Les sections Proof, Works with et FAQ
+sont dans le [README anglais](../README.md).
 
 ## Bon à savoir
 

@@ -2,11 +2,11 @@
 """
 run_all.py: every goalify test suite plus the skill eval, one line each.
 
-Prints `PASS <name> n/n` (or `FAIL <name> n/m`) per suite, then a total, and exits non-zero
-if any suite failed. A failing suite's last lines are printed under it so CI logs explain
+Prints `PASS <name> n/n` (or `FAIL <name> n/m`) per suite, then the totals (suites, and checks
+across all suites), and exits non-zero if any suite failed. A failing suite's last lines are printed under it so CI logs explain
 themselves. Standard library only.
 
-Run: python3 tests/run_all.py
+Run: make test   (or: python3 tests/run_all.py)
 """
 import os
 import re
@@ -25,12 +25,14 @@ SUITES = [
     ("detect_checks", ["tests/test_detect_checks.py"]),
     ("status", ["tests/test_status.py"]),
     ("doctor", ["tests/test_doctor.py"]),
+    ("demo", ["tests/test_demo.py"]),
 ]
 COUNT_RE = re.compile(r"(\d+)/(\d+) checks passed")
 
 
 def main():
     failed = []
+    checks_ok = checks_all = 0
     for name, cmd in SUITES:
         path = os.path.join(ROOT, cmd[0])
         if not os.path.exists(path):
@@ -43,6 +45,9 @@ def main():
         counts = COUNT_RE.findall(p.stdout)
         got, total = (counts[-1] if counts else ("?", "?"))
         ok = p.returncode == 0 and counts and got == total
+        if counts:
+            checks_ok += int(got)
+            checks_all += int(total)
         print(f"{'PASS' if ok else 'FAIL'} {name} {got}/{total}")
         if not ok:
             failed.append(name)
@@ -51,6 +56,7 @@ def main():
                 print(f"    {line}")
     print("-" * 60)
     print(f"{len(SUITES) - len(failed)}/{len(SUITES)} suites passed")
+    print(f"{checks_ok}/{checks_all} checks passed")
     print(("failed: " + ", ".join(failed)) if failed else "All suites passed.")
     return 1 if failed else 0
 

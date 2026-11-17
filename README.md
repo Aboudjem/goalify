@@ -10,7 +10,6 @@
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="validate"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="MIT license"></a>
   <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="latest release"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="GitHub stars"></a>
 </p>
 
 <p align="center">
@@ -22,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://goalify-kappa.vercel.app">Website</a> · <a href="#install">Install</a> · <a href="#how-it-works">How it works</a> · <a href="#new-in-30">New in 3.0</a> · <a href="#how-it-compares">How it compares</a> · <a href="#good-to-know">Good to know</a>
+  <a href="https://goalify-kappa.vercel.app">Website</a> · <a href="#install">Install</a> · <a href="#how-it-works">How it works</a> · <a href="#sample-report">Sample report</a> · <a href="#proof">Proof</a> · <a href="#faq">FAQ</a> · <a href="#limits">Limits</a>
 </p>
 
 goalify turns your request into a **goal**. A goal is a clear finish line. The AI keeps working
@@ -35,8 +34,8 @@ you proof.
 
 It works best in **Claude Code** and **Codex**. Both have a built-in `/goal` command that keeps
 the work going. In Claude Code, a second checker reads the work after every step. Codex checks
-its own work against the same finish line. goalify also installs in 70+ other AI tools. There you
-get the same plan and finish line, and you start the work yourself.
+its own work against the same finish line. Other AI tools that read skills get the same plan and
+finish line, and you start the work yourself.
 
 ## Install
 
@@ -51,11 +50,25 @@ Any other AI tool that reads skills, in one line:
 npx skills add Aboudjem/goalify
 ```
 
-Then type `/goalify` and describe the job. You need Claude Code 2.1.139 or newer. That version
-added `/goal`.
+You need Claude Code 2.1.139 or newer. That version added `/goal`.
+
+**Your first command.** Type `/goalify` and the job in one sentence:
+
+```text
+/goalify migrate the API client to async and keep every test green
+```
+
+goalify asks its questions, then prints a brief path and one `/goal` line to paste.
+
+**See a real receipt in one minute**, without a long run. From a clone of this repo:
+
+```bash
+make demo
+```
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app"><img src="assets/goalify-demo.gif" alt="goalify in a loop: your request becomes a goal, all questions come first, the AI works alone, and at the end you get proof." width="88%"></a>
+  <br><sub>An animation of the flow, not a screen recording.</sub>
   <br><sub><a href="assets/goalify-promo.mp4">Watch the full video</a> · <a href="assets/goalify-promo-vertical.mp4">vertical video</a> · <a href="assets/goalify-promo-30s.mp4">30-second video</a> · <a href="assets/goalify-promo-15s.mp4">15-second video</a></sub>
 </p>
 
@@ -108,16 +121,16 @@ Nothing breaks, but nothing is checked either. It is the easiest mistake to make
 
 Long AI work usually fails in two ways. The AI stops to ask you something. Or it says "done" when
 something is still broken. goalify fixes the first problem: it asks everything at the start and
-writes the answers in the brief. It fixes the second problem with the condition: at the end, the
-AI must run every check again, show the result, and write a special word like `ASYNC-OK`. If the
+writes the answers in the brief. The condition fixes the second problem. At the end, the AI must
+run every check again, show the result, and write a special word like `ASYNC-OK`. If the
 AI skipped the work, it would have to lie. Near its step limit, the AI finishes cleanly and says
 what is left. If it stops early, the brief keeps its checklist. Paste the same line again to
 continue.
 
-## New in 3.0
+### What each command gives you
 
 <p align="center">
-  <img src="assets/preview-and-receipt.svg" alt="The 3.0 loop: a preview of the plan before, the AI working alone, then a receipt that says VERIFIED." width="88%">
+  <img src="assets/preview-and-receipt.svg" alt="The loop: a preview of the plan before, the AI working alone, then a receipt that says VERIFIED." width="88%">
 </p>
 
 - **Plan preview.** After every `/goalify`, a page opens in your browser. It shows the steps, each
@@ -141,24 +154,53 @@ continue.
   the `claude -p "/goal ..."` line cannot run a hidden command when you paste it. Thanks to
   [@Hug0x0](https://github.com/Hug0x0) for this fix.
 
-## How it compares
+## Sample report
 
-Simple differences, checked against each project's README in November 2026.
+`/goalify verify` re-runs the brief's checks and prints the verdict first. This is a real run of
+`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` on 2026-11-17. The "run" ticked
+every box, but one test fails:
 
-| Tool | What it is | How it is different from goalify |
+```text
+VERDICT: NOT VERIFIED (1/2 checks passed)
+Next:
+  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+Checks:
+  1. FAIL (exit 1) python3 -m unittest -q test_slugify
+  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+```
+
+Without `--broken`, the same demo prints `VERDICT: VERIFIED (2/2 checks passed)`. The HTML receipt
+also opens with the verdict.
+
+## Proof
+
+Every number here comes from a command you can run in a clone of this repo.
+
+| Claim | Command | What it prints today |
 |:--|:--|:--|
-| [supergoal](https://github.com/robzilla1738/supergoal) | A Claude Code plugin. It explores, asks, plans in phases and gives `/goal` one command. It checks the result against the plan at the end | The closest tool. goalify writes one full brief and a checked condition, shows a preview page before the work, and writes a proof receipt after |
-| Ralph loops ([snarktank/ralph](https://github.com/snarktank/ralph) and others) | A loop that gives the AI the same prompt again and again | It usually stops on a word the AI writes, or after a number of rounds. With Claude Code's `/goal`, a second checker reads the work every step |
-| [Spec Kit](https://github.com/github/spec-kit) | GitHub's toolkit to write a spec, a plan and tasks | Great for writing the spec. goalify is for the long work with nobody watching, and for proving it is finished |
+| Every test suite passes | `make test` | `10/10 suites passed`, then `435/435 checks passed` |
+| The receipt tells the truth both ways | `make demo`, then `python3 examples/demo/run.py --broken` | `VERDICT: VERIFIED (2/2 checks passed)`, then `VERDICT: NOT VERIFIED (1/2 checks passed)` |
+| The plugin loads in Claude Code | `claude plugin validate . --strict` | `Validation passed` |
+| The skills CLI finds the skill | `npx -y skills@1.9.0 add . --list` | one skill, `goalify` |
 
-## Works in your AI tool
+CI runs all four on every push and pull request.
 
-| Tool | One-line install |
-|:--|:--|
-| Claude Code | `claude plugin install goalify@10x` |
-| Any of 70+ AI tools | `npx skills add Aboudjem/goalify` |
-| Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
-| Everything else | the codes and folders in [docs/editors.md](docs/editors.md) |
+## Works with
+
+Only what was installed and run on the date shown.
+
+| Agent | Install path | Tested |
+|:--|:--|:--|
+| Claude Code 2.1.326 | `claude plugin install goalify@10x` | 2026-11-17 |
+| Claude Code 2.1.326 | `npx skills add Aboudjem/goalify -a claude-code` | 2026-11-17 |
+| Codex CLI | `npx skills add Aboudjem/goalify -a codex` | 2026-11-17 |
+
+Documented, not tested: Cursor, GitHub Copilot, Gemini CLI, OpenCode and the other agents the
+skills CLI supports. Their codes and folders are in [docs/editors.md](docs/editors.md).
 
 `/clear` and `/goal` are Claude Code commands. In other tools, start a new chat instead of `/clear`,
 and give the AI the condition as its main task. Codex has its own `/goal`. See
@@ -176,7 +218,39 @@ You only need that one folder. The [quickstart](docs/quickstart.md) explains the
 had an older copy, run `/goalify doctor` to make sure only one copy is loaded.
 </details>
 
-## Good to know
+## How it compares
+
+Simple differences, checked against each project's README in November 2026.
+
+| Tool | What it is | How it is different from goalify |
+|:--|:--|:--|
+| [supergoal](https://github.com/robzilla1738/supergoal) | A Claude Code plugin. It explores, asks, plans in phases and gives `/goal` one command. It checks the result against the plan at the end | The closest tool. goalify writes one full brief and a checked condition, shows a preview page before the work, and writes a proof receipt after |
+| Ralph loops ([snarktank/ralph](https://github.com/snarktank/ralph) and others) | A loop that gives the AI the same prompt again and again | It usually stops on a word the AI writes, or after a number of rounds. With Claude Code's `/goal`, a second checker reads the work every step |
+| [Spec Kit](https://github.com/github/spec-kit) | GitHub's toolkit to write a spec, a plan and tasks | Great for writing the spec. goalify is for the long work with nobody watching, and for proving it is finished |
+
+## FAQ
+
+**Does goalify do the job itself?**
+No. It writes the brief and the condition, then stops. You start the run with `/goal`, in a clean chat.
+
+**Why can I not give `/goal` the brief's path alone?**
+The checker behind `/goal` cannot open files. It reads only the line you paste and the chat. A bare
+path gives it nothing to check, so the run never stops on proof.
+
+**What if the run stops before the job is done?**
+The brief keeps its checklist. Paste the same `/goal` line again and the run continues where it stopped.
+
+**How do I know the work is really finished?**
+Run `/goalify verify` on the brief. It re-runs each check and writes a receipt that says VERIFIED,
+NOT VERIFIED or UNVERIFIABLE.
+
+**I have two copies of goalify. Which one loads?**
+Run `/goalify doctor`. It lists every copy, says which ones are loaded, and prints the command to
+remove the extra one.
+
+More answers in the [full FAQ](docs/faq.md).
+
+## Limits
 
 > [!IMPORTANT]
 > When a run stops, it is not always finished. The checker decides by itself. It can also stop
@@ -185,7 +259,8 @@ had an older copy, run `/goalify doctor` to make sure only one copy is loaded.
 
 - **goalify never does the job itself.** It writes the brief and the condition. It runs your
   checks only when you ask.
-- **Nothing is sent anywhere.** No server, no extra packages, no network calls. The helper
+- **Verify re-runs checks, it does not review code.** A check that tests the wrong thing still passes.
+- **What leaves your machine: nothing.** No server, no extra packages, no network calls. The helper
   scripts use only standard Python, and the preview page loads nothing from the internet.
 - **No price guesses.** goalify never guesses a cost in money or tokens. Your step limit is your
   control.

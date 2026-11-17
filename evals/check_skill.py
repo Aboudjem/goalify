@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-goalify skill eval — machine-checkable static assertions.
+goalify skill eval: machine-checkable static assertions.
 
 This is the deterministic half of the eval suite (the behavioral scenarios live in
 `scenarios.md` and are run against Haiku/Sonnet/Opus). It encodes the CONFIRMED
@@ -183,7 +183,7 @@ def main():
         "archive-not-delete gate (audit trail preserved)":
             "archive gate" in low and "mv " in body,
         # D6: the handoff must hand the user a COMMAND, not a file. A `pbcopy` step puts a
-        # path in their hand at the exact moment they type `/goal` — the most reliable way
+        # path in their hand at the exact moment they type `/goal`, the most reliable way
         # to produce the wrong input. Assert the inline form is mandated AND that the copy
         # step is explicitly demoted, so a future edit cannot quietly restore it.
         "handoff prints the complete /goal line inline, ready to copy in one piece":
@@ -222,9 +222,9 @@ def main():
 
     # Two strings are locked byte-identical across the whole repo. They are compared against the
     # RAW text (not `low`), because the point of locking them is that the wording does not drift.
-    STORY = ("Hand Claude a huge task. Come back to proof it's done — "
+    STORY = ("Hand Claude a huge task. Come back to proof it's done, "
              "not a promise that it is.")
-    CANON = ("Do everything in ~/acme/.goal/api-migration.md and prove it — done when the "
+    CANON = ("Do everything in ~/acme/.goal/api-migration.md and prove it, done when the "
              "last turn quotes npm test passing and says ASYNC-OK. Stop after 40 turns.")
 
     # The brief TEMPLATE is checked in its own scope. A substring check over the whole body
@@ -293,7 +293,7 @@ def main():
 
         # -- vocabulary lock: a brief is a file, a condition is a string, nothing else --
         "vocabulary lock: the brief is a FILE and the condition is a STRING":
-            "the brief — a file" in low and "the condition — a string" in low,
+            "the brief, a file" in low and "the condition, a string" in low,
         # The banned bigram is not spelled out in this label on purpose: the repo-wide
         # vocabulary scan in tests/test_manifests.py greps every tracked file for it, and a
         # test that names it would flag itself.

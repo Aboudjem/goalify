@@ -60,6 +60,13 @@ def find_copies(home, project):
     def add(kind, skill_dir, note=""):
         md = os.path.join(skill_dir, "SKILL.md")
         if os.path.isfile(md):
+            # `npx skills add` keeps one real copy in .agents/skills and links it into each
+            # agent's folder. Name it for what it is, and list it once.
+            real = os.path.realpath(skill_dir)
+            if os.path.islink(skill_dir) and os.sep + ".agents" + os.sep in real:
+                kind = "skills CLI copy (npx skills add), linked into " + os.path.dirname(skill_dir)
+            if any(c["path"] == real for c in copies):
+                return
             copies.append({"kind": kind, "path": os.path.realpath(skill_dir),
                            "version": skill_version(md), "note": note})
 
@@ -75,7 +82,9 @@ def find_copies(home, project):
             copies.append({"kind": "plugin cache leftover", "path": os.path.realpath(skill_dir),
                            "version": skill_version(os.path.join(skill_dir, "SKILL.md")),
                            "note": "not installed, not loaded", "inactive": True})
-    add("Agent Skills copy (npx skills, ~/.agents)", os.path.join(home, ".agents", "skills", "goalify"))
+    add("skills CLI copy (npx skills add, ~/.agents)", os.path.join(home, ".agents", "skills", "goalify"))
+    if project:
+        add("skills CLI copy (npx skills add, project)", os.path.join(project, ".agents", "skills", "goalify"))
     add("Codex copy", os.path.join(home, ".codex", "skills", "goalify"))
     return copies
 
@@ -114,7 +123,8 @@ def main(argv):
         for p in problems:
             print("WARN: " + p)
         print("Fix: keep one copy. For the plugin: claude plugin marketplace update 10x, then "
-              "claude plugin update goalify@10x. Move any hand copy out of ~/.claude/skills/.")
+              "claude plugin update goalify@10x. Remove a skills CLI copy with: npx skills remove goalify. "
+              "Move any hand copy out of ~/.claude/skills/.")
         print("Note: no network call is made, so this cannot tell you the latest release.")
         return 1
     print(f"OK: exactly one goalify copy, version {loaded[0]['version']}.")

@@ -153,7 +153,7 @@ PATH_TOKEN = (
     r"(?:"
     r"<\s*(?:abs|absolute|path|file)"      # <path>, <ABSOLUTE PATH>, <file...>
     r"|~/|\./"                             # ~/x, ./x
-    # /Users/x — a further separator or an extension is required, so that the bare word
+    # /Users/x, a further separator or an extension is required, so that the bare word
     # `/goal` (or any other slash-command) is not mistaken for the start of a path.
     r"|/[A-Za-z._~-][\w.\-]*(?:/|\.[A-Za-z])"
     r"|\$\{?HOME"                          # $HOME/x
@@ -207,7 +207,7 @@ EXEMPT_MARKER = "v1-antipattern"
 #   - the marker on the line itself (prose and comments);
 #   - the marker in a fenced block's INFO STRING (```text v1-antipattern). CommonMark trims
 #     the info string and GitHub renders only the first word as the language, so the marker
-#     never appears on the page — which matters, because a wrong-example block has to stay
+#     never appears on the page, which matters, because a wrong-example block has to stay
 #     clean enough to read next to the right one.
 FENCE_RE = re.compile(r"^\s{0,3}(`{3,}|~{3,})(.*)$")
 path_handoffs = []
@@ -260,7 +260,7 @@ check(
 # marker below. The cap is pinned to exactly the number in use, so ADDING an exemption
 # fails the build and forces a deliberate review rather than sliding through a spare
 # slot. Note what this enforces: a COUNT. It cannot tell prose about the old handoff
-# from an instruction to use it — that judgement is the reviewer's, and the cap exists
+# from an instruction to use it, that judgement is the reviewer's, and the cap exists
 # to make sure a reviewer is actually summoned.
 # 19 = CHANGELOG history ×2, README right/wrong fence, the same fence in each of the four
 # translations under READMEs/, quickstart fence, hero.svg struck counter-example,
@@ -283,8 +283,8 @@ check(
 # <tspan> children, so `/goal` is followed by `<` in the source and never by the path a
 # reader actually sees. assets/hero.svg rendered exactly that banned command through two
 # releases and no line-oriented regex could see it. Flattening itertext() per <text>
-# element — and again across all of them in document order, to catch a command split
-# across sibling elements — closes the hole.
+# element, and again across all of them in document order, to catch a command split
+# across sibling elements, closes the hole.
 #
 # A counter-example that is drawn struck-through is not an instruction, so a <text> (or
 # any ancestor) may opt out with data-antipattern="v1". The count is pinned, exactly as
@@ -378,7 +378,7 @@ check(
 
 # --- Same contract, read through ATTRIBUTE VALUES (G1) ---
 # itertext() walks element text and the line scan reads prose, but a screen reader (or a
-# hover) renders `aria-label`, `alt`, `title`, `content` and `data-*` too — including
+# hover) renders `aria-label`, `alt`, `title`, `content` and `data-*` too, including
 # values that span source lines or hide behind entities. This pass extracts those values
 # whole-file and scans them normalised, exactly like rendered text.
 ATTR_VALUE_RE = re.compile(
@@ -424,7 +424,7 @@ check(
 # The SVG flatten exists because <tspan> splits hid the banned handoff from every line
 # regex. HTML has the same bug class one file type over: `<span>/goal</span><code>~/x.md</code>`
 # leaves no whitespace after /goal in the raw bytes. Tags become spaces, then the
-# collapsed text is scanned like any rendered surface. <script>/<style> are dropped —
+# collapsed text is scanned like any rendered surface. <script>/<style> are dropped,
 # they are code, not copy.
 def _flatten_html(raw):
     """Both joins are scanned: tags-as-spaces catches `<span>/goal</span> <code>path</code>`,
@@ -628,7 +628,7 @@ try:
         "live visible progress via task tracker": "live visible progress" in ex and "task tracker" in ex,
         "final output section": "final output" in ex,
         "final output is Done / Proof / Next bullets":
-            all(f"- {h} —" in ex for h in ("done", "proof", "next")),
+            all(f"- {h}: " in ex for h in ("done", "proof", "next")),
         "a stopped run is not proof of completion":
             "not proof of completion" in ex and "unachievable" in ex,
         "archive gate is LOW FREEDOM": "low freedom" in ex and "do not modify" in ex,
@@ -648,7 +648,7 @@ try:
 
     # The condition is what the user actually pastes into /goal. Claude Code rejects
     # anything over 4,000 chars, and the hook prompt substitutes bare `$ARGUMENTS`/`$N`
-    # sequences — so both are asserted here rather than eyeballed.
+    # sequences, so both are asserted here rather than eyeballed.
     cond_m = re.search(r"```text\n(.*?)\n```", ex_raw, re.DOTALL)
     check("example ships a derived /goal condition string", bool(cond_m))
     if cond_m:
@@ -670,7 +670,7 @@ try:
         )
         # v2.3.0: the condition is ONE plain sentence with exactly four teeth. The process
         # directives it used to carry are asserted in example_clauses above, where they now
-        # live — in the brief, which the worker reads in full. Matching is case-insensitive
+        # live, in the brief, which the worker reads in full. Matching is case-insensitive
         # so a sentence-initial "Stop after 40 turns." reads the same to the test as it does
         # to a person.
         flat_cond = " ".join(condition.split()).lower()
@@ -748,6 +748,29 @@ if os.path.exists(gallery_path):
     no_sentinel = [c[:48] for c in worked if not sentinel_re.search(c)]
     check("conditions gallery: every worked condition carries a sentinel token",
           not no_sentinel, f"missing in {no_sentinel}")
+
+# --- House style: no em dash in any tracked text file ---
+# Built from code points so this file does not contain the characters it bans. The forms are
+# the ones a reader sees as an em dash: the character, the horizontal bar, the two-em dash,
+# the HTML entities, the JSON escape, and an en dash with a space on both sides.
+_DASH = re.compile("[" + chr(0x2014) + chr(0x2015) + chr(0x2E3A) + "]|&" + "mdash;|&#0*8212;|&#x0*2014;|"
+                   + re.escape("\\" + "u2014") + "| " + chr(0x2013) + " ", re.IGNORECASE)
+_TEXT_EXT = (".md", ".txt", ".html", ".svg", ".yml", ".yaml", ".json", ".py", ".js", ".css")
+_tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True)
+if _tracked.returncode == 0 and _tracked.stdout.strip():
+    dashed = []
+    for rel in _tracked.stdout.splitlines():
+        if not rel.endswith(_TEXT_EXT) or not os.path.isfile(os.path.join(ROOT, rel)):
+            continue
+        with open(os.path.join(ROOT, rel), encoding="utf-8", errors="ignore") as f:
+            n = len(_DASH.findall(f.read()))
+        if n:
+            dashed.append(f"{rel} ({n})")
+    check("house style: no em dash in any tracked text file", not dashed,
+          "rewrite the sentence with a comma, a colon or parentheses: " + ", ".join(dashed[:8]))
+else:
+    check("house style: no em dash in any tracked text file (git ls-files available)", False,
+          "run the tests from a git checkout")
 
 # --- Report ---
 print("-" * 60)

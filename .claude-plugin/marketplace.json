@@ -4,14 +4,14 @@
     "name": "Adam Boudjemaa"
   },
   "metadata": {
-    "description": "Give your AI a big job. goalify asks all the questions first. Then the AI works alone, for hours, and shows you proof at the end."
+    "description": "Give your AI a big job and get proof it is done. Writes the brief and the /goal condition for Claude Code and Codex."
   },
   "plugins": [
     {
       "name": "goalify",
       "source": "./",
-      "description": "Give your AI a big job. goalify asks all the questions first. Then the AI works alone, for hours, and shows you proof at the end.",
-      "version": "3.0.0"
+      "description": "Give your AI a big job and get proof it is done. Writes the brief and the /goal condition for Claude Code and Codex.",
+      "version": "3.1.0"
     }
   ]
 }

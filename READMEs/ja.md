@@ -10,7 +10,6 @@
   <a href="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml"><img src="https://github.com/Aboudjem/goalify/actions/workflows/validate.yml/badge.svg" alt="検証"></a>
   <a href="../LICENSE"><img src="https://img.shields.io/github/license/Aboudjem/goalify?color=9b6bff" alt="MIT ライセンス"></a>
   <a href="https://github.com/Aboudjem/goalify/releases"><img src="https://img.shields.io/github/v/release/Aboudjem/goalify?color=2ee6ff" alt="最新リリース"></a>
-  <a href="https://github.com/Aboudjem/goalify/stargazers"><img src="https://img.shields.io/github/stars/Aboudjem/goalify?color=ff3d9a" alt="GitHub スター"></a>
 </p>
 
 <p align="center">
@@ -29,7 +28,7 @@ goalify は、あなたの依頼を**ゴール**に変えます。ゴールと�
 
 goalify は先に考えます。計画がうまくいくか確かめます。ドキュメントを読みます。プロジェクトにある本物のテストを見つけます。聞きたいことは、最初に一度だけ全部尋ねます。そのあと AI はひとりで、何時間も、ときには何日も働きます。だれも答える必要はありません。最後に、AI は証拠を見せます。
 
-**Claude Code** と **Codex** で最もよく動きます。どちらにも `/goal` コマンドが入っていて、作業を続けさせます。Claude Code では、2 つ目のチェッカーが毎ステップのあとに作業を読みます。Codex は、同じゴールラインに照らして自分の作業を自分で確認します。goalify はほかの 70 以上の AI ツールにも入ります。そこでは同じ計画とゴールラインが手に入り、作業はあなたが自分で始めます。
+**Claude Code** と **Codex** で最もよく動きます。どちらにも `/goal` コマンドが入っていて、作業を続けさせます。Claude Code では、2 つ目のチェッカーが毎ステップのあとに作業を読みます。Codex は、同じゴールラインに照らして自分の作業を自分で確認します。skills を読むほかの AI ツールでも、同じ計画とゴールラインが手に入り、作業はあなたが自分で始めます。
 
 ## インストール
 
@@ -120,7 +119,7 @@ goalify がするのは準備だけです。作業をするのは `/goal` コマ
 | ツール | 一行インストール |
 |:--|:--|
 | Claude Code | `claude plugin install goalify@10x` |
-| 70 以上の AI ツールのいずれか | `npx skills add Aboudjem/goalify` |
+| skills を読むほかのツール | `npx skills add Aboudjem/goalify` |
 | Cursor, Codex, Copilot, Gemini CLI, OpenCode | `npx skills add Aboudjem/goalify -a <agent>` |
 | そのほかすべて | [docs/editors.md](../docs/editors.md) にあるコードとフォルダ |
 
@@ -137,6 +136,26 @@ cp -R goalify/skills/goalify ~/.claude/skills/
 必要なのはそのフォルダだけです。残りは[クイックスタート](../docs/quickstart.md)で説明しています。以前のコピーがあるときは、`/goalify doctor` を実行して、読み込まれているのが一つだけか確かめてください。
 
 </details>
+
+## レシートの例
+
+`/goalify verify` は brief のチェックをもう一度実行し、最初に判定を表示します。これは
+`python3 examples/demo/run.py --broken --dir /tmp/goalify-demo` の実際の実行結果です (2026-11-17)。「実行」はすべてのチェックボックスに印を付けましたが、テストが 1 つ失敗しています。
+
+```text
+VERDICT: NOT VERIFIED (1/2 checks passed)
+Next:
+  1. Read the log of the first failing check: /private/tmp/goalify-demo/.goal/verify-slugify/1.log
+  2. Fix it, or paste the brief's /goal line again so the run resumes from its checklist.
+  3. Run verify again for a fresh receipt: /goalify verify "/private/tmp/goalify-demo/.goal/slugify-20261117.md"
+Checks:
+  1. FAIL (exit 1) python3 -m unittest -q test_slugify
+  2. PASS (exit 1, expects no output) grep -n "TODO" slugify.py
+Brief: /private/tmp/goalify-demo/.goal/slugify-20261117.md
+Receipt: file:///private/tmp/goalify-demo/.goal/RECEIPT-slugify-20261117-124707.html
+```
+
+このリポジトリのクローンで `make demo` を実行すると、自分で確かめられます。Proof、Works with、FAQ の各セクションは[英語の README](../README.md) にあります。
 
 ## 知っておくこと
 

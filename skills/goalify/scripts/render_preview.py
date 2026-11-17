@@ -610,9 +610,12 @@ def display_text(text, commands):
     """The criterion without its 'verified by `cmd`' tail when the chips below already show it."""
     if not commands:
         return text
-    cut = re.search(r"\s*[—–-]*\s*,?\s*verified by\b", text, re.IGNORECASE)
+    # Older briefs put an em or en dash before "verified by". Built from code points so this
+    # file does not hold the characters the house style bans.
+    dashes = chr(0x2014) + chr(0x2013)
+    cut = re.search(r"\s*[" + dashes + r"-]*\s*,?\s*verified by\b", text, re.IGNORECASE)
     if cut and all(c in text[cut.start():] for c in commands):
-        head = text[:cut.start()].rstrip(" ,;:—–-")
+        head = text[:cut.start()].rstrip(" ,;:-" + dashes)
         if head:
             return head + "."
     return text

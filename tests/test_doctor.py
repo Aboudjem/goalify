@@ -93,6 +93,24 @@ try:
     check("an ~/.agents copy is found and counted", p.returncode == 1 and "1.0.0" in p.stdout,
           p.stdout)
 
+    # `npx skills add` keeps one copy in <project>/.agents/skills and links it into
+    # <project>/.claude/skills. That is one copy, and it is not a hand copy.
+    h6 = os.path.join(tmp, "h6")
+    proj6 = os.path.join(h6, "proj")
+    skill(os.path.join(proj6, ".agents", "skills", "goalify"), "3.1.0")
+    os.makedirs(os.path.join(proj6, ".claude", "skills"))
+    os.symlink(os.path.join(proj6, ".agents", "skills", "goalify"),
+               os.path.join(proj6, ".claude", "skills", "goalify"))
+    p = doctor(h6)
+    check("skills CLI install: the linked copy counts once, exit 0",
+          p.returncode == 0 and "1 installed copy found" in p.stdout, p.stdout)
+    check("skills CLI install: named as a skills CLI copy, not a hand copy",
+          "skills CLI copy (npx skills add)" in p.stdout and "hand copy" not in p.stdout, p.stdout)
+    plugin(h6, "3.1.0")
+    p = doctor(h6)
+    check("skills CLI copy + plugin: warns and prints the remove command",
+          p.returncode == 1 and "npx skills remove goalify" in p.stdout, p.stdout)
+
     h5 = os.path.join(tmp, "h5")
     os.makedirs(h5)
     p = doctor(h5)

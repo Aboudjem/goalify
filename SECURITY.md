@@ -13,7 +13,7 @@ safety properties matter. Security is part of its design, not an afterthought.
   the user's own repo.
 - **No secrets shipped.** This repo contains no credentials, API keys, or tokens, and the skill writes
   none. In a repo that already has a `.gitignore`, the skill appends `.goal/` to it so generated briefs
-  (which contain absolute paths and project context) are not committed — note it does **not** create a
+  (which contain absolute paths and project context) are not committed. Note that it does **not** create a
   `.gitignore` where none exists, so in that case `.goal/` is unprotected until you add one.
 - **No telemetry, and your repository is never uploaded.** The skill runs locally inside Claude Code.
   It does not phone home and does not transmit your source tree. It is **not** fully offline, though:
@@ -21,7 +21,7 @@ safety properties matter. Security is part of its design, not an afterthought.
   queries are derived from your task, so those queries reach third parties (search engines, docs sites,
   forums). If that matters for your work, say so up front and goalify will skip the web research.
 - **The archive step is gated.** The brief moves to `.goal/done/` **only** after every success
-  criterion is met and verification passed — otherwise it is left in place so the run can resume. The
+  criterion is met and verification passed; otherwise it is left in place so the run can resume. The
   `mv` is a low-freedom, do-not-modify command with a path rail restricting it to the brief's own
   absolute path under `.goal/`. Since v2.0.0 it archives rather than deletes, which also means a failed
   or misjudged run destroys nothing.
@@ -53,7 +53,7 @@ responsibly with credit to the reporter if wanted.
 
 ## Your responsibility when running it
 
-- Review the generated brief before you start the run — it is plain Markdown, meant to be read — and
+- Review the generated brief before you start the run (it is plain Markdown, meant to be read) and
   read the condition string too, since that is what actually decides when the run may stop.
 - Remember that a stopped `/goal` run is not proof of completion: the evaluator can end a run by
   judging the condition unachievable. Verify the outcome yourself before acting on it.

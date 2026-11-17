@@ -138,7 +138,7 @@ try:
          SAMPLE_TEXT.replace("This file's own path: `/Users/example/widget-api/.goal/",
                              "This file's own path: `widget-api/.goal/", 1), COND),
         ("dod-no-command",
-         SAMPLE_TEXT.replace("- [ ] `getOrder`/`saveOrder` return promises — verified by a one-off "
+         SAMPLE_TEXT.replace("- [ ] `getOrder`/`saveOrder` return promises, verified by a one-off "
                              "`node -e` that `await`s them.",
                              "- [ ] getOrder and saveOrder return promises.", 1), COND),
         ("dod-empty",
