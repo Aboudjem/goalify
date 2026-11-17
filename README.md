@@ -218,7 +218,7 @@ Every number here comes from a command you can run in a clone of this repo.
 
 | Claim | Command | What it prints today |
 |:--|:--|:--|
-| Every test suite passes | `make test` | `10/10 suites passed`, then `448/448 checks passed` |
+| Every test suite passes | `make test` | `10/10 suites passed`, then `452/452 checks passed` |
 | The receipt tells the truth both ways | `make demo`, then `python3 examples/demo/run.py --broken` | `VERDICT: VERIFIED (2/2 checks passed)`, then `VERDICT: NOT VERIFIED (1/2 checks passed)` |
 | The plugin loads in Claude Code | `claude plugin validate . --strict` | `Validation passed` |
 | The skills CLI finds the skill | `npx -y skills@1.9.0 add . --list` | one skill, `goalify` |
