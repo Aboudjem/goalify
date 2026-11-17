@@ -17,18 +17,24 @@
 </p>
 
 <p align="center">
-  <strong>AI に大きな仕事を渡す。証拠を受け取る。</strong>
+  <strong>エージェントに大きな仕事を渡し、証拠を受け取る。</strong>
 </p>
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app">Web サイト</a> · <a href="#インストール">インストール</a> · <a href="#しくみ">しくみ</a> · <a href="#レポートの例">レポートの例</a> · <a href="#証拠">証拠</a> · <a href="#faq">FAQ</a> · <a href="#制限">制限</a>
 </p>
 
-goalify は最初に質問をすべて済ませ、計画を書き、あなたの本物のテストで結果を確かめます。
+goalify は最初に質問を済ませ、計画を書き、頼めばあなたのテストを再実行します。
+
+| 質問は一度だけ | 計画はファイルに保存 | 完了の証拠 |
+|:--|:--|:--|
+| 質問はすべて最初に一度だけ。答えは brief の "Decisions" の下にあります。 | 実行は brief ファイルを読み直すので、空のチャットで始められます。 | `/goalify verify` がテストを再実行: `make demo` は VERIFIED、`--broken` は NOT VERIFIED。 |
+
+**対応:** skills を読めるすべてのエージェント。テスト済み: Claude Code、Codex CLI。いちばん良いのはこの 2 つ: どちらにも `/goal` があります。ふつうの Markdown と Python なので、特定のモデルに縛られません。
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+npx skills add Aboudjem/goalify
+# then, in your agent: /goalify migrate the API client to async
 ```
 
 デモの受領書です。このリポジトリのクローンで `make demo` を実行した結果です (2026-11-17 の実際の実行、一部省略):
@@ -40,20 +46,7 @@ Checks:
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
 
-エージェントは「終わりました」と言いました。本当でしょうか? goalify は作業の前にゴールラインを決めます。
-それは、あなた自身のテストが通ることです。最後に `/goalify verify` がテストをもう一度実行し、受領書を書きます。
-
-最初に知っておくべき制限が 2 つあります。止まった実行が、いつも完了した実行とは限りません。また `/goal` は
-あなたの権限モードを保つので、実行が権限の確認で止まることがあります ([制限](#制限))。
-
-## 使う理由
-
-- **最初に一度だけ答える。** 質問はすべて最初に来るので、実行中にあなたに聞く判断は残りません。
-  証拠: 答えは brief の "Decisions" の下にあります。[このサンプル brief](../examples/sample-brief.md) のとおりです。
-- **あなた自身のテストからゴールラインを作る。** `/goal` の 1 行が、通るべきテストコマンドを指名します。
-  証拠: [サンプルの condition](../examples/sample-condition.txt) には "done when the last turn quotes npm test passing" とあります。
-- **失敗もできる受領書。** `make demo` は `VERDICT: VERIFIED (2/2 checks passed)` と出します。
-  証拠: `python3 examples/demo/run.py --broken` は `VERDICT: NOT VERIFIED (1/2 checks passed)` と出します。
+止まった実行がいつも完了とは限らず、権限の確認で止まることもあります ([制限](#制限))。
 
 ## goalify なし、goalify あり
 
@@ -66,6 +59,8 @@ Checks:
 | 翌朝になって問題に気づく             | `/goalify verify` がテストを再実行して受領書をくれる |
 
 ## インストール
+
+Claude Code では、プラグインとして:
 
 ```bash
 claude plugin marketplace add Aboudjem/10x
@@ -109,7 +104,10 @@ make demo
 
 ## しくみ
 
-goalify はあなたの依頼を **goal** に変えます。goal とは明確なゴールラインです。AI は goal が達成され証明されるまで、
+エージェントは「終わりました」と言いました。本当でしょうか? goalify は作業の前に goal を決めます:
+あなた自身のテストが通ること。最後に `/goalify verify` がテストをもう一度実行します。そして受領書を書きます。
+
+goalify はあなたの依頼を **goal** に変えます。goal とは、テストで確かめられる明確な終わりの地点です。AI は goal が達成され証明されるまで、
 またはあなたが決めた上限に達するまで、作業を続けます。
 
 いちばんよく動くのは **Claude Code** と **Codex** です。どちらにも作業を続けさせる組み込みの `/goal` コマンドがあります。
@@ -125,7 +123,7 @@ goalify は作業の準備だけをします。作業をするのは `/goal` コ
 3. **2 つのものができる。** **brief** は計画の全体を書いたファイルです: あなたの選択、正確なファイル、作業の順番。
    **condition** は `/goal` 用の 1 行です。証拠がどういうものかを書きます。**プレビューページ**も開くので、
    計画の全体を先に見られます。
-4. **`/clear`、貼り付け、離れる。** 作業はきれいなチャットで始まり、メモリをすべてあなたの仕事に使えます。
+4. **`/clear`、貼り付け、あとは任せる。** 作業はきれいなチャットで始まり、メモリをすべてあなたの仕事に使えます。
    Claude Code では、別のチェッカーが各ステップのあとに作業を読みます。証拠がそろったとき、または
    ステップ上限に達したときにだけ、作業を止めさせます。
 5. **あとで確かめる。** `/goalify verify` がチェックを再実行し、受領書を書きます。
@@ -178,7 +176,7 @@ AI はきれいに終えて残りを伝えます。早く止まっても、brief
   安全チェックはすべて残します。仕事が 2 通りに読めるときは止まり、フルモードを使うよう伝えます。
 - **Doctor。** `/goalify doctor` はコンピューター上の goalify のコピーをすべて一覧にします。古いコピーが
   新しいものと並んで読み込まれていると警告します。
-- **より安全なコピー&ペースト。** condition にはもうバッククォートもダブルクォートも入りません。だから
+- **より安全なコピー&ペースト。** condition にはバッククォートもダブルクォートも入りません。だから
   `claude -p "/goal ..."` の 1 行を貼っても、隠れたコマンドは実行されません。この修正をくれた
   [@Hug0x0](https://github.com/Hug0x0) に感謝します。
 
@@ -219,6 +217,17 @@ Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-
 
 CI は push と pull request のたびに 4 つすべてを実行します。
 
+最初の画面の約束が、それぞれ何にもとづくか:
+
+- **質問は一度だけ。** すべての質問に最初に答えます。実行中にあなたに聞く判断は残りません。
+  答えは brief の "Decisions" の下にあります。[このサンプル brief](../examples/sample-brief.md) のとおりです。
+- **計画はファイルに保存。** brief は、作業ループの始めに毎回 brief を読み直すよう実行に指示します。
+  その 1 行は [skill](../skills/goalify/SKILL.md) の brief テンプレートにあります。
+- **あなたのテストが決める。** `/goal` の 1 行が、通るべきテストコマンドを指名します。
+  [サンプルの condition](../examples/sample-condition.txt) には "done when the last turn quotes npm test passing" とあります。
+- **完了の証拠。** 受領書は NOT VERIFIED と言うこともあります。`python3 examples/demo/run.py --broken`
+  は `VERDICT: NOT VERIFIED (1/2 checks passed)` と出します。
+
 ## 対応ツール
 
 表示した日付に、実際にインストールして実行したものだけです。
@@ -231,6 +240,9 @@ CI は push と pull request のたびに 4 つすべてを実行します。
 
 ドキュメントのみでテストしていないもの: Cursor、GitHub Copilot、Gemini CLI、OpenCode、そのほか skills CLI が
 対応するエージェント。それぞれのコードとフォルダは [docs/editors.md](../docs/editors.md) にあります。
+
+goalify は特定のモデルに縛られません。skill は Markdown ファイルで、補助スクリプトは標準の Python です。
+skills を読めるエージェントの裏にあるモデルなら、どれでも従えます。
 
 `/clear` と `/goal` は Claude Code のコマンドです。ほかのツールでは `/clear` の代わりに新しいチャットを開き、
 condition を AI のメインタスクとして渡してください。Codex には独自の `/goal` があります。同じところと違うところは
@@ -256,7 +268,7 @@ cp -R goalify/skills/goalify ~/.claude/skills/
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
 | [supergoal](https://github.com/robzilla1738/supergoal)                    | Claude Code のプラグイン。調べ、質問し、フェーズごとに計画し、`/goal` に 1 つのコマンドを渡す。最後に結果を計画と照らし合わせる | いちばん近いツール。goalify は完全な brief 1 つと検査済みの condition を書き、作業の前にプレビューページを見せ、作業のあとに証拠の受領書を書く |
 | Ralph ループ ([snarktank/ralph](https://github.com/snarktank/ralph) など) | 同じプロンプトを AI に何度も渡すループ                                                                                          | たいていは AI が書く言葉か、決まった回数で止まる。Claude Code の `/goal` では、別のチェッカーが毎ステップ作業を読む                            |
-| [Spec Kit](https://github.com/github/spec-kit)                            | spec、計画、タスクを書くための GitHub のツールキット                                                                            | spec を書くには最適。goalify は誰も見ていない長い作業と、それが終わったことの証明のためのもの                                                  |
+| [Spec Kit](https://github.com/github/spec-kit)                            | spec、計画、タスクを書くための GitHub のツールキット                                                                            | spec を書くのに向いています。goalify は誰も見ていない長い作業と、それが終わったことの証明のためのもの                                                  |
 
 ## FAQ
 

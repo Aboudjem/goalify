@@ -1,6 +1,6 @@
 # Quickstart
 
-Give your AI a big job. Get proof back. goalify asks its questions up front and writes the plan. You do the prep
+Give your agent a big job and get proof back. goalify asks its questions first and writes the plan. You do the prep
 **before** you `/clear`, then start the run in a fresh session that has its whole attention on the job.
 
 goalify only **writes** the run. It does not do your task, and you are the one who starts it. It

@@ -17,18 +17,24 @@
 </p>
 
 <p align="center">
-  <strong>Dale un trabajo grande a tu IA. Recibe una prueba.</strong>
+  <strong>Dale un trabajo grande a tu agente y recibe una prueba.</strong>
 </p>
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app">Sitio web</a> · <a href="#instalación">Instalación</a> · <a href="#cómo-funciona">Cómo funciona</a> · <a href="#informe-de-ejemplo">Informe de ejemplo</a> · <a href="#pruebas">Pruebas</a> · <a href="#preguntas-frecuentes">Preguntas frecuentes</a> · <a href="#límites">Límites</a>
 </p>
 
-goalify hace sus preguntas primero, escribe el plan y comprueba el resultado con tus tests reales.
+goalify hace sus preguntas primero, escribe el plan y vuelve a ejecutar tus tests cuando lo pides.
+
+| Preguntas una sola vez | Plan guardado en un archivo | Prueba de que está hecho |
+|:--|:--|:--|
+| Todas las preguntas van primero, una vez. Las respuestas están en el brief, bajo "Decisions". | La ejecución vuelve a leer el archivo del brief, así que puede empezar en un chat limpio. | `/goalify verify` vuelve a ejecutar tus tests: `make demo` VERIFIED, `--broken` NOT VERIFIED. |
+
+**Funciona con:** cualquier agente que lea skills. Probado: Claude Code, Codex CLI. Mejor en esos dos: ambos tienen `/goal`. Markdown y Python simples, así que no depende de un modelo.
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+npx skills add Aboudjem/goalify
+# then, in your agent: /goalify migrate the API client to async
 ```
 
 El recibo de la demo, de `make demo` en un clon de este repo (una ejecución real del 2026-11-17, recortada):
@@ -40,21 +46,7 @@ Checks:
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
 
-Tu agente dijo que el trabajo estaba hecho. ¿Lo estaba? goalify fija la meta antes de empezar: tus
-propios tests, pasando. Al final, `/goalify verify` los vuelve a ejecutar y escribe un recibo.
-
-Dos límites que conviene saber desde el principio. Una ejecución que se detiene no siempre está terminada.
-Y `/goal` mantiene tu modo de permisos, así que una ejecución aún puede pararse en una petición de permiso ([Límites](#límites)).
-
-## Por qué usarlo
-
-- **Responde una vez, al principio.** Todas las preguntas van primero, así que la ejecución no tiene
-  ninguna decisión que pedirte. Prueba: las respuestas están en el brief bajo "Decisions", como en
-  [este brief de ejemplo](../examples/sample-brief.md).
-- **Una meta sacada de tus propios tests.** La línea de `/goal` nombra el comando de test que debe pasar.
-  Prueba: [la condición de ejemplo](../examples/sample-condition.txt) dice "done when the last turn quotes npm test passing".
-- **Un recibo que puede fallar.** `make demo` imprime `VERDICT: VERIFIED (2/2 checks passed)`.
-  Prueba: `python3 examples/demo/run.py --broken` imprime `VERDICT: NOT VERIFIED (1/2 checks passed)`.
+Una ejecución que se detiene no siempre está terminada, y puede pararse en una petición de permiso ([Límites](#límites)).
 
 ## Sin goalify, con goalify
 
@@ -67,6 +59,8 @@ Y `/goal` mantiene tu modo de permisos, así que una ejecución aún puede parar
 | Encuentras los problemas a la mañana siguiente               | `/goalify verify` vuelve a ejecutar los tests y te da un recibo |
 
 ## Instalación
+
+En Claude Code, como plugin:
 
 ```bash
 claude plugin marketplace add Aboudjem/10x
@@ -111,6 +105,9 @@ make demo
 
 ## Cómo funciona
 
+Tu agente dijo que el trabajo estaba hecho. ¿Lo estaba? goalify fija el goal antes de empezar: tus
+propios tests deben pasar. Al final, `/goalify verify` los vuelve a ejecutar. Escribe un recibo.
+
 goalify convierte tu petición en un **goal**. Un goal es una meta clara. La IA sigue trabajando hasta
 que el goal está hecho y probado, o hasta llegar al límite que fijaste.
 
@@ -122,14 +119,14 @@ plan y la misma meta, y tú inicias el trabajo.
 goalify solo prepara el trabajo. El comando `/goal` hace el trabajo. goalify se asegura de que la IA no
 tenga ninguna decisión que pedirte.
 
-1. **Los deberes.** ¿Se puede hacer? goalify lee tu proyecto, la documentación y tus tests. Encuentra los
+1. **La investigación.** ¿Se puede hacer? goalify lee tu proyecto, la documentación y tus tests. Encuentra los
    comandos que muestran que el trabajo está hecho de verdad.
 2. **Preguntas, una sola vez.** Te pregunta las pocas decisiones reales, todas juntas. Después, no vuelve
    a preguntar.
 3. **Salen dos cosas.** El **brief** es un archivo con el plan completo: tus decisiones, los archivos
    exactos, el orden del trabajo. La **condición** es una línea para `/goal`. Dice cómo es la prueba.
    También se abre una **página de vista previa**, para que veas todo el plan antes.
-4. **`/clear`, pega, vete.** El trabajo empieza en un chat limpio, con toda su memoria libre para tu
+4. **`/clear`, pega y déjalo.** El trabajo empieza en un chat limpio, con toda su memoria libre para tu
    trabajo. En Claude Code, un segundo revisor lee el trabajo después de cada paso. Solo deja que el
    trabajo pare cuando la prueba está ahí, o cuando llega a tu límite de pasos.
 5. **Compruébalo después.** `/goalify verify` vuelve a ejecutar las comprobaciones y escribe un recibo.
@@ -184,7 +181,7 @@ que falta. Si para antes, el brief guarda su checklist. Pega la misma línea otr
   distintas, se para y te pide usar el modo completo.
 - **Doctor.** `/goalify doctor` lista cada copia de goalify en tu ordenador. Te avisa cuando una copia
   antigua está cargada junto a la nueva.
-- **Copiar y pegar más seguro.** La condición ya no puede contener comillas invertidas (backticks) ni
+- **Copiar y pegar más seguro.** La condición nunca contiene comillas invertidas (backticks) ni
   comillas dobles. Así la línea `claude -p "/goal ..."` no puede ejecutar un comando oculto al pegarla.
   Gracias a [@Hug0x0](https://github.com/Hug0x0) por este arreglo.
 
@@ -225,6 +222,18 @@ Cada número de aquí sale de un comando que puedes ejecutar en un clon de este 
 
 La CI ejecuta las cuatro en cada push y cada pull request.
 
+En qué se apoya cada promesa de la primera pantalla:
+
+- **Preguntas una sola vez.** Respondes todas las preguntas al principio. La ejecución no tiene ninguna
+  decisión que pedirte. Las respuestas están en el brief bajo "Decisions", como en
+  [este brief de ejemplo](../examples/sample-brief.md).
+- **Plan guardado en un archivo.** El brief le dice a la ejecución que lo vuelva a leer al inicio de cada
+  ciclo de trabajo. La línea está en la plantilla de brief del [skill](../skills/goalify/SKILL.md).
+- **Tus tests deciden.** La línea de `/goal` nombra el comando de test que debe pasar.
+  [La condición de ejemplo](../examples/sample-condition.txt) dice "done when the last turn quotes npm test passing".
+- **Prueba de que está hecho.** El recibo puede decir NOT VERIFIED. `python3 examples/demo/run.py --broken`
+  imprime `VERDICT: NOT VERIFIED (1/2 checks passed)`.
+
 ## Funciona con
 
 Solo lo que se instaló y ejecutó en la fecha indicada.
@@ -237,6 +246,9 @@ Solo lo que se instaló y ejecutó en la fecha indicada.
 
 Documentados, sin probar: Cursor, GitHub Copilot, Gemini CLI, OpenCode y los demás agentes que admite
 la CLI de skills. Sus códigos y carpetas están en [docs/editors.md](../docs/editors.md).
+
+goalify no depende de un solo modelo. El skill es un archivo Markdown y los scripts de ayuda son
+Python estándar. Cualquier modelo detrás de un agente que lea skills puede seguirlo.
 
 `/clear` y `/goal` son comandos de Claude Code. En otras herramientas, abre un chat nuevo en lugar de
 `/clear`, y dale a la IA la condición como tarea principal. Codex tiene su propio `/goal`. Mira
@@ -262,7 +274,7 @@ Diferencias simples, comprobadas con el README de cada proyecto en noviembre de 
 | :--------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [supergoal](https://github.com/robzilla1738/supergoal)                       | Un plugin de Claude Code. Explora, pregunta, planifica por fases y le da a `/goal` un comando. Comprueba el resultado con el plan al final | La herramienta más cercana. goalify escribe un brief completo y una condición revisada, muestra una página de vista previa antes del trabajo y escribe un recibo de prueba después |
 | Bucles Ralph ([snarktank/ralph](https://github.com/snarktank/ralph) y otros) | Un bucle que le da a la IA el mismo prompt una y otra vez                                                                                  | Suele parar con una palabra que escribe la IA, o tras un número de rondas. Con el `/goal` de Claude Code, un segundo revisor lee el trabajo en cada paso                           |
-| [Spec Kit](https://github.com/github/spec-kit)                               | El kit de GitHub para escribir una spec, un plan y tareas                                                                                  | Genial para escribir la spec. goalify es para el trabajo largo sin nadie mirando, y para probar que está terminado                                                                 |
+| [Spec Kit](https://github.com/github/spec-kit)                               | El kit de GitHub para escribir una spec, un plan y tareas                                                                                  | Bueno para escribir la spec. goalify es para el trabajo largo sin nadie mirando, y para probar que está terminado                                                                 |
 
 ## Preguntas frecuentes
 

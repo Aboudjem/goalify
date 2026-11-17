@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>goalify: give your AI a big job, get proof back</title>
-<meta name="description" content="Hand off a big task once. goalify asks its questions up front, writes the plan and the /goal finish line. Its verify step re-runs your tests into a receipt.">
+<title>goalify: give your agent a big job and get proof back</title>
+<meta name="description" content="Give your agent a big job once. It asks every question first, writes the plan and the finish line, and verify re-runs your tests.">
 <link rel="canonical" href="https://goalify-kappa.vercel.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="goalify">
-<meta property="og:title" content="goalify: give your AI a big job, get proof back">
-<meta property="og:description" content="Done should mean the tests passed. Plan the big job once. Get a receipt, not a promise.">
+<meta property="og:title" content="goalify: give your agent a big job and get proof back">
+<meta property="og:description" content="Questions asked once. Plan saved to file. Proof it is done: /goalify verify re-runs your tests.">
 <meta property="og:url" content="https://goalify-kappa.vercel.app/">
 <meta property="og:image" content="https://goalify-kappa.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:video" content="https://goalify-kappa.vercel.app/media/goalify-promo.mp4">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="goalify: give your AI a big job, get proof back">
-<meta name="twitter:description" content="Done should mean the tests passed. Plan the big job once. Get a receipt, not a promise.">
+<meta name="twitter:title" content="goalify: give your agent a big job and get proof back">
+<meta name="twitter:description" content="Questions asked once. Plan saved to file. Proof it is done: /goalify verify re-runs your tests.">
 <meta name="twitter:image" content="https://goalify-kappa.vercel.app/og.png">
 <style>
 :root{--bg:#07060f;--ink:#f1edff;--mute:#a59cc9;--dim:#8a82b6;--line:rgba(255,255,255,.10);
@@ -67,6 +67,7 @@ nav{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:22px 20px
 .video{margin:64px auto 0;max-width:1000px;padding:10px;border-radius:30px}
 .video video{display:block;width:100%;height:auto;border-radius:22px;background:#0b0918;aspect-ratio:16/9}
 .cap{color:var(--dim);font-size:13px;text-align:center;margin-top:12px}
+.cap.works{font-size:15.5px;color:var(--mute);max-width:760px;margin:18px auto 0;line-height:1.5}
 .versus{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
 .versus>div{padding:26px}
 .versus h3{font:600 12px ui-monospace,Menlo,monospace;letter-spacing:.14em;margin-bottom:14px}
@@ -123,6 +124,11 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
 @media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){section{margin-top:84px}.versus,.steps{grid-template-columns:1fr}.band{padding:24px}.navlinks a.hide{display:none}.line .p{display:none}.line code{font-size:13px}}
 @media (prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:960px;margin:28px auto 0;text-align:left}
+.chip{padding:16px 18px;border-radius:16px}
+.chip b{display:block;font-size:17px;color:var(--ink);margin-bottom:6px}
+.chip span{display:block;font-size:14.5px;line-height:1.45;color:var(--mute)}
+@media (max-width:760px){.chips{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -145,9 +151,14 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
 
 <header class="hero">
   <a class="badge glass rv" href="#new"><i></i>goalify 3.0 is here: plan preview, proof receipts, status</a>
-  <h1 class="rv">Give your AI a big job.<br><span class="grad">Get proof back.</span></h1>
-  <p class="sub rv">goalify asks its questions first, writes the plan, and checks the result against your real tests. The run stops when the proof is there, or at the limit you set.</p>
-  <p class="cap rv">Works best in Claude Code and Codex. Also installs in other AI tools that read skills.</p>
+  <h1 class="rv">Give your agent a big job.<br><span class="grad">Get proof back.</span></h1>
+  <p class="sub rv">goalify asks its questions first, writes the plan, and re-runs your tests on request.</p>
+  <div class="chips rv">
+    <div class="chip glass"><b>Questions asked once</b><span>Every question comes first, once. The answers sit in the brief under "Decisions".</span></div>
+    <div class="chip glass"><b>Plan saved to file</b><span>The run re-reads the brief file, so it can start in a clean chat.</span></div>
+    <div class="chip glass"><b>Proof it is done</b><span><code>/goalify verify</code> re-runs your tests: <code>make demo</code> VERIFIED, <code>--broken</code> NOT VERIFIED.</span></div>
+  </div>
+  <p class="cap works rv"><b>Works with:</b> any agent that reads skills. Tested: Claude Code, Codex CLI. Best in those two: both have <code>/goal</code>. Plain Markdown and Python, so not tied to one model.</p>
 
   <div class="install glass rv" id="install">
     <div class="line"><span class="p">1</span><code id="i1">claude plugin marketplace add Aboudjem/10x</code><button class="btn" type="button" data-copy="i1">Copy</button></div>
@@ -260,7 +271,7 @@ footer a.gh:hover{border-color:var(--purple);box-shadow:0 0 30px #9b6bff66}
 <section class="rv">
   <div class="cta glass">
     <div class="eyebrow">Two lines</div>
-    <h2>Give your AI a big job.<br><span class="grad">Get proof back.</span></h2>
+    <h2>Give your agent a big job.<br><span class="grad">Get proof back.</span></h2>
     <div class="install">
       <div class="line"><span class="p">1</span><code id="c1">claude plugin marketplace add Aboudjem/10x</code><button class="btn" type="button" data-copy="c1">Copy</button></div>
       <div class="line"><span class="p">2</span><code id="c2">claude plugin install goalify@10x</code><button class="btn" type="button" data-copy="c2">Copy</button></div>

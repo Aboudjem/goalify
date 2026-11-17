@@ -17,18 +17,24 @@
 </p>
 
 <p align="center">
-  <strong>把一件大活交给你的 AI。拿回证据。</strong>
+  <strong>把一件大活交给你的智能体，拿回证据。</strong>
 </p>
 
 <p align="center">
   <a href="https://goalify-kappa.vercel.app">网站</a> · <a href="#安装">安装</a> · <a href="#它是怎么工作的">它是怎么工作的</a> · <a href="#报告示例">报告示例</a> · <a href="#证据">证据</a> · <a href="#常见问题">常见问题</a> · <a href="#限制">限制</a>
 </p>
 
-goalify 先把问题问完，再写计划，最后用你真实的测试检查结果。
+goalify 先把问题问完，再写计划，你要求时就重跑你的测试。
+
+| 问题只问一次 | 计划存进文件 | 完成的证据 |
+|:--|:--|:--|
+| 所有问题都先问，只问一次。答案写在 brief 的 "Decisions" 下面。 | 运行会重新读 brief 文件，所以可以在一个干净的聊天里开始。 | `/goalify verify` 重跑你的测试：`make demo` 得到 VERIFIED，`--broken` 得到 NOT VERIFIED。 |
+
+**支持：** 任何能读 skills 的智能体。已测试：Claude Code、Codex CLI。这两个效果最好：都有 `/goal`。只是普通的 Markdown 和 Python，所以不绑定某一个模型。
 
 ```bash
-claude plugin marketplace add Aboudjem/10x
-claude plugin install goalify@10x
+npx skills add Aboudjem/goalify
+# then, in your agent: /goalify migrate the API client to async
 ```
 
 演示回执，来自在本仓库克隆中运行 `make demo`（2026-11-17 的一次真实运行，有删节）：
@@ -40,20 +46,7 @@ Checks:
   2. PASS (printed nothing, as expected) grep -n "TODO" slugify.py
 ```
 
-你的智能体说活干完了。真的吗？goalify 在开工前就定好终点线：你自己的测试全部通过。
-最后，`/goalify verify` 会再跑一遍这些测试，并写一张回执。
-
-有两个限制要先知道。运行停下来，不一定代表活干完了。另外 `/goal` 会保留你的权限模式，
-所以运行仍可能停在一个权限提示上（[限制](#限制)）。
-
-## 为什么用它
-
-- **一次答完，放在开头。** 所有问题都先问，所以运行中不会再有需要你做的决定。
-  证据：答案写在 brief 的 "Decisions" 下面，就像[这份示例 brief](../examples/sample-brief.md)。
-- **终点线来自你自己的测试。** `/goal` 那一行写明了必须通过的测试命令。
-  证据：[示例 condition](../examples/sample-condition.txt) 写着 "done when the last turn quotes npm test passing"。
-- **一张可以不通过的回执。** `make demo` 输出 `VERDICT: VERIFIED (2/2 checks passed)`。
-  证据：`python3 examples/demo/run.py --broken` 输出 `VERDICT: NOT VERIFIED (1/2 checks passed)`。
+运行停下来不一定代表做完了，它也可能停在一个权限提示上（[限制](#限制)）。
 
 ## 没有 goalify 与有 goalify
 
@@ -66,6 +59,8 @@ Checks:
 | 第二天早上你才发现问题         | `/goalify verify` 重跑测试并给你一张回执 |
 
 ## 安装
+
+在 Claude Code 里，作为插件安装：
 
 ```bash
 claude plugin marketplace add Aboudjem/10x
@@ -109,7 +104,10 @@ make demo
 
 ## 它是怎么工作的
 
-goalify 把你的请求变成一个 **goal**。goal 就是一条清楚的终点线。AI 会一直干，直到 goal 完成并得到证明，
+你的智能体说活干完了。真的吗？goalify 在开工前就定好 goal：你自己的测试必须通过。
+最后，`/goalify verify` 会再跑一遍这些测试。它会写一张回执。
+
+goalify 把你的请求变成一个 **goal**。goal 就是一个测试能检查的、清楚的终点。AI 会一直干，直到 goal 完成并得到证明，
 或者达到你设的上限。
 
 它在 **Claude Code** 和 **Codex** 里效果最好。两者都有内置的 `/goal` 命令，让工作持续推进。在 Claude Code 里，
@@ -118,11 +116,11 @@ goalify 把你的请求变成一个 **goal**。goal 就是一条清楚的终点�
 
 goalify 只负责准备工作。真正干活的是 `/goal` 命令。goalify 确保 AI 没有需要再问你的决定。
 
-1. **做功课。** 这件事能做吗？goalify 读你的项目、文档和测试。它找出能证明活真的干完了的命令。
+1. **调研。** 这件事能做吗？goalify 读你的项目、文档和测试。它找出能证明活真的干完了的命令。
 2. **问题，只问一次。** 它把少数几个真正的选择一起问你。之后不会再问。
 3. **产出两样东西。** **brief** 是一个写着完整计划的文件：你的选择、具体的文件、工作的顺序。
    **condition** 是给 `/goal` 的一行。它说明证据是什么样子。还会打开一个**预览页面**，让你先看完整个计划。
-4. **`/clear`，粘贴，走开。** 工作在一个干净的聊天里开始，全部记忆都留给你的任务。在 Claude Code 里，
+4. **`/clear`，粘贴，然后交给它。** 工作在一个干净的聊天里开始，全部记忆都留给你的任务。在 Claude Code 里，
    每一步之后都有第二个检查者读一遍工作。只有证据到位，或者达到你的步数上限，它才让工作停下。
 5. **之后再检查。** `/goalify verify` 重跑检查并写一张回执。
 
@@ -170,7 +168,7 @@ AI 会干净地收尾，并说明还剩什么。如果它提前停下，brief �
 - **快速模式。** `/goalify --quick <task>` 适合中等规模的任务。它跳过网络调研和提问，但保留每一项安全检查。
   如果任务可能有两种理解，它会停下来，请你改用完整模式。
 - **Doctor。** `/goalify doctor` 列出你电脑上 goalify 的每一份副本。当旧副本和新副本同时被加载时，它会提醒你。
-- **更安全的复制粘贴。** condition 里不能再包含反引号或双引号。所以粘贴 `claude -p "/goal ..."` 这一行时，
+- **更安全的复制粘贴。** condition 里从不包含反引号或双引号。所以粘贴 `claude -p "/goal ..."` 这一行时，
   不会运行隐藏的命令。感谢 [@Hug0x0](https://github.com/Hug0x0) 的这个修复。
 
 ## 报告示例
@@ -210,6 +208,17 @@ Receipt: file:///private/tmp/goalify-demo-broken/.goal/RECEIPT-slugify-20261117-
 
 CI 在每次 push 和 pull request 时都运行这四项。
 
+第一屏上的每个承诺靠的是什么：
+
+- **问题只问一次。** 你在开头回答所有问题。运行中不会再有需要你做的决定。
+  答案写在 brief 的 "Decisions" 下面，就像[这份示例 brief](../examples/sample-brief.md)。
+- **计划存进文件。** brief 要求运行在每一轮工作开始时重新读它。
+  这一行在 [skill](../skills/goalify/SKILL.md) 的 brief 模板里。
+- **你的测试说了算。** `/goal` 那一行写明了必须通过的测试命令。
+  [示例 condition](../examples/sample-condition.txt) 写着 "done when the last turn quotes npm test passing"。
+- **完成的证据。** 回执可能写 NOT VERIFIED。`python3 examples/demo/run.py --broken`
+  输出 `VERDICT: NOT VERIFIED (1/2 checks passed)`。
+
 ## 支持的工具
 
 只列出在所示日期真实安装并运行过的。
@@ -222,6 +231,9 @@ CI 在每次 push 和 pull request 时都运行这四项。
 
 有文档、未测试：Cursor、GitHub Copilot、Gemini CLI、OpenCode，以及 skills CLI 支持的其他智能体。
 它们的代号和文件夹见 [docs/editors.md](../docs/editors.md)。
+
+goalify 不绑定某一个模型。skill 是一个 Markdown 文件，辅助脚本是标准 Python。
+任何能读 skills 的智能体背后的模型都能照着它做。
 
 `/clear` 和 `/goal` 是 Claude Code 的命令。在其他工具里，用新开一个聊天代替 `/clear`，并把 condition
 作为 AI 的主要任务交给它。Codex 有自己的 `/goal`。哪些一样、哪些不同，见 [Codex 中的 goalify](../docs/codex.md)。

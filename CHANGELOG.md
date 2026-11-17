@@ -6,6 +6,28 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [3.1.3] - 2026-11-17
+
+A simpler first screen in plain English. No behaviour change.
+
+### Changed
+
+- **README first screen, in this order:** one bold line ("Give your agent a big job and get proof
+  back."), one short sentence, three benefits with their proof (Questions asked once, Plan saved to
+  file, Proof it is done), a `Works with` line, the `npx skills add` command, the real `make demo`
+  receipt, and one limit. The `Why use it` block is gone; its facts now sit under Proof.
+- **Works with, said plainly.** Any agent that reads skills. Tested in Claude Code and Codex CLI, which
+  both have `/goal`. The skill is Markdown and the helpers are standard Python, so it is not tied to
+  one model.
+- **Plainer words across the README.** Fewer idioms ("finish line", "walk away", "on track"), shorter
+  sentences. The four translations follow every change.
+- **New listing description** in every manifest: "Give your agent a big job once. It asks every
+  question first, writes the plan and the finish line, and verify re-runs your tests."
+- **New social preview** (`.github/social-preview.png`, `assets/social-preview.png`) and landing page
+  share image (`site/og.png`), both rendered from `assets/social-card.html`: "Big job in, receipt out",
+  the three benefits as three boxes with real text, the install command and the works-with line.
+- **Landing page** (`site/index.html`): the same one line, the three benefits and the works-with line.
+
 ## [3.1.2] - 2026-11-17
 
 A clearer first screen and truer wording. One small fix in `/goalify doctor`. No other behaviour change.

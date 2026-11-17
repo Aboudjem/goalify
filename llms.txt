@@ -1,7 +1,9 @@
 # goalify
 
-> Give your AI a big job. Get proof back. goalify asks its questions up front, writes the plan and
-> the /goal finish line. Its verify step re-runs your tests into a receipt.
+> Give your agent a big job and get proof back. goalify asks its questions first, writes the plan,
+> and re-runs your tests on request. Works with any agent that reads skills; tested in Claude Code
+> and Codex CLI, which both have a built-in /goal. Not tied to one model: a Markdown skill and
+> standard-library Python helpers.
 >
 > Concretely: a Claude Code / Agent Skills skill that preps a big coding task while the current
 > session still has the user's context. It turns the task into two artifacts. A **brief**: a
